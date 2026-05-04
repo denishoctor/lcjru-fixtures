@@ -78,6 +78,12 @@
     padding: 0; text-decoration: underline; display: none;
   }
   .clear-btn.visible { display: inline; }
+  .copy-link-btn {
+    font-size: 10px; font-weight: 700; color: var(--navy);
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-decoration: underline; display: none; white-space: nowrap;
+  }
+  .copy-link-btn.visible { display: inline; }
   .cal-links { display: none; align-items: center; gap: 6px; }
   .cal-links.visible { display: flex; }
   .cal-links a {
@@ -198,7 +204,7 @@
     background: #FFF3E0; color: #BF360C;
     font-size: 9px; font-weight: 800;
     padding: 2px 7px; border-radius: 3px;
-    letter-spacing: 1px; flex-shrink: 0;
+    letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
   .opponent { color: var(--muted); font-size: 12px; }
   .score-pill { font-weight: 800; font-size: 13px; color: var(--ink); white-space: nowrap; }
@@ -285,13 +291,14 @@
     <div class="toolbar-meta">
       <span id="updated-stamp"></span>
       <div style="display:flex;gap:12px;align-items:center">
+        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Copy link</button>
         <div class="cal-links" id="cal-links">
           📅
           <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
           <a id="cal-apple" href="#">Apple / iCal</a>
         </div>
-        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
+        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
     </div>
   </div>
@@ -535,6 +542,15 @@ function render(data, teamId) {
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
 
+function copyTeamLink() {
+  const url = location.href.split('#')[0] + (currentTeam ? '#' + SLUG_BY_ID[currentTeam] : '');
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copy-link-btn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = '🔗 Copy link'; }, 2000);
+  });
+}
+
 function selectTeam(teamId, pushState = true) {
   currentTeam = teamId;
 
@@ -543,8 +559,9 @@ function selectTeam(teamId, pushState = true) {
     btn.classList.toggle('active', btn.dataset.team === teamId);
   });
 
-  // Show/hide clear button and calendar subscribe links
+  // Show/hide clear button, copy link, and calendar subscribe links
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
+  document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
