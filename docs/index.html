@@ -97,8 +97,7 @@
     position: relative;
   }
   .row:last-child { border-bottom: none; }
-  .row.next-up { background: #FFFFF0; border-left: 4px solid var(--gold); }
-  .row.next-up .row-anchor { left: 20px; }
+  .row.next-up { background: #FFFFF0; }
 
   /* Anchor link on each row */
   .row-anchor {
@@ -190,13 +189,11 @@
       <div class="title-block">
         <div class="eyebrow">Lane Cove Junior Rugby</div>
         <h1>Fixtures &amp; Results 2026</h1>
-        <div class="tag">Live from Rugby Xplorer</div>
       </div>
     </div>
     <div class="header-right">
-      Pitch numbers, kick-off times &amp; opponents<br>
-      <a href="https://xplorer.rugby/lcjru-/fixtures-results?team=All&comp=All&season=2026&tab=Fixtures"
-         target="_blank" rel="noopener">check Rugby Xplorer each week</a>
+      Updated automatically · 3&times; daily<br>
+      Sat &amp; Sun game-day checks at 5pm AEST
     </div>
   </div>
 
@@ -213,7 +210,7 @@
       <button class="token" data-team="BAczTuGAgyjokt4pJ">U9 Blue</button>
     </div>
     <div class="token-row" id="xvs-row">
-      <span class="token-label">XVs</span>
+      <span class="token-label">Juniors</span>
       <button class="token" data-team="ga3nagC9irHRNJXWn">U10</button>
       <button class="token" data-team="4nA7pxpFZt6gbj347">U11</button>
       <button class="token" data-team="BPR2bFQZAuLK4CzLD">U12</button>
@@ -232,8 +229,7 @@
   <div id="calendar"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · All times and venues subject to change ·
-    Confirm via <a href="https://xplorer.rugby/lcjru-/fixtures-results" target="_blank" rel="noopener">Rugby Xplorer</a>
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Updated 3&times; daily
   </div>
 
 </div>
@@ -277,24 +273,20 @@ function mapsLink(venue) {
 }
 
 function shortTeamName(name) {
-  return name
-    .replace(/Lane Cove\/?(\w+)? /g, '')   // strip "Lane Cove Gold ", "Lane Cove/" etc.
-    .replace(' 2026', '')
-    .replace(/\s+\d+$/, '')
-    .trim() || name;
+  if (name.includes('Lane Cove/')) {
+    return 'JV · ' + name.replace('Lane Cove/', '').replace(/\s*\d+$/, '').trim();
+  }
+  return name.replace('Lane Cove ', '').replace(' 2026', '').trim() || name;
 }
 
-function toSydney(isoString) {
-  // Returns a Date adjusted to Sydney local time (AEST = UTC+10, season is always UTC+10)
-  const d = new Date(isoString);
-  d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + 600); // normalise to UTC+10
-  return d;
+function fmtDow(iso) {
+  return new Date(iso).toLocaleDateString('en-AU', { weekday: 'short', timeZone: 'Australia/Sydney' });
 }
-
-function fmtDow(d)  { return d.toLocaleDateString('en-AU', { weekday: 'short' }); }
-function fmtDate(d) { return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }); }
-function fmtTime(d) {
-  return d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true })
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', timeZone: 'Australia/Sydney' });
+}
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Australia/Sydney' })
           .replace(' am', 'am').replace(' pm', 'pm');
 }
 
@@ -318,10 +310,9 @@ function scoreClass(match) {
 // ── rendering ─────────────────────────────────────────────────────────────────
 
 function renderMatch(match, isNextUp) {
-  const local = toSydney(match.dateTime);
   const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
   const opponent = isLaneCove(match.home) ? match.away : match.home;
-  const isHome   = isLaneCove(match.home);
+  const isHome   = match.venue.toLowerCase().includes('tantallon');
   const isResult = match.type === 'result';
   const isFinal  = match.round?.includes('13');
 
@@ -332,7 +323,7 @@ function renderMatch(match, isNextUp) {
     ? `<span class="score-pill ${scoreClass(match)}">${match.home.score} – ${match.away.score}</span>`
     : '';
 
-  const timeStr = fmtTime(local);
+  const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am'; // API sometimes lacks time
 
   const anchor = rowId(match);
@@ -345,8 +336,8 @@ function renderMatch(match, isNextUp) {
         <span class="num">${roundNum || '?'}</span>
       </div>
       <div class="date-block">
-        <div class="dow">${fmtDow(local)}</div>
-        <div class="date">${fmtDate(local)}</div>
+        <div class="dow">${fmtDow(match.dateTime)}</div>
+        <div class="date">${fmtDate(match.dateTime)}</div>
         ${showTime ? `<div class="time">${timeStr}</div>` : ''}
         ${isFinal && !isResult ? '<div class="note final">Final Rnd</div>' : ''}
       </div>
