@@ -1,0 +1,107 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//LCJRU//Fixtures 2026//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:LCJRU U11 2026
+X-WR-CALDESC:Lane Cove Junior Rugby — U11 fixtures and results 2026
+X-WR-TIMEZONE:Australia/Sydney
+BEGIN:VEVENT
+UID:lcjru-6e1f00b4270e2bd39-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260329T144000
+DTEND;TZID=Australia/Sydney:20260329T161000
+SUMMARY:U11 vs Dee Why Lions 11 | RND 1
+LOCATION:Eric Tweedale Field 5\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Dee Why Lions 11\n📍 Eric Tweedale Field
+  5\n📅 Round 1 · Sun\, 29 Mar · 2:40pm AEST\n🏆 SJRU Grading Gala U1
+ 1s\n\nℹ️ Venues and times may change. This calendar updates automatica
+ lly\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a
+  change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-5f4d456da4c0fb5ad-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260329T154000
+DTEND;TZID=Australia/Sydney:20260329T171000
+SUMMARY:U11 vs Chatswood Stags 11 | RND 2
+LOCATION:Eric Tweedale Field 4\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Chatswood Stags 11\n📍 Eric Tweedale Fie
+ ld 4\n📅 Round 2 · Sun\, 29 Mar · 3:40pm AEST\n🏆 SJRU Grading Gala 
+ U11s\n\nℹ️ Venues and times may change. This calendar updates automati
+ cally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after
+  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-141ff75aa50708f11-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260329T164000
+DTEND;TZID=Australia/Sydney:20260329T181000
+SUMMARY:U11 vs Wahroonga Black 11 | RND 3
+LOCATION:Eric Tweedale Field 5\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Wahroonga Black 11\n📍 Eric Tweedale Fie
+ ld 5\n📅 Round 3 · Sun\, 29 Mar · 4:40pm AEST\n🏆 SJRU Grading Gala 
+ U11s\n\nℹ️ Venues and times may change. This calendar updates automati
+ cally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after
+  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-5d90ea6e29b6142fd-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260426T093000
+DTEND;TZID=Australia/Sydney:20260426T110000
+SUMMARY:U11 vs Merrylands Wolves 11 | RND 1
+LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Merrylands Wolves 11\n📍 Tantallon Oval\
+ , Lane Cove North\n📅 Round 1 · Sun\, 26 Apr · 9:30am AEST\n🏆 SJRU 
+ XVs Under 11B\n\nℹ️ Venues and times may change. This calendar updates
+  automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 
+ hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#
+ u11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-a13d32240ed67103d-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260503T100000
+DTEND;TZID=Australia/Sydney:20260503T113000
+SUMMARY:U11 vs Ryde 11 | RND 2
+LOCATION:Ryde Park\, Ryde\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Ryde 11\n📍 Ryde Park\, Ryde\n📅 Round
+  2 · Sun\, 3 May · 10:00am AEST\n🏆 SJRU XVs Under 11B\n\nℹ️ Venue
+ s and times may change. This calendar updates automatically\n(Apple Calend
+ ar: ~every hour · Google Calendar: up to 24 hrs after a change)\n\n🔗 h
+ ttps://denishoctor.github.io/lcjru-fixtures/#u11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-a07ffa61757bcec48-u11@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260504T091656Z
+LAST-MODIFIED:20260504T091656Z
+DTSTART;TZID=Australia/Sydney:20260510T095000
+DTEND;TZID=Australia/Sydney:20260510T112000
+SUMMARY:U11 vs Newport Breakers 11 | RND 3
+LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove 11 vs Newport Breakers 11\n📍 Tantallon Oval\,
+  Lane Cove North\n📅 Round 3 · Sun\, 10 May · 9:50am AEST\n🏆 SJRU X
+ Vs Under 11B\n\nℹ️ Venues and times may change. This calendar updates 
+ automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
+ rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
+ 11
+URL:https://denishoctor.github.io/lcjru-fixtures/#u11
+END:VEVENT
+END:VCALENDAR

@@ -211,6 +211,231 @@ function formatChanges(changes) {
   return lines.join('\n').trim();
 }
 
+// ── venue display (mirrored in docs/index.html) ───────────────────────────────
+
+const VENUE_SUBURBS = {
+  'Bantry Bay Oval':                 'Bantry Bay',
+  'Beauchamp Park':                  'West Pennant Hills',
+  'Eric Tweedale Field':             'Granville',
+  'Hassall Park':                    'Rydalmere',
+  'James Morgan Reserve':            'Kellyville',
+  'Keirle Park':                     'Balmain',
+  'Lofberg Oval':                    'North Ryde',
+  'Mark Taylor Oval':                'Waitara',
+  'Mark Taylor Oval (Waitara Oval)': 'Waitara',
+  'Melwood Oval':                    'Putney',
+  'Nagle Park':                      'Balmain',
+  'North Narrabeen Reserve':         'Narrabeen',
+  'Peakhurst Oval':                  'Peakhurst',
+  'Porter Reserve':                  'Meadowbank',
+  'Rawson Oval':                     'Penshurst',
+  'Ryde Park':                       'Ryde',
+  'Tantallon Oval':                  'Lane Cove North',
+  'Taplin Park':                     'Pemulwuy',
+  'Tryon Oval':                      'Ryde',
+  'Tunks Park':                      'Cammeray',
+  'Wakehurst Rugby Park':            'Brookvale',
+  'Woollahra Oval':                  'Woollahra',
+};
+
+function displayLocation(rawVenue) {
+  if (!rawVenue) return rawVenue;
+  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
+  const suburb = VENUE_SUBURBS[clean];
+  return suburb ? `${clean}, ${suburb}` : clean;
+}
+
+// ── ICS calendar generation ────────────────────────────────────────────────────
+
+const TEAM_SLUGS = {
+  'u6-gold':  'wjBCCDfvXpx8QivYu',
+  'u6-blue':  'nXtZPbg5Pb9xgh6Rd',
+  'u7-gold':  '84q7BEamwEAGPZgc2',
+  'u7-blue':  '52MoHPFgMFTPppk9H',
+  'u8-gold':  'azWv34qmnBYrN7atm',
+  'u8-blue':  '5SyzYzsjmbeaPZsXT',
+  'u9-gold':  'PyQredZ4NJS2JafcM',
+  'u9-blue':  'BAczTuGAgyjokt4pJ',
+  'u10':      'ga3nagC9irHRNJXWn',
+  'u11':      '4nA7pxpFZt6gbj347',
+  'u12':      'BPR2bFQZAuLK4CzLD',
+  'u13-gold': 'AX6MBpn8Xva2AmC8N',
+  'u13-blue': 'SafHgsHsRWsZmAHbq',
+  'u14-gold': '42ZRPX8ej8P9co4Ws',
+  'u14':      'mtDoyNMX26Bm94nuk',
+  'u15':      'LmZzP4t9h9bdYr9Pt',
+};
+
+const MINIS_SLUGS    = new Set(['u6-gold','u6-blue','u7-gold','u7-blue','u8-gold','u8-blue','u9-gold','u9-blue']);
+const MINIS_SIBLINGS = {
+  'u6-gold': 'u6-blue', 'u6-blue': 'u6-gold',
+  'u7-gold': 'u7-blue', 'u7-blue': 'u7-gold',
+  'u8-gold': 'u8-blue', 'u8-blue': 'u8-gold',
+  'u9-gold': 'u9-blue', 'u9-blue': 'u9-gold',
+};
+
+function slugToLabel(slug) {
+  return slug.split('-').map((p, i) => i === 0 ? p.toUpperCase() : p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+}
+
+// iCal date helpers
+function icsLocalDate(isoString) {
+  // Returns YYYYMMDDTHHmmss in Australia/Sydney timezone
+  const fmt = new Intl.DateTimeFormat('en-AU', {
+    timeZone: 'Australia/Sydney',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+  });
+  const p = Object.fromEntries(fmt.formatToParts(new Date(isoString)).map(x => [x.type, x.value]));
+  return `${p.year}${p.month}${p.day}T${p.hour}${p.minute}${p.second}`;
+}
+
+function icsDateOnly(isoString) {
+  // Returns YYYYMMDD in Australia/Sydney timezone
+  const fmt = new Intl.DateTimeFormat('en-AU', {
+    timeZone: 'Australia/Sydney',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  });
+  const p = Object.fromEntries(fmt.formatToParts(new Date(isoString)).map(x => [x.type, x.value]));
+  return `${p.year}${p.month}${p.day}`;
+}
+
+function icsNow() {
+  return new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+}
+
+function icsEscape(str) {
+  return String(str ?? '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+
+function icsFold(line) {
+  // RFC 5545: fold at 75 octets, continuation lines begin with a space
+  const bytes = Buffer.from(line, 'utf8');
+  if (bytes.length <= 75) return line;
+  const out = [];
+  let pos = 0;
+  while (pos < bytes.length) {
+    const chunk = pos === 0 ? 75 : 74; // first line 75, continuation 74 (space takes 1)
+    out.push(bytes.slice(pos, pos + chunk).toString('utf8'));
+    pos += chunk;
+  }
+  return out.join('\r\n ');
+}
+
+function icsLine(key, value) {
+  return icsFold(`${key}:${value}`);
+}
+
+function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
+  const roundNum  = (match.round || '').replace('Round ', '');
+  const date      = fmtDateSydney(match.dateTime);
+  const time      = fmtTimeSydney(match.dateTime);
+  const hasTime   = time !== '12:00am';
+
+  const parts = [
+    `🏉 ${lcTeam.name} vs ${opponent.name}`,
+    `📍 ${loc}`,
+    `📅 Round ${roundNum} · ${date}${hasTime ? ' · ' + time + ' AEST' : ''}`,
+    `🏆 ${match.competition}`,
+    '',
+    'ℹ️ Venues and times may change. This calendar updates automatically',
+    '(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a change)',
+    '',
+    `🔗 https://denishoctor.github.io/lcjru-fixtures/#${slug}`,
+  ];
+
+  if (sibMatch) {
+    const sibLcTeam  = isLaneCove(sibMatch.home) ? sibMatch.home : sibMatch.away;
+    const sibOpp     = isLaneCove(sibMatch.home) ? sibMatch.away : sibMatch.home;
+    const sibLoc     = displayLocation(sibMatch.venue);
+    const sibTime    = fmtTimeSydney(sibMatch.dateTime);
+    const sibHasTime = sibTime !== '12:00am';
+    parts.push('');
+    parts.push('---');
+    parts.push(`Also playing today — ${sibLcTeam.name}:`);
+    parts.push(`📍 ${sibLoc}${sibHasTime ? '  ⏰ ' + sibTime : ''}  vs ${sibOpp.name}`);
+    parts.push('(Their separate game — come cheer them on!)');
+  }
+
+  return parts.join('\n');
+}
+
+function generateICS(slug, teamId, allMatches, updatedISO) {
+  const label      = slugToLabel(slug);
+  const isMinis    = MINIS_SLUGS.has(slug);
+  const durMin     = isMinis ? 60 : 90;
+  const sibSlug    = MINIS_SIBLINGS[slug] || null;
+  const sibId      = sibSlug ? TEAM_SLUGS[sibSlug] : null;
+
+  const matches = allMatches.filter(m => m.home.id === teamId || m.away.id === teamId);
+
+  // Build date→matches index for sibling lookups
+  const sibByDate = new Map();
+  if (sibId) {
+    for (const m of allMatches) {
+      if (m.home.id === sibId || m.away.id === sibId) {
+        const key = icsDateOnly(m.dateTime);
+        if (!sibByDate.has(key)) sibByDate.set(key, []);
+        sibByDate.get(key).push(m);
+      }
+    }
+  }
+
+  const dtstamp = icsNow();
+  const lastMod = updatedISO.replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//LCJRU//Fixtures 2026//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    icsLine('X-WR-CALNAME', `LCJRU ${label} 2026`),
+    icsLine('X-WR-CALDESC', `Lane Cove Junior Rugby — ${label} fixtures and results 2026`),
+    'X-WR-TIMEZONE:Australia/Sydney',
+  ];
+
+  for (const match of matches) {
+    const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
+    const opponent = isLaneCove(match.home) ? match.away : match.home;
+    const loc      = displayLocation(match.venue);
+    const roundNum = (match.round || '').replace('Round ', '');
+    const timeStr  = fmtTimeSydney(match.dateTime);
+    const hasTime  = timeStr !== '12:00am';
+    const dateKey  = icsDateOnly(match.dateTime);
+    const sibMatch = (sibByDate.get(dateKey) || [])[0] || null;
+
+    const summary     = icsEscape(`${label} vs ${opponent.name} | RND ${roundNum}`);
+    const description = icsEscape(buildDescription(match, slug, lcTeam, opponent, loc, sibMatch));
+    const location    = icsEscape(`${loc}, Sydney NSW`);
+
+    lines.push('BEGIN:VEVENT');
+    lines.push(icsLine('UID',           `lcjru-${match.id}-${slug}@lcjru.github.io`));
+    lines.push('SEQUENCE:0');
+    lines.push(`DTSTAMP:${dtstamp}`);
+    lines.push(`LAST-MODIFIED:${lastMod}`);
+
+    if (hasTime) {
+      const localDt = icsLocalDate(match.dateTime);
+      const endDt   = icsLocalDate(new Date(new Date(match.dateTime).getTime() + durMin * 60000).toISOString());
+      lines.push(`DTSTART;TZID=Australia/Sydney:${localDt}`);
+      lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
+    } else {
+      lines.push(`DTSTART;VALUE=DATE:${dateKey}`);
+      lines.push(`DTEND;VALUE=DATE:${dateKey}`);
+    }
+
+    lines.push(icsLine('SUMMARY',     summary));
+    lines.push(icsLine('LOCATION',    location));
+    lines.push(icsLine('DESCRIPTION', description));
+    lines.push(icsLine('URL',         `https://denishoctor.github.io/lcjru-fixtures/#${slug}`));
+    lines.push('END:VEVENT');
+  }
+
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n') + '\r\n';
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -271,6 +496,13 @@ async function main() {
     writeFileSync(DIFF_PATH, '');
     console.log('✓ No changes to upcoming fixtures');
   }
+
+  // Generate per-team ICS calendar feeds
+  for (const [slug, teamId] of Object.entries(TEAM_SLUGS)) {
+    const ics = generateICS(slug, teamId, combined, output.updated);
+    writeFileSync(join(ROOT, 'docs', `${slug}.ics`), ics);
+  }
+  console.log(`✓ Written ${Object.keys(TEAM_SLUGS).length} ICS feeds → docs/*.ics`);
 
   // Competition summary
   const comps = [...new Set(combined.map(m => m.competition))].sort();

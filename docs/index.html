@@ -78,6 +78,12 @@
     padding: 0; text-decoration: underline; display: none;
   }
   .clear-btn.visible { display: inline; }
+  .cal-link {
+    font-size: 10px; font-weight: 700; color: var(--navy);
+    text-decoration: none; display: none;
+  }
+  .cal-link:hover { text-decoration: underline; }
+  .cal-link.visible { display: inline; }
 
   /* SECTION HEADER */
   .section-header {
@@ -231,7 +237,10 @@
     </div>
     <div class="toolbar-meta">
       <span id="updated-stamp"></span>
-      <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a id="cal-link" class="cal-link" href="#">📅 Add to calendar</a>
+        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
+      </div>
     </div>
   </div>
 
@@ -453,8 +462,14 @@ function selectTeam(teamId, pushState = true) {
     btn.classList.toggle('active', btn.dataset.team === teamId);
   });
 
-  // Show/hide clear button
+  // Show/hide clear button and calendar subscribe link
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
+  const calLink = document.getElementById('cal-link');
+  calLink.classList.toggle('visible', !!teamId);
+  if (teamId) {
+    const slug = SLUG_BY_ID[teamId];
+    calLink.href = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+  }
 
   // Update hash (without triggering hashchange listener)
   const slug = teamId ? SLUG_BY_ID[teamId] : '';
