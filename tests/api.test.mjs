@@ -6,10 +6,9 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { SEASON, ENTITY_ID } from '../scripts/config.mjs';
 
 const GQL = 'https://rugby-au-cms.graphcdn.app/';
-const ENTITY_ID = 30901;
-const SEASON = '2026';
 
 const QUERY = `query EntityFixturesAndResults(
   $entityId: Int, $entityType: String, $season: String,
@@ -84,8 +83,7 @@ test('dateTime is a valid parseable ISO 8601 string', async () => {
   for (const item of items) {
     const d = new Date(item.dateTime);
     assert.ok(!isNaN(d.getTime()), `invalid dateTime "${item.dateTime}" in ${item.id}`);
-    // All 2026 season fixtures should be in 2026
-    assert.equal(d.getFullYear(), 2026, `unexpected year in ${item.dateTime}`);
+    assert.equal(d.getFullYear(), Number(SEASON), `unexpected year in ${item.dateTime}`);
   }
 });
 
