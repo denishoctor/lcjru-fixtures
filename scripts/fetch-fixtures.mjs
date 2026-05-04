@@ -12,35 +12,18 @@
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
+import {
+  SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
+  TEAM_SLUGS, VENUE_SUBURBS, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
+} from './config.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
 const DIFF_PATH = join(ROOT, 'changes.txt');
+const CFG_PATH  = join(ROOT, 'docs', 'config.js');
 
 const GRAPHQL_URL = 'https://rugby-au-cms.graphcdn.app/';
-const ENTITY_ID   = 30901;
-const ENTITY_TYPE = 'club';
-const SEASON      = '2026';
 const PAGE_SIZE   = 100;
-
-const LCJRU_TEAM_IDS = [
-  'ga3nagC9irHRNJXWn', // Lane Cove 10
-  '4nA7pxpFZt6gbj347', // Lane Cove 11
-  'LmZzP4t9h9bdYr9Pt', // Lane Cove 15
-  'SafHgsHsRWsZmAHbq', // Lane Cove Blue 13
-  'nXtZPbg5Pb9xgh6Rd', // Lane Cove Blue 6
-  '52MoHPFgMFTPppk9H', // Lane Cove Blue 7
-  '5SyzYzsjmbeaPZsXT', // Lane Cove Blue 8
-  'BAczTuGAgyjokt4pJ', // Lane Cove Blue 9
-  'AX6MBpn8Xva2AmC8N', // Lane Cove Gold 13
-  '42ZRPX8ej8P9co4Ws', // Lane Cove Gold 14
-  'wjBCCDfvXpx8QivYu', // Lane Cove Gold 6
-  '84q7BEamwEAGPZgc2', // Lane Cove Gold 7
-  'azWv34qmnBYrN7atm', // Lane Cove Gold 8
-  'PyQredZ4NJS2JafcM', // Lane Cove Gold 9
-  'mtDoyNMX26Bm94nuk', // Lane Cove/Lindfield 14
-  'BPR2bFQZAuLK4CzLD', // Lane Cove/St Ives 12
-];
 
 const QUERY = `
 query EntityFixturesAndResults(
@@ -112,8 +95,8 @@ function normalise(item) {
     isLive: item.isLive,
     isBye: item.isBye,
     matchLabel: item.matchLabel || null,
-    home: { id: item.homeTeam.teamId, name: item.homeTeam.name, score: item.homeTeam.score || null, crest: item.homeTeam.crest },
-    away: { id: item.awayTeam.teamId, name: item.awayTeam.name, score: item.awayTeam.score || null, crest: item.awayTeam.crest },
+    home: { id: item.homeTeam.teamId, name: item.homeTeam.name, score: item.homeTeam.score !== '' ? item.homeTeam.score : null, crest: item.homeTeam.crest },
+    away: { id: item.awayTeam.teamId, name: item.awayTeam.name, score: item.awayTeam.score !== '' ? item.awayTeam.score : null, crest: item.awayTeam.crest },
   };
 }
 
@@ -207,36 +190,11 @@ function formatChanges(changes) {
     }
     lines.push('');
   }
-  lines.push('Full draw: https://denishoctor.github.io/lcjru-fixtures/');
+  lines.push(`Full draw: ${SITE_URL}/`);
   return lines.join('\n').trim();
 }
 
-// ── venue display (mirrored in docs/index.html) ───────────────────────────────
-
-const VENUE_SUBURBS = {
-  'Bantry Bay Oval':                 'Bantry Bay',
-  'Beauchamp Park':                  'West Pennant Hills',
-  'Eric Tweedale Field':             'Granville',
-  'Hassall Park':                    'Rydalmere',
-  'James Morgan Reserve':            'Kellyville',
-  'Keirle Park':                     'Balmain',
-  'Lofberg Oval':                    'North Ryde',
-  'Mark Taylor Oval':                'Waitara',
-  'Mark Taylor Oval (Waitara Oval)': 'Waitara',
-  'Melwood Oval':                    'Putney',
-  'Nagle Park':                      'Balmain',
-  'North Narrabeen Reserve':         'Narrabeen',
-  'Peakhurst Oval':                  'Peakhurst',
-  'Porter Reserve':                  'Meadowbank',
-  'Rawson Oval':                     'Penshurst',
-  'Ryde Park':                       'Ryde',
-  'Tantallon Oval':                  'Lane Cove North',
-  'Taplin Park':                     'Pemulwuy',
-  'Tryon Oval':                      'Ryde',
-  'Tunks Park':                      'Cammeray',
-  'Wakehurst Rugby Park':            'Brookvale',
-  'Woollahra Oval':                  'Woollahra',
-};
+// ── venue display ─────────────────────────────────────────────────────────────
 
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
@@ -246,33 +204,6 @@ function displayLocation(rawVenue) {
 }
 
 // ── ICS calendar generation ────────────────────────────────────────────────────
-
-const TEAM_SLUGS = {
-  'u6-gold':  'wjBCCDfvXpx8QivYu',
-  'u6-blue':  'nXtZPbg5Pb9xgh6Rd',
-  'u7-gold':  '84q7BEamwEAGPZgc2',
-  'u7-blue':  '52MoHPFgMFTPppk9H',
-  'u8-gold':  'azWv34qmnBYrN7atm',
-  'u8-blue':  '5SyzYzsjmbeaPZsXT',
-  'u9-gold':  'PyQredZ4NJS2JafcM',
-  'u9-blue':  'BAczTuGAgyjokt4pJ',
-  'u10':      'ga3nagC9irHRNJXWn',
-  'u11':      '4nA7pxpFZt6gbj347',
-  'u12':      'BPR2bFQZAuLK4CzLD',
-  'u13-gold': 'AX6MBpn8Xva2AmC8N',
-  'u13-blue': 'SafHgsHsRWsZmAHbq',
-  'u14-gold': '42ZRPX8ej8P9co4Ws',
-  'u14':      'mtDoyNMX26Bm94nuk',
-  'u15':      'LmZzP4t9h9bdYr9Pt',
-};
-
-const MINIS_SLUGS    = new Set(['u6-gold','u6-blue','u7-gold','u7-blue','u8-gold','u8-blue','u9-gold','u9-blue']);
-const MINIS_SIBLINGS = {
-  'u6-gold': 'u6-blue', 'u6-blue': 'u6-gold',
-  'u7-gold': 'u7-blue', 'u7-blue': 'u7-gold',
-  'u8-gold': 'u8-blue', 'u8-blue': 'u8-gold',
-  'u9-gold': 'u9-blue', 'u9-blue': 'u9-gold',
-};
 
 function slugToLabel(slug) {
   return slug.split('-').map((p, i) => i === 0 ? p.toUpperCase() : p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
@@ -309,15 +240,19 @@ function icsEscape(str) {
 }
 
 function icsFold(line) {
-  // RFC 5545: fold at 75 octets, continuation lines begin with a space
+  // RFC 5545: fold at 75 octets, continuation lines begin with a space.
+  // Walk backwards from each boundary to avoid splitting multi-byte UTF-8 sequences.
   const bytes = Buffer.from(line, 'utf8');
   if (bytes.length <= 75) return line;
   const out = [];
   let pos = 0;
   while (pos < bytes.length) {
-    const chunk = pos === 0 ? 75 : 74; // first line 75, continuation 74 (space takes 1)
-    out.push(bytes.slice(pos, pos + chunk).toString('utf8'));
-    pos += chunk;
+    const limit = pos === 0 ? 75 : 74; // first line 75, continuation 74 (leading space takes 1)
+    let end = Math.min(pos + limit, bytes.length);
+    // Step back to a safe UTF-8 character boundary (continuation bytes are 0x80–0xBF)
+    while (end < bytes.length && (bytes[end] & 0xC0) === 0x80) end--;
+    out.push(bytes.slice(pos, end).toString('utf8'));
+    pos = end;
   }
   return out.join('\r\n ');
 }
@@ -341,7 +276,7 @@ function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
     'ℹ️ Venues and times may change. This calendar updates automatically',
     '(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a change)',
     '',
-    `🔗 https://denishoctor.github.io/lcjru-fixtures/#${slug}`,
+    `🔗 ${SITE_URL}/#${slug}`,
   ];
 
   if (sibMatch) {
@@ -387,11 +322,11 @@ function generateICS(slug, teamId, allMatches, updatedISO) {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//LCJRU//Fixtures 2026//EN',
+    `PRODID:-//LCJRU//Fixtures ${SEASON}//EN`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
-    icsLine('X-WR-CALNAME', `LCJRU ${label} 2026`),
-    icsLine('X-WR-CALDESC', `Lane Cove Junior Rugby — ${label} fixtures and results 2026`),
+    icsLine('X-WR-CALNAME', `LCJRU ${label} ${SEASON}`),
+    icsLine('X-WR-CALDESC', `Lane Cove Junior Rugby — ${label} fixtures and results ${SEASON}`),
     'X-WR-TIMEZONE:Australia/Sydney',
   ];
 
@@ -421,14 +356,15 @@ function generateICS(slug, teamId, allMatches, updatedISO) {
       lines.push(`DTSTART;TZID=Australia/Sydney:${localDt}`);
       lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
     } else {
+      const nextDay = icsDateOnly(new Date(new Date(match.dateTime).getTime() + 86400000).toISOString());
       lines.push(`DTSTART;VALUE=DATE:${dateKey}`);
-      lines.push(`DTEND;VALUE=DATE:${dateKey}`);
+      lines.push(`DTEND;VALUE=DATE:${nextDay}`);
     }
 
     lines.push(icsLine('SUMMARY',     summary));
     lines.push(icsLine('LOCATION',    location));
     lines.push(icsLine('DESCRIPTION', description));
-    lines.push(icsLine('URL',         `https://denishoctor.github.io/lcjru-fixtures/#${slug}`));
+    lines.push(icsLine('URL',         `${SITE_URL}/#${slug}`));
     lines.push('END:VEVENT');
   }
 
@@ -503,6 +439,22 @@ async function main() {
     writeFileSync(join(ROOT, 'docs', `${slug}.ics`), ics);
   }
   console.log(`✓ Written ${Object.keys(TEAM_SLUGS).length} ICS feeds → docs/*.ics`);
+
+  // Emit docs/config.js so HTML files share the same source of truth
+  const configJs = [
+    '// Generated by scripts/fetch-fixtures.mjs — do not edit directly.',
+    '// Edit scripts/config.mjs and re-run the fetch script.',
+    'window.LCJRU_CONFIG = {',
+    `  SEASON: ${JSON.stringify(SEASON)},`,
+    `  SITE_URL: ${JSON.stringify(SITE_URL)},`,
+    `  FINAL_ROUND: ${FINAL_ROUND},`,
+    `  TEAM_SLUGS: ${JSON.stringify(TEAM_SLUGS, null, 2).replace(/\n/g, '\n  ')},`,
+    `  VENUE_SUBURBS: ${JSON.stringify(VENUE_SUBURBS, null, 2).replace(/\n/g, '\n  ')},`,
+    '};',
+    '',
+  ].join('\n');
+  writeFileSync(CFG_PATH, configJs);
+  console.log('✓ Written docs/config.js');
 
   // Competition summary
   const comps = [...new Set(combined.map(m => m.competition))].sort();

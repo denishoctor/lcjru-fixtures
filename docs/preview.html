@@ -1,3 +1,11 @@
+<!--
+  STAGING — preview.html is a development sandbox for features being tried before
+  promotion to index.html. It is served at /preview.html but is not linked from
+  the main UI. Do not treat it as production code.
+
+  Promotion checklist: copy any new functions/CSS into index.html, run the JSON
+  tests (npm test), verify both pages locally, then delete the staging code here.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -366,62 +374,18 @@
   </div>
 
 </div>
+<script src="./config.js"></script>
 <script>
 const FIXTURES_URL = './fixtures.json';
-const XPLORER_BASE = 'https://xplorer.rugby/lcjru-/fixtures-results';
 const LC_CREST_PATTERN = '/30901.';
 
-// Slug ↔ teamId mappings for sharable URLs
-const TEAM_SLUGS = {
-  'u6-gold':  'wjBCCDfvXpx8QivYu',
-  'u6-blue':  'nXtZPbg5Pb9xgh6Rd',
-  'u7-gold':  '84q7BEamwEAGPZgc2',
-  'u7-blue':  '52MoHPFgMFTPppk9H',
-  'u8-gold':  'azWv34qmnBYrN7atm',
-  'u8-blue':  '5SyzYzsjmbeaPZsXT',
-  'u9-gold':  'PyQredZ4NJS2JafcM',
-  'u9-blue':  'BAczTuGAgyjokt4pJ',
-  'u10':      'ga3nagC9irHRNJXWn',
-  'u11':      '4nA7pxpFZt6gbj347',
-  'u12':      'BPR2bFQZAuLK4CzLD',
-  'u13-gold': 'AX6MBpn8Xva2AmC8N',
-  'u13-blue': 'SafHgsHsRWsZmAHbq',
-  'u14-gold': '42ZRPX8ej8P9co4Ws',
-  'u14':      'mtDoyNMX26Bm94nuk',
-  'u15':      'LmZzP4t9h9bdYr9Pt',
-};
+const { TEAM_SLUGS, VENUE_SUBURBS, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
 let currentTeam = null; // teamId or null
 let fixturesData = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
-
-// Known ground → suburb. Keys are ground names after stripping pitch allocation.
-const VENUE_SUBURBS = {
-  'Bantry Bay Oval':                 'Bantry Bay',
-  'Beauchamp Park':                  'West Pennant Hills',
-  'Eric Tweedale Field':             'Granville',
-  'Hassall Park':                    'Rydalmere',
-  'James Morgan Reserve':            'Kellyville',
-  'Keirle Park':                     'Balmain',
-  'Lofberg Oval':                    'North Ryde',
-  'Mark Taylor Oval':                'Waitara',
-  'Mark Taylor Oval (Waitara Oval)': 'Waitara',
-  'Melwood Oval':                    'Putney',
-  'Nagle Park':                      'Balmain',
-  'North Narrabeen Reserve':         'Narrabeen',
-  'Peakhurst Oval':                  'Peakhurst',
-  'Porter Reserve':                  'Meadowbank',
-  'Rawson Oval':                     'Penshurst',
-  'Ryde Park':                       'Ryde',
-  'Tantallon Oval':                  'Lane Cove North',
-  'Taplin Park':                     'Pemulwuy',
-  'Tryon Oval':                      'Ryde',
-  'Tunks Park':                      'Cammeray',
-  'Wakehurst Rugby Park':            'Brookvale',
-  'Woollahra Oval':                  'Woollahra',
-};
 
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
@@ -432,6 +396,10 @@ function displayLocation(rawVenue) {
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────────
+
+function esc(str) {
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
@@ -460,12 +428,7 @@ function fmtTime(iso) {
 }
 
 function rowId(match) {
-  // Stable anchor id from match id — safe for hash links
   return 'match-' + match.id;
-}
-
-function roundAnchorId(dateISO) {
-  return 'round-' + dateISO.slice(0, 10); // "round-2026-05-09"
 }
 
 function scoreClass(match) {
@@ -477,16 +440,23 @@ function scoreClass(match) {
 }
 
 function toAESTDateStr(iso) {
-  return new Date(new Date(iso).getTime() + 10 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(new Date(iso));
 }
 
 function upcomingWeekendDates(now) {
-  const aestMs = now.getTime() + 10 * 60 * 60 * 1000;
-  const dow = new Date(aestMs).getUTCDay(); // 0=Sun, 6=Sat
-  const daysToSat = dow === 6 ? 0 : dow === 0 ? -1 : 6 - dow;
-  return [0, 1].map(offset =>
-    new Date(aestMs + (daysToSat + offset) * 86400000).toISOString().slice(0, 10)
-  );
+  // Find the upcoming Saturday and Sunday in Australia/Sydney time
+  const fmt = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Australia/Sydney',
+    weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit',
+  });
+  const parts = fmt.formatToParts(now);
+  const dow = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[parts.find(p => p.type === 'weekday').value];
+  // Advance to the next Saturday (or stay on Saturday); never go back
+  const daysToSat = dow === 6 ? 0 : (6 - dow + 7) % 7;
+  return [0, 1].map(offset => {
+    const d = new Date(now.getTime() + (daysToSat + offset) * 86400000);
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(d);
+  });
 }
 
 function fmtShortDate(dateStr) {
@@ -516,10 +486,10 @@ function renderThisWeekend(data, now) {
       const loc      = displayLocation(m.venue);
       html += `
         <div class="mini-row">
-          <span class="mini-team">${shortTeamName(lcTeam.name)}</span>
+          <span class="mini-team">${esc(shortTeamName(lcTeam.name))}</span>
           <span class="mini-time">${timeStr !== '12:00am' ? timeStr : '—'}</span>
-          <span class="mini-vs">vs <em>${opponent.name}</em></span>
-          <span class="mini-loc">${loc}</span>
+          <span class="mini-vs">vs <em>${esc(opponent.name)}</em></span>
+          <span class="mini-loc">${esc(loc)}</span>
         </div>`;
     }
   }
@@ -556,14 +526,14 @@ function renderLastRound(data, now) {
     if (hasScore) {
       const sc = scoreClass(m);
       const lbl = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
-      resultHtml = `<span class="mini-result ${sc}">${m.home.score}–${m.away.score}${lbl ? ' · ' + lbl : ''}</span>`;
+      resultHtml = `<span class="mini-result ${sc}">${esc(m.home.score)}–${esc(m.away.score)}${lbl ? ' · ' + lbl : ''}</span>`;
     } else {
       resultHtml = '<span class="mini-done">Done</span>';
     }
     html += `
       <div class="mini-row">
-        <span class="mini-team">${shortTeamName(lcTeam.name)}</span>
-        <span class="mini-vs">vs <em>${opponent.name}</em></span>
+        <span class="mini-team">${esc(shortTeamName(lcTeam.name))}</span>
+        <span class="mini-vs">vs <em>${esc(opponent.name)}</em></span>
         ${resultHtml}
       </div>`;
   }
@@ -633,19 +603,19 @@ function renderMatch(match, isNextUp) {
   const isHome        = match.venue.toLowerCase().includes('tantallon');
   const isResult      = match.type === 'result';
   const isPastFixture = !isResult && new Date(match.dateTime) < new Date();
-  const isFinal       = match.round?.includes('13');
+  const isFinal       = match.round?.includes(String(FINAL_ROUND));
 
   const roundNum = (match.round || '').replace('Round ', '');
   const badgeCls = isResult      ? 'rnd-badge result'
                  : isPastFixture ? 'rnd-badge past'
                  : isFinal       ? 'rnd-badge final'
                  :                 'rnd-badge';
-  const badgeLabel = isResult ? 'RES' : isPastFixture ? 'DONE' : 'RND';
+  const badgeLabel = 'RND';
 
   const sc = scoreClass(match);
   const resultLabel = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
   const scoreHtml = isResult && match.home.score !== null
-    ? `<span class="score-pill ${sc}">${match.home.score} – ${match.away.score}</span>${resultLabel ? `<span class="result-badge ${sc}">${resultLabel}</span>` : ''}`
+    ? `<span class="score-pill ${sc}">${esc(match.home.score)} – ${esc(match.away.score)}</span>${resultLabel ? `<span class="result-badge ${sc}">${resultLabel}</span>` : ''}`
     : '';
 
   const timeStr = fmtTime(match.dateTime);
@@ -655,11 +625,11 @@ function renderMatch(match, isNextUp) {
   const anchor = rowId(match);
 
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}" id="${anchor}">
-      <a class="row-anchor" href="#${anchor}" title="Copy link">#</a>
+    <div class="row${isNextUp ? ' next-up' : ''}" id="${esc(anchor)}">
+      <a class="row-anchor" href="#${esc(anchor)}" title="Copy link">#</a>
       <div class="${badgeCls}">
         <span>${badgeLabel}</span>
-        <span class="num">${roundNum || '?'}</span>
+        <span class="num">${esc(roundNum) || '?'}</span>
       </div>
       <div class="date-block">
         <div class="dow">${fmtDow(match.dateTime)}</div>
@@ -669,13 +639,13 @@ function renderMatch(match, isNextUp) {
       </div>
       <div class="venues">
         <div class="venue">
-          <span class="team-pill">${shortTeamName(lcTeam.name)}</span>
-          <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${loc}</a>
+          <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
+          <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${esc(loc)}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
-          ${isDerby ? '<span class="derby-pill">🔥 Local Derby</span>' : ''}
+          ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
         <div class="venue">
-          <span class="opponent">vs ${opponent.name}</span>
+          <span class="opponent">vs ${esc(opponent.name)}</span>
           ${scoreHtml}
         </div>
       </div>
@@ -753,7 +723,6 @@ function selectTeam(teamId, pushState = true) {
   // Update hash (without triggering hashchange listener)
   const slug = teamId ? SLUG_BY_ID[teamId] : '';
   if (pushState) {
-    const newHash = slug ? '#' + slug : location.pathname + location.search;
     history.pushState(null, '', slug ? '#' + slug : location.href.split('#')[0]);
   }
 
@@ -799,7 +768,7 @@ async function init() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     data = await res.json();
   } catch (err) {
-    calendar.innerHTML = `<div class="empty">Could not load fixtures. ${err.message}</div>`;
+    calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;
   }
 
@@ -807,9 +776,14 @@ async function init() {
 
   const stamp = document.getElementById('updated-stamp');
   const updated = new Date(data.updated);
+  const staleHours = (Date.now() - updated.getTime()) / 3600000;
   stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
   })} AEST`;
+  if (staleHours > 4) {
+    stamp.textContent += ' ⚠ data may be out of date';
+    stamp.style.color = '#b71c1c';
+  }
 
   // Apply team from hash (if any) without pushing history
   const initialTeam = readHash();
