@@ -417,7 +417,7 @@ function renderMatch(match, isNextUp) {
                  : isPastFixture ? 'rnd-badge past'
                  : isFinal       ? 'rnd-badge final'
                  :                 'rnd-badge';
-  const badgeLabel = isResult ? 'RES' : isPastFixture ? 'DONE' : 'RND';
+  const badgeLabel = 'RND';
 
   const sc = scoreClass(match);
   const resultLabel = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
@@ -449,7 +449,7 @@ function renderMatch(match, isNextUp) {
           <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
           <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${esc(loc)}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
-          ${isDerby ? '<span class="derby-pill">🔥 Local Derby</span>' : ''}
+          ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>
