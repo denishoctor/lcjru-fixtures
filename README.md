@@ -27,13 +27,16 @@ Live fixtures and results for **Lane Cove Junior Rugby Union**, fetched from Rug
 
 ## Refresh schedule
 
-The workflow runs three times daily (all times AEST):
+The workflow runs hourly during active hours (all times AEST). Because AEST is UTC+10 and the window spans midnight UTC, each block requires two cron entries.
 
-| Cron | Time | Purpose |
+| Cron (UTC) | AEST window | Days |
 |---|---|---|
-| `0 20 * * *` | 6am daily | Baseline |
-| `0 0 * * *` | 10am daily | Mid-morning check |
-| `0 7 * * 6,0` | 5pm Sat & Sun | Game-day check |
+| `0 22-23 * * 0,1,2,3,4` | 8–9am | Mon–Fri |
+| `0 0-8 * * 1,2,3,4,5` | 10am–6pm | Mon–Fri |
+| `0 19-23 * * 5,6` | 5–9am | Sat–Sun |
+| `0 0-8 * * 6,0` | 10am–6pm | Sat–Sun |
+
+**Why two entries per block:** AEST is UTC+10, so 8am AEST on Monday = 10pm UTC on Sunday. A single cron expression can't span a day boundary, so each active window is split at midnight UTC.
 
 If venue, time, new, or removed fixtures are detected, a push notification is sent via [ntfy.sh](https://ntfy.sh) using the `NTFY_TOPIC` repository secret.
 

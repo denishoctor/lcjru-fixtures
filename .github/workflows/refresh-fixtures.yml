@@ -2,9 +2,16 @@ name: Refresh Fixtures
 
 on:
   schedule:
-    - cron: '0 20 * * *'   # 6am AEST daily        — baseline
-    - cron: '0 0 * * *'    # 10am AEST daily        — mid-morning check
-    - cron: '0 7 * * 6,0'  # 5pm AEST Sat & Sun     — game-day check
+    # Weekdays Mon–Fri: hourly 8am–6pm AEST
+    # 8–9am AEST = 22–23 UTC on the *preceding* day (Sun–Thu)
+    - cron: '0 22-23 * * 0,1,2,3,4'
+    # 10am–6pm AEST = 0–8 UTC same day (Mon–Fri)
+    - cron: '0 0-8 * * 1,2,3,4,5'
+    # Weekends Sat–Sun: hourly 5am–6pm AEST
+    # 5–9am AEST = 19–23 UTC on the *preceding* day (Fri–Sat)
+    - cron: '0 19-23 * * 5,6'
+    # 10am–6pm AEST = 0–8 UTC same day (Sat–Sun)
+    - cron: '0 0-8 * * 6,0'
   workflow_dispatch:
 
 jobs:
