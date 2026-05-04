@@ -7,7 +7,6 @@
 <style>
   :root {
     --navy: #021444;
-    --navy-deep: #0A1738;
     --gold: #F4C842;
     --gold-soft: #F8E08E;
     --cream: #FFF6D6;
@@ -16,167 +15,155 @@
     --muted: #6B6B6B;
     --rule: #E5E5E5;
     --green: #2E7D4F;
-    --green-soft: #EAF5EE;
-    --row-height: 80px;
   }
-
   * { box-sizing: border-box; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-    background: #FAFAFA;
-    color: var(--ink);
+    margin: 0; background: #FAFAFA; color: var(--ink);
     -webkit-font-smoothing: antialiased;
   }
-
-  .page { max-width: 900px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .page { max-width: 900px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
 
   /* HEADER */
   .header {
-    background: var(--navy);
-    color: #fff;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 6px solid var(--gold);
-    gap: 16px;
+    background: var(--navy); color: #fff;
+    padding: 20px 28px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 6px solid var(--gold); gap: 16px;
   }
   .header-left { display: flex; align-items: center; gap: 18px; }
   .crest { width: 64px; height: 78px; overflow: hidden; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
   .crest img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
-  .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -0.5px; }
+  .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -.5px; }
   .title-block .tag { font-size: 13px; color: #C9D2E8; font-style: italic; }
   .header-right { text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2; flex-shrink: 0; }
   .header-right a { color: #fff; font-weight: 700; }
 
-  /* TOOLBAR */
+  /* TOOLBAR — team token rows */
   .toolbar {
-    padding: 10px 28px;
+    padding: 10px 20px 8px;
     background: #FFFDF5;
     border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
   }
-  .toolbar label { font-size: 12px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; }
-  .toolbar select {
-    font-size: 13px;
-    padding: 5px 10px;
-    border: 1px solid var(--cream-edge);
-    border-radius: 4px;
-    background: #fff;
-    color: var(--ink);
-    cursor: pointer;
-    min-width: 200px;
+  .token-row {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
   }
-  .toolbar .updated { margin-left: auto; font-size: 11px; color: var(--muted); }
+  .token-row + .token-row { margin-top: 5px; }
+  .token-label {
+    font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); width: 38px; flex-shrink: 0;
+  }
+  .token {
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+    border: 1.5px solid var(--cream-edge);
+    background: var(--cream); color: var(--navy);
+    cursor: pointer; user-select: none;
+    transition: background .12s, color .12s, border-color .12s;
+    white-space: nowrap; line-height: 1.3;
+  }
+  .token:hover { border-color: var(--navy); }
+  .token.active {
+    background: var(--navy); color: #fff; border-color: var(--navy);
+  }
+  .toolbar-meta {
+    margin-top: 6px;
+    font-size: 10px; color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .clear-btn {
+    font-size: 10px; font-weight: 700; color: var(--navy);
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-decoration: underline; display: none;
+  }
+  .clear-btn.visible { display: inline; }
 
   /* SECTION HEADER */
   .section-header {
-    padding: 8px 28px;
+    padding: 7px 28px;
     background: #FFFDF5;
     border-top: 4px solid var(--gold);
     border-bottom: 1px solid var(--rule);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--navy);
+    text-transform: uppercase; letter-spacing: 2px;
+    font-size: 10px; font-weight: 700; color: var(--navy);
   }
 
-  /* ROUND ROW */
+  /* ROW */
   .row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 28px;
-    min-height: var(--row-height);
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 28px; min-height: 78px;
     border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 8px;
+    position: relative;
   }
   .row:last-child { border-bottom: none; }
-
   .row.next-up { background: #FFFFF0; border-left: 4px solid var(--gold); }
+  .row.next-up .row-anchor { left: 20px; }
 
-  /* ROUND BADGE */
+  /* Anchor link on each row */
+  .row-anchor {
+    position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; color: #ccc; text-decoration: none;
+    opacity: 0; transition: opacity .15s;
+    line-height: 1;
+  }
+  .row:hover .row-anchor { opacity: 1; }
+  .row-anchor:hover { color: var(--navy); }
+
+  /* BADGE */
   .rnd-badge {
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: var(--navy);
-    color: #fff;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--navy); color: #fff;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1;
+    flex-shrink: 0; font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1;
   }
   .rnd-badge .num { font-size: 18px; font-weight: 800; margin-top: 2px; letter-spacing: 0; }
   .rnd-badge.final { background: var(--gold); color: var(--navy); }
-  .rnd-badge.result { background: #3a5a2a; }
+  .rnd-badge.result { background: #2e5a1e; }
 
-  /* DATE BLOCK */
-  .date-block { flex-shrink: 0; width: 70px; font-size: 13px; line-height: 1.25; }
+  /* DATE/TIME BLOCK */
+  .date-block { flex-shrink: 0; width: 74px; line-height: 1.25; }
   .date-block .dow { text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; color: var(--muted); }
   .date-block .date { font-size: 17px; font-weight: 700; color: var(--ink); }
+  .date-block .time { font-size: 11px; font-weight: 600; color: var(--navy); margin-top: 1px; }
   .date-block .note { font-size: 9px; color: #C2185B; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 2px; }
   .date-block .note.final { color: var(--navy); }
 
   /* VENUES */
-  .venues { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-  .venue { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 1.3; flex-wrap: wrap; }
-
+  .venues { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .venue { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
   .team-pill {
-    background: var(--cream);
-    border: 1px solid var(--cream-edge);
-    color: var(--navy);
-    font-weight: 700;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    white-space: nowrap;
+    background: var(--cream); border: 1px solid var(--cream-edge);
+    color: var(--navy); font-weight: 700; font-size: 10px;
+    padding: 2px 8px; border-radius: 3px; letter-spacing: .5px;
+    flex-shrink: 0; white-space: nowrap;
   }
-
-  .venue-link {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px dotted #aaa;
-  }
+  .venue-link { color: var(--ink); text-decoration: none; border-bottom: 1px dotted #aaa; }
   .venue-link:hover { color: var(--navy); border-bottom-color: var(--navy); }
-
   .home-pill {
     background: var(--gold); color: var(--navy);
     font-size: 9px; font-weight: 800;
     padding: 2px 7px; border-radius: 3px;
     letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
-
-  .score-pill {
-    font-weight: 800; font-size: 13px; color: var(--ink);
-    margin-left: auto; white-space: nowrap;
-  }
-  .score-pill.win { color: var(--green); }
+  .opponent { color: var(--muted); font-size: 12px; }
+  .score-pill { font-weight: 800; font-size: 13px; color: var(--ink); white-space: nowrap; }
+  .score-pill.win  { color: var(--green); }
   .score-pill.loss { color: #b71c1c; }
   .score-pill.draw { color: var(--muted); }
 
-  /* OPPONENT */
-  .opponent { color: var(--muted); font-size: 12px; }
-
-  /* REST ROW */
+  /* REST */
   .row.rest { background: #F7F7F7; }
-  .row.rest .rest-mark { width: 50px; text-align: center; color: #BDBDBD; font-size: 20px; font-weight: 300; flex-shrink: 0; }
+  .row.rest .rest-mark { width: 50px; text-align: center; color: #BDBDBD; font-size: 20px; flex-shrink: 0; }
   .row.rest .rest-title { font-size: 13px; font-weight: 700; color: var(--ink); }
   .row.rest .rest-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  /* EMPTY STATE */
   .empty { padding: 40px 28px; text-align: center; color: var(--muted); font-size: 14px; }
 
-  /* FOOTER */
   .footer-note {
     padding: 12px 28px; text-align: center; font-size: 11px;
-    color: var(--muted); background: #FAFAFA; border-top: 1px solid var(--rule); letter-spacing: 0.5px;
+    color: var(--muted); background: #FAFAFA; border-top: 1px solid var(--rule);
+    letter-spacing: .5px;
   }
   .footer-note a { color: var(--navy); }
 
@@ -184,9 +171,8 @@
     .header { flex-direction: column; align-items: flex-start; }
     .header-right { text-align: left; }
     .row { padding: 10px 16px; gap: 10px; }
-    .toolbar { padding: 10px 16px; }
-    .section-header { padding: 8px 16px; }
-    .footer-note { padding: 12px 16px; }
+    .toolbar { padding: 10px 14px 8px; }
+    .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
   }
 </style>
 </head>
@@ -215,31 +201,32 @@
   </div>
 
   <div class="toolbar">
-    <label for="team-filter">Team</label>
-    <select id="team-filter">
-      <option value="all">All teams</option>
-      <optgroup label="Minis">
-        <option value="wjBCCDfvXpx8QivYu">U6 Gold</option>
-        <option value="nXtZPbg5Pb9xgh6Rd">U6 Blue</option>
-        <option value="84q7BEamwEAGPZgc2">U7 Gold</option>
-        <option value="52MoHPFgMFTPppk9H">U7 Blue</option>
-        <option value="azWv34qmnBYrN7atm">U8 Gold</option>
-        <option value="5SyzYzsjmbeaPZsXT">U8 Blue</option>
-        <option value="PyQredZ4NJS2JafcM">U9 Gold</option>
-        <option value="BAczTuGAgyjokt4pJ">U9 Blue</option>
-      </optgroup>
-      <optgroup label="XVs">
-        <option value="ga3nagC9irHRNJXWn">U10</option>
-        <option value="4nA7pxpFZt6gbj347">U11</option>
-        <option value="BPR2bFQZAuLK4CzLD">U12 (w/St Ives)</option>
-        <option value="AX6MBpn8Xva2AmC8N">U13 Gold</option>
-        <option value="SafHgsHsRWsZmAHbq">U13 Blue</option>
-        <option value="42ZRPX8ej8P9co4Ws">U14 Gold</option>
-        <option value="mtDoyNMX26Bm94nuk">U14 (w/Lindfield)</option>
-        <option value="LmZzP4t9h9bdYr9Pt">U15</option>
-      </optgroup>
-    </select>
-    <span class="updated" id="updated-stamp"></span>
+    <div class="token-row" id="minis-row">
+      <span class="token-label">Minis</span>
+      <button class="token" data-team="wjBCCDfvXpx8QivYu">U6 Gold</button>
+      <button class="token" data-team="nXtZPbg5Pb9xgh6Rd">U6 Blue</button>
+      <button class="token" data-team="84q7BEamwEAGPZgc2">U7 Gold</button>
+      <button class="token" data-team="52MoHPFgMFTPppk9H">U7 Blue</button>
+      <button class="token" data-team="azWv34qmnBYrN7atm">U8 Gold</button>
+      <button class="token" data-team="5SyzYzsjmbeaPZsXT">U8 Blue</button>
+      <button class="token" data-team="PyQredZ4NJS2JafcM">U9 Gold</button>
+      <button class="token" data-team="BAczTuGAgyjokt4pJ">U9 Blue</button>
+    </div>
+    <div class="token-row" id="xvs-row">
+      <span class="token-label">XVs</span>
+      <button class="token" data-team="ga3nagC9irHRNJXWn">U10</button>
+      <button class="token" data-team="4nA7pxpFZt6gbj347">U11</button>
+      <button class="token" data-team="BPR2bFQZAuLK4CzLD">U12</button>
+      <button class="token" data-team="AX6MBpn8Xva2AmC8N">U13 Gold</button>
+      <button class="token" data-team="SafHgsHsRWsZmAHbq">U13 Blue</button>
+      <button class="token" data-team="42ZRPX8ej8P9co4Ws">U14 Gold</button>
+      <button class="token" data-team="mtDoyNMX26Bm94nuk">U14</button>
+      <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
+    </div>
+    <div class="toolbar-meta">
+      <span id="updated-stamp"></span>
+      <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
+    </div>
   </div>
 
   <div id="calendar"></div>
@@ -254,14 +241,35 @@
 const FIXTURES_URL = './fixtures.json';
 const XPLORER_BASE = 'https://xplorer.rugby/lcjru-/fixtures-results';
 const LC_CREST_PATTERN = '/30901.';
-const AEST_OFFSET = 10; // hours ahead of UTC (approx — ignores DST edge cases)
+
+// Slug ↔ teamId mappings for sharable URLs
+const TEAM_SLUGS = {
+  'u6-gold':  'wjBCCDfvXpx8QivYu',
+  'u6-blue':  'nXtZPbg5Pb9xgh6Rd',
+  'u7-gold':  '84q7BEamwEAGPZgc2',
+  'u7-blue':  '52MoHPFgMFTPppk9H',
+  'u8-gold':  'azWv34qmnBYrN7atm',
+  'u8-blue':  '5SyzYzsjmbeaPZsXT',
+  'u9-gold':  'PyQredZ4NJS2JafcM',
+  'u9-blue':  'BAczTuGAgyjokt4pJ',
+  'u10':      'ga3nagC9irHRNJXWn',
+  'u11':      '4nA7pxpFZt6gbj347',
+  'u12':      'BPR2bFQZAuLK4CzLD',
+  'u13-gold': 'AX6MBpn8Xva2AmC8N',
+  'u13-blue': 'SafHgsHsRWsZmAHbq',
+  'u14-gold': '42ZRPX8ej8P9co4Ws',
+  'u14':      'mtDoyNMX26Bm94nuk',
+  'u15':      'LmZzP4t9h9bdYr9Pt',
+};
+const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
+
+let currentTeam = null; // teamId or null
+let fixturesData = null;
+
+// ── helpers ──────────────────────────────────────────────────────────────────
 
 function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
-}
-
-function xplorerLink(teamId) {
-  return `${XPLORER_BASE}?team=${teamId}&comp=All&season=2026&tab=Fixtures`;
 }
 
 function mapsLink(venue) {
@@ -270,76 +278,82 @@ function mapsLink(venue) {
 
 function shortTeamName(name) {
   return name
-    .replace('Lane Cove Gold ', 'Gold ')
-    .replace('Lane Cove Blue ', 'Blue ')
-    .replace('Lane Cove/', '')
-    .replace('Lane Cove ', '')
+    .replace(/Lane Cove\/?(\w+)? /g, '')   // strip "Lane Cove Gold ", "Lane Cove/" etc.
     .replace(' 2026', '')
-    .replace(/\s+\d+$/, ''); // strip trailing age number like "Lane Cove 13" → ""
+    .replace(/\s+\d+$/, '')
+    .trim() || name;
 }
 
-function toAEST(isoString) {
-  // Convert UTC to AEST (+10) for display purposes
+function toSydney(isoString) {
+  // Returns a Date adjusted to Sydney local time (AEST = UTC+10, season is always UTC+10)
   const d = new Date(isoString);
-  d.setHours(d.getHours() + AEST_OFFSET);
+  d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + 600); // normalise to UTC+10
   return d;
 }
 
-function formatDay(d) {
-  return d.toLocaleDateString('en-AU', { weekday: 'short', timeZone: 'UTC' });
+function fmtDow(d)  { return d.toLocaleDateString('en-AU', { weekday: 'short' }); }
+function fmtDate(d) { return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }); }
+function fmtTime(d) {
+  return d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true })
+          .replace(' am', 'am').replace(' pm', 'pm');
 }
-function formatDate(d) {
-  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+
+function rowId(match) {
+  // Stable anchor id from match id — safe for hash links
+  return 'match-' + match.id;
+}
+
+function roundAnchorId(dateISO) {
+  return 'round-' + dateISO.slice(0, 10); // "round-2026-05-09"
 }
 
 function scoreClass(match) {
   const lcHome = isLaneCove(match.home);
-  const lcScore = lcHome ? Number(match.home.score) : Number(match.away.score);
-  const oppScore = lcHome ? Number(match.away.score) : Number(match.home.score);
-  if (isNaN(lcScore) || isNaN(oppScore)) return '';
-  if (lcScore > oppScore) return 'win';
-  if (lcScore < oppScore) return 'loss';
-  return 'draw';
+  const lc  = Number(lcHome ? match.home.score : match.away.score);
+  const opp = Number(lcHome ? match.away.score : match.home.score);
+  if (isNaN(lc) || isNaN(opp)) return '';
+  return lc > opp ? 'win' : lc < opp ? 'loss' : 'draw';
 }
 
+// ── rendering ─────────────────────────────────────────────────────────────────
+
 function renderMatch(match, isNextUp) {
-  const aest = toAEST(match.dateTime);
-  const lcTeam = isLaneCove(match.home) ? match.home : match.away;
+  const local = toSydney(match.dateTime);
+  const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
   const opponent = isLaneCove(match.home) ? match.away : match.home;
-  const isHome = isLaneCove(match.home);
+  const isHome   = isLaneCove(match.home);
   const isResult = match.type === 'result';
+  const isFinal  = match.round?.includes('13');
 
   const roundNum = (match.round || '').replace('Round ', '');
-  const isFinal = match.roundLabel?.toLowerCase().includes('final') ||
-                  match.round?.toLowerCase().includes('13');
-
-  const badgeClass = isResult ? 'rnd-badge result' : isFinal ? 'rnd-badge final' : 'rnd-badge';
+  const badgeCls = isResult ? 'rnd-badge result' : isFinal ? 'rnd-badge final' : 'rnd-badge';
 
   const scoreHtml = isResult && match.home.score !== null
-    ? `<span class="score-pill ${scoreClass(match)}">
-        ${match.home.score} – ${match.away.score}
-       </span>`
+    ? `<span class="score-pill ${scoreClass(match)}">${match.home.score} – ${match.away.score}</span>`
     : '';
 
-  const venueLink = isHome
-    ? `<a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>`
-    : `<a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>`;
+  const timeStr = fmtTime(local);
+  const showTime = timeStr !== '12:00am'; // API sometimes lacks time
+
+  const anchor = rowId(match);
 
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}">
-      <div class="${badgeClass}">
+    <div class="row${isNextUp ? ' next-up' : ''}" id="${anchor}">
+      <a class="row-anchor" href="#${anchor}" title="Copy link">#</a>
+      <div class="${badgeCls}">
         <span>${isResult ? 'RES' : 'RND'}</span>
         <span class="num">${roundNum || '?'}</span>
       </div>
       <div class="date-block">
-        <div class="dow">${formatDay(aest)}</div>
-        <div class="date">${formatDate(aest)}</div>
+        <div class="dow">${fmtDow(local)}</div>
+        <div class="date">${fmtDate(local)}</div>
+        ${showTime ? `<div class="time">${timeStr}</div>` : ''}
         ${isFinal && !isResult ? '<div class="note final">Final Rnd</div>' : ''}
       </div>
       <div class="venues">
         <div class="venue">
           <span class="team-pill">${shortTeamName(lcTeam.name)}</span>
-          ${venueLink}
+          <a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
         </div>
         <div class="venue">
@@ -350,26 +364,19 @@ function renderMatch(match, isNextUp) {
     </div>`;
 }
 
-function groupBySection(matches) {
-  // Split into sections: results (played), then upcoming rounds
-  const results = matches.filter(m => m.type === 'result').reverse(); // most recent first
-  const upcoming = matches.filter(m => m.type === 'fixture');
-  return { results, upcoming };
-}
-
-function render(data, teamFilter) {
+function render(data, teamId) {
   const now = new Date();
-
   let matches = data.matches;
-  if (teamFilter !== 'all') {
-    matches = matches.filter(m => m.home.id === teamFilter || m.away.id === teamFilter);
+
+  if (teamId) {
+    matches = matches.filter(m => m.home.id === teamId || m.away.id === teamId);
   }
 
-  const { results, upcoming } = groupBySection(matches);
+  const results  = [...matches.filter(m => m.type === 'result')].reverse();
+  const upcoming =   matches.filter(m => m.type === 'fixture');
 
   let html = '';
 
-  // UPCOMING
   if (upcoming.length > 0) {
     html += `<div class="section-header">Upcoming fixtures</div>`;
     let markedNext = false;
@@ -380,12 +387,9 @@ function render(data, teamFilter) {
     }
   }
 
-  // RESULTS
   if (results.length > 0) {
     html += `<div class="section-header">Recent results</div>`;
-    for (const m of results) {
-      html += renderMatch(m, false);
-    }
+    for (const m of results) html += renderMatch(m, false);
   }
 
   if (matches.length === 0) {
@@ -394,6 +398,58 @@ function render(data, teamFilter) {
 
   document.getElementById('calendar').innerHTML = html;
 }
+
+// ── team selection & URL hash ─────────────────────────────────────────────────
+
+function selectTeam(teamId, pushState = true) {
+  currentTeam = teamId;
+
+  // Update token active states
+  document.querySelectorAll('.token').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.team === teamId);
+  });
+
+  // Show/hide clear button
+  document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
+
+  // Update hash (without triggering hashchange listener)
+  const slug = teamId ? SLUG_BY_ID[teamId] : '';
+  if (pushState) {
+    const newHash = slug ? '#' + slug : location.pathname + location.search;
+    history.pushState(null, '', slug ? '#' + slug : location.href.split('#')[0]);
+  }
+
+  if (fixturesData) render(fixturesData, teamId);
+}
+
+function readHash() {
+  const slug = location.hash.replace('#', '').split('/')[0]; // ignore sub-anchor
+  return TEAM_SLUGS[slug] || null;
+}
+
+// Token clicks
+document.querySelectorAll('.token').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.team;
+    selectTeam(id === currentTeam ? null : id); // toggle off if already selected
+  });
+});
+
+// Browser back/forward
+window.addEventListener('hashchange', () => {
+  const teamId = readHash();
+  selectTeam(teamId, false);
+
+  // If hash points to a specific match anchor, scroll to it after render
+  const anchor = location.hash.replace('#', '');
+  if (anchor.startsWith('match-')) {
+    requestAnimationFrame(() => {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+});
+
+// ── init ──────────────────────────────────────────────────────────────────────
 
 async function init() {
   const calendar = document.getElementById('calendar');
@@ -409,13 +465,29 @@ async function init() {
     return;
   }
 
+  fixturesData = data;
+
   const stamp = document.getElementById('updated-stamp');
   const updated = new Date(data.updated);
-  stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney' })} AEST`;
+  stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
+  })} AEST`;
 
-  const select = document.getElementById('team-filter');
-  select.addEventListener('change', () => render(data, select.value));
-  render(data, 'all');
+  // Apply team from hash (if any) without pushing history
+  const initialTeam = readHash();
+  if (initialTeam) {
+    selectTeam(initialTeam, false);
+  } else {
+    render(data, null);
+  }
+
+  // Scroll to match anchor if present
+  const anchor = location.hash.replace('#', '');
+  if (anchor.startsWith('match-')) {
+    requestAnimationFrame(() => {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 }
 
 init();
