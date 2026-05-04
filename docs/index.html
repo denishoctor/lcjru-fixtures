@@ -87,6 +87,45 @@
   .cal-links a:hover { text-decoration: underline; }
   .cal-sep { font-size: 10px; color: var(--muted); }
 
+  /* WELCOME SCREEN */
+  .welcome {
+    padding: 36px 28px 44px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .welcome h2 {
+    font-size: 21px; font-weight: 800; color: var(--navy);
+    margin: 0 0 6px; letter-spacing: -.3px;
+  }
+  .welcome-sub {
+    font-size: 14px; color: var(--muted);
+    margin: 0 0 24px; line-height: 1.5;
+  }
+  .welcome-cta {
+    display: inline-block;
+    background: var(--gold); color: var(--navy);
+    font-size: 13px; font-weight: 800;
+    padding: 10px 22px; border-radius: 24px;
+    margin-bottom: 36px; letter-spacing: .2px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px; text-align: left;
+  }
+  .feature-card {
+    background: var(--cream);
+    border: 1px solid var(--cream-edge);
+    border-radius: 8px;
+    padding: 16px 14px;
+  }
+  .feature-icon { font-size: 22px; margin-bottom: 8px; line-height: 1; }
+  .feature-title {
+    font-size: 11px; font-weight: 800; color: var(--navy);
+    text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px;
+  }
+  .feature-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
   /* SECTION HEADER */
   .section-header {
     padding: 7px 28px;
@@ -155,6 +194,12 @@
     padding: 2px 7px; border-radius: 3px;
     letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
+  .derby-pill {
+    background: #FFF3E0; color: #BF360C;
+    font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 3px;
+    letter-spacing: 1px; flex-shrink: 0;
+  }
   .opponent { color: var(--muted); font-size: 12px; }
   .score-pill { font-weight: 800; font-size: 13px; color: var(--ink); white-space: nowrap; }
   .score-pill.win  { color: var(--green); }
@@ -189,6 +234,7 @@
     .row { padding: 10px 16px; gap: 10px; }
     .toolbar { padding: 10px 14px 8px; }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
+    .welcome { padding: 28px 16px 36px; }
   }
 </style>
 </head>
@@ -367,9 +413,36 @@ function scoreClass(match) {
   return lc > opp ? 'win' : lc < opp ? 'loss' : 'draw';
 }
 
+function renderWelcome() {
+  return `
+    <div class="welcome">
+      <h2>Find your team's games</h2>
+      <p class="welcome-sub">Venues, kick-off times and results for all Lane Cove JRU teams —<br>updated automatically from the official draw.</p>
+      <div class="welcome-cta">↑ Select your team above to get started</div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <div class="feature-title">Live draw</div>
+          <div class="feature-desc">Venues, pitch numbers and kick-off times. Updated hourly, with extra checks on game day.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <div class="feature-title">Calendar sync</div>
+          <div class="feature-desc">Add your team's games to Google Calendar or Apple Calendar. Updates automatically when the draw changes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <div class="feature-title">Share your team</div>
+          <div class="feature-desc">Every team has a direct link — drop it in your WhatsApp group so parents land straight on their fixtures.</div>
+        </div>
+      </div>
+    </div>`;
+}
+
 // ── rendering ─────────────────────────────────────────────────────────────────
 
 function renderMatch(match, isNextUp) {
+  const isDerby       = isLaneCove(match.home) && isLaneCove(match.away);
   const lcTeam        = isLaneCove(match.home) ? match.home : match.away;
   const opponent      = isLaneCove(match.home) ? match.away : match.home;
   const isHome        = match.venue.toLowerCase().includes('tantallon');
@@ -414,6 +487,7 @@ function renderMatch(match, isNextUp) {
           <span class="team-pill">${shortTeamName(lcTeam.name)}</span>
           <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${loc}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
+          ${isDerby ? '<span class="derby-pill">🔥 Local Derby</span>' : ''}
         </div>
         <div class="venue">
           <span class="opponent">vs ${opponent.name}</span>
@@ -424,12 +498,13 @@ function renderMatch(match, isNextUp) {
 }
 
 function render(data, teamId) {
-  const now = new Date();
-  let matches = data.matches;
-
-  if (teamId) {
-    matches = matches.filter(m => m.home.id === teamId || m.away.id === teamId);
+  if (!teamId) {
+    document.getElementById('calendar').innerHTML = renderWelcome();
+    return;
   }
+
+  const now = new Date();
+  const matches = data.matches.filter(m => m.home.id === teamId || m.away.id === teamId);
 
   const past     = [...matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now)].reverse();
   const upcoming =   matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now);
