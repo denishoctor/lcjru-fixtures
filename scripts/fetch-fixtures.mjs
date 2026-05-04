@@ -173,7 +173,7 @@ async function main() {
     matches: combined,
   };
 
-  const outPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'fixtures.json');
+  const outPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'docs', 'fixtures.json');
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`✓ Written ${combined.length} matches → docs/fixtures.json`);
 
