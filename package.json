@@ -1,0 +1,11 @@
+{
+  "name": "lcjru-fixtures",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch-fixtures.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

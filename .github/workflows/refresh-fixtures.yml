@@ -1,0 +1,31 @@
+name: Refresh Fixtures
+
+on:
+  schedule:
+    # Runs at 6am AEST (8pm UTC) daily — after Saturday game results are typically entered
+    - cron: '0 20 * * *'
+  workflow_dispatch:  # allows manual trigger from GitHub Actions UI
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch fixtures
+        run: node scripts/fetch-fixtures.mjs
+
+      - name: Commit updated fixtures
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/fixtures.json
+          git diff --cached --quiet || git commit -m "chore: refresh fixtures $(date -u +%Y-%m-%d)"
+          git push
