@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lane Cove Junior Rugby — Fixtures 2026</title>
+<link rel="icon" href="https://digitalshift-assets.sfo2.cdn.digitaloceanspaces.com/pw/bacc8d3f-26ad-40d6-8a7f-e81787bacf96/favicon-1600636355774638552.png">
 <style>
   :root {
     --navy: #021444;
@@ -51,7 +52,7 @@
   .token-row + .token-row { margin-top: 5px; }
   .token-label {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1.5px; color: var(--muted); width: 38px; flex-shrink: 0;
+    letter-spacing: 1.5px; color: var(--muted); width: 60px; flex-shrink: 0;
   }
   .token {
     font-size: 11px; font-weight: 700;
@@ -150,6 +151,13 @@
   .score-pill.win  { color: var(--green); }
   .score-pill.loss { color: #b71c1c; }
   .score-pill.draw { color: var(--muted); }
+  .result-badge {
+    font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
+  }
+  .result-badge.win  { background: #E8F5E9; color: var(--green); }
+  .result-badge.loss { background: #FFEBEE; color: #b71c1c; }
+  .result-badge.draw { background: #F5F5F5; color: var(--muted); }
 
   /* REST */
   .row.rest { background: #F7F7F7; }
@@ -319,8 +327,10 @@ function renderMatch(match, isNextUp) {
   const roundNum = (match.round || '').replace('Round ', '');
   const badgeCls = isResult ? 'rnd-badge result' : isFinal ? 'rnd-badge final' : 'rnd-badge';
 
+  const sc = scoreClass(match);
+  const resultLabel = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
   const scoreHtml = isResult && match.home.score !== null
-    ? `<span class="score-pill ${scoreClass(match)}">${match.home.score} – ${match.away.score}</span>`
+    ? `<span class="score-pill ${sc}">${match.home.score} – ${match.away.score}</span>${resultLabel ? `<span class="result-badge ${sc}">${resultLabel}</span>` : ''}`
     : '';
 
   const timeStr = fmtTime(match.dateTime);
