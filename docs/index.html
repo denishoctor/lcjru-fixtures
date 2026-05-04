@@ -474,9 +474,9 @@ function selectTeam(teamId, pushState = true) {
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
-    const icsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
     document.getElementById('cal-google').href =
-      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(icsUrl)}`;
+      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
     document.getElementById('cal-apple').href =
       `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
   }
