@@ -1,6 +1,6 @@
 /**
  * Fetches all LCJRU fixture and result data from the Rugby Xplorer GraphQL API
- * and writes a clean JSON file to public/fixtures.json.
+ * and writes a clean JSON file to docs/fixtures.json.
  *
  * Endpoint: https://rugby-au-cms.graphcdn.app/
  * Entity:   Lane Cove JRU, entityId 30901
@@ -175,7 +175,7 @@ async function main() {
 
   const outPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'fixtures.json');
   writeFileSync(outPath, JSON.stringify(output, null, 2));
-  console.log(`✓ Written ${combined.length} matches → public/fixtures.json`);
+  console.log(`✓ Written ${combined.length} matches → docs/fixtures.json`);
 
   // Summary table
   const comps = [...new Set(combined.map(m => m.competition))].sort();
