@@ -78,12 +78,14 @@
     padding: 0; text-decoration: underline; display: none;
   }
   .clear-btn.visible { display: inline; }
-  .cal-link {
+  .cal-links { display: none; align-items: center; gap: 6px; }
+  .cal-links.visible { display: flex; }
+  .cal-links a {
     font-size: 10px; font-weight: 700; color: var(--navy);
-    text-decoration: none; display: none;
+    text-decoration: none; white-space: nowrap;
   }
-  .cal-link:hover { text-decoration: underline; }
-  .cal-link.visible { display: inline; }
+  .cal-links a:hover { text-decoration: underline; }
+  .cal-sep { font-size: 10px; color: var(--muted); }
 
   /* SECTION HEADER */
   .section-header {
@@ -238,7 +240,12 @@
     <div class="toolbar-meta">
       <span id="updated-stamp"></span>
       <div style="display:flex;gap:12px;align-items:center">
-        <a id="cal-link" class="cal-link" href="#">📅 Add to calendar</a>
+        <div class="cal-links" id="cal-links">
+          📅
+          <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <span class="cal-sep">·</span>
+          <a id="cal-apple" href="#">Apple / iCal</a>
+        </div>
         <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
       </div>
     </div>
@@ -462,13 +469,16 @@ function selectTeam(teamId, pushState = true) {
     btn.classList.toggle('active', btn.dataset.team === teamId);
   });
 
-  // Show/hide clear button and calendar subscribe link
+  // Show/hide clear button and calendar subscribe links
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
-  const calLink = document.getElementById('cal-link');
-  calLink.classList.toggle('visible', !!teamId);
+  document.getElementById('cal-links').classList.toggle('visible', !!teamId);
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
-    calLink.href = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    const icsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    document.getElementById('cal-google').href =
+      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(icsUrl)}`;
+    document.getElementById('cal-apple').href =
+      `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
   }
 
   // Update hash (without triggering hashchange listener)
