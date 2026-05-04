@@ -1,6 +1,7 @@
 /**
- * Fetches all LCJRU fixture and result data from the Rugby Xplorer GraphQL API
- * and writes a clean JSON file to docs/fixtures.json.
+ * Fetches all LCJRU fixture and result data from the Rugby Xplorer GraphQL API,
+ * diffs against the previous run to detect venue/time changes on upcoming games,
+ * and writes docs/fixtures.json + changes.txt (empty when nothing changed).
  *
  * Endpoint: https://rugby-au-cms.graphcdn.app/
  * Entity:   Lane Cove JRU, entityId 30901
@@ -8,20 +9,20 @@
  * Run:  node scripts/fetch-fixtures.mjs
  */
 
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 
-const GRAPHQL_URL = 'https://rugby-au-cms.graphcdn.app/';
-const ENTITY_ID = 30901;
-const ENTITY_TYPE = 'club';
-const SEASON = '2026';
-const PAGE_SIZE = 100;
+const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
+const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
+const DIFF_PATH = join(ROOT, 'changes.txt');
 
-// All active LCJRU team IDs for 2026.
-// To refresh for a new season: inspect the competitions list at
-// https://xplorer.rugby/_next/data/<buildId>/lcjru-/fixtures-results.json?club=lcjru-
-// and extract teams[] from entries where season === <year>.
+const GRAPHQL_URL = 'https://rugby-au-cms.graphcdn.app/';
+const ENTITY_ID   = 30901;
+const ENTITY_TYPE = 'club';
+const SEASON      = '2026';
+const PAGE_SIZE   = 100;
+
 const LCJRU_TEAM_IDS = [
   'ga3nagC9irHRNJXWn', // Lane Cove 10
   '4nA7pxpFZt6gbj347', // Lane Cove 11
@@ -60,6 +61,8 @@ query EntityFixturesAndResults(
   }
 }`;
 
+// ── fetch ─────────────────────────────────────────────────────────────────────
+
 async function fetchPage(type, skip) {
   const res = await fetch(GRAPHQL_URL, {
     method: 'POST',
@@ -70,20 +73,10 @@ async function fetchPage(type, skip) {
     },
     body: JSON.stringify({
       operationName: 'EntityFixturesAndResults',
-      variables: {
-        season: SEASON,
-        comps: [],
-        teams: LCJRU_TEAM_IDS,
-        type,
-        skip,
-        limit: PAGE_SIZE,
-        entityId: ENTITY_ID,
-        entityType: ENTITY_TYPE,
-      },
+      variables: { season: SEASON, comps: [], teams: LCJRU_TEAM_IDS, type, skip, limit: PAGE_SIZE, entityId: ENTITY_ID, entityType: ENTITY_TYPE },
       query: QUERY,
     }),
   });
-
   if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${type} skip=${skip}`);
   const json = await res.json();
   if (json.errors) throw new Error(`GraphQL error: ${JSON.stringify(json.errors)}`);
@@ -102,36 +95,130 @@ async function fetchAll(type) {
   return all;
 }
 
-function normalise(item, type) {
+// ── normalise ─────────────────────────────────────────────────────────────────
+
+function normalise(item) {
+  const type = item.status === 'Result' ? 'result' : 'fixture';
   return {
     id: item.id,
-    type,                          // "fixture" | "result"
+    type,
     competition: item.compName,
     compId: item.compId,
     round: item.round,
     roundLabel: item.roundLabel || item.round,
-    dateTime: item.dateTime,       // ISO 8601, e.g. "2026-05-03T00:50:00+00:00"
+    dateTime: item.dateTime,
     venue: item.venue,
-    status: item.status,           // "Fixture" | "Result"
+    status: item.status,
     isLive: item.isLive,
     isBye: item.isBye,
     matchLabel: item.matchLabel || null,
-    home: {
-      id: item.homeTeam.teamId,
-      name: item.homeTeam.name,
-      score: item.homeTeam.score || null,
-      crest: item.homeTeam.crest,
-    },
-    away: {
-      id: item.awayTeam.teamId,
-      name: item.awayTeam.name,
-      score: item.awayTeam.score || null,
-      crest: item.awayTeam.crest,
-    },
+    home: { id: item.homeTeam.teamId, name: item.homeTeam.name, score: item.homeTeam.score || null, crest: item.homeTeam.crest },
+    away: { id: item.awayTeam.teamId, name: item.awayTeam.name, score: item.awayTeam.score || null, crest: item.awayTeam.crest },
   };
 }
 
+// ── diff ──────────────────────────────────────────────────────────────────────
+
+function isLaneCove(team) {
+  return team.name.toLowerCase().includes('lane cove') || team.crest?.includes('/30901.');
+}
+
+function lcTeamName(match) {
+  const t = isLaneCove(match.home) ? match.home : match.away;
+  // Keep age group and colour: "Lane Cove Gold 7" → "Gold 7", "Lane Cove/Lindfield 14" → "LC/Lindfield 14"
+  return t.name
+    .replace('Lane Cove/', 'LC/')
+    .replace('Lane Cove ', '')
+    .trim() || t.name;
+}
+
+function fmtDateSydney(isoString) {
+  return new Date(isoString).toLocaleDateString('en-AU', {
+    weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Australia/Sydney',
+  });
+}
+
+function fmtTimeSydney(isoString) {
+  return new Date(isoString)
+    .toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Australia/Sydney' })
+    .replace(' am', 'am').replace(' pm', 'pm');
+}
+
+function detectChanges(oldData, newData) {
+  // Only compare upcoming fixtures (type=fixture in new data)
+  if (!oldData?.matches?.length) return []; // first run — nothing to diff
+
+  const oldMap = new Map(
+    oldData.matches.filter(m => m.type === 'fixture').map(m => [m.id, m])
+  );
+  const newUpcoming = newData.matches.filter(m => m.type === 'fixture');
+
+  const changes = [];
+
+  for (const newM of newUpcoming) {
+    const oldM = oldMap.get(newM.id);
+    if (!oldM) {
+      changes.push({ kind: 'added', match: newM });
+      continue;
+    }
+    if (oldM.venue !== newM.venue) {
+      changes.push({ kind: 'venue', match: newM, from: oldM.venue, to: newM.venue });
+    }
+    if (oldM.dateTime !== newM.dateTime) {
+      changes.push({ kind: 'time', match: newM, from: oldM.dateTime, to: newM.dateTime });
+    }
+  }
+
+  // Fixtures that disappeared (cancelled / removed from draw)
+  const newIds = new Set(newUpcoming.map(m => m.id));
+  for (const [id, oldM] of oldMap) {
+    if (!newIds.has(id)) {
+      changes.push({ kind: 'removed', match: oldM });
+    }
+  }
+
+  return changes;
+}
+
+function formatChanges(changes) {
+  const lines = ['LCJRU Fixture Update', ''];
+  for (const c of changes) {
+    const { match } = c;
+    const team = lcTeamName(match);
+    const when = `${match.round} · ${fmtDateSydney(match.dateTime)}`;
+    switch (c.kind) {
+      case 'venue':
+        lines.push(`📍 Venue change – ${team} · ${when}`);
+        lines.push(`   Was: ${c.from}`);
+        lines.push(`   Now: ${c.to}`);
+        break;
+      case 'time':
+        lines.push(`🕐 Time change – ${team} · ${when}`);
+        lines.push(`   Was: ${fmtTimeSydney(c.from)}`);
+        lines.push(`   Now: ${fmtTimeSydney(c.to)}`);
+        break;
+      case 'added':
+        lines.push(`➕ New fixture – ${team} · ${when}`);
+        lines.push(`   ${match.venue}`);
+        break;
+      case 'removed':
+        lines.push(`❌ Fixture removed – ${team} · ${when}`);
+        break;
+    }
+    lines.push('');
+  }
+  lines.push('Full draw: https://denishoctor.github.io/lcjru-fixtures/');
+  return lines.join('\n').trim();
+}
+
+// ── main ──────────────────────────────────────────────────────────────────────
+
 async function main() {
+  // Load existing data for diffing before we overwrite it
+  const oldData = existsSync(OUT_PATH)
+    ? JSON.parse(readFileSync(OUT_PATH, 'utf8'))
+    : null;
+
   console.log(`Fetching LCJRU ${SEASON} fixtures and results…`);
 
   const [fixtures, results] = await Promise.all([
@@ -142,25 +229,20 @@ async function main() {
   console.log(`  fixtures: ${fixtures.length}`);
   console.log(`  results:  ${results.length}`);
 
-  // Deduplicate by id (a match may appear in both lists at transition time)
+  // Deduplicate (results take priority over fixtures at transition time)
   const seen = new Set();
   const combined = [];
   for (const item of [...results, ...fixtures]) {
     if (!seen.has(item.id)) {
       seen.add(item.id);
-      combined.push(normalise(item, item.status === 'Result' ? 'result' : 'fixture'));
+      combined.push(normalise(item));
     }
   }
-
-  // Sort chronologically
   combined.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
 
-  // Group by competition for the index
   const byComp = {};
   for (const match of combined) {
-    if (!byComp[match.compId]) {
-      byComp[match.compId] = { name: match.competition, matches: [] };
-    }
+    if (!byComp[match.compId]) byComp[match.compId] = { name: match.competition, matches: [] };
     byComp[match.compId].matches.push(match);
   }
 
@@ -173,11 +255,24 @@ async function main() {
     matches: combined,
   };
 
-  const outPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'docs', 'fixtures.json');
-  writeFileSync(outPath, JSON.stringify(output, null, 2));
+  // Diff before writing
+  const changes = detectChanges(oldData, output);
+
+  writeFileSync(OUT_PATH, JSON.stringify(output, null, 2));
   console.log(`✓ Written ${combined.length} matches → docs/fixtures.json`);
 
-  // Summary table
+  // Write changes.txt (always — empty string means "no changes" to the workflow)
+  if (changes.length > 0) {
+    const msg = formatChanges(changes);
+    writeFileSync(DIFF_PATH, msg);
+    console.log(`\n⚠️  ${changes.length} change(s) detected:\n`);
+    console.log(msg);
+  } else {
+    writeFileSync(DIFF_PATH, '');
+    console.log('✓ No changes to upcoming fixtures');
+  }
+
+  // Competition summary
   const comps = [...new Set(combined.map(m => m.competition))].sort();
   console.log('\nCompetition summary:');
   for (const comp of comps) {

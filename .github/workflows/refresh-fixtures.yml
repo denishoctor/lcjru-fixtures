@@ -2,9 +2,10 @@ name: Refresh Fixtures
 
 on:
   schedule:
-    # Runs at 6am AEST (8pm UTC) daily — after Saturday game results are typically entered
-    - cron: '0 20 * * *'
-  workflow_dispatch:  # allows manual trigger from GitHub Actions UI
+    - cron: '0 20 * * *'   # 6am AEST daily        — baseline
+    - cron: '0 0 * * *'    # 10am AEST daily        — mid-morning check
+    - cron: '0 4 * * 6,0'  # 2pm AEST Sat & Sun     — game-day check
+  workflow_dispatch:
 
 jobs:
   fetch:
@@ -19,8 +20,25 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Fetch fixtures
+      - name: Fetch fixtures and diff
         run: node scripts/fetch-fixtures.mjs
+
+      - name: Notify via ntfy.sh if fixtures changed
+        if: hashFiles('changes.txt') != ''
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          # changes.txt exists but may be empty (no changes) — only send if non-empty
+          if [ -s changes.txt ] && [ -n "$NTFY_TOPIC" ]; then
+            curl -s \
+              -H "Title: LCJRU Fixture Update" \
+              -H "Priority: high" \
+              -H "Tags: rugby_football,warning" \
+              -H "Content-Type: text/plain; charset=utf-8" \
+              --data-binary @changes.txt \
+              "https://ntfy.sh/$NTFY_TOPIC"
+            echo "✓ Notification sent to ntfy.sh"
+          fi
 
       - name: Commit updated fixtures
         run: |
