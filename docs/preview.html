@@ -36,6 +36,7 @@
   .crest img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
   .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -.5px; }
+  .title-block .tag { font-size: 13px; color: #C9D2E8; font-style: italic; }
   .header-right { text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2; flex-shrink: 0; }
   .header-right a { color: #fff; font-weight: 700; }
 
@@ -77,6 +78,12 @@
     padding: 0; text-decoration: underline; display: none;
   }
   .clear-btn.visible { display: inline; }
+  .copy-link-btn {
+    font-size: 10px; font-weight: 700; color: var(--navy);
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-decoration: underline; display: none; white-space: nowrap;
+  }
+  .copy-link-btn.visible { display: inline; }
   .cal-links { display: none; align-items: center; gap: 6px; }
   .cal-links.visible { display: flex; }
   .cal-links a {
@@ -124,6 +131,62 @@
     text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px;
   }
   .feature-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* HOME SECTIONS (welcome page) */
+  .home-stats {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin: 0 0 28px;
+    font-size: 12px; color: var(--muted);
+  }
+  .home-stat-val { font-weight: 700; color: var(--ink); }
+  .home-stat-sep { color: var(--rule); }
+
+  .home-section {
+    margin-top: 28px; text-align: left;
+    border-top: 1px solid var(--rule); padding-top: 20px;
+  }
+  .home-section-hd {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--navy);
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .home-section-hd span {
+    font-size: 11px; color: var(--muted);
+    font-weight: 400; text-transform: none; letter-spacing: 0;
+  }
+  .home-day-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); margin: 12px 0 6px;
+  }
+  .home-day-label:first-child { margin-top: 0; }
+  .mini-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 0; border-bottom: 1px solid var(--rule);
+    font-size: 12px; min-height: 30px;
+  }
+  .mini-row:last-child { border-bottom: none; }
+  .mini-team {
+    font-size: 10px; font-weight: 700; color: var(--navy);
+    width: 70px; flex-shrink: 0;
+  }
+  .mini-time { font-size: 10px; color: var(--muted); width: 44px; flex-shrink: 0; }
+  .mini-vs { font-size: 12px; flex: 1; color: var(--ink); min-width: 0; }
+  .mini-vs em { font-style: normal; color: var(--muted); }
+  .mini-loc {
+    font-size: 11px; color: var(--muted); flex-shrink: 0;
+    max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .mini-result { font-weight: 800; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
+  .mini-result.win  { color: var(--green); }
+  .mini-result.loss { color: #b71c1c; }
+  .mini-result.draw { color: var(--muted); }
+  .mini-done {
+    font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; padding: 2px 5px; border-radius: 3px;
+    background: #9E9E9E; color: #fff; flex-shrink: 0;
+  }
+  .home-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 10px 0; }
 
   /* SECTION HEADER */
   .section-header {
@@ -197,7 +260,7 @@
     background: #FFF3E0; color: #BF360C;
     font-size: 9px; font-weight: 800;
     padding: 2px 7px; border-radius: 3px;
-    letter-spacing: 1px; flex-shrink: 0;
+    letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
   .opponent { color: var(--muted); font-size: 12px; }
   .score-pill { font-weight: 800; font-size: 13px; color: var(--ink); white-space: nowrap; }
@@ -284,13 +347,14 @@
     <div class="toolbar-meta">
       <span id="updated-stamp"></span>
       <div style="display:flex;gap:12px;align-items:center">
+        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Copy link</button>
         <div class="cal-links" id="cal-links">
           📅
           <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
           <a id="cal-apple" href="#">Apple / iCal</a>
         </div>
-        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Clear filter ×</button>
+        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
     </div>
   </div>
@@ -304,6 +368,7 @@
 </div>
 <script>
 const FIXTURES_URL = './fixtures.json';
+const XPLORER_BASE = 'https://xplorer.rugby/lcjru-/fixtures-results';
 const LC_CREST_PATTERN = '/30901.';
 
 // Slug ↔ teamId mappings for sharable URLs
@@ -327,11 +392,12 @@ const TEAM_SLUGS = {
 };
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
-let currentTeam = null;
+let currentTeam = null; // teamId or null
 let fixturesData = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
 
+// Known ground → suburb. Keys are ground names after stripping pitch allocation.
 const VENUE_SUBURBS = {
   'Bantry Bay Oval':                 'Bantry Bay',
   'Beauchamp Park':                  'West Pennant Hills',
@@ -359,6 +425,7 @@ const VENUE_SUBURBS = {
 
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
+  // Strip Minis pitch allocation suffix: "Tryon Oval TT1 (U6/U7)" → "Tryon Oval"
   const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
   const suburb = VENUE_SUBURBS[clean];
   return suburb ? `${clean}, ${suburb}` : clean;
@@ -392,7 +459,14 @@ function fmtTime(iso) {
           .replace(' am', 'am').replace(' pm', 'pm');
 }
 
-function rowId(match) { return 'match-' + match.id; }
+function rowId(match) {
+  // Stable anchor id from match id — safe for hash links
+  return 'match-' + match.id;
+}
+
+function roundAnchorId(dateISO) {
+  return 'round-' + dateISO.slice(0, 10); // "round-2026-05-09"
+}
 
 function scoreClass(match) {
   const lcHome = isLaneCove(match.home);
@@ -402,24 +476,142 @@ function scoreClass(match) {
   return lc > opp ? 'win' : lc < opp ? 'loss' : 'draw';
 }
 
-// ── welcome screen ────────────────────────────────────────────────────────────
+function toAESTDateStr(iso) {
+  return new Date(new Date(iso).getTime() + 10 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
 
-function renderWelcome() {
+function upcomingWeekendDates(now) {
+  const aestMs = now.getTime() + 10 * 60 * 60 * 1000;
+  const dow = new Date(aestMs).getUTCDay(); // 0=Sun, 6=Sat
+  const daysToSat = dow === 6 ? 0 : dow === 0 ? -1 : 6 - dow;
+  return [0, 1].map(offset =>
+    new Date(aestMs + (daysToSat + offset) * 86400000).toISOString().slice(0, 10)
+  );
+}
+
+function fmtShortDate(dateStr) {
+  return new Date(dateStr + 'T00:00:00Z')
+    .toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+function renderThisWeekend(data, now) {
+  const [satStr, sunStr] = upcomingWeekendDates(now);
+  const days = [
+    { label: fmtShortDate(satStr), date: satStr },
+    { label: fmtShortDate(sunStr), date: sunStr },
+  ];
+  const rangeLabel = days[0].label + ' &amp; ' + days[1].label;
+
+  let hasAny = false;
+  let html = '';
+  for (const day of days) {
+    const dayMatches = data.matches.filter(m => toAESTDateStr(m.dateTime) === day.date);
+    if (!dayMatches.length) continue;
+    hasAny = true;
+    html += `<div class="home-day-label">${day.label}</div>`;
+    for (const m of dayMatches) {
+      const lcTeam   = isLaneCove(m.home) ? m.home : m.away;
+      const opponent = isLaneCove(m.home) ? m.away : m.home;
+      const timeStr  = fmtTime(m.dateTime);
+      const loc      = displayLocation(m.venue);
+      html += `
+        <div class="mini-row">
+          <span class="mini-team">${shortTeamName(lcTeam.name)}</span>
+          <span class="mini-time">${timeStr !== '12:00am' ? timeStr : '—'}</span>
+          <span class="mini-vs">vs <em>${opponent.name}</em></span>
+          <span class="mini-loc">${loc}</span>
+        </div>`;
+    }
+  }
+  if (!hasAny) html = '<div class="home-empty">No matches scheduled this weekend.</div>';
+
+  return `
+    <div class="home-section">
+      <div class="home-section-hd">This weekend <span>${rangeLabel}</span></div>
+      ${html}
+    </div>`;
+}
+
+function renderLastRound(data, now) {
+  const completed = data.matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now);
+  if (!completed.length) return '';
+
+  let maxRound = 0;
+  for (const m of completed) {
+    const n = parseInt((m.round || '').replace(/\D/g, '')) || 0;
+    if (n > maxRound) maxRound = n;
+  }
+  if (!maxRound) return '';
+
+  const roundMatches = completed.filter(m =>
+    (parseInt((m.round || '').replace(/\D/g, '')) || 0) === maxRound
+  );
+
+  let html = '';
+  for (const m of roundMatches) {
+    const lcTeam   = isLaneCove(m.home) ? m.home : m.away;
+    const opponent = isLaneCove(m.home) ? m.away : m.home;
+    const hasScore = m.type === 'result' && m.home.score !== null;
+    let resultHtml;
+    if (hasScore) {
+      const sc = scoreClass(m);
+      const lbl = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
+      resultHtml = `<span class="mini-result ${sc}">${m.home.score}–${m.away.score}${lbl ? ' · ' + lbl : ''}</span>`;
+    } else {
+      resultHtml = '<span class="mini-done">Done</span>';
+    }
+    html += `
+      <div class="mini-row">
+        <span class="mini-team">${shortTeamName(lcTeam.name)}</span>
+        <span class="mini-vs">vs <em>${opponent.name}</em></span>
+        ${resultHtml}
+      </div>`;
+  }
+
+  return `
+    <div class="home-section">
+      <div class="home-section-hd">Round ${maxRound} results</div>
+      ${html}
+    </div>`;
+}
+
+function renderWelcome(data) {
+  const now = new Date();
+
+  // Stats
+  const played    = data.matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now).length;
+  const remaining = data.matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now).length;
+  const numTeams  = (() => {
+    const ids = new Set();
+    for (const m of data.matches) {
+      if (isLaneCove(m.home)) ids.add(m.home.id);
+      if (isLaneCove(m.away)) ids.add(m.away.id);
+    }
+    return ids.size;
+  })();
+
   return `
     <div class="welcome">
       <h2>Find your team's games</h2>
       <p class="welcome-sub">Venues, kick-off times and results for all Lane Cove JRU teams —<br>updated automatically from the official draw.</p>
       <div class="welcome-cta">↑ Select your team above to get started</div>
+      <div class="home-stats">
+        <span><span class="home-stat-val">${numTeams}</span> teams</span>
+        <span class="home-stat-sep">·</span>
+        <span><span class="home-stat-val">${played}</span> played</span>
+        <span class="home-stat-sep">·</span>
+        <span><span class="home-stat-val">${remaining}</span> to go</span>
+      </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-icon">📍</div>
           <div class="feature-title">Live draw</div>
-          <div class="feature-desc">Venues, pitch numbers and kick-off times. Updated hourly, with extra checks on game day.</div>
+          <div class="feature-desc">Every venue, pitch number and kick-off time for every team — updated hourly so you're never caught out by a last-minute change.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📅</div>
-          <div class="feature-title">Calendar sync</div>
-          <div class="feature-desc">Add your team's games to Google Calendar or Apple Calendar. Updates automatically when the draw changes.</div>
+          <div class="feature-title">Live sync</div>
+          <div class="feature-desc">Subscribe once and your calendar stays current. New games, venue changes, time shifts and cancellations all flow through automatically. Works in Google Calendar, Apple Calendar and Outlook.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔗</div>
@@ -427,6 +619,8 @@ function renderWelcome() {
           <div class="feature-desc">Every team has a direct link — drop it in your WhatsApp group so parents land straight on their fixtures.</div>
         </div>
       </div>
+      ${renderThisWeekend(data, now)}
+      ${renderLastRound(data, now)}
     </div>`;
 }
 
@@ -455,7 +649,8 @@ function renderMatch(match, isNextUp) {
     : '';
 
   const timeStr = fmtTime(match.dateTime);
-  const showTime = timeStr !== '12:00am';
+  const showTime = timeStr !== '12:00am'; // API sometimes lacks time
+
   const loc    = displayLocation(match.venue);
   const anchor = rowId(match);
 
@@ -489,7 +684,7 @@ function renderMatch(match, isNextUp) {
 
 function render(data, teamId) {
   if (!teamId) {
-    document.getElementById('calendar').innerHTML = renderWelcome();
+    document.getElementById('calendar').innerHTML = renderWelcome(data);
     return;
   }
 
@@ -525,14 +720,26 @@ function render(data, teamId) {
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
 
+function copyTeamLink() {
+  const url = location.href.split('#')[0] + (currentTeam ? '#' + SLUG_BY_ID[currentTeam] : '');
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copy-link-btn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = '🔗 Copy link'; }, 2000);
+  });
+}
+
 function selectTeam(teamId, pushState = true) {
   currentTeam = teamId;
 
+  // Update token active states
   document.querySelectorAll('.token').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.team === teamId);
   });
 
+  // Show/hide clear button, copy link, and calendar subscribe links
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
+  document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
@@ -543,8 +750,10 @@ function selectTeam(teamId, pushState = true) {
       `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
   }
 
+  // Update hash (without triggering hashchange listener)
   const slug = teamId ? SLUG_BY_ID[teamId] : '';
   if (pushState) {
+    const newHash = slug ? '#' + slug : location.pathname + location.search;
     history.pushState(null, '', slug ? '#' + slug : location.href.split('#')[0]);
   }
 
@@ -552,20 +761,24 @@ function selectTeam(teamId, pushState = true) {
 }
 
 function readHash() {
-  const slug = location.hash.replace('#', '').split('/')[0];
+  const slug = location.hash.replace('#', '').split('/')[0]; // ignore sub-anchor
   return TEAM_SLUGS[slug] || null;
 }
 
+// Token clicks
 document.querySelectorAll('.token').forEach(btn => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.team;
-    selectTeam(id === currentTeam ? null : id);
+    selectTeam(id === currentTeam ? null : id); // toggle off if already selected
   });
 });
 
+// Browser back/forward
 window.addEventListener('hashchange', () => {
   const teamId = readHash();
   selectTeam(teamId, false);
+
+  // If hash points to a specific match anchor, scroll to it after render
   const anchor = location.hash.replace('#', '');
   if (anchor.startsWith('match-')) {
     requestAnimationFrame(() => {
@@ -598,6 +811,7 @@ async function init() {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
   })} AEST`;
 
+  // Apply team from hash (if any) without pushing history
   const initialTeam = readHash();
   if (initialTeam) {
     selectTeam(initialTeam, false);
@@ -605,6 +819,7 @@ async function init() {
     render(data, null);
   }
 
+  // Scroll to match anchor if present
   const anchor = location.hash.replace('#', '');
   if (anchor.startsWith('match-')) {
     requestAnimationFrame(() => {
