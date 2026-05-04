@@ -120,6 +120,7 @@
   .rnd-badge .num { font-size: 18px; font-weight: 800; margin-top: 2px; letter-spacing: 0; }
   .rnd-badge.final { background: var(--gold); color: var(--navy); }
   .rnd-badge.result { background: #2e5a1e; }
+  .rnd-badge.past { background: #9E9E9E; }
 
   /* DATE/TIME BLOCK */
   .date-block { flex-shrink: 0; width: 74px; line-height: 1.25; }
@@ -270,14 +271,50 @@ const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) =>
 let currentTeam = null; // teamId or null
 let fixturesData = null;
 
+// ── venue display ─────────────────────────────────────────────────────────────
+
+// Known ground → suburb. Keys are ground names after stripping pitch allocation.
+const VENUE_SUBURBS = {
+  'Bantry Bay Oval':                 'Bantry Bay',
+  'Beauchamp Park':                  'West Pennant Hills',
+  'Eric Tweedale Field':             'Granville',
+  'Hassall Park':                    'Rydalmere',
+  'James Morgan Reserve':            'Kellyville',
+  'Keirle Park':                     'Balmain',
+  'Lofberg Oval':                    'North Ryde',
+  'Mark Taylor Oval':                'Waitara',
+  'Mark Taylor Oval (Waitara Oval)': 'Waitara',
+  'Melwood Oval':                    'Putney',
+  'Nagle Park':                      'Balmain',
+  'North Narrabeen Reserve':         'Narrabeen',
+  'Peakhurst Oval':                  'Peakhurst',
+  'Porter Reserve':                  'Meadowbank',
+  'Rawson Oval':                     'Penshurst',
+  'Ryde Park':                       'Ryde',
+  'Tantallon Oval':                  'Lane Cove North',
+  'Taplin Park':                     'Pemulwuy',
+  'Tryon Oval':                      'Ryde',
+  'Tunks Park':                      'Cammeray',
+  'Wakehurst Rugby Park':            'Brookvale',
+  'Woollahra Oval':                  'Woollahra',
+};
+
+function displayLocation(rawVenue) {
+  if (!rawVenue) return rawVenue;
+  // Strip Minis pitch allocation suffix: "Tryon Oval TT1 (U6/U7)" → "Tryon Oval"
+  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
+  const suburb = VENUE_SUBURBS[clean];
+  return suburb ? `${clean}, ${suburb}` : clean;
+}
+
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
 }
 
-function mapsLink(venue) {
-  return `https://maps.google.com/?q=${encodeURIComponent(venue + ', Sydney NSW')}`;
+function mapsLink(location) {
+  return `https://maps.google.com/?q=${encodeURIComponent(location + ', Sydney NSW')}`;
 }
 
 function shortTeamName(name) {
@@ -318,14 +355,19 @@ function scoreClass(match) {
 // ── rendering ─────────────────────────────────────────────────────────────────
 
 function renderMatch(match, isNextUp) {
-  const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
-  const opponent = isLaneCove(match.home) ? match.away : match.home;
-  const isHome   = match.venue.toLowerCase().includes('tantallon');
-  const isResult = match.type === 'result';
-  const isFinal  = match.round?.includes('13');
+  const lcTeam        = isLaneCove(match.home) ? match.home : match.away;
+  const opponent      = isLaneCove(match.home) ? match.away : match.home;
+  const isHome        = match.venue.toLowerCase().includes('tantallon');
+  const isResult      = match.type === 'result';
+  const isPastFixture = !isResult && new Date(match.dateTime) < new Date();
+  const isFinal       = match.round?.includes('13');
 
   const roundNum = (match.round || '').replace('Round ', '');
-  const badgeCls = isResult ? 'rnd-badge result' : isFinal ? 'rnd-badge final' : 'rnd-badge';
+  const badgeCls = isResult      ? 'rnd-badge result'
+                 : isPastFixture ? 'rnd-badge past'
+                 : isFinal       ? 'rnd-badge final'
+                 :                 'rnd-badge';
+  const badgeLabel = isResult ? 'RES' : isPastFixture ? 'DONE' : 'RND';
 
   const sc = scoreClass(match);
   const resultLabel = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
@@ -336,13 +378,14 @@ function renderMatch(match, isNextUp) {
   const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am'; // API sometimes lacks time
 
+  const loc    = displayLocation(match.venue);
   const anchor = rowId(match);
 
   return `
     <div class="row${isNextUp ? ' next-up' : ''}" id="${anchor}">
       <a class="row-anchor" href="#${anchor}" title="Copy link">#</a>
       <div class="${badgeCls}">
-        <span>${isResult ? 'RES' : 'RND'}</span>
+        <span>${badgeLabel}</span>
         <span class="num">${roundNum || '?'}</span>
       </div>
       <div class="date-block">
@@ -354,7 +397,7 @@ function renderMatch(match, isNextUp) {
       <div class="venues">
         <div class="venue">
           <span class="team-pill">${shortTeamName(lcTeam.name)}</span>
-          <a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>
+          <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${loc}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
         </div>
         <div class="venue">
@@ -373,8 +416,8 @@ function render(data, teamId) {
     matches = matches.filter(m => m.home.id === teamId || m.away.id === teamId);
   }
 
-  const results  = [...matches.filter(m => m.type === 'result')].reverse();
-  const upcoming =   matches.filter(m => m.type === 'fixture');
+  const past     = [...matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now)].reverse();
+  const upcoming =   matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now);
 
   let html = '';
 
@@ -382,15 +425,15 @@ function render(data, teamId) {
     html += `<div class="section-header">Upcoming fixtures</div>`;
     let markedNext = false;
     for (const m of upcoming) {
-      const isNext = !markedNext && new Date(m.dateTime) >= now;
+      const isNext = !markedNext;
       if (isNext) markedNext = true;
       html += renderMatch(m, isNext);
     }
   }
 
-  if (results.length > 0) {
-    html += `<div class="section-header">Recent results</div>`;
-    for (const m of results) html += renderMatch(m, false);
+  if (past.length > 0) {
+    html += `<div class="section-header">Completed games</div>`;
+    for (const m of past) html += renderMatch(m, false);
   }
 
   if (matches.length === 0) {
