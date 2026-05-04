@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lane Cove Junior Rugby — Fixtures 2026</title>
+<style>
+  :root {
+    --navy: #021444;
+    --navy-deep: #0A1738;
+    --gold: #F4C842;
+    --gold-soft: #F8E08E;
+    --cream: #FFF6D6;
+    --cream-edge: #F0E2A8;
+    --ink: #1A1A1A;
+    --muted: #6B6B6B;
+    --rule: #E5E5E5;
+    --green: #2E7D4F;
+    --green-soft: #EAF5EE;
+    --row-height: 80px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background: #FAFAFA;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 6px solid var(--gold);
+    gap: 16px;
+  }
+  .header-left { display: flex; align-items: center; gap: 18px; }
+  .crest { width: 64px; height: 78px; overflow: hidden; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+  .crest img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
+  .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -0.5px; }
+  .title-block .tag { font-size: 13px; color: #C9D2E8; font-style: italic; }
+  .header-right { text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2; flex-shrink: 0; }
+  .header-right a { color: #fff; font-weight: 700; }
+
+  /* TOOLBAR */
+  .toolbar {
+    padding: 10px 28px;
+    background: #FFFDF5;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar label { font-size: 12px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; }
+  .toolbar select {
+    font-size: 13px;
+    padding: 5px 10px;
+    border: 1px solid var(--cream-edge);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    min-width: 200px;
+  }
+  .toolbar .updated { margin-left: auto; font-size: 11px; color: var(--muted); }
+
+  /* SECTION HEADER */
+  .section-header {
+    padding: 8px 28px;
+    background: #FFFDF5;
+    border-top: 4px solid var(--gold);
+    border-bottom: 1px solid var(--rule);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  /* ROUND ROW */
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 28px;
+    min-height: var(--row-height);
+    border-bottom: 1px solid var(--rule);
+  }
+  .row:last-child { border-bottom: none; }
+
+  .row.next-up { background: #FFFFF0; border-left: 4px solid var(--gold); }
+
+  /* ROUND BADGE */
+  .rnd-badge {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1;
+  }
+  .rnd-badge .num { font-size: 18px; font-weight: 800; margin-top: 2px; letter-spacing: 0; }
+  .rnd-badge.final { background: var(--gold); color: var(--navy); }
+  .rnd-badge.result { background: #3a5a2a; }
+
+  /* DATE BLOCK */
+  .date-block { flex-shrink: 0; width: 70px; font-size: 13px; line-height: 1.25; }
+  .date-block .dow { text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; color: var(--muted); }
+  .date-block .date { font-size: 17px; font-weight: 700; color: var(--ink); }
+  .date-block .note { font-size: 9px; color: #C2185B; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 2px; }
+  .date-block .note.final { color: var(--navy); }
+
+  /* VENUES */
+  .venues { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .venue { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 1.3; flex-wrap: wrap; }
+
+  .team-pill {
+    background: var(--cream);
+    border: 1px solid var(--cream-edge);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .venue-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted #aaa;
+  }
+  .venue-link:hover { color: var(--navy); border-bottom-color: var(--navy); }
+
+  .home-pill {
+    background: var(--gold); color: var(--navy);
+    font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 3px;
+    letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
+  }
+
+  .score-pill {
+    font-weight: 800; font-size: 13px; color: var(--ink);
+    margin-left: auto; white-space: nowrap;
+  }
+  .score-pill.win { color: var(--green); }
+  .score-pill.loss { color: #b71c1c; }
+  .score-pill.draw { color: var(--muted); }
+
+  /* OPPONENT */
+  .opponent { color: var(--muted); font-size: 12px; }
+
+  /* REST ROW */
+  .row.rest { background: #F7F7F7; }
+  .row.rest .rest-mark { width: 50px; text-align: center; color: #BDBDBD; font-size: 20px; font-weight: 300; flex-shrink: 0; }
+  .row.rest .rest-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .row.rest .rest-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* EMPTY STATE */
+  .empty { padding: 40px 28px; text-align: center; color: var(--muted); font-size: 14px; }
+
+  /* FOOTER */
+  .footer-note {
+    padding: 12px 28px; text-align: center; font-size: 11px;
+    color: var(--muted); background: #FAFAFA; border-top: 1px solid var(--rule); letter-spacing: 0.5px;
+  }
+  .footer-note a { color: var(--navy); }
+
+  @media (max-width: 600px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    .header-right { text-align: left; }
+    .row { padding: 10px 16px; gap: 10px; }
+    .toolbar { padding: 10px 16px; }
+    .section-header { padding: 8px 16px; }
+    .footer-note { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="crest">
+        <img
+          src="https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          onerror="this.style.display='none'"
+          alt="Lane Cove Junior Rugby crest">
+      </div>
+      <div class="title-block">
+        <div class="eyebrow">Lane Cove Junior Rugby</div>
+        <h1>Fixtures &amp; Results 2026</h1>
+        <div class="tag">Live from Rugby Xplorer</div>
+      </div>
+    </div>
+    <div class="header-right">
+      Pitch numbers, kick-off times &amp; opponents<br>
+      <a href="https://xplorer.rugby/lcjru-/fixtures-results?team=All&comp=All&season=2026&tab=Fixtures"
+         target="_blank" rel="noopener">check Rugby Xplorer each week</a>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <label for="team-filter">Team</label>
+    <select id="team-filter">
+      <option value="all">All teams</option>
+      <optgroup label="Minis">
+        <option value="wjBCCDfvXpx8QivYu">U6 Gold</option>
+        <option value="nXtZPbg5Pb9xgh6Rd">U6 Blue</option>
+        <option value="84q7BEamwEAGPZgc2">U7 Gold</option>
+        <option value="52MoHPFgMFTPppk9H">U7 Blue</option>
+        <option value="azWv34qmnBYrN7atm">U8 Gold</option>
+        <option value="5SyzYzsjmbeaPZsXT">U8 Blue</option>
+        <option value="PyQredZ4NJS2JafcM">U9 Gold</option>
+        <option value="BAczTuGAgyjokt4pJ">U9 Blue</option>
+      </optgroup>
+      <optgroup label="XVs">
+        <option value="ga3nagC9irHRNJXWn">U10</option>
+        <option value="4nA7pxpFZt6gbj347">U11</option>
+        <option value="BPR2bFQZAuLK4CzLD">U12 (w/St Ives)</option>
+        <option value="AX6MBpn8Xva2AmC8N">U13 Gold</option>
+        <option value="SafHgsHsRWsZmAHbq">U13 Blue</option>
+        <option value="42ZRPX8ej8P9co4Ws">U14 Gold</option>
+        <option value="mtDoyNMX26Bm94nuk">U14 (w/Lindfield)</option>
+        <option value="LmZzP4t9h9bdYr9Pt">U15</option>
+      </optgroup>
+    </select>
+    <span class="updated" id="updated-stamp"></span>
+  </div>
+
+  <div id="calendar"></div>
+
+  <div class="footer-note">
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change ·
+    Confirm via <a href="https://xplorer.rugby/lcjru-/fixtures-results" target="_blank" rel="noopener">Rugby Xplorer</a>
+  </div>
+
+</div>
+<script>
+const FIXTURES_URL = './fixtures.json';
+const XPLORER_BASE = 'https://xplorer.rugby/lcjru-/fixtures-results';
+const LC_CREST_PATTERN = '/30901.';
+const AEST_OFFSET = 10; // hours ahead of UTC (approx — ignores DST edge cases)
+
+function isLaneCove(team) {
+  return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
+}
+
+function xplorerLink(teamId) {
+  return `${XPLORER_BASE}?team=${teamId}&comp=All&season=2026&tab=Fixtures`;
+}
+
+function mapsLink(venue) {
+  return `https://maps.google.com/?q=${encodeURIComponent(venue + ', Sydney NSW')}`;
+}
+
+function shortTeamName(name) {
+  return name
+    .replace('Lane Cove Gold ', 'Gold ')
+    .replace('Lane Cove Blue ', 'Blue ')
+    .replace('Lane Cove/', '')
+    .replace('Lane Cove ', '')
+    .replace(' 2026', '')
+    .replace(/\s+\d+$/, ''); // strip trailing age number like "Lane Cove 13" → ""
+}
+
+function toAEST(isoString) {
+  // Convert UTC to AEST (+10) for display purposes
+  const d = new Date(isoString);
+  d.setHours(d.getHours() + AEST_OFFSET);
+  return d;
+}
+
+function formatDay(d) {
+  return d.toLocaleDateString('en-AU', { weekday: 'short', timeZone: 'UTC' });
+}
+function formatDate(d) {
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+function scoreClass(match) {
+  const lcHome = isLaneCove(match.home);
+  const lcScore = lcHome ? Number(match.home.score) : Number(match.away.score);
+  const oppScore = lcHome ? Number(match.away.score) : Number(match.home.score);
+  if (isNaN(lcScore) || isNaN(oppScore)) return '';
+  if (lcScore > oppScore) return 'win';
+  if (lcScore < oppScore) return 'loss';
+  return 'draw';
+}
+
+function renderMatch(match, isNextUp) {
+  const aest = toAEST(match.dateTime);
+  const lcTeam = isLaneCove(match.home) ? match.home : match.away;
+  const opponent = isLaneCove(match.home) ? match.away : match.home;
+  const isHome = isLaneCove(match.home);
+  const isResult = match.type === 'result';
+
+  const roundNum = (match.round || '').replace('Round ', '');
+  const isFinal = match.roundLabel?.toLowerCase().includes('final') ||
+                  match.round?.toLowerCase().includes('13');
+
+  const badgeClass = isResult ? 'rnd-badge result' : isFinal ? 'rnd-badge final' : 'rnd-badge';
+
+  const scoreHtml = isResult && match.home.score !== null
+    ? `<span class="score-pill ${scoreClass(match)}">
+        ${match.home.score} – ${match.away.score}
+       </span>`
+    : '';
+
+  const venueLink = isHome
+    ? `<a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>`
+    : `<a class="venue-link" href="${mapsLink(match.venue)}" target="_blank" rel="noopener">${match.venue}</a>`;
+
+  return `
+    <div class="row${isNextUp ? ' next-up' : ''}">
+      <div class="${badgeClass}">
+        <span>${isResult ? 'RES' : 'RND'}</span>
+        <span class="num">${roundNum || '?'}</span>
+      </div>
+      <div class="date-block">
+        <div class="dow">${formatDay(aest)}</div>
+        <div class="date">${formatDate(aest)}</div>
+        ${isFinal && !isResult ? '<div class="note final">Final Rnd</div>' : ''}
+      </div>
+      <div class="venues">
+        <div class="venue">
+          <span class="team-pill">${shortTeamName(lcTeam.name)}</span>
+          ${venueLink}
+          ${isHome ? '<span class="home-pill">Home</span>' : ''}
+        </div>
+        <div class="venue">
+          <span class="opponent">vs ${opponent.name}</span>
+          ${scoreHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
+function groupBySection(matches) {
+  // Split into sections: results (played), then upcoming rounds
+  const results = matches.filter(m => m.type === 'result').reverse(); // most recent first
+  const upcoming = matches.filter(m => m.type === 'fixture');
+  return { results, upcoming };
+}
+
+function render(data, teamFilter) {
+  const now = new Date();
+
+  let matches = data.matches;
+  if (teamFilter !== 'all') {
+    matches = matches.filter(m => m.home.id === teamFilter || m.away.id === teamFilter);
+  }
+
+  const { results, upcoming } = groupBySection(matches);
+
+  let html = '';
+
+  // UPCOMING
+  if (upcoming.length > 0) {
+    html += `<div class="section-header">Upcoming fixtures</div>`;
+    let markedNext = false;
+    for (const m of upcoming) {
+      const isNext = !markedNext && new Date(m.dateTime) >= now;
+      if (isNext) markedNext = true;
+      html += renderMatch(m, isNext);
+    }
+  }
+
+  // RESULTS
+  if (results.length > 0) {
+    html += `<div class="section-header">Recent results</div>`;
+    for (const m of results) {
+      html += renderMatch(m, false);
+    }
+  }
+
+  if (matches.length === 0) {
+    html = `<div class="empty">No matches found for the selected team.</div>`;
+  }
+
+  document.getElementById('calendar').innerHTML = html;
+}
+
+async function init() {
+  const calendar = document.getElementById('calendar');
+  calendar.innerHTML = '<div class="empty">Loading fixtures…</div>';
+
+  let data;
+  try {
+    const res = await fetch(FIXTURES_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    data = await res.json();
+  } catch (err) {
+    calendar.innerHTML = `<div class="empty">Could not load fixtures. ${err.message}</div>`;
+    return;
+  }
+
+  const stamp = document.getElementById('updated-stamp');
+  const updated = new Date(data.updated);
+  stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney' })} AEST`;
+
+  const select = document.getElementById('team-filter');
+  select.addEventListener('change', () => render(data, select.value));
+  render(data, 'all');
+}
+
+init();
+</script>
+</body>
+</html>

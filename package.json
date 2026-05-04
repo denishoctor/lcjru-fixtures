@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "fetch": "node scripts/fetch-fixtures.mjs"
+    "fetch": "node scripts/fetch-fixtures.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:api": "node --test tests/api.test.mjs",
+    "test:json": "node --test tests/fixtures-json.test.mjs"
   },
   "engines": {
     "node": ">=18"
