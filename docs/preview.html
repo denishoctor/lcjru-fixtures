@@ -265,7 +265,7 @@
   .venue-link:hover span { border-bottom-color: var(--navy); }
   .icon-pin { width: 12px; height: 12px; fill: #bbb; flex-shrink: 0; transition: fill .12s; }
   .venue-link:hover .icon-pin { fill: var(--navy); }
-  .pitch-line { display: flex; align-items: center; padding-left: 1px; }
+  .pitch-on { font-size: 11px; color: var(--muted); white-space: nowrap; }
   .pitch-tag {
     font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
     color: var(--muted); background: #F3F4F6;
@@ -384,7 +384,7 @@
   <div id="calendar"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Updated 3&times; daily
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://www.rugbyxplorer.com.au" target="_blank" rel="noopener">Rugby Xplorer</a>
   </div>
 
 </div>
@@ -679,10 +679,10 @@ function renderMatch(match, isNextUp) {
         <div class="venue">
           <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
           <a class="venue-link" href="${mapsUrl}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>
+          ${pitch ? `<span class="pitch-on">on <span class="pitch-tag">${esc(pitch)}</span></span>` : ''}
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
           ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
-        ${pitch ? `<div class="pitch-line"><span class="pitch-tag">${esc(pitch)}</span></div>` : ''}
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>
           ${scoreHtml}
