@@ -248,7 +248,7 @@
   .date-block .note.final { color: var(--navy); }
 
   /* VENUES */
-  .venues { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .venues { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .venue { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
   .team-pill {
     background: var(--cream); border: 1px solid var(--cream-edge);
@@ -256,8 +256,22 @@
     padding: 2px 8px; border-radius: 3px; letter-spacing: .5px;
     flex-shrink: 0; white-space: nowrap;
   }
-  .venue-link { color: var(--ink); text-decoration: none; border-bottom: 1px dotted #aaa; }
-  .venue-link:hover { color: var(--navy); border-bottom-color: var(--navy); }
+  .venue-link {
+    color: var(--ink); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 3px;
+  }
+  .venue-link span { border-bottom: 1px dotted #bbb; }
+  .venue-link:hover { color: var(--navy); }
+  .venue-link:hover span { border-bottom-color: var(--navy); }
+  .icon-pin { width: 12px; height: 12px; fill: #bbb; flex-shrink: 0; transition: fill .12s; }
+  .venue-link:hover .icon-pin { fill: var(--navy); }
+  .pitch-line { display: flex; align-items: center; padding-left: 1px; }
+  .pitch-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--muted); background: #F3F4F6;
+    border: 1px solid var(--rule); border-radius: 10px;
+    padding: 1px 8px;
+  }
   .home-pill {
     background: var(--gold); color: var(--navy);
     font-size: 9px; font-weight: 800;
@@ -387,12 +401,40 @@ let fixturesData = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
 
-function displayLocation(rawVenue) {
-  if (!rawVenue) return rawVenue;
-  // Strip Minis pitch allocation suffix: "Tryon Oval TT1 (U6/U7)" → "Tryon Oval"
-  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUES[clean]?.suburb;
-  return suburb ? `${clean}, ${suburb}` : clean;
+const PIN_SVG = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
+
+function parseVenue(rawVenue) {
+  if (!rawVenue) return { display: '', pitch: null, mapsUrl: '#' };
+
+  // Minis: "Tryon Oval TT1 (U6/U7)" → base="Tryon Oval", pitch="TT1"
+  const miniMatch = rawVenue.match(/^(.+?) ((TT|M)\d+)\s*\([^)]+\)$/);
+  if (miniMatch) {
+    const base = miniMatch[1].trim();
+    const pitch = miniMatch[2];
+    const v = VENUES[base];
+    const display = v?.suburb ? `${base}, ${v.suburb}` : base;
+    return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
+  }
+
+  // Exact lookup first; then try stripping trailing field number (e.g. "Field 2")
+  let base = rawVenue.trim();
+  let pitch = null;
+  let v = VENUES[base];
+  if (!v) {
+    const fieldMatch = base.match(/^(.+?) (\d+)$/);
+    if (fieldMatch && VENUES[fieldMatch[1]]) {
+      base  = fieldMatch[1];
+      pitch = `Field ${fieldMatch[2]}`;
+      v     = VENUES[base];
+    }
+  }
+
+  const display = v?.suburb ? `${base}, ${v.suburb}` : base;
+  return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
+}
+
+function _genericMapsUrl(display) {
+  return `https://maps.google.com/?q=${encodeURIComponent(display + ', Sydney NSW')}`;
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -403,14 +445,6 @@ function esc(str) {
 
 function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
-}
-
-function mapsLink(rawVenue) {
-  if (!rawVenue) return '#';
-  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  if (VENUES[clean]?.mapsUrl) return VENUES[clean].mapsUrl;
-  const loc = VENUES[clean]?.suburb ? `${clean}, ${VENUES[clean].suburb}` : clean;
-  return `https://maps.google.com/?q=${encodeURIComponent(loc + ', Sydney NSW')}`;
 }
 
 function shortTeamName(name) {
@@ -625,7 +659,7 @@ function renderMatch(match, isNextUp) {
   const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am'; // API sometimes lacks time
 
-  const loc    = displayLocation(match.venue);
+  const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
   return `
@@ -644,10 +678,11 @@ function renderMatch(match, isNextUp) {
       <div class="venues">
         <div class="venue">
           <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
-          <a class="venue-link" href="${mapsLink(match.venue ?? '')}" target="_blank" rel="noopener">${esc(loc)}</a>
+          <a class="venue-link" href="${mapsUrl}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
           ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
+        ${pitch ? `<div class="pitch-line"><span class="pitch-tag">${esc(pitch)}</span></div>` : ''}
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>
           ${scoreHtml}
