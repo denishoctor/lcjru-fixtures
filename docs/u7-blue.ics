@@ -9,27 +9,27 @@ X-WR-TIMEZONE:Australia/Sydney
 BEGIN:VEVENT
 UID:lcjru-74537e4b47736fac6-u7-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260505T081029Z
-LAST-MODIFIED:20260505T081029Z
+DTSTAMP:20260505T225911Z
+LAST-MODIFIED:20260505T225911Z
 DTSTART;TZID=Australia/Sydney:20260503T092000
 DTEND;TZID=Australia/Sydney:20260503T102000
 SUMMARY:U7 Blue vs St Ives Yellow 7 | RND 1
-LOCATION:Tryon Oval\, Ryde\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 7 vs St Ives Yellow 7\n📍 Tryon Oval\, Ry
- de\n📅 Round 1 · Sun\, 3 May · 9:20am AEST\n🏆 SJRU Minis U7 Tri Tim
- e Sunday\n\nℹ️ Venues and times may change. This calendar updates auto
- matically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs a
- fter a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u7-bl
- ue\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 Tryon Oval\, Ryd
- e  ⏰ 8:40am  vs Wakehurst Warthogs 7\n(Their separate game — come chee
- r them on!)
+LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Blue 7 vs St Ives Yellow 7\n📍 Tryon Oval\, Ea
+ st Lindfield\n📅 Round 1 · Sun\, 3 May · 9:20am AEST\n🏆 SJRU Minis 
+ U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar up
+ dates automatically\n(Apple Calendar: ~every hour · Google Calendar: up t
+ o 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtu
+ res/#u7-blue\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 Tryon 
+ Oval\, East Lindfield  ⏰ 8:40am  vs Wakehurst Warthogs 7\n(Their separat
+ e game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-blue
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-8a624574827d00c3f-u7-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260505T081029Z
-LAST-MODIFIED:20260505T081029Z
+DTSTAMP:20260505T225911Z
+LAST-MODIFIED:20260505T225911Z
 DTSTART;TZID=Australia/Sydney:20260510T084000
 DTEND;TZID=Australia/Sydney:20260510T094000
 SUMMARY:U7 Blue vs Norths Pirates Gold 7 | RND 2
@@ -47,39 +47,39 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-9e89c2486a9270261-u7-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260505T081029Z
-LAST-MODIFIED:20260505T081029Z
+DTSTAMP:20260505T225911Z
+LAST-MODIFIED:20260505T225911Z
 DTSTART;TZID=Australia/Sydney:20260517T100000
 DTEND;TZID=Australia/Sydney:20260517T110000
 SUMMARY:U7 Blue vs Lane Cove Blue 7 | RND 3
-LOCATION:Wakehurst Rugby Park\, Brookvale\, Sydney NSW
+LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 7 vs Lane Cove Blue 7\n📍 Wakehurst Rugby
-  Park\, Brookvale\n📅 Round 3 · Sun\, 17 May · 10:00am AEST\n🏆 SJRU
-  Minis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This cale
- ndar updates automatically\n(Apple Calendar: ~every hour · Google Calenda
- r: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjr
- u-fixtures/#u7-blue\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍
-  Wakehurst Rugby Park\, Brookvale  ⏰ 10:00am  vs Lane Cove Blue 7\n(Thei
- r separate game — come cheer them on!)
+  Park\, Belrose\n📅 Round 3 · Sun\, 17 May · 10:00am AEST\n🏆 SJRU M
+ inis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calend
+ ar updates automatically\n(Apple Calendar: ~every hour · Google Calendar:
+  up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-
+ fixtures/#u7-blue\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 W
+ akehurst Rugby Park\, Belrose  ⏰ 10:00am  vs Lane Cove Blue 7\n(Their se
+ parate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-blue
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-9eaf17e0e8caf7ecc-u7-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260505T081029Z
-LAST-MODIFIED:20260505T081029Z
+DTSTAMP:20260505T225911Z
+LAST-MODIFIED:20260505T225911Z
 DTSTART;TZID=Australia/Sydney:20260524T100000
 DTEND;TZID=Australia/Sydney:20260524T110000
 SUMMARY:U7 Blue vs Chatswood Gold 7 | RND 4
-LOCATION:Beauchamp Park\, West Pennant Hills\, Sydney NSW
+LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Blue 7 vs Chatswood Gold 7\n📍 Beauchamp Park\
- , West Pennant Hills\n📅 Round 4 · Sun\, 24 May · 10:00am AEST\n🏆 S
- JRU Minis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This c
- alendar updates automatically\n(Apple Calendar: ~every hour · Google Cale
- ndar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/l
- cjru-fixtures/#u7-blue\n\n---\nAlso playing today — Lane Cove Gold 7:\n
- 📍 Beauchamp Park\, West Pennant Hills  ⏰ 9:20am  vs KWP Blue 7\n(Thei
- r separate game — come cheer them on!)
+ , Chatswood\n📅 Round 4 · Sun\, 24 May · 10:00am AEST\n🏆 SJRU Minis
+  U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar u
+ pdates automatically\n(Apple Calendar: ~every hour · Google Calendar: up 
+ to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixt
+ ures/#u7-blue\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 Beauc
+ hamp Park\, Chatswood  ⏰ 9:20am  vs KWP Blue 7\n(Their separate game —
+  come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-blue
 END:VEVENT
 END:VCALENDAR
