@@ -315,7 +315,7 @@
 const FIXTURES_URL = './fixtures.json';
 const LC_CREST_PATTERN = '/30901.';
 
-const { TEAM_SLUGS, VENUE_SUBURBS, FINAL_ROUND } = window.LCJRU_CONFIG;
+const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
 let currentTeam = null; // teamId or null
@@ -327,7 +327,7 @@ function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
   // Strip Minis pitch allocation suffix: "Tryon Oval TT1 (U6/U7)" → "Tryon Oval"
   const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUE_SUBURBS[clean];
+  const suburb = VENUES[clean]?.suburb;
   return suburb ? `${clean}, ${suburb}` : clean;
 }
 
@@ -341,8 +341,12 @@ function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
 }
 
-function mapsLink(location) {
-  return `https://maps.google.com/?q=${encodeURIComponent(location + ', Sydney NSW')}`;
+function mapsLink(rawVenue) {
+  if (!rawVenue) return '#';
+  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
+  if (VENUES[clean]?.mapsUrl) return VENUES[clean].mapsUrl;
+  const loc = VENUES[clean]?.suburb ? `${clean}, ${VENUES[clean].suburb}` : clean;
+  return `https://maps.google.com/?q=${encodeURIComponent(loc + ', Sydney NSW')}`;
 }
 
 function shortTeamName(name) {
@@ -447,7 +451,7 @@ function renderMatch(match, isNextUp) {
       <div class="venues">
         <div class="venue">
           <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
-          <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${esc(loc)}</a>
+          <a class="venue-link" href="${mapsLink(match.venue ?? '')}" target="_blank" rel="noopener">${esc(loc)}</a>
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
           ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>

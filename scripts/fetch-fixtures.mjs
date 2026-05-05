@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import {
   SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
-  TEAM_SLUGS, VENUE_SUBURBS, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
+  TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
 } from './config.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -199,7 +199,7 @@ function formatChanges(changes) {
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
   const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUE_SUBURBS[clean];
+  const suburb = VENUES[clean]?.suburb;
   return suburb ? `${clean}, ${suburb}` : clean;
 }
 
@@ -449,7 +449,7 @@ async function main() {
     `  SITE_URL: ${JSON.stringify(SITE_URL)},`,
     `  FINAL_ROUND: ${FINAL_ROUND},`,
     `  TEAM_SLUGS: ${JSON.stringify(TEAM_SLUGS, null, 2).replace(/\n/g, '\n  ')},`,
-    `  VENUE_SUBURBS: ${JSON.stringify(VENUE_SUBURBS, null, 2).replace(/\n/g, '\n  ')},`,
+    `  VENUES: ${JSON.stringify(VENUES, null, 2).replace(/\n/g, '\n  ')},`,
     '};',
     '',
   ].join('\n');
