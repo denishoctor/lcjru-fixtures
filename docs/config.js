@@ -24,7 +24,7 @@ window.LCJRU_CONFIG = {
   },
   VENUES: {
     "AR Hurst Reserve": {
-      "suburb": null,
+      "suburb": "Sylvania",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=AR+Hurst+Reserve%2C+The+Esplanade%2C+Sylvania+NSW+2224%2C+Australia"
     },
     "Bantry Bay Oval": {
@@ -36,7 +36,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia"
     },
     "Eric Tweedale Field": {
-      "suburb": null,
+      "suburb": "Merrylands",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia"
     },
     "Hassall Park": {
@@ -48,7 +48,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=James+Morgan+Reserve+Fisher+Rd+N+%26+Carawa+Rd%2C+Cromer+NSW+2099%2C+Australia"
     },
     "Keirle Park": {
-      "suburb": null,
+      "suburb": "Manly",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia"
     },
     "Lofberg Oval": {
@@ -68,27 +68,27 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia"
     },
     "Nagle Park": {
-      "suburb": null,
+      "suburb": "Maroubra",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nagle+Park%2C+Maroubra+NSW+2035%2C+Australia"
     },
     "North Narrabeen Reserve": {
-      "suburb": null,
+      "suburb": "Narrabeen",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=North+Narrabeen+Reserve%2C+Pittwater+Rd%2C+Warriewood+NSW+2102%2C+Australia"
     },
     "Peakhurst Oval": {
-      "suburb": null,
+      "suburb": "Peakhurst",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Peakhurst+Park%2C+Peakhurst+NSW+2210%2C+Australia"
     },
     "Porter Reserve": {
-      "suburb": null,
+      "suburb": "Newport",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Porter+Reserve%2C+Burke+St%2C+Newport+NSW+2106%2C+Australia"
     },
     "Rawson Oval": {
-      "suburb": null,
+      "suburb": "Mosman",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rawson+Oval%2C+Cross+St%2C+Mosman+NSW+2088%2C+Australia"
     },
     "Ryde Park": {
-      "suburb": null,
+      "suburb": "Ryde",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ryde+Park%2C+Argyle+Ave%2C+Ryde+NSW+2112%2C+Australia"
     },
     "Tantallon Oval": {
@@ -96,7 +96,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia"
     },
     "Taplin Park": {
-      "suburb": null,
+      "suburb": "Drummoyne",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Taplin+Park%2C+Bayswater+St%2C+Drummoyne+NSW+2047%2C+Australia"
     },
     "Tryon Oval": {
@@ -112,7 +112,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Wakehurst+Rugby+Park+Forest+Way+%26+Waldon+Rd%2C+Belrose+NSW+2085%2C+Australia"
     },
     "Woollahra Oval": {
-      "suburb": null,
+      "suburb": "Rose Bay",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Woollahra+Oval%2C+50+O%27Sullivan+Rd%2C+Rose+Bay+NSW+2029%2C+Australia"
     }
   }
