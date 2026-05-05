@@ -58,15 +58,23 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 ## Running locally
 
 ```bash
+# One-time: wire up the pre-push hook (prevents pushing broken generated files)
+git config core.hooksPath .githooks
+
 # Fetch fresh data
 node scripts/fetch-fixtures.mjs
+
+# Validate generated files exist and the page loads data correctly
+npm run check   # fast: asserts all required files present in docs/
+npm run smoke   # starts a local HTTP server and fetches fixtures.json, config.js, index.html, a .ics
 
 # Run tests
 node --test tests/api.test.mjs           # live API integration tests
 node --test tests/fixtures-json.test.mjs # local JSON structure tests
 
-# View the page
-open docs/index.html
+# View the page (requires a server — use smoke.mjs output URL, or any static file server)
+# file:// won't work: fetch('./fixtures.json') is blocked by CORS in browsers
+npm run smoke   # shows the server URL; keep it running with: node -e "..." or use npx serve docs/
 ```
 
 ---

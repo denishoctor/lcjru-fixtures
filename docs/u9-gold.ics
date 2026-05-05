@@ -9,8 +9,8 @@ X-WR-TIMEZONE:Australia/Sydney
 BEGIN:VEVENT
 UID:lcjru-66e3dfc89fdc1326c-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260505T081029Z
+LAST-MODIFIED:20260505T081029Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T120000
 SUMMARY:U9 Gold vs Wakehurst Wizards 9 | RND 1
@@ -20,217 +20,65 @@ DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Wizards 9\n📍 Tryon Oval\,
  day\n\nℹ️ Venues and times may change. This calendar updates automatic
  ally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after 
  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold\n\
- n---\nAlso playing today — Lane Cove Blue 9:\n📍 Tryon Oval\, Ryde  �
- � 11:00am  vs Dee Why Black 9\n(Their separate game — come cheer them on
- !)
+ n---\nAlso playing today — Lane Cove Blue 9:\n📍 Tryon Oval\, Ryde  
+ ⏰ 11:00am  vs Dee Why Black 9\n(Their separate game — come cheer them 
+ on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-efb7d7440d965a092-u9-gold@lcjru.github.io
+UID:lcjru-0b2c167ef859a8a64-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260510T103000
-DTEND;TZID=Australia/Sydney:20260510T113000
+DTSTAMP:20260505T081029Z
+LAST-MODIFIED:20260505T081029Z
+DTSTART;TZID=Australia/Sydney:20260510T110000
+DTEND;TZID=Australia/Sydney:20260510T120000
 SUMMARY:U9 Gold vs Lindfield 9 | RND 2
 LOCATION:Tunks Park\, Cammeray\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 9 vs Lindfield 9\n📍 Tunks Park\, Cammera
- y\n📅 Round 2 · Sun\, 10 May · 10:30am AEST\n🏆 SJRU Minis U9 Sunday
+ y\n📅 Round 2 · Sun\, 10 May · 11:00am AEST\n🏆 SJRU Minis U9 Sunday
  \n\nℹ️ Venues and times may change. This calendar updates automaticall
  y\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a c
  hange)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold\n\n--
- -\nAlso playing today — Lane Cove Blue 9:\n📍 Tunks Park\, Cammeray  �
- �� 9:40am  vs Dee Why White 9\n(Their separate game — come cheer them on
- !)
+ -\nAlso playing today — Lane Cove Blue 9:\n📍 Tunks Park\, Cammeray  
+ ⏰ 9:20am  vs Dee Why White 9\n(Their separate game — come cheer them o
+ n!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-f7a98dd0c5eaf8996-u9-gold@lcjru.github.io
+UID:lcjru-db23e36e06f047271-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260517T080000
-DTEND;TZID=Australia/Sydney:20260517T090000
+DTSTAMP:20260505T081029Z
+LAST-MODIFIED:20260505T081029Z
+DTSTART;TZID=Australia/Sydney:20260517T083000
+DTEND;TZID=Australia/Sydney:20260517T093000
 SUMMARY:U9 Gold vs St Ives 9 | RND 3
 LOCATION:Melwood Oval\, Putney\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 9 vs St Ives 9\n📍 Melwood Oval\, Putney\
- n📅 Round 3 · Sun\, 17 May · 8:00am AEST\n🏆 SJRU Minis U9 Sunday\n\
+ n📅 Round 3 · Sun\, 17 May · 8:30am AEST\n🏆 SJRU Minis U9 Sunday\n\
  nℹ️ Venues and times may change. This calendar updates automatically\n
  (Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a chan
  ge)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold\n\n---\n
  Also playing today — Lane Cove Blue 9:\n📍 Melwood Oval\, Putney  ⏰ 
- 9:40am  vs Forest White 9\n(Their separate game — come cheer them on!)
+ 10:10am  vs Forest White 9\n(Their separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-be997d2a1d7f67db6-u9-gold@lcjru.github.io
+UID:lcjru-e51c088c32001f574-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260524T080000
-DTEND;TZID=Australia/Sydney:20260524T090000
+DTSTAMP:20260505T081029Z
+LAST-MODIFIED:20260505T081029Z
+DTSTART;TZID=Australia/Sydney:20260524T083000
+DTEND;TZID=Australia/Sydney:20260524T093000
 SUMMARY:U9 Gold vs Wakehurst Warriors 9 | RND 4
 LOCATION:Bantry Bay Oval\, Bantry Bay\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Warriors 9\n📍 Bantry Bay 
- Oval\, Bantry Bay\n📅 Round 4 · Sun\, 24 May · 8:00am AEST\n🏆 SJRU 
+ Oval\, Bantry Bay\n📅 Round 4 · Sun\, 24 May · 8:30am AEST\n🏆 SJRU 
  Minis U9 Sunday\n\nℹ️ Venues and times may change. This calendar updat
  es automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 2
  4 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures
  /#u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Bantry Ba
- y Oval\, Bantry Bay  ⏰ 9:40am  vs Chatswood Green 9\n(Their separate gam
- e — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-61881510b2cd3d6df-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260531T080000
-DTEND;TZID=Australia/Sydney:20260531T090000
-SUMMARY:U9 Gold vs Forest Green 9 | RND 5
-LOCATION:Lofberg Oval\, North Ryde\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Forest Green 9\n📍 Lofberg Oval\, No
- rth Ryde\n📅 Round 5 · Sun\, 31 May · 8:00am AEST\n🏆 SJRU Minis U9 
- Sunday\n\nℹ️ Venues and times may change. This calendar updates automa
- tically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs aft
- er a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold
- \n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Lofberg Oval\, Nor
- th Ryde  ⏰ 8:50am  vs Lindfield 9\n(Their separate game — come cheer t
- hem on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-d46f8106c5a1acb5b-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260614T100000
-DTEND;TZID=Australia/Sydney:20260614T110000
-SUMMARY:U9 Gold vs Seaforth Highlanders 9 | RND 6
-LOCATION:James Morgan Reserve\, Kellyville\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Seaforth Highlanders 9\n📍 James Mor
- gan Reserve\, Kellyville\n📅 Round 6 · Sun\, 14 June · 10:00am AEST\n�
- ��� SJRU Minis U9 Sunday\n\nℹ️ Venues and times may change. This calen
- dar updates automatically\n(Apple Calendar: ~every hour · Google Calendar
- : up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru
- -fixtures/#u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 
- James Morgan Reserve\, Kellyville  ⏰ 10:00am  vs Wakehurst Warriors 9\n(
- Their separate game — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-44046bec11e07f54a-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260726T080000
-DTEND;TZID=Australia/Sydney:20260726T090000
-SUMMARY:U9 Gold vs Norths Pirates Black 9 | RND 8
-LOCATION:Beauchamp Park\, West Pennant Hills\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Norths Pirates Black 9\n📍 Beauchamp
-  Park\, West Pennant Hills\n📅 Round 8 · Sun\, 26 July · 8:00am AEST\n
- 🏆 SJRU Minis U9 Sunday\n\nℹ️ Venues and times may change. This cale
- ndar updates automatically\n(Apple Calendar: ~every hour · Google Calenda
- r: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjr
- u-fixtures/#u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍
-  Beauchamp Park\, West Pennant Hills  ⏰ 8:00am  vs Seaforth Highlanders 
- 9\n(Their separate game — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-7ec546fd1f92c2fbe-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260802T080000
-DTEND;TZID=Australia/Sydney:20260802T090000
-SUMMARY:U9 Gold vs Lane Cove Blue 9 | RND 9
-LOCATION:Wakehurst Rugby Park\, Brookvale\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Lane Cove Blue 9\n📍 Wakehurst Rugby
-  Park\, Brookvale\n📅 Round 9 · Sun\, 2 Aug · 8:00am AEST\n🏆 SJRU M
- inis U9 Sunday\n\nℹ️ Venues and times may change. This calendar update
- s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
-  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
- #u9-gold\n\n---\nAlso playing today — Lane Cove Gold 9:\n📍 Wakehurst 
- Rugby Park\, Brookvale  ⏰ 8:00am  vs Lane Cove Blue 9\n(Their separate g
- ame — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-a9c8ac5b471392ebc-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260809T080000
-DTEND;TZID=Australia/Sydney:20260809T090000
-SUMMARY:U9 Gold vs Dee Why Black 9 | RND 10
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Dee Why Black 9\n📍 Tantallon Oval\,
-  Lane Cove North\n📅 Round 10 · Sun\, 9 Aug · 8:00am AEST\n🏆 SJRU M
- inis U9 Sunday\n\nℹ️ Venues and times may change. This calendar update
- s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
-  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
- #u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Tantallon 
- Oval\, Lane Cove North  ⏰ 8:00am  vs Chatswood Gold 9\n(Their separate g
- ame — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-21bfb852207fe347e-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260816T103000
-DTEND;TZID=Australia/Sydney:20260816T113000
-SUMMARY:U9 Gold vs Chatswood Green 9 | RND 11
-LOCATION:Mark Taylor Oval\, Waitara\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Chatswood Green 9\n📍 Mark Taylor Ov
- al\, Waitara\n📅 Round 11 · Sun\, 16 Aug · 10:30am AEST\n🏆 SJRU Min
- is U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates 
- automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
- rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
- 9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Mark Taylor 
- Oval\, Waitara  ⏰ 8:00am  vs Norths Pirates Red 9\n(Their separate game 
- — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-8464ca6869ece83d1-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260823T080000
-DTEND;TZID=Australia/Sydney:20260823T090000
-SUMMARY:U9 Gold vs Dee Why White 9 | RND 12
-LOCATION:Beauchamp Park\, West Pennant Hills\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Dee Why White 9\n📍 Beauchamp Park\,
-  West Pennant Hills\n📅 Round 12 · Sun\, 23 Aug · 8:00am AEST\n🏆 SJ
- RU Minis U9 Sunday\n\nℹ️ Venues and times may change. This calendar up
- dates automatically\n(Apple Calendar: ~every hour · Google Calendar: up t
- o 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtu
- res/#u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Beauch
- amp Park\, West Pennant Hills  ⏰ 8:50am  vs KWP Blue 9\n(Their separate 
- game — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-740032f9c0086195c-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260830T080000
-DTEND;TZID=Australia/Sydney:20260830T090000
-SUMMARY:U9 Gold vs Norths Pirates Red 9 | RND 13
-LOCATION:Hassall Park\, Rydalmere\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Norths Pirates Red 9\n📍 Hassall Par
- k\, Rydalmere\n📅 Round 13 · Sun\, 30 Aug · 8:00am AEST\n🏆 SJRU Min
- is U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates 
- automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
- rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
- 9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Hassall Park
- \, Rydalmere  ⏰ 8:50am  vs Wakehurst Wizards 9\n(Their separate game —
-  come cheer them on!)
+ y Oval\, Bantry Bay  ⏰ 10:10am  vs Chatswood Green 9\n(Their separate ga
+ me — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 END:VCALENDAR
