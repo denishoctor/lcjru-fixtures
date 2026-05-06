@@ -89,7 +89,7 @@ docs/
   config.js                   Generated — browser-loadable version of scripts/config.mjs
   fixtures.json               Generated — committed by CI
   index.html                  Single-file UI (no build step)
-  preview.html                Staging area for new features (see Development below)
+  staging-index.html          Staging area for new features (see Development below)
   *.ics                       Per-team iCalendar feeds — committed by CI
 tests/
   api.test.mjs                Live API integration tests
@@ -102,15 +102,15 @@ tests/
 
 ## Development
 
-**Staging convention:** `preview.html` is a development sandbox. New UI features are
-tried there before being promoted to `index.html`. It is served at `/preview.html` but
-not linked from the main page.
+**Staging convention:** `staging-index.html` is a full copy of `index.html` used as a
+development sandbox. New UI features are tried there before being promoted to `index.html`.
+It is served at `/staging-index.html` but not linked from the main page.
 
-**Promoting a feature from preview to production:**
-1. Copy the relevant functions and CSS into `index.html`
+**Promoting a feature from staging to production:**
+1. Develop and verify the feature in `staging-index.html`
 2. Run `node --test tests/fixtures-json.test.mjs` to verify nothing broke
 3. Open both pages locally and confirm the feature works
-4. Remove the staging code from `preview.html`
+4. Copy the changes across to `index.html`, then reset `staging-index.html` to match
 
 **Adding a new season (annual):** Update `SEASON`, and if team IDs change also update
 `TEAM_SLUGS` and `LCJRU_TEAM_IDS` — all in `scripts/config.mjs`. Run the fetch script
