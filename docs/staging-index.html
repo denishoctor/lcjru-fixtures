@@ -92,6 +92,11 @@
   }
   .cal-links a:hover { text-decoration: underline; }
   .cal-sep { font-size: 10px; color: var(--muted); }
+  .cal-android-hint {
+    display: none; font-size: 10px; color: var(--muted); margin: 2px 0 0;
+  }
+  .cal-android-hint.visible { display: block; }
+  .cal-android-hint a { color: var(--navy); }
 
   /* WELCOME SCREEN */
   .welcome {
@@ -308,12 +313,13 @@
         <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Copy link</button>
         <div class="cal-links" id="cal-links">
           📅
-          <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <a id="cal-ical" href="#">iCal / webcal</a>
           <span class="cal-sep">·</span>
-          <a id="cal-apple" href="#">Apple / iCal</a>
+          <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
           <button class="copy-link-btn" id="cal-copy-ics" onclick="copyIcsUrl()">Copy ICS link</button>
         </div>
+        <p class="cal-android-hint" id="cal-android-hint">Android: tap <strong>iCal&nbsp;/&nbsp;webcal</strong> (Samsung Calendar, Outlook, <a href="https://play.google.com/store/apps/details?id=at.bitfire.icsdroid" target="_blank" rel="noopener">ICSx⁵</a>) for one-tap subscribe — or copy the link and paste into Google Calendar → Settings → Other calendars → From URL.</p>
         <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
     </div>
@@ -566,22 +572,26 @@ function selectTeam(teamId, pushState = true) {
   });
 
   // Show/hide clear button, copy link, and calendar subscribe links
+  const isAndroid = /Android/i.test(navigator.userAgent);
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
   document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
+  document.getElementById('cal-android-hint').classList.toggle('visible', !!teamId && isAndroid);
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
     const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
     currentIcsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    document.getElementById('cal-ical').href = webcalUrl;
     const googleCalEl = document.getElementById('cal-google');
-    if (/Android/i.test(navigator.userAgent)) {
+    if (isAndroid) {
       googleCalEl.href = 'https://calendar.google.com/calendar/r/settings/addbyurl';
-      googleCalEl.textContent = 'Google Calendar (open settings)';
+      googleCalEl.textContent = 'Google Calendar (web)';
+      googleCalEl.title = 'Tap Copy ICS link first, then paste into the form that opens';
     } else {
       googleCalEl.href = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
       googleCalEl.textContent = 'Google Calendar';
+      googleCalEl.title = '';
     }
-    document.getElementById('cal-apple').href = webcalUrl;
   }
 
   // Update hash (without triggering hashchange listener)

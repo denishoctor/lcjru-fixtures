@@ -235,39 +235,34 @@ test('UIDs are unique across all ICS feeds', () => {
   assert.ok(true);
 });
 
-// ── HTML: Google Calendar link uses https:// ──────────────────────────────────
+// ── HTML: calendar subscription UI ───────────────────────────────────────────
 
-test('index.html Google Calendar uses webcal:// cid= on desktop and settings URL on Android', () => {
+test('index.html has correct calendar subscription UI', () => {
   const htmlPath = join(DOCS, 'index.html');
   assert.ok(existsSync(htmlPath), 'docs/index.html does not exist');
   const html = readFileSync(htmlPath, 'utf8');
-  // Desktop: cid= must encode a webcal:// URL (https:// breaks after Google's /u/0/ redirect)
-  assert.ok(
-    html.includes("encodeURIComponent(webcalUrl)"),
-    'index.html: desktop Google Calendar cid= must encode a webcal:// URL'
-  );
-  // Android: must redirect to web settings page (native app intercepts cid= links
-  // and shows fake success without registering the subscription)
-  assert.ok(
-    html.includes('settings/addbyurl'),
-    'index.html: Android path must link to calendar.google.com settings/addbyurl'
-  );
-  // Copy ICS link button must be present for Android users to paste into settings
-  assert.ok(
-    html.includes('copyIcsUrl'),
-    'index.html: copyIcsUrl function must exist for Android copy-and-paste flow'
-  );
-  assert.ok(
-    html.includes('currentIcsUrl'),
-    'index.html: currentIcsUrl variable must be set for the copy button'
-  );
+  // webcal link uses generic label visible on all platforms
+  assert.ok(html.includes('id="cal-ical"'),   'index.html: webcal link must use id="cal-ical"');
+  assert.ok(html.includes('iCal / webcal'),   'index.html: webcal link must be labelled "iCal / webcal"');
+  // Desktop Google Calendar: cid= encodes webcal:// (https:// breaks after /u/0/ redirect)
+  assert.ok(html.includes("encodeURIComponent(webcalUrl)"), 'index.html: desktop cid= must encode webcal://');
+  // Android: link to web settings page (native app shows fake success, never registers subscription)
+  assert.ok(html.includes('settings/addbyurl'), 'index.html: Android path must link to settings/addbyurl');
+  // Android hint paragraph must exist
+  assert.ok(html.includes('cal-android-hint'), 'index.html: Android hint element must exist');
+  assert.ok(html.includes('ICSx'),             'index.html: Android hint must mention ICSx⁵');
+  // Copy button must exist
+  assert.ok(html.includes('copyIcsUrl'),       'index.html: copyIcsUrl function must exist');
+  assert.ok(html.includes('currentIcsUrl'),    'index.html: currentIcsUrl variable must exist');
 });
 
-test('staging-index.html Google Calendar uses same Android-safe pattern', () => {
+test('staging-index.html has correct calendar subscription UI', () => {
   const htmlPath = join(DOCS, 'staging-index.html');
   if (!existsSync(htmlPath)) return;
   const html = readFileSync(htmlPath, 'utf8');
-  assert.ok(html.includes("encodeURIComponent(webcalUrl)"), 'staging-index.html: desktop cid= must use webcal://');
-  assert.ok(html.includes('settings/addbyurl'),             'staging-index.html: Android path must use settings/addbyurl');
-  assert.ok(html.includes('copyIcsUrl'),                    'staging-index.html: copyIcsUrl must exist');
+  assert.ok(html.includes('id="cal-ical"'),                  'staging-index.html: webcal link must use id="cal-ical"');
+  assert.ok(html.includes("encodeURIComponent(webcalUrl)"),  'staging-index.html: desktop cid= must encode webcal://');
+  assert.ok(html.includes('settings/addbyurl'),              'staging-index.html: Android path must use settings/addbyurl');
+  assert.ok(html.includes('cal-android-hint'),               'staging-index.html: Android hint element must exist');
+  assert.ok(html.includes('copyIcsUrl'),                     'staging-index.html: copyIcsUrl must exist');
 });
