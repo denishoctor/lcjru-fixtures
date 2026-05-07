@@ -92,11 +92,7 @@
   }
   .cal-links a:hover { text-decoration: underline; }
   .cal-sep { font-size: 10px; color: var(--muted); }
-  .cal-android-hint {
-    display: none; font-size: 10px; color: var(--muted); margin: 2px 0 0;
-  }
-  .cal-android-hint.visible { display: block; }
-  .cal-android-hint a { color: var(--navy); }
+
 
   /* WELCOME SCREEN */
   .welcome {
@@ -319,7 +315,6 @@
           <span class="cal-sep">·</span>
           <button class="copy-link-btn" id="cal-copy-ics" onclick="copyIcsUrl()">Copy ICS link</button>
         </div>
-        <p class="cal-android-hint" id="cal-android-hint">Android: tap <strong>iCal&nbsp;/&nbsp;webcal</strong> (Samsung Calendar, Outlook, <a href="https://play.google.com/store/apps/details?id=at.bitfire.icsdroid" target="_blank" rel="noopener">ICSx⁵</a>) for one-tap subscribe — or copy the link and paste into Google Calendar → Settings → Other calendars → From URL.</p>
         <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
     </div>
@@ -576,7 +571,6 @@ function selectTeam(teamId, pushState = true) {
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
   document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
-  document.getElementById('cal-android-hint').classList.toggle('visible', !!teamId && isAndroid);
   document.getElementById('cal-copy-ics').style.display = isAndroid ? 'none' : '';
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];

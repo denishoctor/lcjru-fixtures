@@ -248,9 +248,6 @@ test('index.html has correct calendar subscription UI', () => {
   assert.ok(html.includes("encodeURIComponent(webcalUrl)"), 'index.html: desktop cid= must encode webcal://');
   // Android: link to web settings page (native app shows fake success, never registers subscription)
   assert.ok(html.includes('settings/addbyurl'), 'index.html: Android path must link to settings/addbyurl');
-  // Android hint paragraph must exist
-  assert.ok(html.includes('cal-android-hint'), 'index.html: Android hint element must exist');
-  assert.ok(html.includes('ICSx'),             'index.html: Android hint must mention ICSx⁵');
   // Copy button must exist
   assert.ok(html.includes('copyIcsUrl'),       'index.html: copyIcsUrl function must exist');
   assert.ok(html.includes('currentIcsUrl'),    'index.html: currentIcsUrl variable must exist');
@@ -263,6 +260,5 @@ test('staging-index.html has correct calendar subscription UI', () => {
   assert.ok(html.includes('id="cal-ical"'),                  'staging-index.html: webcal link must use id="cal-ical"');
   assert.ok(html.includes("encodeURIComponent(webcalUrl)"),  'staging-index.html: desktop cid= must encode webcal://');
   assert.ok(html.includes('settings/addbyurl'),              'staging-index.html: Android path must use settings/addbyurl');
-  assert.ok(html.includes('cal-android-hint'),               'staging-index.html: Android hint element must exist');
   assert.ok(html.includes('copyIcsUrl'),                     'staging-index.html: copyIcsUrl must exist');
 });
