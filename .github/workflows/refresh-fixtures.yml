@@ -2,16 +2,8 @@ name: Refresh Fixtures
 
 on:
   schedule:
-    # Weekdays Mon–Fri: hourly 8am–6pm AEST
-    # 8–9am AEST = 22–23 UTC on the *preceding* day (Sun–Thu)
-    - cron: '0 22-23 * * 0,1,2,3,4'
-    # 10am–6pm AEST = 0–8 UTC same day (Mon–Fri)
-    - cron: '0 0-8 * * 1,2,3,4,5'
-    # Weekends Sat–Sun: hourly 5am–6pm AEST
-    # 5–9am AEST = 19–23 UTC on the *preceding* day (Fri–Sat)
-    - cron: '0 19-23 * * 5,6'
-    # 10am–6pm AEST = 0–8 UTC same day (Sat–Sun)
-    - cron: '0 0-8 * * 6,0'
+    - cron: '0 * * * *'   # every hour on the hour, 24/7
+    - cron: '30 * * * *'  # every hour on the half-hour, 24/7
   workflow_dispatch:
 
 jobs:
@@ -29,23 +21,6 @@ jobs:
 
       - name: Fetch fixtures and diff
         run: node scripts/fetch-fixtures.mjs
-
-      - name: Notify via ntfy.sh if fixtures changed
-        if: hashFiles('changes.txt') != ''
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: |
-          # changes.txt exists but may be empty (no changes) — only send if non-empty
-          if [ -s changes.txt ] && [ -n "$NTFY_TOPIC" ]; then
-            curl -s \
-              -H "Title: LCJRU Fixture Update" \
-              -H "Priority: high" \
-              -H "Tags: rugby_football,warning" \
-              -H "Content-Type: text/plain; charset=utf-8" \
-              --data-binary @changes.txt \
-              "https://ntfy.sh/$NTFY_TOPIC"
-            echo "✓ Notification sent to ntfy.sh"
-          fi
 
       - name: Commit updated fixtures
         run: |

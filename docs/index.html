@@ -652,7 +652,7 @@ async function init() {
   stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
   })} AEST`;
-  if (staleHours > 4) {
+  if (staleHours > 1) {
     stamp.textContent += ' ⚠ data may be out of date';
     stamp.style.color = '#b71c1c';
   }
