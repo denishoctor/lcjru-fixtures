@@ -237,32 +237,37 @@ test('UIDs are unique across all ICS feeds', () => {
 
 // ── HTML: Google Calendar link uses https:// ──────────────────────────────────
 
-test('index.html Google Calendar link encodes a webcal:// URL in cid= parameter', () => {
+test('index.html Google Calendar uses webcal:// cid= on desktop and settings URL on Android', () => {
   const htmlPath = join(DOCS, 'index.html');
   assert.ok(existsSync(htmlPath), 'docs/index.html does not exist');
   const html = readFileSync(htmlPath, 'utf8');
-  // Google Calendar's cid= endpoint expects webcal:// — using https:// breaks after
-  // Google's account-routing redirect (/u/0/r) decodes the parameter.
+  // Desktop: cid= must encode a webcal:// URL (https:// breaks after Google's /u/0/ redirect)
   assert.ok(
     html.includes("encodeURIComponent(webcalUrl)"),
-    'index.html: Google Calendar cid= must encode a webcal:// URL'
+    'index.html: desktop Google Calendar cid= must encode a webcal:// URL'
+  );
+  // Android: must redirect to web settings page (native app intercepts cid= links
+  // and shows fake success without registering the subscription)
+  assert.ok(
+    html.includes('settings/addbyurl'),
+    'index.html: Android path must link to calendar.google.com settings/addbyurl'
+  );
+  // Copy ICS link button must be present for Android users to paste into settings
+  assert.ok(
+    html.includes('copyIcsUrl'),
+    'index.html: copyIcsUrl function must exist for Android copy-and-paste flow'
   );
   assert.ok(
-    !html.includes("encodeURIComponent(httpsIcsUrl)"),
-    'index.html: Google Calendar cid= must not use httpsIcsUrl — webcal:// is required for the cid= endpoint'
+    html.includes('currentIcsUrl'),
+    'index.html: currentIcsUrl variable must be set for the copy button'
   );
 });
 
-test('staging-index.html Google Calendar link encodes a webcal:// URL in cid= parameter', () => {
+test('staging-index.html Google Calendar uses same Android-safe pattern', () => {
   const htmlPath = join(DOCS, 'staging-index.html');
   if (!existsSync(htmlPath)) return;
   const html = readFileSync(htmlPath, 'utf8');
-  assert.ok(
-    html.includes("encodeURIComponent(webcalUrl)"),
-    'staging-index.html: Google Calendar cid= must encode a webcal:// URL'
-  );
-  assert.ok(
-    !html.includes("encodeURIComponent(httpsIcsUrl)"),
-    'staging-index.html: Google Calendar cid= must not use httpsIcsUrl'
-  );
+  assert.ok(html.includes("encodeURIComponent(webcalUrl)"), 'staging-index.html: desktop cid= must use webcal://');
+  assert.ok(html.includes('settings/addbyurl'),             'staging-index.html: Android path must use settings/addbyurl');
+  assert.ok(html.includes('copyIcsUrl'),                    'staging-index.html: copyIcsUrl must exist');
 });

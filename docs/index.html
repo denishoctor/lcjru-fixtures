@@ -311,6 +311,8 @@
           <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
           <a id="cal-apple" href="#">Apple / iCal</a>
+          <span class="cal-sep">·</span>
+          <button class="copy-link-btn" id="cal-copy-ics" onclick="copyIcsUrl()">Copy ICS link</button>
         </div>
         <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
@@ -545,6 +547,16 @@ function copyTeamLink() {
   });
 }
 
+let currentIcsUrl = '';
+
+function copyIcsUrl() {
+  navigator.clipboard.writeText(currentIcsUrl).then(() => {
+    const btn = document.getElementById('cal-copy-ics');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy ICS link'; }, 2000);
+  });
+}
+
 function selectTeam(teamId, pushState = true) {
   currentTeam = teamId;
 
@@ -560,8 +572,19 @@ function selectTeam(teamId, pushState = true) {
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
     const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
-    document.getElementById('cal-google').href =
-      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
+    currentIcsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    const googleCalEl = document.getElementById('cal-google');
+    if (/Android/i.test(navigator.userAgent)) {
+      // On Android the native Calendar app intercepts calendar.google.com links,
+      // shows a fake "success" but never registers the subscription with Google's
+      // backend. Send users to the web settings page instead — tap "Copy ICS link"
+      // first, then paste the URL into the form that opens.
+      googleCalEl.href = 'https://calendar.google.com/calendar/r/settings/addbyurl';
+      googleCalEl.textContent = 'Google Calendar (open settings)';
+    } else {
+      googleCalEl.href = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
+      googleCalEl.textContent = 'Google Calendar';
+    }
     document.getElementById('cal-apple').href = webcalUrl;
   }
 
