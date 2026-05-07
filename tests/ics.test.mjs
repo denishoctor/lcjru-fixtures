@@ -237,31 +237,32 @@ test('UIDs are unique across all ICS feeds', () => {
 
 // ── HTML: Google Calendar link uses https:// ──────────────────────────────────
 
-test('index.html Google Calendar link uses https:// (not webcal://) in cid= parameter', () => {
+test('index.html Google Calendar link encodes a webcal:// URL in cid= parameter', () => {
   const htmlPath = join(DOCS, 'index.html');
   assert.ok(existsSync(htmlPath), 'docs/index.html does not exist');
   const html = readFileSync(htmlPath, 'utf8');
-  // The cid= value must be built from an https:// URL, not webcal://
+  // Google Calendar's cid= endpoint expects webcal:// — using https:// breaks after
+  // Google's account-routing redirect (/u/0/r) decodes the parameter.
   assert.ok(
-    html.includes('httpsIcsUrl'),
-    'index.html: Google Calendar cid= should be built from httpsIcsUrl (https://), not webcal://'
+    html.includes("encodeURIComponent(webcalUrl)"),
+    'index.html: Google Calendar cid= must encode a webcal:// URL'
   );
   assert.ok(
-    !html.includes("encodeURIComponent(webcalUrl)"),
-    'index.html: Google Calendar cid= must not encode a webcal:// URL — use https:// instead'
+    !html.includes("encodeURIComponent(httpsIcsUrl)"),
+    'index.html: Google Calendar cid= must not use httpsIcsUrl — webcal:// is required for the cid= endpoint'
   );
 });
 
-test('staging-index.html Google Calendar link uses https:// in cid= parameter', () => {
+test('staging-index.html Google Calendar link encodes a webcal:// URL in cid= parameter', () => {
   const htmlPath = join(DOCS, 'staging-index.html');
-  if (!existsSync(htmlPath)) return; // staging file is optional
+  if (!existsSync(htmlPath)) return;
   const html = readFileSync(htmlPath, 'utf8');
   assert.ok(
-    html.includes('httpsIcsUrl'),
-    'staging-index.html: Google Calendar cid= should be built from httpsIcsUrl (https://)'
+    html.includes("encodeURIComponent(webcalUrl)"),
+    'staging-index.html: Google Calendar cid= must encode a webcal:// URL'
   );
   assert.ok(
-    !html.includes("encodeURIComponent(webcalUrl)"),
-    'staging-index.html: Google Calendar cid= must not encode a webcal:// URL'
+    !html.includes("encodeURIComponent(httpsIcsUrl)"),
+    'staging-index.html: Google Calendar cid= must not use httpsIcsUrl'
   );
 });
