@@ -577,6 +577,7 @@ function selectTeam(teamId, pushState = true) {
   document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
   document.getElementById('cal-android-hint').classList.toggle('visible', !!teamId && isAndroid);
+  document.getElementById('cal-copy-ics').style.display = isAndroid ? 'none' : '';
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
     const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
