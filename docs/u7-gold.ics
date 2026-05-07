@@ -28,76 +28,77 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-8f88f1231bf0b65f3-u7-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T051504Z
-LAST-MODIFIED:20260507T044419Z
+DTSTAMP:20260507T061144Z
+LAST-MODIFIED:20260507T061144Z
 DTSTART;TZID=Australia/Sydney:20260503T084000
 DTEND;TZID=Australia/Sydney:20260503T094000
 SUMMARY:U7 Gold vs Wakehurst Warthogs 7 | RND 1
-LOCATION:Tryon Oval\, Sydney NSW
+LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 7 vs Wakehurst Warthogs 7\n📍 Tryon Oval\
- n📅 Round 1 · Sun\, 3 May · 8:40am AEST\n🏆 SJRU Minis U7 Tri Time S
- unday\n\nℹ️ Venues and times may change. This calendar updates automat
- ically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs afte
- r a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u7-gold\
- n\n---\nAlso playing today — Lane Cove Blue 7:\n📍 Tryon Oval  ⏰ 9:2
- 0am  vs St Ives Yellow 7\n(Their separate game — come cheer them on!)
+ , East Lindfield\n📅 Round 1 · Sun\, 3 May · 8:40am AEST\n🏆 SJRU Mi
+ nis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calenda
+ r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
+ up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
+ ixtures/#u7-gold\n\n---\nAlso playing today — Lane Cove Blue 7:\n📍 Tr
+ yon Oval\, East Lindfield  ⏰ 9:20am  vs St Ives Yellow 7\n(Their separat
+ e game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-a6df66e115e14b395-u7-gold@lcjru.github.io
+UID:lcjru-ade833a122b91acac-u7-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T051504Z
-LAST-MODIFIED:20260507T044419Z
+DTSTAMP:20260507T061144Z
+LAST-MODIFIED:20260507T061144Z
 DTSTART;TZID=Australia/Sydney:20260510T092000
 DTEND;TZID=Australia/Sydney:20260510T102000
 SUMMARY:U7 Gold vs Wakehurst Wildcats 7 | RND 2
-LOCATION:Tunks Park\, Sydney NSW
+LOCATION:Tunks Park\, Cammeray\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 7 vs Wakehurst Wildcats 7\n📍 Tunks Park\
- n📅 Round 2 · Sun\, 10 May · 9:20am AEST\n🏆 SJRU Minis U7 Tri Time 
- Sunday\n\nℹ️ Venues and times may change. This calendar updates automa
- tically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs aft
- er a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u7-gold
- \n\n---\nAlso playing today — Lane Cove Blue 7:\n📍 Tunks Park  ⏰ 8:
- 40am  vs Norths Pirates Gold 7\n(Their separate game — come cheer them o
- n!)
+ , Cammeray\n📅 Round 2 · Sun\, 10 May · 9:20am AEST\n🏆 SJRU Minis U
+ 7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar upd
+ ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
+  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
+ es/#u7-gold\n\n---\nAlso playing today — Lane Cove Blue 7:\n📍 Tunks P
+ ark\, Cammeray  ⏰ 8:40am  vs Norths Pirates Gold 7\n(Their separate game
+  — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-e19fe9bfbb822d0c3-u7-gold@lcjru.github.io
+UID:lcjru-191903965db43cf42-u7-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T051504Z
-LAST-MODIFIED:20260507T044419Z
+DTSTAMP:20260507T061144Z
+LAST-MODIFIED:20260507T061144Z
 DTSTART;TZID=Australia/Sydney:20260517T100000
 DTEND;TZID=Australia/Sydney:20260517T110000
 SUMMARY:U7 Gold vs Lane Cove Blue 7 | RND 3
-LOCATION:Wakehurst Rugby Park\, Sydney NSW
+LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 7 vs Lane Cove Blue 7\n📍 Wakehurst Rugby
-  Park\n📅 Round 3 · Sun\, 17 May · 10:00am AEST\n🏆 SJRU Minis U7 Tr
- i Time Sunday\n\nℹ️ Venues and times may change. This calendar updates
-  automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 
- hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#
- u7-gold\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 Wakehurst R
- ugby Park  ⏰ 10:00am  vs Lane Cove Blue 7\n(Their separate game — come
-  cheer them on!)
+  Park\, Belrose\n📅 Round 3 · Sun\, 17 May · 10:00am AEST\n🏆 SJRU M
+ inis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This calend
+ ar updates automatically\n(Apple Calendar: ~every hour · Google Calendar:
+  up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-
+ fixtures/#u7-gold\n\n---\nAlso playing today — Lane Cove Gold 7:\n📍 W
+ akehurst Rugby Park\, Belrose  ⏰ 10:00am  vs Lane Cove Blue 7\n(Their se
+ parate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-45b1580b24a898a55-u7-gold@lcjru.github.io
+UID:lcjru-20a62ce4531249509-u7-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T051504Z
-LAST-MODIFIED:20260507T044419Z
+DTSTAMP:20260507T061144Z
+LAST-MODIFIED:20260507T061144Z
 DTSTART;TZID=Australia/Sydney:20260524T092000
 DTEND;TZID=Australia/Sydney:20260524T102000
 SUMMARY:U7 Gold vs Killara-West Pymble Blue 7 | RND 4
-LOCATION:Beauchamp Park\, Sydney NSW
+LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 7 vs Killara-West Pymble Blue 7\n📍 Beauc
- hamp Park\n📅 Round 4 · Sun\, 24 May · 9:20am AEST\n🏆 SJRU Minis U7
-  Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar upda
- tes automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 
- 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixture
- s/#u7-gold\n\n---\nAlso playing today — Lane Cove Blue 7:\n📍 Beaucham
- p Park  ⏰ 10:00am  vs Chatswood Gold 7\n(Their separate game — come ch
- eer them on!)
+ hamp Park\, Chatswood\n📅 Round 4 · Sun\, 24 May · 9:20am AEST\n🏆 S
+ JRU Minis U7 Tri Time Sunday\n\nℹ️ Venues and times may change. This c
+ alendar updates automatically\n(Apple Calendar: ~every hour · Google Cale
+ ndar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/l
+ cjru-fixtures/#u7-gold\n\n---\nAlso playing today — Lane Cove Blue 7:\n
+ 📍 Beauchamp Park\, Chatswood  ⏰ 10:00am  vs Chatswood Gold 7\n(Their 
+ separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u7-gold
 END:VEVENT
 END:VCALENDAR
