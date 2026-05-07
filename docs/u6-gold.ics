@@ -6,80 +6,98 @@ METHOD:PUBLISH
 X-WR-CALNAME:LCJRU U6 Gold 2026
 X-WR-CALDESC:Lane Cove Junior Rugby — U6 Gold fixtures and results 2026
 X-WR-TIMEZONE:Australia/Sydney
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VTIMEZONE
+TZID:Australia/Sydney
+BEGIN:STANDARD
+TZNAME:AEST
+TZOFFSETFROM:+1100
+TZOFFSETTO:+1000
+DTSTART:19700405T030000
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:AEDT
+TZOFFSETFROM:+1000
+TZOFFSETTO:+1100
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
+END:DAYLIGHT
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-f62f774d236cd097b-u6-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260503T080000
 DTEND;TZID=Australia/Sydney:20260503T090000
 SUMMARY:U6 Gold vs Chatswood Gold 6 | RND 1
-LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 6 vs Chatswood Gold 6\n📍 Tryon Oval\, Ea
- st Lindfield\n📅 Round 1 · Sun\, 3 May · 8:00am AEST\n🏆 SJRU Minis 
- U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar up
- dates automatically\n(Apple Calendar: ~every hour · Google Calendar: up t
- o 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtu
- res/#u6-gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Tryon 
- Oval\, East Lindfield  ⏰ 8:00am  vs Hornsby 6\n(Their separate game — 
- come cheer them on!)
+LOCATION:Tryon Oval\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 6 vs Chatswood Gold 6\n📍 Tryon Oval\n
+ 📅 Round 1 · Sun\, 3 May · 8:00am AEST\n🏆 SJRU Minis U6 Tri Time Su
+ nday\n\nℹ️ Venues and times may change. This calendar updates automati
+ cally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after
+  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6-gold\n
+ \n---\nAlso playing today — Lane Cove Blue 6:\n📍 Tryon Oval  ⏰ 8:00
+ am  vs Hornsby 6\n(Their separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-gold
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-702418fa1309b28df-u6-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260510T080000
 DTEND;TZID=Australia/Sydney:20260510T090000
 SUMMARY:U6 Gold vs Norths Pirates Gold 6 | RND 2
-LOCATION:Tunks Park\, Cammeray\, Sydney NSW
+LOCATION:Tunks Park\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 6 vs Norths Pirates Gold 6\n📍 Tunks Park
- \, Cammeray\n📅 Round 2 · Sun\, 10 May · 8:00am AEST\n🏆 SJRU Minis 
- U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This calendar up
- dates automatically\n(Apple Calendar: ~every hour · Google Calendar: up t
- o 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtu
- res/#u6-gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Tunks 
- Park\, Cammeray  ⏰ 8:00am  vs Norths Pirates Red 6\n(Their separate game
-  — come cheer them on!)
+ \n📅 Round 2 · Sun\, 10 May · 8:00am AEST\n🏆 SJRU Minis U6 Tri Time
+  Sunday\n\nℹ️ Venues and times may change. This calendar updates autom
+ atically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs af
+ ter a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6-gol
+ d\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Tunks Park  ⏰ 8
+ :00am  vs Norths Pirates Red 6\n(Their separate game — come cheer them o
+ n!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-gold
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-c367446bbb1bd9074-u6-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
 SUMMARY:U6 Gold vs St Ives Yellow 6 | RND 3
-LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
+LOCATION:Wakehurst Rugby Park\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 6 vs St Ives Yellow 6\n📍 Wakehurst Rugby
-  Park\, Belrose\n📅 Round 3 · Sun\, 17 May · 8:40am AEST\n🏆 SJRU Mi
- nis U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This calenda
- r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
- up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
- ixtures/#u6-gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Wa
- kehurst Rugby Park\, Belrose  ⏰ 8:40am  vs Norths Pirates White 6\n(Thei
- r separate game — come cheer them on!)
+  Park\n📅 Round 3 · Sun\, 17 May · 8:40am AEST\n🏆 SJRU Minis U6 Tri
+  Time Sunday\n\nℹ️ Venues and times may change. This calendar updates 
+ automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
+ rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
+ 6-gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Wakehurst Ru
+ gby Park  ⏰ 8:40am  vs Norths Pirates White 6\n(Their separate game — 
+ come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-gold
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-84e25192a9d0219ab-u6-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260524T084000
 DTEND;TZID=Australia/Sydney:20260524T094000
 SUMMARY:U6 Gold vs Wakehurst Wallabies 6 | RND 4
-LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
+LOCATION:Beauchamp Park\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove Gold 6 vs Wakehurst Wallabies 6\n📍 Beauchamp 
- Park\, Chatswood\n📅 Round 4 · Sun\, 24 May · 8:40am AEST\n🏆 SJRU M
- inis U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This calend
- ar updates automatically\n(Apple Calendar: ~every hour · Google Calendar:
-  up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-
- fixtures/#u6-gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 B
- eauchamp Park\, Chatswood  ⏰ 8:00am  vs Killara-West Pymble Gold 6\n(The
- ir separate game — come cheer them on!)
+ Park\n📅 Round 4 · Sun\, 24 May · 8:40am AEST\n🏆 SJRU Minis U6 Tri 
+ Time Sunday\n\nℹ️ Venues and times may change. This calendar updates a
+ utomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hr
+ s after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6
+ -gold\n\n---\nAlso playing today — Lane Cove Blue 6:\n📍 Beauchamp Par
+ k  ⏰ 8:00am  vs Killara-West Pymble Gold 6\n(Their separate game — com
+ e cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-gold
 END:VEVENT
 END:VCALENDAR

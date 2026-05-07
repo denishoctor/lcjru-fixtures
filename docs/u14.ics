@@ -6,55 +6,71 @@ METHOD:PUBLISH
 X-WR-CALNAME:LCJRU U14 2026
 X-WR-CALDESC:Lane Cove Junior Rugby — U14 fixtures and results 2026
 X-WR-TIMEZONE:Australia/Sydney
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VTIMEZONE
+TZID:Australia/Sydney
+BEGIN:STANDARD
+TZNAME:AEST
+TZOFFSETFROM:+1100
+TZOFFSETTO:+1000
+DTSTART:19700405T030000
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:AEDT
+TZOFFSETFROM:+1000
+TZOFFSETTO:+1100
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
+END:DAYLIGHT
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-1a8a08e146eb00e60-u14@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260426T111000
 DTEND;TZID=Australia/Sydney:20260426T124000
 SUMMARY:U14 vs Balmain 14 | RND 1
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+LOCATION:Tantallon Oval\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove/Lindfield 14 vs Balmain 14\n📍 Tantallon Oval\
- , Lane Cove North\n📅 Round 1 · Sun\, 26 Apr · 11:10am AEST\n🏆 SJRU
-  XVs Under 14D\n\nℹ️ Venues and times may change. This calendar update
- s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
-  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
- #u14
+ n📅 Round 1 · Sun\, 26 Apr · 11:10am AEST\n🏆 SJRU XVs Under 14D\n\n
+ ℹ️ Venues and times may change. This calendar updates automatically\n(
+ Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a chang
+ e)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14
 URL:https://denishoctor.github.io/lcjru-fixtures/#u14
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-79a2565ac09bdb51f-u14@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260503T121000
 DTEND;TZID=Australia/Sydney:20260503T134000
 SUMMARY:U14 vs Newport Breakers 14 | RND 2
-LOCATION:Porter Reserve\, Newport\, Sydney NSW
+LOCATION:Porter Reserve\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove/Lindfield 14 vs Newport Breakers 14\n📍 Porter
-  Reserve\, Newport\n📅 Round 2 · Sun\, 3 May · 12:10pm AEST\n🏆 SJRU
-  XVs Under 14D\n\nℹ️ Venues and times may change. This calendar update
- s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
-  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
- #u14
+  Reserve\n📅 Round 2 · Sun\, 3 May · 12:10pm AEST\n🏆 SJRU XVs Under
+  14D\n\nℹ️ Venues and times may change. This calendar updates automati
+ cally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after
+  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14
 URL:https://denishoctor.github.io/lcjru-fixtures/#u14
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-f6121916d22435d96-u14@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260507T044419Z
+DTSTAMP:20260507T051504Z
 LAST-MODIFIED:20260507T044419Z
 DTSTART;TZID=Australia/Sydney:20260510T114000
 DTEND;TZID=Australia/Sydney:20260510T131000
 SUMMARY:U14 vs Mosman Dolphins 14 | RND 3
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+LOCATION:Tantallon Oval\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove/Lindfield 14 vs Mosman Dolphins 14\n📍 Tantall
- on Oval\, Lane Cove North\n📅 Round 3 · Sun\, 10 May · 11:40am AEST\n
- 🏆 SJRU XVs Under 14D\n\nℹ️ Venues and times may change. This calend
- ar updates automatically\n(Apple Calendar: ~every hour · Google Calendar:
-  up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-
- fixtures/#u14
+ on Oval\n📅 Round 3 · Sun\, 10 May · 11:40am AEST\n🏆 SJRU XVs Under
+  14D\n\nℹ️ Venues and times may change. This calendar updates automati
+ cally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after
+  a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14
 URL:https://denishoctor.github.io/lcjru-fixtures/#u14
 END:VEVENT
 END:VCALENDAR
