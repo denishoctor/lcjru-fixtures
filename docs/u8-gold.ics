@@ -26,29 +26,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:lcjru-a64050181839884a0-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260503T092000
-DTEND;TZID=Australia/Sydney:20260503T102000
-SUMMARY:U8 Gold vs Hornsby Red 8 | RND 1
-LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 8 vs Hornsby Red 8\n📍 Tryon Oval\, East 
- Lindfield\n📅 Round 1 · Sun\, 3 May · 9:20am AEST\n🏆 SJRU Minis U8 
- Sunday\n\nℹ️ Venues and times may change. This calendar updates automa
- tically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs aft
- er a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u8-gold
- \n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Tryon Oval\, East 
- Lindfield  ⏰ 9:20am  vs Killara-West Pymble/Lindfield 8\n(Their separate
-  game — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-5084cf18e3531c0fa-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260510T100000
 DTEND;TZID=Australia/Sydney:20260510T110000
 SUMMARY:U8 Gold vs Chatswood Black 8 | RND 2
@@ -66,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-ab4a497bfe6427057-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
 SUMMARY:U8 Gold vs Norths Pirates Black 8 | RND 3
@@ -85,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-0408067ab7b83599b-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260524T084000
 DTEND;TZID=Australia/Sydney:20260524T094000
 SUMMARY:U8 Gold vs St Ives 8 | RND 4

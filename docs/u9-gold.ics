@@ -26,29 +26,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:lcjru-66e3dfc89fdc1326c-u9-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260503T110000
-DTEND;TZID=Australia/Sydney:20260503T120000
-SUMMARY:U9 Gold vs Wakehurst Wizards 9 | RND 1
-LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Wizards 9\n📍 Tryon Oval\,
-  East Lindfield\n📅 Round 1 · Sun\, 3 May · 11:00am AEST\n🏆 SJRU Mi
- nis U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates
-  automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 
- hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#
- u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Tryon Oval\
- , East Lindfield  ⏰ 11:00am  vs Dee Why Black 9\n(Their separate game 
- — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-39a5df2fb853c13ba-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260510T110000
 DTEND;TZID=Australia/Sydney:20260510T120000
 SUMMARY:U9 Gold vs Lindfield 9 | RND 2
@@ -66,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-01f2902ee8e69399a-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260517T083000
 DTEND;TZID=Australia/Sydney:20260517T093000
 SUMMARY:U9 Gold vs St Ives 9 | RND 3
@@ -85,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-d57e48a9a0a4c3ae6-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260524T083000
 DTEND;TZID=Australia/Sydney:20260524T093000
 SUMMARY:U9 Gold vs Wakehurst Warriors 9 | RND 4

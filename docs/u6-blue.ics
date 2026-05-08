@@ -26,29 +26,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:lcjru-24418d8361c029d49-u6-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260503T080000
-DTEND;TZID=Australia/Sydney:20260503T090000
-SUMMARY:U6 Blue vs Hornsby 6 | RND 1
-LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 6 vs Hornsby 6\n📍 Tryon Oval\, East Lind
- field\n📅 Round 1 · Sun\, 3 May · 8:00am AEST\n🏆 SJRU Minis U6 Tri 
- Time Sunday\n\nℹ️ Venues and times may change. This calendar updates a
- utomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hr
- s after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6
- -blue\n\n---\nAlso playing today — Lane Cove Gold 6:\n📍 Tryon Oval\, 
- East Lindfield  ⏰ 8:00am  vs Chatswood Gold 6\n(Their separate game — 
- come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-22e3b63feb13081ee-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260510T080000
 DTEND;TZID=Australia/Sydney:20260510T090000
 SUMMARY:U6 Blue vs Norths Pirates Red 6 | RND 2
@@ -66,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-a07d465f1865a1658-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
 SUMMARY:U6 Blue vs Norths Pirates White 6 | RND 3
@@ -85,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-2c9f55e45a95805ec-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260524T080000
 DTEND;TZID=Australia/Sydney:20260524T090000
 SUMMARY:U6 Blue vs Killara-West Pymble Gold 6 | RND 4

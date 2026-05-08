@@ -26,95 +26,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:lcjru-93402959f62d91030-u13-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260329T080000
-DTEND;TZID=Australia/Sydney:20260329T093000
-SUMMARY:U13 Blue vs Hunters Hill/Norths Pirates 13 | RND 1
-LOCATION:North Narrabeen Reserve No 2 (Front)\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 13 vs Hunters Hill/Norths Pirates 13\n📍 
- North Narrabeen Reserve No 2 (Front)\n📅 Round 1 · Sun\, 29 Mar · 8:00
- am AEST\n🏆 SJRU Grading Gala U13s\n\nℹ️ Venues and times may change
- . This calendar updates automatically\n(Apple Calendar: ~every hour · Goo
- gle Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.git
- hub.io/lcjru-fixtures/#u13-blue
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-a9324f6d8ef78b5fb-u13-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260329T085000
-DTEND;TZID=Australia/Sydney:20260329T102000
-SUMMARY:U13 Blue vs Balmain/Petersham 13 | RND 2
-LOCATION:North Narrabeen Reserve No 2 (Front)\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 13 vs Balmain/Petersham 13\n📍 North Narr
- abeen Reserve No 2 (Front)\n📅 Round 2 · Sun\, 29 Mar · 8:50am AEST\n
- 🏆 SJRU Grading Gala U13s\n\nℹ️ Venues and times may change. This ca
- lendar updates automatically\n(Apple Calendar: ~every hour · Google Calen
- dar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lc
- jru-fixtures/#u13-blue
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-c80fb50fbdc6a4bc0-u13-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260329T100500
-DTEND;TZID=Australia/Sydney:20260329T113500
-SUMMARY:U13 Blue vs Randwick Warriors White 13 | RND 3
-LOCATION:North Narrabeen Reserve No 2 (Front)\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 13 vs Randwick Warriors White 13\n📍 Nort
- h Narrabeen Reserve No 2 (Front)\n📅 Round 3 · Sun\, 29 Mar · 10:05am 
- AEST\n🏆 SJRU Grading Gala U13s\n\nℹ️ Venues and times may change. T
- his calendar updates automatically\n(Apple Calendar: ~every hour · Google
-  Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github
- .io/lcjru-fixtures/#u13-blue
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-5e5cf8ed88a07ca1e-u13-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260426T121000
-DTEND;TZID=Australia/Sydney:20260426T134000
-SUMMARY:U13 Blue vs Wakehurst 13 | RND 1
-LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 13 vs Wakehurst 13\n📍 Wakehurst Rugby Pa
- rk\, Belrose\n📅 Round 1 · Sun\, 26 Apr · 12:10pm AEST\n🏆 SJRU XVs 
- Under 13F\n\nℹ️ Venues and times may change. This calendar updates aut
- omatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs 
- after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u13-
- blue
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-115ca120b0ff150a2-u13-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260503T133000
-DTEND;TZID=Australia/Sydney:20260503T150000
-SUMMARY:U13 Blue vs Manly Savers Blue 13 | RND 2
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 13 vs Manly Savers Blue 13\n📍 Tantallon 
- Oval\, Lane Cove North\n📅 Round 2 · Sun\, 3 May · 1:30pm AEST\n🏆 S
- JRU XVs Under 13F\n\nℹ️ Venues and times may change. This calendar upd
- ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
-  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
- es/#u13-blue
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-dbeab38b90ffd0030-u13-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260510T110000
 DTEND;TZID=Australia/Sydney:20260510T123000
 SUMMARY:U13 Blue vs Hunters Hill Cerise 13 | RND 3

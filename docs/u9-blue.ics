@@ -26,29 +26,10 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:lcjru-4b15e5772f5f71d4a-u9-blue@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
-DTSTART;TZID=Australia/Sydney:20260503T110000
-DTEND;TZID=Australia/Sydney:20260503T120000
-SUMMARY:U9 Blue vs Dee Why Black 9 | RND 1
-LOCATION:Tryon Oval\, East Lindfield\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 9 vs Dee Why Black 9\n📍 Tryon Oval\, Eas
- t Lindfield\n📅 Round 1 · Sun\, 3 May · 11:00am AEST\n🏆 SJRU Minis 
- U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates aut
- omatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs 
- after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-b
- lue\n\n---\nAlso playing today — Lane Cove Gold 9:\n📍 Tryon Oval\, Ea
- st Lindfield  ⏰ 11:00am  vs Wakehurst Wizards 9\n(Their separate game 
- — come cheer them on!)
-URL:https://denishoctor.github.io/lcjru-fixtures/#u9-blue
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-92ebdcf55a6b98f1d-u9-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260510T092000
 DTEND;TZID=Australia/Sydney:20260510T102000
 SUMMARY:U9 Blue vs Dee Why White 9 | RND 2
@@ -66,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-26ec93db605657a87-u9-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260517T101000
 DTEND;TZID=Australia/Sydney:20260517T111000
 SUMMARY:U9 Blue vs Forest White 9 | RND 3
@@ -85,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-0a419741b4a83fe43-u9-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260508T035847Z
-LAST-MODIFIED:20260508T035847Z
+DTSTAMP:20260508T060327Z
+LAST-MODIFIED:20260508T060327Z
 DTSTART;TZID=Australia/Sydney:20260524T101000
 DTEND;TZID=Australia/Sydney:20260524T111000
 SUMMARY:U9 Blue vs Chatswood Green 9 | RND 4
