@@ -550,8 +550,8 @@ function renderMatch(match, isNextUp) {
   const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
-  const isUpcoming = !isResult && !isPastFixture;
-  const lineupAttrs = isUpcoming ? ` has-lineup" data-match-id="${esc(match.id)}` : ``;
+  const showLineup = !match.isBye;
+  const lineupAttrs = showLineup ? ` has-lineup" data-match-id="${esc(match.id)}` : ``;
 
   return `
     <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}" id="${esc(anchor)}">
