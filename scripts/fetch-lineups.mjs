@@ -36,24 +36,22 @@ const matchArg  = (() => { const i = process.argv.indexOf('--match'); return i !
 
 // ── fetch ─────────────────────────────────────────────────────────────────────
 
-async function fetchLineup(matchId) {
-  const url = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
-  const res = await fetch(url, {
-    headers: {
-      'user-agent':      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-      'accept':          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'accept-language': 'en-AU,en;q=0.9',
-      'origin':          'https://xplorer.rugby',
-      'referer':         'https://xplorer.rugby/',
-    },
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const html = await res.text();
+async function withRetry(fn, attempts = 3) {
+  let delay = 2000;
+  for (let i = 0; i < attempts; i++) {
+    try { return await fn(); } catch (err) {
+      if (i === attempts - 1) throw err;
+      console.warn(`  retry ${i + 1}/${attempts - 1} after ${delay}ms: ${err.message}`);
+      await new Promise(r => setTimeout(r, delay));
+      delay *= 2;
+    }
+  }
+}
 
-  const m = html.match(/<script id="__NEXT_DATA__" type="application\/json">([^<]+)<\/script>/);
-  if (!m) throw new Error('No __NEXT_DATA__ in response');
+// ── parse ─────────────────────────────────────────────────────────────────────
+// Exported for unit testing — no network dependency.
 
-  const pageProps = JSON.parse(m[1])?.props?.pageProps ?? {};
+export function parseLineupData(pageProps) {
   const matchData = pageProps?.matchData ?? {};
   const stats     = matchData?.allMatchStatsSummary ?? {};
   const lineUp    = stats?.lineUp;
@@ -75,7 +73,7 @@ async function fetchLineup(matchId) {
   ];
 
   const cleanName = s => (s ?? '').trim().replace(/\s+/g, ' ');
-  const normalise = p => ({
+  const normalisePlayer = p => ({
     number:   p.shirtNumber ?? '',
     name:     cleanName(p.name),
     position: p.position ?? '',
@@ -86,8 +84,8 @@ async function fetchLineup(matchId) {
   // Sort starters 1–15 then bench 16+ by position number
   const sort = arr => arr.slice().sort((a, b) => parseInt(a.position) - parseInt(b.position));
 
-  const home = sort(allPlayers.filter(p => p.isHome  === true )).map(normalise);
-  const away = sort(allPlayers.filter(p => p.isHome  === false)).map(normalise);
+  const home = sort(allPlayers.filter(p => p.isHome  === true )).map(normalisePlayer);
+  const away = sort(allPlayers.filter(p => p.isHome  === false)).map(normalisePlayer);
 
   // Coaches are in lineUp.coaches[] with isHome boolean
   const rawCoaches    = lineUp.coaches ?? [];
@@ -95,6 +93,27 @@ async function fetchLineup(matchId) {
   const awayCoaches   = rawCoaches.filter(c => c.isHome === false).map(c => ({ name: cleanName(c.name) })).filter(c => c.name);
 
   return { home, away, homeCoaches, awayCoaches, officials };
+}
+
+async function fetchLineup(matchId) {
+  const url = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
+  const res = await fetch(url, {
+    headers: {
+      'user-agent':      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      'accept':          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'accept-language': 'en-AU,en;q=0.9',
+      'origin':          'https://xplorer.rugby',
+      'referer':         'https://xplorer.rugby/',
+    },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const html = await res.text();
+
+  const m = html.match(/<script id="__NEXT_DATA__" type="application\/json">([^<]+)<\/script>/);
+  if (!m) throw new Error('No __NEXT_DATA__ in response');
+
+  const pageProps = JSON.parse(m[1])?.props?.pageProps ?? {};
+  return parseLineupData(pageProps);
 }
 
 // ── smoke test (--match <id>) ─────────────────────────────────────────────────
@@ -146,7 +165,7 @@ async function main() {
 
   for (const match of toFetch) {
     try {
-      const { home, away, homeCoaches, awayCoaches, officials } = await fetchLineup(match.id);
+      const { home, away, homeCoaches, awayCoaches, officials } = await withRetry(() => fetchLineup(match.id));
       lineups[match.id] = {
         gameDateTime: match.dateTime,
         fetchedAt:    new Date().toISOString(),
@@ -171,4 +190,6 @@ async function main() {
   console.log(`\n✓ Written ${Object.keys(lineups).length} entries → docs/lineups.json (fetched ${fetched}, errors ${errors})`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}

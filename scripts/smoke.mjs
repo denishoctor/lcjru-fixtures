@@ -65,15 +65,28 @@ await check('config.js', `${base}/config.js`, [
 ]);
 
 await check('fixtures.json', `${base}/fixtures.json`, [
-  ['HTTP 200',            r      => r.status === 200],
-  ['has matches array',   (_, b) => { try { return Array.isArray(JSON.parse(b).matches); } catch { return false; } }],
-  ['has updated field',   (_, b) => { try { return typeof JSON.parse(b).updated === 'string'; } catch { return false; } }],
+  ['HTTP 200',                  r      => r.status === 200],
+  ['has matches array',         (_, b) => { try { return Array.isArray(JSON.parse(b).matches); } catch { return false; } }],
+  ['has updated field',         (_, b) => { try { return typeof JSON.parse(b).updated === 'string'; } catch { return false; } }],
+  ['has 10+ matches',           (_, b) => { try { return JSON.parse(b).matches.length >= 10; } catch { return false; } }],
+  ['contains Lane Cove team',   (_, b) => { try { return JSON.parse(b).matches.some(m => m.home?.name?.toLowerCase().includes('lane cove') || m.away?.name?.toLowerCase().includes('lane cove')); } catch { return false; } }],
 ]);
 
 await check('index.html', `${base}/index.html`, [
   ['HTTP 200',           r      => r.status === 200],
   ['has #calendar div',  (_, b) => b.includes('id="calendar"')],
   ['loads config.js',    (_, b) => b.includes('config.js')],
+  ['imports render.mjs', (_, b) => b.includes('render.mjs')],
+]);
+
+await check('render.mjs', `${base}/render.mjs`, [
+  ['HTTP 200',           r      => r.status === 200],
+  ['exports esc',        (_, b) => b.includes('export function esc')],
+]);
+
+await check('lineups.json', `${base}/lineups.json`, [
+  ['HTTP 200',           r      => r.status === 200],
+  ['is valid JSON',      (_, b) => { try { const d = JSON.parse(b); return typeof d === 'object' && d !== null; } catch { return false; } }],
 ]);
 
 await check('u7-gold.ics', `${base}/u7-gold.ics`, [

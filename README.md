@@ -66,7 +66,6 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 node scripts/fetch-fixtures.mjs
 
 # Lineup commands
-node scripts/test-lineup-parse.mjs            # unit tests — no network required (15 tests)
 node scripts/fetch-lineups.mjs --match <id>   # smoke test: fetch one match, print result, no file writes
 node scripts/fetch-lineups.mjs                # full run — writes docs/lineups.json
 node scripts/fetch-lineups.mjs --force-all    # bypass 15-day lock; re-fetches all matches
@@ -76,11 +75,16 @@ node scripts/probe-lineup.mjs <matchId>
 
 # Validate generated files
 npm run check   # asserts all required files are present in docs/
-npm run smoke   # starts a local HTTP server and fetches fixtures.json, config.js, index.html, a .ics
+npm run smoke   # starts a local HTTP server and verifies all endpoints
 
-# Tests
-node --test tests/api.test.mjs            # live API integration tests
-node --test tests/fixtures-json.test.mjs  # local JSON structure tests
+# Tests (all offline, no network required)
+npm test                      # all 77 unit tests
+npm run test:normalise        # normalise() — score handling, type mapping
+npm run test:lineup           # parseLineupData() — players, coaches, officials
+npm run test:render           # render.mjs helpers — esc, scoreClass, parseVenue, etc.
+npm run test:ics              # ICS file structure and RFC 5545 compliance
+npm run test:json             # fixtures.json structure and field completeness
+npm run test:api              # live API integration tests (requires network)
 ```
 
 ---
@@ -93,19 +97,23 @@ scripts/
   fetch-fixtures.mjs      GraphQL fetch, diff, JSON + ICS writer
   fetch-lineups.mjs       HTML scraper for match team sheets; writes lineups.json
   probe-lineup.mjs        Diagnostic — dumps __NEXT_DATA__ pageProps for a match (run locally)
-  test-lineup-parse.mjs   Offline unit tests for lineup parsing logic (no network)
   check.mjs               Asserts all required generated files exist
   smoke.mjs               Local HTTP server smoke test
 docs/
   config.js               Generated — browser-loadable version of scripts/config.mjs
   fixtures.json           Generated — committed by CI
   lineups.json            Generated — committed by CI; matchId → { home, away, coaches, officials }
-  index.html              Production UI (single-file, no build step)
+  render.mjs              Pure render helpers (ES module) — imported by index.html
+  index.html              Production UI — <script type="module"> importing render.mjs
   staging-index.html      Staging area for new features before promotion to index.html
   *.ics                   Per-team iCalendar feeds — committed by CI
 tests/
-  api.test.mjs            Live API integration tests
-  fixtures-json.test.mjs  Local JSON structure tests
+  api.test.mjs            Live API integration tests (requires network)
+  fixtures-json.test.mjs  JSON structure and field completeness
+  ics.test.mjs            ICS file structure and RFC 5545 compliance
+  lineup.test.mjs         parseLineupData() unit tests (no network)
+  normalise.test.mjs      normalise() unit tests (no network)
+  render.test.mjs         render.mjs helper unit tests (no network)
 .github/workflows/
   refresh-fixtures.yml    Cron job — fetch fixtures + lineups, notify, commit
   resync-lineups.yml      Manual workflow_dispatch — force-refetch all historic lineups
@@ -125,6 +133,8 @@ Run the **Resync All Lineups** workflow manually (`Actions → Resync All Lineup
 ---
 
 ## Development
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for a full system overview, data flow diagrams, SDLC friction map, and key files reference.
 
 **Staging convention:** `staging-index.html` is a full copy of `index.html` used as a development sandbox. Features are built and reviewed there before being promoted.
 

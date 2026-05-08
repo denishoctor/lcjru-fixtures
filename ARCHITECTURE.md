@@ -145,17 +145,21 @@ sequenceDiagram
 |---|---|---|
 | `fetchPage(type, skip)` | fetch-fixtures.mjs | Single paginated GraphQL request |
 | `fetchAll(type)` | fetch-fixtures.mjs | Paginates until API returns < 100 items |
-| `normalise(item)` | fetch-fixtures.mjs | Raw API item → clean match object |
+| `normalise(item)` | fetch-fixtures.mjs | Raw API item → clean match object (exported for unit tests) |
 | `detectChanges(old, new)` | fetch-fixtures.mjs | Diffs upcoming fixtures for venue/time/added/removed |
 | `generateICS(slug, ...)` | fetch-fixtures.mjs | Builds RFC 5545 VCALENDAR for one team |
 | `buildDescription(match, ...)` | fetch-fixtures.mjs | ICS event body — includes sibling match for Minis |
 | `icsFold(line)` | fetch-fixtures.mjs | RFC 5545 75-octet line folding (UTF-8 safe) |
 | `displayLocation(rawVenue)` | fetch-fixtures.mjs | Strips pitch suffix, appends suburb — returns plain text (used for ICS and notifications) |
-| `parseVenue(rawVenue)` | index.html | Returns `{ display, pitch, mapsUrl }` — `display` is `name, suburb`, `pitch` is the stripped tag (e.g. `TT1`), `mapsUrl` is from `VENUES` or a generic fallback |
-| `shortTeamName(name)` | index.html | Removes "Lane Cove" prefix for display |
-| `esc(str)` | index.html | HTML-escapes API strings before innerHTML |
-| `renderMatch(match)` | index.html | Produces HTML card for one match |
-| `filterMatches(data, slug)` | index.html | Filters full dataset to selected team |
+| `withRetry(fn, attempts)` | fetch-fixtures.mjs, fetch-lineups.mjs | Exponential-backoff retry wrapper (2s → 4s, 3 attempts) |
+| `parseLineupData(pageProps)` | fetch-lineups.mjs | Extracts home/away players, coaches, officials from `__NEXT_DATA__` (exported for unit tests) |
+| `parseVenue(rawVenue, venues)` | render.mjs | Returns `{ display, pitch, mapsUrl }` — `venues` passed explicitly so function is testable without browser |
+| `shortTeamName(name)` | render.mjs | Removes "Lane Cove" prefix for display |
+| `esc(str)` | render.mjs | HTML-escapes API strings before innerHTML |
+| `scoreClass(match)` | render.mjs | Returns `'win'` / `'loss'` / `'draw'` / `''` for the LC team's result |
+| `fmtDow/fmtDate/fmtTime(iso)` | render.mjs | Format ISO timestamps in AEST/AEDT using `Intl.DateTimeFormat` |
+| `renderMatch(match, isNextUp)` | index.html | Produces HTML card for one match (uses imported helpers from render.mjs) |
+| `renderLineupPanel(...)` | index.html | Builds the expandable team-sheet grid for a match |
 
 **Minis sibling feature:** For U6–U9 ICS feeds, `generateICS()` looks up the sibling team
 (e.g. U7 Gold's sibling is U7 Blue) and appends their same-day fixture to the ICS event
@@ -210,7 +214,7 @@ ICS:  displayLocation() → "Tryon Oval, East Lindfield"
       appends: VENUES["Tryon Oval"].suburb = "East Lindfield"
 ```
 
-*Browser rendering* — `parseVenue()` in `index.html`:
+*Browser rendering* — `parseVenue()` in `docs/render.mjs` (imported by `index.html`):
 ```
 API:   "Tryon Oval TT1 (U6/U7)"
 HTML:  parseVenue() → {
@@ -276,9 +280,12 @@ runs `npm run check && npm run smoke` automatically before every push.
 | Change type | Edit → signal | Locally runnable | Agent-friendly |
 |---|---|---|---|
 | Config (`scripts/config.mjs`) | `npm run check` — ~0.1s | Yes | Yes |
-| Fetch script — normalise/ICS logic | Requires live API to run | **No** | **No** |
+| `normalise()` in fetch-fixtures.mjs | `npm run test:normalise` — ~0.1s | Yes | Yes |
+| `parseLineupData()` in fetch-lineups.mjs | `npm run test:lineup` — ~0.1s | Yes | Yes |
+| Other fetch script logic (ICS, pagination) | Requires live API to run | **No** | **No** |
 | HTML structure / CSS | `npm run smoke` — ~1s (static file check) | Yes | Partial |
-| JS render logic (inside `<script>`) | Push → CI → Pages — ~90s | **No** | **No** |
+| render.mjs helpers (`esc`, `scoreClass`, etc.) | `npm run test:render` — ~0.2s | Yes | Yes |
+| `renderMatch()`, `renderLineupPanel()` in HTML | Push → CI → Pages — ~90s | **No** | **No** |
 | `tests/fixtures-json.test.mjs` | ~0.1s | Yes | Yes |
 | `tests/api.test.mjs` | ~3s + network | No (needs network) | No |
 | Full round-trip verification | ~2 min | No | No |
@@ -287,95 +294,76 @@ runs `npm run check && npm run smoke` automatically before every push.
 
 | Test | Command | What it covers |
 |---|---|---|
-| Required files present | `npm run check` | `fixtures.json`, `config.js`, `index.html`, all 16 `.ics` |
-| Files served over HTTP | `npm run smoke` | HTTP 200, `LCJRU_CONFIG` present, JSON has `matches[]`, ICS has `BEGIN:VCALENDAR` |
+| Required files present | `npm run check` | `fixtures.json`, `lineups.json`, `config.js`, `render.mjs`, `index.html`, all 16 `.ics` |
+| Files served over HTTP | `npm run smoke` | HTTP 200, `LCJRU_CONFIG` + `render.mjs` present, JSON has `matches[]`, ICS has `BEGIN:VCALENDAR` |
 | JSON structure & fields | `npm run test:json` | Field completeness, sort order, score types, Lane Cove presence, no duplicates |
-| ICS existence & format | `npm run test:json` | All 16 files present, valid iCalendar wrapper |
+| ICS existence & format | `npm run test:ics` | All 16 files present, valid iCalendar wrapper, VEVENT fields |
+| Normalise logic | `npm run test:normalise` | Score null/zero handling, type mapping, field passthrough |
+| Lineup parse logic | `npm run test:lineup` | Player sorting, shirt vs position number, coaches, officials, empty states |
+| Render helpers | `npm run test:render` | `esc` XSS encoding, `shortTeamName`, `isLaneCove`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` with pitch/mini patterns |
 
 ### What is NOT tested
 
 | Gap | Impact |
 |---|---|
-| JS render logic (`renderMatch`, `shortTeamName`, `esc`, `displayLocation`) | An agent can break rendering and pass all local checks |
-| `normalise()` with real data shapes | Score edge cases, field renames only caught after a CI run |
+| `renderMatch()`, `renderLineupPanel()` (still inline in HTML) | Changes to match card or lineup panel HTML are invisible to automated checks |
 | `buildDescription()`, `icsFold()` with real matches | ICS content bugs only caught by subscribing a calendar client |
 | Visual output in any browser | Pixel-level issues undetectable by automation |
+| `fetchPage()` + pagination | Requires live API |
 
-**Critical for agentic use:** `smoke.mjs` fetches the raw HTML *source file* — before any
-JavaScript executes. The render functions live in inline `<script>` tags and run only in a
-browser. Any change to rendering logic is invisible to all automated checks until the page
-is opened in a browser after pushing.
+**Remaining agentic gap:** `smoke.mjs` fetches the raw HTML *source file* — before any
+JavaScript executes. `renderMatch()` and `renderLineupPanel()` live in inline `<script>` tags
+and run only in a browser. The pure helpers (`esc`, `scoreClass`, `parseVenue` etc.) are
+now in `render.mjs` and fully testable; the HTML-generating functions are the remaining gap.
 
 ---
 
 ## 6. SDLC — Recommendations
 
-### Priority 1 — Offline data pipeline testing
+### Done ✓
 
-**Problem:** `fetch-fixtures.mjs` requires a live network call to test any change to
-`normalise()`, `buildDescription()`, or `icsFold()`.
+**Offline data pipeline testing:** `normalise()` is exported from `fetch-fixtures.mjs`;
+`tests/normalise.test.mjs` covers score handling, type mapping, and field passthrough —
+runs in ~100ms with no network. Similarly, `parseLineupData()` is exported from
+`fetch-lineups.mjs` and covered by `tests/lineup.test.mjs` (15 cases, no network).
 
-**Fix:** Commit one saved API response as `tests/fixtures/api-snapshot.json` (captured
-once via `curl` or the fetch script's raw output). Add `tests/normalise.test.mjs`:
+**Testable render functions:** Pure helpers extracted to `docs/render.mjs` (ES module).
+Both HTML files switch to `<script type="module">` importing from it. `tests/render.test.mjs`
+covers `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` —
+27 cases, runs in ~200ms with no network.
+
+**Richer smoke assertions:** `smoke.mjs` now checks `fixtures.json` has 10+ matches and
+contains a Lane Cove team; confirms `lineups.json` is valid JSON; verifies `render.mjs`
+is served and exports `esc`.
+
+### Remaining — extract `renderMatch` and `renderLineupPanel`
+
+**Problem:** The two HTML-generating functions that combine all the pure helpers are still
+inline in `index.html`. Changing their output structure is undetectable by automated checks.
+
+**Fix (future):** Pass context explicitly and extract:
 
 ```js
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
-import { readFileSync } from 'fs';
-
-// import normalise and helpers from fetch-fixtures.mjs
-// (requires exporting them — small refactor)
-import { normalise, generateICS } from '../scripts/fetch-fixtures.mjs';
-
-const snapshot = JSON.parse(readFileSync('tests/fixtures/api-snapshot.json'));
-
-test('normalise preserves zero scores', () => { ... });
-test('normalise maps Result → result type', () => { ... });
-test('ICS has valid VEVENT structure', () => { ... });
-test('icsFold does not split emoji', () => { ... });
+// docs/render.mjs — future addition
+export function renderMatch(match, ctx) {
+  // ctx = { lineupsData, FINAL_ROUND, VENUES, PIN_SVG, CHEVRON_SVG }
+  ...
+}
+export function renderLineupPanel(matchId, entry, homeName, awayName, homeCrest, awayCrest) {
+  ...
+}
 ```
 
-Zero new dependencies. Runs in ~50ms. Catches the entire data pipeline offline.
+Then `tests/render.test.mjs` can assert on the HTML fragment:
 
-*Prerequisite:* export `normalise`, `icsFold`, `buildDescription`, `generateICS` from
-`fetch-fixtures.mjs` (currently unexported top-level functions).
-
-### Priority 2 — Testable render functions
-
-**Problem:** `renderMatch()`, `shortTeamName()`, `esc()`, `displayLocation()` are inline
-in `<script>` tags — not importable by Node tests. Breaking them is undetectable locally.
-
-**Fix:** Extract to `docs/render.mjs` (ES module). Both HTML files load it:
-```html
-<script type="module" src="./render.mjs"></script>
-```
-
-New `tests/render.test.mjs` imports and tests each function with known inputs:
 ```js
-import { renderMatch, shortTeamName, esc, displayLocation } from '../docs/render.mjs';
-
-test('esc encodes angle brackets', () => {
-  assert.equal(esc('<script>'), '&lt;script&gt;');
-});
-test('shortTeamName strips Lane Cove prefix', () => {
-  assert.equal(shortTeamName('Lane Cove Gold 7'), 'Gold 7');
-});
-test('displayLocation strips pitch allocation', () => {
-  assert.equal(displayLocation('Tryon Oval TT1 (U6/U7)'), 'Tryon Oval, Ryde');
+test('renderMatch includes team-pill with short name', () => {
+  const html = renderMatch(fixtureMatch, ctx);
+  assert.ok(html.includes('Gold 12'));
 });
 ```
 
-Zero new dependencies. Makes render logic refactorable with confidence.
-
-### Priority 3 — Richer smoke assertions
-
-Enhance `scripts/smoke.mjs` to check content quality in `fixtures.json`, not just shape:
-
-- At least one fixture with a future `dateTime`
-- At least one Lane Cove team slug in the `home.id` or `away.id` fields
-- All expected team slugs appear in at least one match
-
-Still zero dependencies, runs in ~1s, gives agents earlier signal on data corruption.
+Zero new dependencies. Makes the full rendering pipeline refactorable with confidence.
 
 ### Not recommended
 
@@ -392,17 +380,25 @@ Still zero dependencies, runs in ~1s, gives agents earlier signal on data corrup
 | File | Purpose | Reads | Writes | Tested by |
 |---|---|---|---|---|
 | `scripts/config.mjs` | Season/teams/venues — single source of truth. Exports `SEASON`, `TEAM_SLUGS`, `VENUES` (with `suburb` + `mapsUrl`), `MINIS_SLUGS`, `MINIS_SIBLINGS`, `FINAL_ROUND` | — | — | Imported by tests |
-| `scripts/fetch-fixtures.mjs` | Fetch, normalise, diff, write all outputs | `config.mjs`, prev `fixtures.json` | `fixtures.json`, `config.js`, `*.ics`, `changes.txt` | `api.test.mjs` (live), manual |
+| `scripts/fetch-fixtures.mjs` | Fetch, normalise, diff, write all outputs | `config.mjs`, prev `fixtures.json` | `fixtures.json`, `config.js`, `*.ics`, `changes.txt` | `api.test.mjs` (live), `normalise.test.mjs` |
+| `scripts/fetch-lineups.mjs` | Scrape lineup data from xplorer.rugby match pages | `fixtures.json`, `lineups.json` | `lineups.json` | `lineup.test.mjs` |
 | `scripts/check.mjs` | Pre-flight: all required files present | `docs/*` (existence only) | — | Run by pre-push hook |
 | `scripts/smoke.mjs` | Local HTTP server smoke test | `docs/*` (via HTTP) | — | Run by pre-push hook |
 | `.github/workflows/refresh-fixtures.yml` | Cron CI: fetch → notify → commit → push | — | Triggers script; commits `docs/` | CI logs |
+| `.github/workflows/resync-lineups.yml` | Cron CI: fetch lineups → commit if changed | — | Commits `docs/lineups.json` | CI logs |
 | `docs/config.js` | Browser-loadable config (generated, do not edit) | Generated from `config.mjs` | — | `smoke.mjs` |
 | `docs/fixtures.json` | All match data (generated, committed) | Written by fetch script | — | `fixtures-json.test.mjs`, `smoke.mjs` |
-| `docs/index.html` | Production UI — vanilla JS, no build step | `config.js`, `fixtures.json` at runtime | — | `smoke.mjs` (static only) |
-| `docs/staging-index.html` | Staging UI — experimental features, not linked from main page | `config.js`, `fixtures.json` at runtime | — | Manual only |
-| `docs/*.ics` | Per-team calendar feeds (16 files, generated) | Written by fetch script | — | `fixtures-json.test.mjs` |
+| `docs/lineups.json` | Per-match lineup data (generated, committed) | Written by lineups script | — | `smoke.mjs` |
+| `docs/render.mjs` | Pure browser render helpers (ES module) — `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` | — | — | `render.test.mjs`, `smoke.mjs` |
+| `docs/index.html` | Production UI — `<script type="module">` importing `render.mjs` | `config.js`, `render.mjs`, `fixtures.json`, `lineups.json` at runtime | — | `smoke.mjs` (static only) |
+| `docs/staging-index.html` | Staging UI — experimental features, not linked from main page | `config.js`, `render.mjs`, `fixtures.json`, `lineups.json` at runtime | — | Manual only |
+| `docs/*.ics` | Per-team calendar feeds (16 files, generated) | Written by fetch script | — | `ics.test.mjs` |
 | `tests/api.test.mjs` | Live API contract tests (requires network) | Rugby Xplorer API | — | Run manually / periodically |
 | `tests/fixtures-json.test.mjs` | Committed JSON structure tests | `docs/fixtures.json` | — | `npm test` |
+| `tests/ics.test.mjs` | ICS file structure and field tests | `docs/*.ics` | — | `npm test` |
+| `tests/normalise.test.mjs` | Unit tests for `normalise()` | `scripts/fetch-fixtures.mjs` (import) | — | `npm test` |
+| `tests/lineup.test.mjs` | Unit tests for `parseLineupData()` | `scripts/fetch-lineups.mjs` (import) | — | `npm test` |
+| `tests/render.test.mjs` | Unit tests for all `render.mjs` exports | `docs/render.mjs` (import) | — | `npm test` |
 
 ---
 
