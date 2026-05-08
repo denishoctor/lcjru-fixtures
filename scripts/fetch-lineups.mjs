@@ -62,19 +62,35 @@ async function fetchLineup(matchId) {
   if (matchArg) {
     console.log(`  matchData keys: ${Object.keys(matchData).join(', ')}`);
     console.log(`  allMatchStatsSummary keys: ${Object.keys(stats).join(', ')}`);
+    // Walk both objects looking for anything referee/official-shaped
+    const searchForRef = (obj, prefix) => {
+      for (const [k, v] of Object.entries(obj ?? {})) {
+        const key = `${prefix}.${k}`;
+        if (/referee|official/i.test(k) || /referee|official/i.test(JSON.stringify(v ?? '').slice(0, 200))) {
+          console.log(`  [REFEREE] ${key} =`, JSON.stringify(v, null, 2).slice(0, 400));
+        }
+      }
+    };
+    searchForRef(matchData, 'matchData');
+    searchForRef(stats, 'stats');
   }
 
   // Try known paths for match officials / referee
+  // Wrap single-referee objects into an array for uniform processing
+  const _wrapRef = (v, role) => v ? [{ name: v?.name ?? v, role }] : null;
+
   const rawOfficials =
     matchData.officials ??
     matchData.matchOfficials ??
+    _wrapRef(matchData.referee, 'Referee') ??
     stats.officials ??
     stats.matchOfficials ??
+    _wrapRef(stats.referee, 'Referee') ??
     null;
 
-  const officials = rawOfficials
-    ? rawOfficials.map(o => ({ name: o.name ?? o.officialName ?? '', role: o.role ?? o.type ?? o.officialType ?? '' })).filter(o => o.name)
-    : [];
+  const officials = (Array.isArray(rawOfficials) ? rawOfficials : [])
+    .map(o => ({ name: o.name ?? o.officialName ?? String(o), role: o.role ?? o.type ?? o.officialType ?? '' }))
+    .filter(o => o.name && o.name !== '[object Object]');
 
   if (!lineUp) {
     // lineUp is null when no team sheet has been submitted yet
