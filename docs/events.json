@@ -3,7 +3,16 @@
     "id": "r6-bye-minis-2026",
     "type": "note",
     "date": "2026-05-17",
-    "teams": ["u6-gold", "u6-blue", "u7-gold", "u7-blue", "u8-gold", "u8-blue", "u9-gold", "u9-blue"],
+    "teams": [
+      "u6-gold",
+      "u6-blue",
+      "u7-gold",
+      "u7-blue",
+      "u8-gold",
+      "u8-blue",
+      "u9-gold",
+      "u9-blue"
+    ],
     "text": "Round 6 — No Minis fixtures this weekend."
   },
   {
@@ -13,7 +22,16 @@
     "date": "2026-06-07",
     "time": "08:30",
     "venue": "Tantallon Oval",
-    "teams": ["u6-gold", "u6-blue", "u7-gold", "u7-blue", "u8-gold", "u8-blue", "u9-gold", "u9-blue"],
+    "teams": [
+      "u6-gold",
+      "u6-blue",
+      "u7-gold",
+      "u7-blue",
+      "u8-gold",
+      "u8-blue",
+      "u9-gold",
+      "u9-blue"
+    ],
     "status": "tentative",
     "note": "All Minis grades. Details TBC — check back closer to the date."
   }
