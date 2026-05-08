@@ -20,7 +20,9 @@ for (const e of EVENTS) {
   if (!e.id)                            { console.error(`  ✗ entry missing id`); errors++; }
   if (!VALID_TYPES.has(e.type))         { console.error(`  ✗ ${e.id}: unknown type '${e.type}'`); errors++; }
   if (e.type === 'event' && !e.title)   { console.error(`  ✗ ${e.id}: event missing title`); errors++; }
-  if (e.type === 'note'  && !e.text)    { console.error(`  ✗ ${e.id}: note missing text`); errors++; }
+  if (e.type === 'note'  && !(e.title || e.text || e.description)) {
+    console.error(`  ✗ ${e.id}: note missing title/description/text`); errors++;
+  }
   if (e.status && !VALID_STATUS.has(e.status)) { console.error(`  ✗ ${e.id}: unknown status '${e.status}'`); errors++; }
 }
 if (errors) { console.error(`\n${errors} validation error(s). Fix before committing.`); process.exit(1); }

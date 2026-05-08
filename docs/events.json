@@ -70,7 +70,8 @@
   {
     "id": "mothers-day-2026",
     "type": "event",
-    "title": "Mother's Day at Tantallon",
+    "title": "Mother's Day",
+    "description": "Join us for early arvo drinks at Tantallon.",
     "date": "2026-05-10",
     "time": "14:00",
     "venue": "Tantallon Oval",
@@ -85,7 +86,6 @@
       "u9-blue"
     ],
     "status": "confirmed",
-    "note": "Join us for early arvo drinks at Tantallon.",
     "cta": {
       "label": "Join us — $60 Moet",
       "url": "https://www.instagram.com/p/DX_cYiPTPrP/"
@@ -129,6 +129,7 @@
     "id": "waratahs-2026",
     "type": "event",
     "title": "Waratahs v Brumbies",
+    "description": "Club-wide invite. U10s pre-game match at 6:30pm.",
     "date": "2026-05-22",
     "time": "19:30",
     "teams": [
@@ -142,7 +143,6 @@
       "u9-blue"
     ],
     "status": "confirmed",
-    "note": "Club-wide invite. U10s pre-game match at 6:30pm.",
     "cta": {
       "label": "Buy Tickets",
       "url": "https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF"
@@ -190,6 +190,7 @@
     "date": "2026-05-31",
     "time": "09:00",
     "venue": "Tantallon Oval",
+    "home": true,
     "teams": [
       "u6-gold",
       "u6-blue",
@@ -230,7 +231,8 @@
       "u9-gold",
       "u9-blue"
     ],
-    "text": "No Minis rugby this weekend — King's Birthday long weekend."
+    "title": "No rugby",
+    "description": "King's Birthday long weekend"
   },
   {
     "id": "rnd-6-u67",
@@ -270,6 +272,7 @@
     "id": "gala-rnd-7-2026",
     "type": "event",
     "title": "Inter-District Gala Day — Round 7",
+    "description": "All Minis grades. Details TBC.",
     "date": "2026-06-20",
     "time": "08:30",
     "venue": "Eric Tweedale Field",
@@ -284,13 +287,13 @@
       "u9-blue"
     ],
     "status": "tentative",
-    "note": "All Minis grades. Details TBC.",
     "xplorerRound": "Round 7"
   },
   {
     "id": "koth-k1-u89",
     "type": "event",
     "title": "King of the Hills — K1 Gala",
+    "description": "U8/U9 King of the Hills gala.",
     "date": "2026-06-28",
     "time": "09:00",
     "venue": "Yattenden Oval, Baulkham Hills",
@@ -300,8 +303,7 @@
       "u9-gold",
       "u9-blue"
     ],
-    "status": "tentative",
-    "note": "U8/U9 King of the Hills gala. Venue TBC."
+    "status": "confirmed"
   },
   {
     "id": "koth-k1-u67",
@@ -313,12 +315,14 @@
       "u7-gold",
       "u7-blue"
     ],
-    "text": "U6/U7 friendly fixtures 28 Jun — details TBC."
+    "title": "U6/U7 friendly fixtures",
+    "description": "Details TBC"
   },
   {
     "id": "koth-k2-u67",
     "type": "event",
     "title": "King of the Hills — K2 Gala",
+    "description": "U6/U7 King of the Hills gala.",
     "date": "2026-07-05",
     "time": "09:00",
     "venue": "Yattenden Oval, Baulkham Hills",
@@ -328,8 +332,7 @@
       "u7-gold",
       "u7-blue"
     ],
-    "status": "tentative",
-    "note": "U6/U7 King of the Hills gala. Venue TBC."
+    "status": "confirmed"
   },
   {
     "id": "school-hols-jul-12",
@@ -345,7 +348,8 @@
       "u9-gold",
       "u9-blue"
     ],
-    "text": "School holidays — no rugby. Back Sun 26 Jul."
+    "title": "School holidays",
+    "description": "No rugby"
   },
   {
     "id": "school-hols-jul-19",
@@ -361,7 +365,8 @@
       "u9-gold",
       "u9-blue"
     ],
-    "text": "School holidays — no rugby. Back Sun 26 Jul."
+    "title": "School holidays",
+    "description": "No rugby"
   },
   {
     "id": "rnd-8-u67",
@@ -456,6 +461,7 @@
     "date": "2026-08-09",
     "time": "09:00",
     "venue": "Tantallon Oval",
+    "home": true,
     "teams": [
       "u8-gold",
       "u8-blue",
@@ -571,6 +577,7 @@
     "id": "bathurst-tour-2026",
     "type": "event",
     "title": "Bathurst Tour",
+    "description": "Sat 5 – Sun 6 Sep. Unconfirmed — details TBC.",
     "date": "2026-09-05",
     "teams": [
       "u6-gold",
@@ -582,52 +589,45 @@
       "u9-gold",
       "u9-blue"
     ],
-    "status": "tentative",
-    "note": "Sat 5 – Sun 6 Sep. Unconfirmed — details TBC."
+    "status": "tentative"
   },
   {
     "id": "tiger-cup-2026",
     "type": "event",
     "title": "Tiger Cup",
+    "description": "Invite-based. TBC.",
     "date": "2026-09-12",
     "venue": "Wahroonga",
     "teams": [
       "u6-gold",
       "u6-blue",
       "u7-gold",
-      "u7-blue",
-      "u8-gold",
-      "u8-blue",
-      "u9-gold",
-      "u9-blue"
+      "u7-blue"
     ],
-    "status": "tentative",
-    "note": "Invite-based. TBC."
+    "status": "tentative"
   },
   {
     "id": "challenge-cup-2026",
     "type": "event",
     "title": "Chatswood Challenge Cup",
+    "description": "Invite-based. TBC.",
     "date": "2026-09-13",
     "teams": [
-      "u6-gold",
-      "u6-blue",
-      "u7-gold",
-      "u7-blue",
       "u8-gold",
       "u8-blue",
       "u9-gold",
       "u9-blue"
     ],
-    "status": "tentative",
-    "note": "TBC."
+    "status": "tentative"
   },
   {
     "id": "presentation-day-2026",
     "type": "event",
     "title": "Presentation Day",
+    "description": "Date TBC — 13 or 20 Sep.",
     "date": "2026-09-20",
     "venue": "Tantallon Oval",
+    "home": true,
     "teams": [
       "u6-gold",
       "u6-blue",
@@ -638,7 +638,6 @@
       "u9-gold",
       "u9-blue"
     ],
-    "status": "tentative",
-    "note": "Date TBC — 13 or 20 Sep."
+    "status": "tentative"
   }
 ]

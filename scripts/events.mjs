@@ -1,5 +1,6 @@
 // 2026 LCJRU Minis season — manual calendar entries.
 // Round entries use xplorerRound to suppress when Xplorer already has that match.
+// Source of truth: Lane_Cove_Calendar_Minis.html
 
 const U6_U7     = ['u6-gold', 'u6-blue', 'u7-gold', 'u7-blue'];
 const U8_U9     = ['u8-gold', 'u8-blue', 'u9-gold', 'u9-blue'];
@@ -38,12 +39,12 @@ export const EVENTS = [
   // Mother's Day social — Sun 10 May
   {
     id: 'mothers-day-2026', type: 'event',
-    title: "Mother's Day at Tantallon",
+    title: "Mother's Day",
+    description: 'Join us for early arvo drinks at Tantallon.',
     date: '2026-05-10', time: '14:00',
     venue: 'Tantallon Oval',
     teams: ALL_MINIS,
     status: 'confirmed',
-    note: "Join us for early arvo drinks at Tantallon.",
     cta: { label: 'Join us — $60 Moet', url: 'https://www.instagram.com/p/DX_cYiPTPrP/' },
   },
 
@@ -65,10 +66,10 @@ export const EVENTS = [
   {
     id: 'waratahs-2026', type: 'event',
     title: 'Waratahs v Brumbies',
+    description: 'Club-wide invite. U10s pre-game match at 6:30pm.',
     date: '2026-05-22', time: '19:30',
     teams: ALL_MINIS,
     status: 'confirmed',
-    note: 'Club-wide invite. U10s pre-game match at 6:30pm.',
     cta: { label: 'Buy Tickets', url: 'https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF' },
   },
 
@@ -86,11 +87,11 @@ export const EVENTS = [
     status: 'tentative', xplorerRound: 'Round 4',
   },
 
-  // ── Round 5: Sun 31 May ───────────────────────────────────────────────────────
+  // ── Round 5: Sun 31 May (U6/U7 Home at Tantallon) ─────────────────────────────
   {
     id: 'rnd-5-u67', type: 'event', variant: 'round',
     title: 'Round 5', date: '2026-05-31', time: '09:00',
-    venue: 'Tantallon Oval', teams: U6_U7,
+    venue: 'Tantallon Oval', home: true, teams: U6_U7,
     status: 'tentative', xplorerRound: 'Round 5',
   },
   {
@@ -105,7 +106,8 @@ export const EVENTS = [
     id: 'kings-bday-2026', type: 'note',
     date: '2026-06-07',
     teams: ALL_MINIS,
-    text: "No Minis rugby this weekend — King's Birthday long weekend.",
+    title: 'No rugby',
+    description: "King's Birthday long weekend",
   },
 
   // ── Round 6: Sun 14 Jun ───────────────────────────────────────────────────────
@@ -126,40 +128,42 @@ export const EVENTS = [
   {
     id: 'gala-rnd-7-2026', type: 'event',
     title: 'Inter-District Gala Day — Round 7',
+    description: 'All Minis grades. Details TBC.',
     date: '2026-06-20', time: '08:30',
     venue: 'Eric Tweedale Field',
     teams: ALL_MINIS,
     status: 'tentative',
-    note: 'All Minis grades. Details TBC.',
     xplorerRound: 'Round 7',
   },
 
   // ── King of the Hills K1: Sun 28 Jun ──────────────────────────────────────────
+  // Calendar: U5/U6/U7 friendlies (TBC); U8/U9 KotH gala at Yattenden Oval.
   {
     id: 'koth-k1-u89', type: 'event',
     title: 'King of the Hills — K1 Gala',
+    description: 'U8/U9 King of the Hills gala.',
     date: '2026-06-28', time: '09:00',
     venue: 'Yattenden Oval, Baulkham Hills',
     teams: U8_U9,
-    status: 'tentative',
-    note: 'U8/U9 King of the Hills gala. Venue TBC.',
+    status: 'confirmed',
   },
   {
     id: 'koth-k1-u67', type: 'note',
     date: '2026-06-28',
     teams: U6_U7,
-    text: 'U6/U7 friendly fixtures 28 Jun — details TBC.',
+    title: 'U6/U7 friendly fixtures',
+    description: 'Details TBC',
   },
 
   // ── King of the Hills K2: Sun 5 Jul ───────────────────────────────────────────
   {
     id: 'koth-k2-u67', type: 'event',
     title: 'King of the Hills — K2 Gala',
+    description: 'U6/U7 King of the Hills gala.',
     date: '2026-07-05', time: '09:00',
     venue: 'Yattenden Oval, Baulkham Hills',
     teams: U6_U7,
-    status: 'tentative',
-    note: 'U6/U7 King of the Hills gala. Venue TBC.',
+    status: 'confirmed',
   },
 
   // ── School holidays: Sun 12 + 19 Jul ─────────────────────────────────────────
@@ -167,13 +171,15 @@ export const EVENTS = [
     id: 'school-hols-jul-12', type: 'note',
     date: '2026-07-12',
     teams: ALL_MINIS,
-    text: 'School holidays — no rugby. Back Sun 26 Jul.',
+    title: 'School holidays',
+    description: 'No rugby',
   },
   {
     id: 'school-hols-jul-19', type: 'note',
     date: '2026-07-19',
     teams: ALL_MINIS,
-    text: 'School holidays — no rugby. Back Sun 26 Jul.',
+    title: 'School holidays',
+    description: 'No rugby',
   },
 
   // ── Round 8: Sun 26 Jul ───────────────────────────────────────────────────────
@@ -204,7 +210,7 @@ export const EVENTS = [
     status: 'tentative', xplorerRound: 'Round 9',
   },
 
-  // ── Round 10: Sun 9 Aug ───────────────────────────────────────────────────────
+  // ── Round 10: Sun 9 Aug (U8/U9 Home at Tantallon) ─────────────────────────────
   {
     id: 'rnd-10-u67', type: 'event', variant: 'round',
     title: 'Round 10', date: '2026-08-09', time: '09:00',
@@ -214,7 +220,7 @@ export const EVENTS = [
   {
     id: 'rnd-10-u89', type: 'event', variant: 'round',
     title: 'Round 10', date: '2026-08-09', time: '09:00',
-    venue: 'Tantallon Oval', teams: U8_U9,
+    venue: 'Tantallon Oval', home: true, teams: U8_U9,
     status: 'tentative', xplorerRound: 'Round 10',
   },
 
@@ -264,41 +270,41 @@ export const EVENTS = [
   {
     id: 'bathurst-tour-2026', type: 'event',
     title: 'Bathurst Tour',
+    description: 'Sat 5 – Sun 6 Sep. Unconfirmed — details TBC.',
     date: '2026-09-05',
     teams: ALL_MINIS,
     status: 'tentative',
-    note: 'Sat 5 – Sun 6 Sep. Unconfirmed — details TBC.',
   },
 
-  // ── Tiger Cup: Sat 12 Sep ─────────────────────────────────────────────────────
+  // ── Tiger Cup: Sat 12 Sep — U6/U7 only ───────────────────────────────────────
   {
     id: 'tiger-cup-2026', type: 'event',
     title: 'Tiger Cup',
+    description: 'Invite-based. TBC.',
     date: '2026-09-12',
     venue: 'Wahroonga',
-    teams: ALL_MINIS,
+    teams: U6_U7,
     status: 'tentative',
-    note: 'Invite-based. TBC.',
   },
 
-  // ── Chatswood Challenge Cup: Sun 13 Sep ──────────────────────────────────────
+  // ── Chatswood Challenge Cup: Sun 13 Sep — U8/U9 only ─────────────────────────
   {
     id: 'challenge-cup-2026', type: 'event',
     title: 'Chatswood Challenge Cup',
+    description: 'Invite-based. TBC.',
     date: '2026-09-13',
-    teams: ALL_MINIS,
+    teams: U8_U9,
     status: 'tentative',
-    note: 'TBC.',
   },
 
-  // ── Presentation Day: Sun 13/20 Sep ──────────────────────────────────────────
+  // ── Presentation Day: Sun 13/20 Sep — Tantallon Home ─────────────────────────
   {
     id: 'presentation-day-2026', type: 'event',
     title: 'Presentation Day',
+    description: 'Date TBC — 13 or 20 Sep.',
     date: '2026-09-20',
-    venue: 'Tantallon Oval',
+    venue: 'Tantallon Oval', home: true,
     teams: ALL_MINIS,
     status: 'tentative',
-    note: 'Date TBC — 13 or 20 Sep.',
   },
 ];

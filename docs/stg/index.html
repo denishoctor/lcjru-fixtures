@@ -348,6 +348,7 @@
   .status-badge {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
     letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
+    margin-left: auto;
   }
   .status-confirmed { background: #E8F5E9; color: #2E7D4F; }
   .status-tentative { background: #FFF3E0; color: #E65100; }
@@ -458,6 +459,7 @@ let eventsData   = null;
 
 const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+const CAL_SVG     = '<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
 
 function renderWelcome() {
   return `
@@ -602,42 +604,59 @@ function renderEvent(event) {
   const isPast = event.status === 'completed' || event.status === 'cancelled' ||
     (dt && dt < new Date());
 
-  const STATUS_LABELS = { confirmed: 'Confirmed', tentative: 'Tentative', cancelled: 'Cancelled', completed: 'Completed' };
-  const badgeHtml = event.status
-    ? `<span class="status-badge status-${esc(event.status)}">${esc(STATUS_LABELS[event.status] || event.status)}</span>`
+  // Only show tentative / cancelled badges; confirmed and completed are implied by context.
+  const STATUS_LABELS = { tentative: 'Tentative', cancelled: 'Cancelled' };
+  const badgeHtml = STATUS_LABELS[event.status]
+    ? `<span class="status-badge status-${esc(event.status)}">${STATUS_LABELS[event.status]}</span>`
     : '';
+
+  // Round-variant events render with the same RND badge as real Xplorer matches (greyed out)
+  const isRound  = event.variant === 'round' && event.xplorerRound;
+  const roundNum = isRound ? event.xplorerRound.replace('Round ', '') : '';
+  const badgeEl  = isRound
+    ? `<div class="rnd-badge past"><span>RND</span><span class="num">${esc(roundNum)}</span></div>`
+    : `<div class="event-badge">${CAL_SVG}</div>`;
 
   let venueHtml = '';
   if (event.venue) {
     const { display: loc, mapsUrl } = parseVenue(event.venue, VENUES);
-    venueHtml = `<div class="venue"><a class="venue-link" href="${esc(mapsUrl)}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a></div>`;
+    const homePill = event.home ? '<span class="home-pill">Home</span>' : '';
+    venueHtml = `<div class="venue"><a class="venue-link" href="${esc(mapsUrl)}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>${homePill}</div>`;
   }
 
   const ctaHtml = event.cta
     ? `<a href="${esc(event.cta.url ?? '#')}" class="event-cta" target="_blank" rel="noopener">${esc(event.cta.label)}</a>`
     : '';
 
-  const CAL_SVG = `<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  const description = event.description ?? event.note ?? '';
 
   return `
     <div class="row event-row${isPast ? ' event-past' : ''}">
-      <div class="event-badge">${CAL_SVG}</div>
+      ${badgeEl}
       <div class="date-block">
         ${dt ? `<div class="dow">${fmtDow(dt.toISOString())}</div><div class="date">${fmtDate(dt.toISOString())}</div>${event.time ? `<div class="time">${esc(event.time)}</div>` : ''}` : ''}
       </div>
       <div class="venues">
         <div class="venue"><span class="event-title">${esc(event.title)}</span>${badgeHtml}</div>
         ${venueHtml}
-        ${event.note ? `<div class="venue"><span class="event-note">${esc(event.note)}</span></div>` : ''}
+        ${description ? `<div class="venue"><span class="event-note">${esc(description)}</span></div>` : ''}
         ${ctaHtml}
       </div>
     </div>`;
 }
 
 function renderNote(event) {
+  const dt = eventDt(event);
+  const isoStr = dt ? dt.toISOString() : '';
+  const datePrefix = isoStr ? `<strong>${fmtDow(isoStr)} ${fmtDate(isoStr)}</strong>` : '';
+  const title = event.title ?? event.text ?? '';
+  const description = event.description ?? '';
+  const noteHtml = [datePrefix, esc(title), description ? esc(description) : '']
+    .filter(Boolean)
+    .join(' · ');
   return `
     <div class="row note-row">
-      <p class="note-text">${esc(event.text)}</p>
+      <p class="note-text">${noteHtml}</p>
     </div>`;
 }
 
