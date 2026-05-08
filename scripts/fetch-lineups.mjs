@@ -15,6 +15,11 @@
  *
  * Run:  node scripts/fetch-lineups.mjs
  *       node scripts/fetch-lineups.mjs --force-all
+ *       node scripts/fetch-lineups.mjs --match 434236a5964c39608
+ *
+ * --match <id>  Smoke-test mode: fetch one match, print parsed result to
+ *               stdout, write nothing to disk. Exit 1 on any failure.
+ *               Use this to confirm the pipeline works before a full run.
  */
 
 import { writeFileSync, readFileSync, existsSync } from 'fs';
@@ -25,8 +30,9 @@ const ROOT          = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FIXTURES_PATH = join(ROOT, 'docs', 'fixtures.json');
 const OUT_PATH      = join(ROOT, 'docs', 'lineups.json');
 
-const LOCK_MS  = 15 * 24 * 60 * 60 * 1000;
-const forceAll = process.argv.includes('--force-all');
+const LOCK_MS   = 15 * 24 * 60 * 60 * 1000;
+const forceAll  = process.argv.includes('--force-all');
+const matchArg  = (() => { const i = process.argv.indexOf('--match'); return i !== -1 ? process.argv[i + 1] : null; })();
 
 // ── fetch ─────────────────────────────────────────────────────────────────────
 
@@ -77,9 +83,30 @@ async function fetchLineup(matchId) {
   return { home, away };
 }
 
+// ── smoke test (--match <id>) ─────────────────────────────────────────────────
+
+async function smokeTest(matchId) {
+  console.log(`Smoke test: fetching lineup for match ${matchId}…`);
+  const { home, away } = await fetchLineup(matchId);
+  if (home.length === 0 && away.length === 0) {
+    console.log('  No lineup published for this match (home=0 away=0) — fetch succeeded but sheet is empty.');
+  } else {
+    console.log(`  ✓ home=${home.length} players, away=${away.length} players`);
+    if (home.length) console.log(`  First home player: #${home[0].number} ${home[0].name}`);
+    if (away.length) console.log(`  First away player: #${away[0].number} ${away[0].name}`);
+  }
+  console.log('\nFull result:');
+  console.log(JSON.stringify({ home, away }, null, 2));
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
+  if (matchArg) {
+    await smokeTest(matchArg);
+    return;
+  }
+
   const fixtures = JSON.parse(readFileSync(FIXTURES_PATH, 'utf8'));
   const existing = existsSync(OUT_PATH) ? JSON.parse(readFileSync(OUT_PATH, 'utf8')) : {};
   const now      = Date.now();
