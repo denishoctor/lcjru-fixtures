@@ -717,9 +717,16 @@ function render(data, teamId) {
   const now  = new Date();
   const matches = data.matches.filter(m => m.home.id === teamId || m.away.id === teamId);
 
-  const teamEvents = (eventsData || []).filter(e =>
-    e.teams?.includes('*') || e.teams?.includes(slug)
-  );
+  const teamEvents = (eventsData || []).filter(e => {
+    if (!e.teams?.includes('*') && !e.teams?.includes(slug)) return false;
+    if (e.xplorerRound) {
+      const covered = data.matches.some(m =>
+        (m.home.id === teamId || m.away.id === teamId) && m.round === e.xplorerRound
+      );
+      if (covered) return false;
+    }
+    return true;
+  });
 
   const upcomingMatches = matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now);
   const pastMatches     = [...matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now)].reverse();
@@ -771,7 +778,7 @@ function render(data, teamId) {
     }
   }
 
-  if (matches.length === 0 && teamEvents.length === 0) {
+  if (upcomingAll.length === 0 && pastAll.length === 0) {
     html = `<div class="empty">No matches found for the selected team.</div>`;
   }
 
