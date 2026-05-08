@@ -154,15 +154,18 @@
   .row:last-child { border-bottom: none; }
   .row.next-up { background: #FFFFF0; }
 
-  /* Anchor link on each row */
+  /* Anchor link on each row — desktop hover only; hidden from touch/tap flow */
   .row-anchor {
     position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
     font-size: 11px; color: #ccc; text-decoration: none;
-    opacity: 0; transition: opacity .15s;
+    opacity: 0; pointer-events: none; transition: opacity .15s;
     line-height: 1;
   }
-  .row:hover .row-anchor { opacity: 1; }
-  .row-anchor:hover { color: var(--navy); }
+  @media (hover: hover) {
+    .row:hover .row-anchor { opacity: 1; pointer-events: auto; }
+    .row-anchor:hover { color: var(--navy); }
+  }
+  .row-anchor:focus-visible { opacity: 1; pointer-events: auto; color: var(--navy); }
 
   /* BADGE */
   .rnd-badge {
@@ -195,11 +198,15 @@
   }
   .venue-link {
     color: var(--ink); text-decoration: none;
-    display: inline-flex; align-items: center; gap: 3px;
+    display: flex; align-items: center; gap: 3px;
+    flex: 1; min-width: 0; overflow: hidden;
   }
-  .venue-link span { border-bottom: 1px dotted #bbb; }
+  .venue-link span {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #bbb;
+  }
   .venue-link:hover { color: var(--navy); }
-  .venue-link:hover span { border-bottom-color: var(--navy); }
+  .venue-link:hover span { text-decoration-color: var(--navy); }
   .icon-pin { width: 12px; height: 12px; fill: #bbb; flex-shrink: 0; transition: fill .12s; }
   .venue-link:hover .icon-pin { fill: var(--navy); }
   .pitch-on { font-size: 11px; color: var(--muted); white-space: nowrap; }
@@ -844,9 +851,9 @@ async function init() {
   stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
   })} AEST`;
-  if (staleHours > 1) {
-    stamp.textContent += ' ⚠ data may be out of date';
-    stamp.style.color = '#b71c1c';
+  if (staleHours > 4) {
+    stamp.textContent += ' · sync may be delayed';
+    stamp.style.color = 'var(--muted)';
   }
 
   // Apply team from hash (if any) without pushing history
