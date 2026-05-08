@@ -214,7 +214,7 @@ ICS:  displayLocation() → "Tryon Oval, East Lindfield"
       appends: VENUES["Tryon Oval"].suburb = "East Lindfield"
 ```
 
-*Browser rendering* — `parseVenue()` in `index.html`:
+*Browser rendering* — `parseVenue()` in `docs/render.mjs` (imported by `index.html`):
 ```
 API:   "Tryon Oval TT1 (U6/U7)"
 HTML:  parseVenue() → {
