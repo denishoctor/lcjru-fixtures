@@ -25,4 +25,21 @@ DTSTART:19701004T020000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
+BEGIN:VEVENT
+UID:lcjru-dbeab38b90ffd0030-u13-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260508T142304Z
+LAST-MODIFIED:20260508T142304Z
+DTSTART;TZID=Australia/Sydney:20260510T110000
+DTEND;TZID=Australia/Sydney:20260510T123000
+SUMMARY:U13 Blue vs Hunters Hill Cerise 13 | RND 3
+LOCATION:Boronia Park Field 1\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Blue 13 vs Hunters Hill Cerise 13\n📍 Boronia 
+ Park Field 1\n📅 Round 3 · Sun\, 10 May · 11:00am AEST\n🏆 SJRU XVs 
+ Under 13F\n\nℹ️ Venues and times may change. This calendar updates aut
+ omatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs 
+ after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u13-
+ blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u13-blue
+END:VEVENT
 END:VCALENDAR
