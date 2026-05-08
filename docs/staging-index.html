@@ -290,8 +290,12 @@
     border-bottom: 1px solid var(--rule);
     background: var(--cream);
   }
-  .lineup-panel.open { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .lineup-col h4 {
+  .lineup-panel.open {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0 12px; align-items: start;
+  }
+  /* Team header — one per column, spans its own cell */
+  .lineup-col-header h4 {
     display: flex; align-items: center; gap: 10px;
     font-size: 11px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 1px; color: var(--muted);
@@ -300,15 +304,18 @@
   .lineup-crest {
     width: 40px; height: 40px; object-fit: contain; flex-shrink: 0;
   }
-  .lineup-player { display: flex; gap: 6px; padding: 1px 0; font-size: 13px; }
+  /* Section dividers span both columns */
+  .lineup-section-head {
+    grid-column: 1 / -1;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted);
+    padding: 7px 0 3px; margin-top: 2px; border-top: 1px solid var(--cream-edge);
+  }
+  .lineup-player { display: flex; gap: 6px; padding: 1px 0; font-size: 13px; min-height: 1lh; }
+  .lineup-player.lineup-empty { visibility: hidden; }
   .lineup-num {
     color: var(--muted); min-width: 18px; text-align: right;
     font-variant-numeric: tabular-nums; font-size: 12px; flex-shrink: 0;
-  }
-  .lineup-sub-head {
-    font-size: 9px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted);
-    margin: 6px 0 3px; padding-top: 6px; border-top: 1px solid var(--cream-edge);
   }
   .lineup-none { font-size: 12px; color: var(--muted); font-style: italic; }
   .lineup-captain {
@@ -317,17 +324,11 @@
     padding: 0 3px; border-radius: 2px; margin-left: 4px;
     vertical-align: middle; letter-spacing: .5px;
   }
-  .lineup-coaches {
-    margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--cream-edge);
-  }
-  .lineup-coaches-head {
-    font-size: 9px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted); margin-bottom: 3px;
-  }
   .lineup-coach { font-size: 12px; color: var(--navy); padding: 1px 0; }
+  .lineup-coach.lineup-empty { visibility: hidden; }
   .lineup-footer {
     grid-column: 1 / -1; font-size: 11px; color: var(--muted);
-    padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 4px;
+    padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 6px;
     display: flex; justify-content: space-between; align-items: center; gap: 12px;
     flex-wrap: wrap;
   }
@@ -344,12 +345,11 @@
     .welcome { padding: 28px 16px 36px; }
     /* keep 2-column on mobile — tighten spacing and sizing */
     .lineup-panel { padding: 10px 10px 14px; }
-    .lineup-panel.open { gap: 8px; }
+    .lineup-panel.open { gap: 0 8px; }
     .lineup-crest { width: 28px; height: 28px; }
-    .lineup-col h4 { gap: 7px; font-size: 10px; padding-bottom: 6px; margin-bottom: 6px; }
+    .lineup-col-header h4 { gap: 7px; font-size: 10px; padding-bottom: 6px; margin-bottom: 6px; }
     .lineup-player { font-size: 12px; gap: 4px; }
     .lineup-num { min-width: 16px; font-size: 11px; }
-    .lineup-coaches { margin-top: 6px; padding-top: 5px; }
     .lineup-footer { gap: 8px; }
   }
 </style>
@@ -551,41 +551,76 @@ async function loadLineups() {
 function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
 
-  const colHeader = (name, crest) => {
+  // Pad the shorter array with nulls so both sides have the same row count
+  const pad = (arr, len) => [...arr, ...Array(Math.max(0, len - arr.length)).fill(null)];
+
+  const homeStarters = (entry.home ?? []).filter(p => !p.isSub);
+  const awayStarters = (entry.away ?? []).filter(p => !p.isSub);
+  const homeSubs     = (entry.home ?? []).filter(p =>  p.isSub);
+  const awaySubs     = (entry.away ?? []).filter(p =>  p.isSub);
+  const homeCoaches  = entry.homeCoaches ?? [];
+  const awayCoaches  = entry.awayCoaches ?? [];
+
+  const playerCell = (p, noneLabel) => {
+    if (!p) return noneLabel
+      ? `<div class="lineup-player"><span class="lineup-none">${noneLabel}</span></div>`
+      : `<div class="lineup-player lineup-empty" aria-hidden="true"></div>`;
+    const cap = p.captain ? ' <span class="lineup-captain">C</span>' : '';
+    return `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${cap}</span></div>`;
+  };
+
+  const coachCell = c => c
+    ? `<div class="lineup-coach">${esc(c.name)}</div>`
+    : `<div class="lineup-coach lineup-empty" aria-hidden="true"></div>`;
+
+  const sectionHead = label => `<div class="lineup-section-head">${label}</div>`;
+
+  let html = '';
+
+  // Team headers (one per column)
+  const hdr = (name, crest) => {
     const img = crest ? `<img class="lineup-crest" src="${esc(crest)}" alt="" loading="lazy">` : '';
-    return `${img}${esc(name)}`;
+    return `<div class="lineup-col-header"><h4>${img}${esc(name)}</h4></div>`;
   };
+  html += hdr(homeName, homeCrest) + hdr(awaName, awayCrest);
 
-  const coachBlock = coaches => {
-    if (!coaches || !coaches.length) return '';
-    return `<div class="lineup-coaches"><div class="lineup-coaches-head">Coaches</div>` +
-      coaches.map(c => `<div class="lineup-coach">${esc(c.name)}</div>`).join('') +
-      `</div>`;
-  };
+  // Starters — pad to equal length; show "Not published" only when the whole side is empty
+  const homeEmpty = entry.home.length === 0;
+  const awayEmpty = entry.away.length === 0;
+  const maxStart  = Math.max(homeStarters.length, awayStarters.length, homeEmpty || awayEmpty ? 1 : 0);
+  const hStart = pad(homeStarters, maxStart);
+  const aStart = pad(awayStarters, maxStart);
+  for (let i = 0; i < maxStart; i++) {
+    html += playerCell(hStart[i], homeEmpty && i === 0 ? 'Not published' : null);
+    html += playerCell(aStart[i], awayEmpty && i === 0 ? 'Not published' : null);
+  }
 
-  const col = (players, coaches, name, crest) => {
-    const header = colHeader(name, crest);
-    if (!players.length) return `<div class="lineup-col"><h4>${header}</h4><div class="lineup-none">Not published</div>${coachBlock(coaches)}</div>`;
-    let html = `<div class="lineup-col"><h4>${header}</h4>`;
-    let shownSub = false;
-    for (const p of players) {
-      if (!shownSub && p.isSub) {
-        html += `<div class="lineup-sub-head">Reserves</div>`;
-        shownSub = true;
-      }
-      const captain = p.captain ? ' <span class="lineup-captain">C</span>' : '';
-      html += `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${captain}</span></div>`;
+  // Reserves section
+  const maxSubs = Math.max(homeSubs.length, awaySubs.length);
+  if (maxSubs > 0) {
+    html += sectionHead('Reserves');
+    const hSubs = pad(homeSubs, maxSubs);
+    const aSubs = pad(awaySubs, maxSubs);
+    for (let i = 0; i < maxSubs; i++) {
+      html += playerCell(hSubs[i], null) + playerCell(aSubs[i], null);
     }
-    html += coachBlock(coaches);
-    html += `</div>`;
-    return html;
-  };
+  }
 
-  // Officials: type is "Referee" | "Referee Coach" | other
-  const officials  = entry.officials ?? [];
-  const mainRef    = officials.find(o => o.role === 'Referee');
-  const otherRefs  = officials.filter(o => o.role !== 'Referee');
+  // Coaches section
+  const maxCoaches = Math.max(homeCoaches.length, awayCoaches.length);
+  if (maxCoaches > 0) {
+    html += sectionHead('Coaches');
+    const hC = pad(homeCoaches, maxCoaches);
+    const aC = pad(awayCoaches, maxCoaches);
+    for (let i = 0; i < maxCoaches; i++) {
+      html += coachCell(hC[i]) + coachCell(aC[i]);
+    }
+  }
 
+  // Officials
+  const officials = entry.officials ?? [];
+  const mainRef   = officials.find(o => o.role === 'Referee');
+  const otherRefs = officials.filter(o => o.role !== 'Referee');
   let refereeHtml = '';
   if (mainRef) {
     refereeHtml = `<span class="lineup-referee">Referee: <strong>${esc(mainRef.name)}</strong>`;
@@ -594,11 +629,8 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
     refereeHtml += `</span>`;
   }
 
-  const footer = `<div class="lineup-footer">${refereeHtml}<a href="${xplorerUrl}" target="_blank" rel="noopener">View on Rugby Xplorer ↗</a></div>`;
-
-  return col(entry.home, entry.homeCoaches, homeName, homeCrest) +
-         col(entry.away, entry.awayCoaches, awaName, awayCrest) +
-         footer;
+  html += `<div class="lineup-footer">${refereeHtml}<a href="${xplorerUrl}" target="_blank" rel="noopener">View on Rugby Xplorer ↗</a></div>`;
+  return html;
 }
 
 function attachLineupHandlers() {
