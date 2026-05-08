@@ -25,4 +25,20 @@ DTSTART:19701004T020000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
+BEGIN:VEVENT
+UID:lcjru-ab1330b1d2192ec74-u14-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260508T201022Z
+LAST-MODIFIED:20260508T201022Z
+DTSTART;TZID=Australia/Sydney:20260510T123000
+DTEND;TZID=Australia/Sydney:20260510T140000
+SUMMARY:U14 Gold vs Drummoyne 14 | RND 3
+LOCATION:Taplin Park\, Drummoyne\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 14 vs Drummoyne 14\n📍 Taplin Park\, Drum
+ moyne\n📅 Round 3 · Sun\, 10 May · 12:30pm AEST\n🏆 SJRU XVs Under 1
+ 4C\n\nℹ️ Venues and times may change. This calendar updates automatica
+ lly\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a
+  change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u14-gold
+END:VEVENT
 END:VCALENDAR
