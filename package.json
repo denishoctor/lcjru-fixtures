@@ -12,7 +12,8 @@
     "test:ics": "node --test tests/ics.test.mjs",
     "test:json": "node --test tests/fixtures-json.test.mjs",
     "test:lineup": "node --test tests/lineup.test.mjs",
-    "test:normalise": "node --test tests/normalise.test.mjs"
+    "test:normalise": "node --test tests/normalise.test.mjs",
+    "test:render": "node --test tests/render.test.mjs"
   },
   "engines": {
     "node": ">=18"

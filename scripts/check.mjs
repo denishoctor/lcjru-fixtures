@@ -9,6 +9,7 @@ const required = [
   'fixtures.json',
   'lineups.json',
   'config.js',
+  'render.mjs',
   'index.html',
   ...Object.keys(TEAM_SLUGS).map(slug => `${slug}.ics`),
 ];

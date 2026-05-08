@@ -396,16 +396,16 @@
     </div>
     <div class="toolbar-meta">
       <div style="display:flex;gap:12px;align-items:center">
-        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Share</button>
+        <button class="copy-link-btn" id="copy-link-btn">🔗 Share</button>
         <div class="cal-links" id="cal-links">
           📅
           <a id="cal-ical" href="#">iCal / webcal</a>
           <span class="cal-sep">·</span>
           <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
-          <button class="copy-link-btn" id="cal-copy-ics" onclick="copyIcsUrl()">Copy ICS link</button>
+          <button class="copy-link-btn" id="cal-copy-ics">Copy ICS link</button>
         </div>
-        <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
+        <button class="clear-btn" id="clear-btn">Home</button>
       </div>
     </div>
   </div>
@@ -418,9 +418,10 @@
 
 </div>
 <script src="./config.js"></script>
-<script>
+<script type="module">
+import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue } from './render.mjs';
+
 const FIXTURES_URL = './fixtures.json';
-const LC_CREST_PATTERN = '/30901.';
 
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
@@ -429,84 +430,8 @@ let currentTeam  = null; // teamId or null
 let fixturesData = null;
 let lineupsData  = null;
 
-// ── venue display ─────────────────────────────────────────────────────────────
-
 const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
-
-function parseVenue(rawVenue) {
-  if (!rawVenue) return { display: '', pitch: null, mapsUrl: '#' };
-
-  // Minis: "Tryon Oval TT1 (U6/U7)" → base="Tryon Oval", pitch="TT1"
-  const miniMatch = rawVenue.match(/^(.+?) ((TT|M)\d+)\s*\([^)]+\)$/);
-  if (miniMatch) {
-    const base = miniMatch[1].trim();
-    const pitch = miniMatch[2];
-    const v = VENUES[base];
-    const display = v?.suburb ? `${base}, ${v.suburb}` : base;
-    return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
-  }
-
-  // Exact lookup first; then try stripping trailing field number (e.g. "Field 2")
-  let base = rawVenue.trim();
-  let pitch = null;
-  let v = VENUES[base];
-  if (!v) {
-    const fieldMatch = base.match(/^(.+?) (\d+)$/);
-    if (fieldMatch && VENUES[fieldMatch[1]]) {
-      base  = fieldMatch[1];
-      pitch = `Field ${fieldMatch[2]}`;
-      v     = VENUES[base];
-    }
-  }
-
-  const display = v?.suburb ? `${base}, ${v.suburb}` : base;
-  return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
-}
-
-function _genericMapsUrl(display) {
-  return `https://maps.google.com/?q=${encodeURIComponent(display + ', Sydney NSW')}`;
-}
-
-// ── helpers ──────────────────────────────────────────────────────────────────
-
-function esc(str) {
-  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-function isLaneCove(team) {
-  return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
-}
-
-function shortTeamName(name) {
-  if (name.includes('Lane Cove/')) {
-    return 'JV · ' + name.replace('Lane Cove/', '').replace(/\s*\d+$/, '').trim();
-  }
-  return name.replace('Lane Cove ', '').replace(' 2026', '').trim() || name;
-}
-
-function fmtDow(iso) {
-  return new Date(iso).toLocaleDateString('en-AU', { weekday: 'short', timeZone: 'Australia/Sydney' });
-}
-function fmtDate(iso) {
-  return new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', timeZone: 'Australia/Sydney' });
-}
-function fmtTime(iso) {
-  return new Date(iso).toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Australia/Sydney' })
-          .replace(' am', 'am').replace(' pm', 'pm');
-}
-
-function rowId(match) {
-  return 'match-' + match.id;
-}
-
-function scoreClass(match) {
-  const lcHome = isLaneCove(match.home);
-  const lc  = Number(lcHome ? match.home.score : match.away.score);
-  const opp = Number(lcHome ? match.away.score : match.home.score);
-  if (isNaN(lc) || isNaN(opp)) return '';
-  return lc > opp ? 'win' : lc < opp ? 'loss' : 'draw';
-}
 
 function renderWelcome() {
   return `
@@ -673,7 +598,7 @@ function renderMatch(match, isNextUp) {
   const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am'; // API sometimes lacks time
 
-  const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
+  const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '', VENUES);
   const anchor = rowId(match);
 
   const entry     = lineupsData?.[match.id];
@@ -831,6 +756,10 @@ document.querySelectorAll('.token').forEach(btn => {
     selectTeam(id === currentTeam ? null : id); // toggle off if already selected
   });
 });
+
+document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink);
+document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
+document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
 // Browser back/forward
 window.addEventListener('hashchange', () => {

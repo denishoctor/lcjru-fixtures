@@ -76,6 +76,12 @@ await check('index.html', `${base}/index.html`, [
   ['HTTP 200',           r      => r.status === 200],
   ['has #calendar div',  (_, b) => b.includes('id="calendar"')],
   ['loads config.js',    (_, b) => b.includes('config.js')],
+  ['imports render.mjs', (_, b) => b.includes('render.mjs')],
+]);
+
+await check('render.mjs', `${base}/render.mjs`, [
+  ['HTTP 200',           r      => r.status === 200],
+  ['exports esc',        (_, b) => b.includes('export function esc')],
 ]);
 
 await check('lineups.json', `${base}/lineups.json`, [
