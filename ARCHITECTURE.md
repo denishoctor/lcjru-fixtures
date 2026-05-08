@@ -150,7 +150,8 @@ sequenceDiagram
 | `generateICS(slug, ...)` | fetch-fixtures.mjs | Builds RFC 5545 VCALENDAR for one team |
 | `buildDescription(match, ...)` | fetch-fixtures.mjs | ICS event body — includes sibling match for Minis |
 | `icsFold(line)` | fetch-fixtures.mjs | RFC 5545 75-octet line folding (UTF-8 safe) |
-| `displayLocation(rawVenue)` | fetch-fixtures.mjs + index.html | Strips pitch suffix, appends suburb |
+| `displayLocation(rawVenue)` | fetch-fixtures.mjs | Strips pitch suffix, appends suburb — returns plain text (used for ICS and notifications) |
+| `parseVenue(rawVenue)` | index.html | Returns `{ display, pitch, mapsUrl }` — `display` is `name, suburb`, `pitch` is the stripped tag (e.g. `TT1`), `mapsUrl` is from `VENUES` or a generic fallback |
 | `shortTeamName(name)` | index.html | Removes "Lane Cove" prefix for display |
 | `esc(str)` | index.html | HTML-escapes API strings before innerHTML |
 | `renderMatch(match)` | index.html | Produces HTML card for one match |
@@ -174,7 +175,7 @@ description — so parents see both teams' games in one calendar event.
 | `item.round` | `match.round` | `RND` badge label |
 | `item.roundLabel \|\| item.round` | `match.roundLabel` | Display fallback |
 | `item.dateTime` (ISO 8601 UTC) | `match.dateTime` (unchanged) | `Intl.DateTimeFormat('Australia/Sydney')` → `Sat 3 May · 10:00am` |
-| `item.venue` (may include pitch suffix) | `match.venue` (unchanged) | `displayLocation()` strips ` TT1 (U6/U7)` etc, appends suburb from `VENUE_SUBURBS` |
+| `item.venue` (may include pitch suffix) | `match.venue` (unchanged) | `parseVenue()` strips pitch code → `{ display: "Name, Suburb", pitch: "TT1", mapsUrl }` → clickable pin link + pitch tag |
 | `item.status` (`'Result'` or other) | `match.type` (`'result'` / `'fixture'`) | Badge colour: green (result+score), grey (result no score), blue (fixture) |
 | `item.homeTeam.score` (`''` when unplayed) | `match.home.score` (`null` when `''`) | Score pill — hidden when `null` |
 | `item.homeTeam.teamId` | `match.home.id` | Matched to `TEAM_SLUGS` → slug → URL hash `#u7-gold` |
@@ -198,13 +199,30 @@ HTML: score pill shows '0'
 ```
 
 **Venue cleaning**
+
+Two separate paths depending on context:
+
+*ICS / notification text* — `displayLocation()` in `fetch-fixtures.mjs`:
 ```
 API:  "Tryon Oval TT1 (U6/U7)"
-JSON: "Tryon Oval TT1 (U6/U7)"   (stored raw)
-HTML: displayLocation() → "Tryon Oval, Ryde"
-             strips: / (?:TT|M)\d+\s*\([^)]+\)$/
-             appends: VENUE_SUBURBS["Tryon Oval"] = "Ryde"
+ICS:  displayLocation() → "Tryon Oval, East Lindfield"
+      strips: / (?:TT|M)\d+\s*\([^)]+\)$/
+      appends: VENUES["Tryon Oval"].suburb = "East Lindfield"
 ```
+
+*Browser rendering* — `parseVenue()` in `index.html`:
+```
+API:   "Tryon Oval TT1 (U6/U7)"
+HTML:  parseVenue() → {
+         display:  "Tryon Oval, East Lindfield",
+         pitch:    "TT1",
+         mapsUrl:  "https://www.google.com/maps/search/..."
+       }
+       → <a class="venue-link" href="{mapsUrl}">📍 Tryon Oval, East Lindfield</a>  [TT1]
+```
+
+`VENUES` in `scripts/config.mjs` is the source for both suburb names and Maps URLs.
+`docs/config.js` (generated) carries `VENUES` to the browser.
 
 **Date/time formatting (DST-safe)**
 ```
@@ -373,7 +391,7 @@ Still zero dependencies, runs in ~1s, gives agents earlier signal on data corrup
 
 | File | Purpose | Reads | Writes | Tested by |
 |---|---|---|---|---|
-| `scripts/config.mjs` | Season/teams/venues — single source of truth | — | — | Imported by tests |
+| `scripts/config.mjs` | Season/teams/venues — single source of truth. Exports `SEASON`, `TEAM_SLUGS`, `VENUES` (with `suburb` + `mapsUrl`), `MINIS_SLUGS`, `MINIS_SIBLINGS`, `FINAL_ROUND` | — | — | Imported by tests |
 | `scripts/fetch-fixtures.mjs` | Fetch, normalise, diff, write all outputs | `config.mjs`, prev `fixtures.json` | `fixtures.json`, `config.js`, `*.ics`, `changes.txt` | `api.test.mjs` (live), manual |
 | `scripts/check.mjs` | Pre-flight: all required files present | `docs/*` (existence only) | — | Run by pre-push hook |
 | `scripts/smoke.mjs` | Local HTTP server smoke test | `docs/*` (via HTTP) | — | Run by pre-push hook |
@@ -381,7 +399,7 @@ Still zero dependencies, runs in ~1s, gives agents earlier signal on data corrup
 | `docs/config.js` | Browser-loadable config (generated, do not edit) | Generated from `config.mjs` | — | `smoke.mjs` |
 | `docs/fixtures.json` | All match data (generated, committed) | Written by fetch script | — | `fixtures-json.test.mjs`, `smoke.mjs` |
 | `docs/index.html` | Production UI — vanilla JS, no build step | `config.js`, `fixtures.json` at runtime | — | `smoke.mjs` (static only) |
-| `docs/preview.html` | Staging UI — experimental features, not linked from main page | `config.js`, `fixtures.json` at runtime | — | Manual only |
+| `docs/staging-index.html` | Staging UI — experimental features, not linked from main page | `config.js`, `fixtures.json` at runtime | — | Manual only |
 | `docs/*.ics` | Per-team calendar feeds (16 files, generated) | Written by fetch script | — | `fixtures-json.test.mjs` |
 | `tests/api.test.mjs` | Live API contract tests (requires network) | Rugby Xplorer API | — | Run manually / periodically |
 | `tests/fixtures-json.test.mjs` | Committed JSON structure tests | `docs/fixtures.json` | — | `npm test` |
@@ -404,7 +422,8 @@ Run this at the start of each new season (typically January–February).
 
 5. **Update `FINAL_ROUND`** if the competition length changes from 13 rounds
 
-6. **Update `VENUE_SUBURBS`** if new grounds are added to the draw
+6. **Update `VENUES`** in `scripts/config.mjs` if new grounds are added — each entry needs
+   a `suburb` string and a verified `mapsUrl` (Google Maps search URL for the ground)
 
 7. **Run the fetch script** to regenerate all outputs:
    ```bash
