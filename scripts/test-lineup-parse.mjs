@@ -15,16 +15,10 @@ function extractLineup(pageProps) {
   const stats     = matchData?.allMatchStatsSummary ?? {};
   const lineUp    = stats?.lineUp;
 
-  const rawOfficials =
-    matchData.officials ??
-    matchData.matchOfficials ??
-    stats.officials ??
-    stats.matchOfficials ??
-    null;
-
-  const officials = rawOfficials
-    ? rawOfficials.map(o => ({ name: o.name ?? o.officialName ?? '', role: o.role ?? o.type ?? o.officialType ?? '' })).filter(o => o.name)
-    : [];
+  // Confirmed path: allMatchStatsSummary.referees[]
+  const officials = (stats.referees ?? [])
+    .filter(r => r.refereeName && r.isActive !== false)
+    .map(r => ({ name: r.refereeName, role: r.type ?? 'Referee' }));
 
   if (!lineUp) return { home: [], away: [], homeCoaches: [], awayCoaches: [], officials };
 
@@ -178,19 +172,24 @@ test('missing matchData returns all empty arrays', () => {
   assert.deepEqual(result, { home: [], away: [], homeCoaches: [], awayCoaches: [], officials: [] });
 });
 
-test('officials extracted when present in matchData', () => {
+test('referees extracted from allMatchStatsSummary.referees[] using refereeName field', () => {
   const result = extractLineup({
     matchData: {
-      officials: [
-        { name: 'John Smith', role: 'Referee' },
-        { name: 'Jane Doe',   role: 'AR1' },
-      ],
-      allMatchStatsSummary: { lineUp: null },
+      allMatchStatsSummary: {
+        lineUp: null,
+        referees: [
+          { refereeName: 'Daniel McGrath', type: 'Referee',       isActive: true  },
+          { refereeName: 'Glen Paterson',  type: 'Referee Coach', isActive: true  },
+          { refereeName: 'Old Ref',        type: 'Referee',       isActive: false },
+        ],
+      },
     },
   });
-  assert.equal(result.officials.length, 2);
-  assert.equal(result.officials[0].name, 'John Smith');
+  assert.equal(result.officials.length, 2, 'inactive referee excluded');
+  assert.equal(result.officials[0].name, 'Daniel McGrath');
   assert.equal(result.officials[0].role, 'Referee');
+  assert.equal(result.officials[1].name, 'Glen Paterson');
+  assert.equal(result.officials[1].role, 'Referee Coach');
 });
 
 console.log(`\n${passed} tests passed${process.exitCode ? ', some FAILED' : ''}`);

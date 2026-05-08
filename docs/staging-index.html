@@ -577,16 +577,16 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
     return html;
   };
 
-  // Officials: find referee and any ARs
-  const officials   = entry.officials ?? [];
-  const referee     = officials.find(o => /referee/i.test(o.role));
-  const assistants  = officials.filter(o => /\bAR\b|assistant/i.test(o.role));
+  // Officials: type is "Referee" | "Referee Coach" | other
+  const officials  = entry.officials ?? [];
+  const mainRef    = officials.find(o => o.role === 'Referee');
+  const otherRefs  = officials.filter(o => o.role !== 'Referee');
 
   let refereeHtml = '';
-  if (referee) {
-    refereeHtml = `<span class="lineup-referee">Referee: <strong>${esc(referee.name)}</strong>`;
-    if (assistants.length)
-      refereeHtml += ` &nbsp;·&nbsp; AR: ${assistants.map(a => `<strong>${esc(a.name)}</strong>`).join(', ')}`;
+  if (mainRef) {
+    refereeHtml = `<span class="lineup-referee">Referee: <strong>${esc(mainRef.name)}</strong>`;
+    if (otherRefs.length)
+      refereeHtml += ` &nbsp;·&nbsp; ${otherRefs.map(r => `${esc(r.role)}: <strong>${esc(r.name)}</strong>`).join(' &nbsp;·&nbsp; ')}`;
     refereeHtml += `</span>`;
   }
 

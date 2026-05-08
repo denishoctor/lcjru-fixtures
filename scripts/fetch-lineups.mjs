@@ -58,43 +58,11 @@ async function fetchLineup(matchId) {
   const stats     = matchData?.allMatchStatsSummary ?? {};
   const lineUp    = stats?.lineUp;
 
-  // Discover officials path — search ALL of pageProps recursively
-  if (matchArg) {
-    console.log(`  pageProps top-level keys: ${Object.keys(pageProps).join(', ')}`);
-    console.log(`  matchData keys: ${Object.keys(matchData).join(', ')}`);
-    console.log(`  allMatchStatsSummary keys: ${Object.keys(stats).join(', ')}`);
-    // Recursive search for any key or value containing "referee" or "official"
-    const searchForRef = (obj, prefix, depth = 0) => {
-      if (depth > 4 || !obj || typeof obj !== 'object') return;
-      for (const [k, v] of Object.entries(obj)) {
-        const path = `${prefix}.${k}`;
-        const vStr = JSON.stringify(v ?? '').slice(0, 300);
-        if (/referee|official/i.test(k) || /referee|official/i.test(vStr)) {
-          console.log(`  [REFEREE] ${path} =`, vStr.slice(0, 500));
-        } else if (typeof v === 'object' && v !== null) {
-          searchForRef(v, path, depth + 1);
-        }
-      }
-    };
-    searchForRef(pageProps, 'pageProps');
-  }
-
-  // Try known paths for match officials / referee
-  // Wrap single-referee objects into an array for uniform processing
-  const _wrapRef = (v, role) => v ? [{ name: v?.name ?? v, role }] : null;
-
-  const rawOfficials =
-    matchData.officials ??
-    matchData.matchOfficials ??
-    _wrapRef(matchData.referee, 'Referee') ??
-    stats.officials ??
-    stats.matchOfficials ??
-    _wrapRef(stats.referee, 'Referee') ??
-    null;
-
-  const officials = (Array.isArray(rawOfficials) ? rawOfficials : [])
-    .map(o => ({ name: o.name ?? o.officialName ?? String(o), role: o.role ?? o.type ?? o.officialType ?? '' }))
-    .filter(o => o.name && o.name !== '[object Object]');
+  // Officials: confirmed path is allMatchStatsSummary.referees[]
+  // Fields: refereeName, type ("Referee" | "Referee Coach" | …), isActive
+  const officials = (stats.referees ?? [])
+    .filter(r => r.refereeName && r.isActive !== false)
+    .map(r => ({ name: r.refereeName, role: r.type ?? 'Referee' }));
 
   if (!lineUp) {
     // lineUp is null when no team sheet has been submitted yet
