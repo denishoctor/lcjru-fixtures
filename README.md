@@ -62,6 +62,12 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 ## Running locally
 
 ```bash
+# Full UI rendering in browser (production + staging)
+npm run serve
+# Opens http://localhost:3000/      ← production
+#        http://localhost:3000/stg/ ← staging
+# Uses the committed docs/ files — run fetch scripts first if you want fresh data.
+
 # Fetch fresh fixture data
 node scripts/fetch-fixtures.mjs
 

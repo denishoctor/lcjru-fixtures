@@ -16,6 +16,7 @@ const DOCS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js':   'application/javascript',
+  '.mjs':  'application/javascript',
   '.json': 'application/json',
   '.ics':  'text/calendar',
 };
