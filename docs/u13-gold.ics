@@ -25,20 +25,4 @@ DTSTART:19701004T020000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
 END:DAYLIGHT
 END:VTIMEZONE
-BEGIN:VEVENT
-UID:lcjru-948fc97bd95a9e40b-u13-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260508T142304Z
-LAST-MODIFIED:20260508T142304Z
-DTSTART;TZID=Australia/Sydney:20260510T124000
-DTEND;TZID=Australia/Sydney:20260510T141000
-SUMMARY:U13 Gold vs Mosman Whales 13 | RND 3
-LOCATION:Rawson Oval\, Mosman\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 13 vs Mosman Whales 13\n📍 Rawson Oval\, 
- Mosman\n📅 Round 3 · Sun\, 10 May · 12:40pm AEST\n🏆 SJRU XVs Under 
- 13B\n\nℹ️ Venues and times may change. This calendar updates automatic
- ally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after 
- a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u13-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u13-gold
-END:VEVENT
 END:VCALENDAR
