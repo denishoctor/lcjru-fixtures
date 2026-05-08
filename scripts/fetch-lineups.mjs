@@ -58,21 +58,25 @@ async function fetchLineup(matchId) {
   const stats     = matchData?.allMatchStatsSummary ?? {};
   const lineUp    = stats?.lineUp;
 
-  // Discover officials path — log matchData top-level keys for future exploration
+  // Discover officials path — search ALL of pageProps recursively
   if (matchArg) {
+    console.log(`  pageProps top-level keys: ${Object.keys(pageProps).join(', ')}`);
     console.log(`  matchData keys: ${Object.keys(matchData).join(', ')}`);
     console.log(`  allMatchStatsSummary keys: ${Object.keys(stats).join(', ')}`);
-    // Walk both objects looking for anything referee/official-shaped
-    const searchForRef = (obj, prefix) => {
-      for (const [k, v] of Object.entries(obj ?? {})) {
-        const key = `${prefix}.${k}`;
-        if (/referee|official/i.test(k) || /referee|official/i.test(JSON.stringify(v ?? '').slice(0, 200))) {
-          console.log(`  [REFEREE] ${key} =`, JSON.stringify(v, null, 2).slice(0, 400));
+    // Recursive search for any key or value containing "referee" or "official"
+    const searchForRef = (obj, prefix, depth = 0) => {
+      if (depth > 4 || !obj || typeof obj !== 'object') return;
+      for (const [k, v] of Object.entries(obj)) {
+        const path = `${prefix}.${k}`;
+        const vStr = JSON.stringify(v ?? '').slice(0, 300);
+        if (/referee|official/i.test(k) || /referee|official/i.test(vStr)) {
+          console.log(`  [REFEREE] ${path} =`, vStr.slice(0, 500));
+        } else if (typeof v === 'object' && v !== null) {
+          searchForRef(v, path, depth + 1);
         }
       }
     };
-    searchForRef(matchData, 'matchData');
-    searchForRef(stats, 'stats');
+    searchForRef(pageProps, 'pageProps');
   }
 
   // Try known paths for match officials / referee
