@@ -74,9 +74,10 @@ async function fetchLineup(matchId) {
     ...(lineUp.substitutes ?? []),
   ];
 
+  const cleanName = s => (s ?? '').trim().replace(/\s+/g, ' ');
   const normalise = p => ({
     number:   p.shirtNumber ?? '',
-    name:     p.name ?? '',
+    name:     cleanName(p.name),
     position: p.position ?? '',
     captain:  p.captainType === 'captain',
     isSub:    parseInt(p.position) >= 16,
@@ -90,8 +91,8 @@ async function fetchLineup(matchId) {
 
   // Coaches are in lineUp.coaches[] with isHome boolean
   const rawCoaches    = lineUp.coaches ?? [];
-  const homeCoaches   = rawCoaches.filter(c => c.isHome === true ).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
-  const awayCoaches   = rawCoaches.filter(c => c.isHome === false).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
+  const homeCoaches   = rawCoaches.filter(c => c.isHome === true ).map(c => ({ name: cleanName(c.name) })).filter(c => c.name);
+  const awayCoaches   = rawCoaches.filter(c => c.isHome === false).map(c => ({ name: cleanName(c.name) })).filter(c => c.name);
 
   return { home, away, homeCoaches, awayCoaches, officials };
 }
