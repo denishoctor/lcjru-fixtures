@@ -269,6 +269,18 @@
     color: var(--muted); min-width: 18px; text-align: right;
     font-variant-numeric: tabular-nums; font-size: 12px; flex-shrink: 0;
   }
+  .lineup-sub-head {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted);
+    margin: 6px 0 3px; padding-top: 6px; border-top: 1px solid var(--cream-edge);
+  }
+  .lineup-none { font-size: 12px; color: var(--muted); font-style: italic; }
+  .lineup-captain {
+    display: inline-block; font-size: 8px; font-weight: 800;
+    background: var(--navy); color: #fff;
+    padding: 0 3px; border-radius: 2px; margin-left: 4px;
+    vertical-align: middle; letter-spacing: .5px;
+  }
   .lineup-footer {
     grid-column: 1 / -1; font-size: 11px; color: var(--muted);
     padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 4px;
@@ -487,14 +499,21 @@ function renderLineupPanel(matchId, entry) {
     return `<div class="lineup-footer">Lineup not yet published — <a href="${xplorerUrl}" target="_blank" rel="noopener">check Rugby Xplorer ↗</a></div>`;
   }
 
-  const col = (players, label) =>
-    `<div class="lineup-col"><h4>${label}</h4>` +
-    players.map(p => {
-      const num  = p.number ?? p.jerseyNumber ?? '';
-      const name = p.name ?? [p.firstName, p.lastName].filter(Boolean).join(' ') ?? '';
-      return `<div class="lineup-player"><span class="lineup-num">${esc(String(num))}</span><span>${esc(name)}</span></div>`;
-    }).join('') +
-    `</div>`;
+  const col = (players, label) => {
+    if (!players.length) return `<div class="lineup-col"><h4>${label}</h4><div class="lineup-none">Not published</div></div>`;
+    let html = `<div class="lineup-col"><h4>${label}</h4>`;
+    let shownSub = false;
+    for (const p of players) {
+      if (!shownSub && p.isSub) {
+        html += `<div class="lineup-sub-head">Reserves</div>`;
+        shownSub = true;
+      }
+      const captain = p.captain ? ' <span class="lineup-captain">C</span>' : '';
+      html += `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${captain}</span></div>`;
+    }
+    html += `</div>`;
+    return html;
+  };
 
   return col(entry.home, 'Home') + col(entry.away, 'Away') + footer;
 }
