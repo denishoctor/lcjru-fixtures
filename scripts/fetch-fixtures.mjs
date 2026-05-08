@@ -46,6 +46,18 @@ query EntityFixturesAndResults(
 
 // ── fetch ─────────────────────────────────────────────────────────────────────
 
+async function withRetry(fn, attempts = 3) {
+  let delay = 2000;
+  for (let i = 0; i < attempts; i++) {
+    try { return await fn(); } catch (err) {
+      if (i === attempts - 1) throw err;
+      console.warn(`  retry ${i + 1}/${attempts - 1} after ${delay}ms: ${err.message}`);
+      await new Promise(r => setTimeout(r, delay));
+      delay *= 2;
+    }
+  }
+}
+
 async function fetchPage(type, skip) {
   const res = await fetch(GRAPHQL_URL, {
     method: 'POST',
@@ -70,7 +82,7 @@ async function fetchAll(type) {
   const all = [];
   let skip = 0;
   while (true) {
-    const page = await fetchPage(type, skip);
+    const page = await withRetry(() => fetchPage(type, skip));
     all.push(...page);
     if (page.length < PAGE_SIZE) break;
     skip += PAGE_SIZE;
@@ -80,7 +92,7 @@ async function fetchAll(type) {
 
 // ── normalise ─────────────────────────────────────────────────────────────────
 
-function normalise(item) {
+export function normalise(item) {
   const type = item.status === 'Result' ? 'result' : 'fixture';
   return {
     id: item.id,
@@ -485,4 +497,6 @@ async function main() {
   }
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}

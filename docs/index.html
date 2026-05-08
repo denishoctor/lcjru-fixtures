@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'">
 <title>Lane Cove Junior Rugby — Fixtures 2026</title>
 <link rel="icon" href="https://digitalshift-assets.sfo2.cdn.digitaloceanspaces.com/pw/bacc8d3f-26ad-40d6-8a7f-e81787bacf96/favicon-1600636355774638552.png">
 <style>
@@ -244,12 +245,6 @@
   .result-badge.win  { background: #E8F5E9; color: var(--green); }
   .result-badge.loss { background: #FFEBEE; color: #b71c1c; }
   .result-badge.draw { background: #F5F5F5; color: var(--muted); }
-
-  /* REST */
-  .row.rest { background: #F7F7F7; }
-  .row.rest .rest-mark { width: 50px; text-align: center; color: #BDBDBD; font-size: 20px; flex-shrink: 0; }
-  .row.rest .rest-title { font-size: 13px; font-weight: 700; color: var(--ink); }
-  .row.rest .rest-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
   .empty { padding: 40px 28px; text-align: center; color: var(--muted); font-size: 14px; }
 
@@ -540,13 +535,6 @@ function renderWelcome() {
 }
 
 // ── lineups ───────────────────────────────────────────────────────────────────
-
-async function loadLineups() {
-  if (lineupsData) return lineupsData;
-  const res = await fetch('lineups.json');
-  lineupsData = await res.json();
-  return lineupsData;
-}
 
 function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;

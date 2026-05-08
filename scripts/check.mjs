@@ -7,6 +7,7 @@ const DOCS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs
 
 const required = [
   'fixtures.json',
+  'lineups.json',
   'config.js',
   'index.html',
   ...Object.keys(TEAM_SLUGS).map(slug => `${slug}.ics`),
