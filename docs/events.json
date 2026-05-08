@@ -76,14 +76,7 @@
     "time": "14:00",
     "venue": "Tantallon Oval",
     "teams": [
-      "u6-gold",
-      "u6-blue",
-      "u7-gold",
-      "u7-blue",
-      "u8-gold",
-      "u8-blue",
-      "u9-gold",
-      "u9-blue"
+      "*"
     ],
     "status": "confirmed",
     "cta": {
@@ -133,14 +126,7 @@
     "date": "2026-05-22",
     "time": "19:30",
     "teams": [
-      "u6-gold",
-      "u6-blue",
-      "u7-gold",
-      "u7-blue",
-      "u8-gold",
-      "u8-blue",
-      "u9-gold",
-      "u9-blue"
+      "*"
     ],
     "status": "confirmed",
     "cta": {
@@ -271,6 +257,9 @@
   {
     "id": "gala-rnd-7-2026",
     "type": "event",
+    "variant": "gala",
+    "galaLabel": "GALA",
+    "galaNum": "IDG",
     "title": "Inter-District Gala Day — Round 7",
     "description": "All Minis grades. Details TBC.",
     "date": "2026-06-20",
@@ -292,6 +281,9 @@
   {
     "id": "koth-k1-u89",
     "type": "event",
+    "variant": "gala",
+    "galaLabel": "KOTH",
+    "galaNum": "K1",
     "title": "King of the Hills — K1 Gala",
     "description": "U8/U9 King of the Hills gala.",
     "date": "2026-06-28",
@@ -307,7 +299,9 @@
   },
   {
     "id": "koth-k1-u67",
-    "type": "note",
+    "type": "event",
+    "title": "U6/U7 friendly fixtures",
+    "description": "Details TBC",
     "date": "2026-06-28",
     "teams": [
       "u6-gold",
@@ -315,12 +309,14 @@
       "u7-gold",
       "u7-blue"
     ],
-    "title": "U6/U7 friendly fixtures",
-    "description": "Details TBC"
+    "status": "tentative"
   },
   {
     "id": "koth-k2-u67",
     "type": "event",
+    "variant": "gala",
+    "galaLabel": "KOTH",
+    "galaNum": "K2",
     "title": "King of the Hills — K2 Gala",
     "description": "U6/U7 King of the Hills gala.",
     "date": "2026-07-05",
@@ -594,6 +590,9 @@
   {
     "id": "tiger-cup-2026",
     "type": "event",
+    "variant": "gala",
+    "galaLabel": "CUP",
+    "galaNum": "TC",
     "title": "Tiger Cup",
     "description": "Invite-based. TBC.",
     "date": "2026-09-12",
@@ -609,6 +608,9 @@
   {
     "id": "challenge-cup-2026",
     "type": "event",
+    "variant": "gala",
+    "galaLabel": "CUP",
+    "galaNum": "CCC",
     "title": "Chatswood Challenge Cup",
     "description": "Invite-based. TBC.",
     "date": "2026-09-13",
