@@ -249,14 +249,30 @@
   }
   .footer-note a { color: var(--navy); }
 
-  /* LINEUP PANEL */
+  /* LINEUP TOGGLE + PANEL */
   .row.has-lineup { cursor: pointer; }
   .row.has-lineup:hover { background: var(--cream); }
+  .row.has-lineup:hover .lineup-toggle { border-color: var(--navy); }
   .row.expanded { background: var(--cream); }
-  .lineup-indicator {
-    font-size: 11px; margin-left: 5px; opacity: .75;
-    pointer-events: none; vertical-align: middle;
+  .row.expanded .lineup-toggle {
+    background: var(--navy); border-color: var(--navy);
   }
+  .row.expanded .lineup-toggle svg { stroke: #fff; }
+
+  .lineup-toggle {
+    width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream); border: 1.5px solid var(--cream-edge);
+    flex-shrink: 0;
+    transition: background .15s, border-color .15s;
+  }
+  .lineup-toggle svg {
+    width: 13px; height: 13px;
+    fill: none; stroke: var(--navy); stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+    transition: transform .2s ease;
+  }
+  .row.expanded .lineup-toggle svg { transform: rotate(180deg); }
   .lineup-panel {
     display: none;
     padding: 10px 16px 14px;
@@ -388,7 +404,8 @@ let lineupsData  = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
 
-const PIN_SVG = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
+const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
+const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 
 function parseVenue(rawVenue) {
   if (!rawVenue) return { display: '', pitch: null, mapsUrl: '#' };
@@ -583,9 +600,9 @@ function renderMatch(match, isNextUp) {
   const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
-  const entry        = lineupsData?.[match.id];
-  const hasLineup    = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
-  const lineupAttrs  = hasLineup
+  const entry     = lineupsData?.[match.id];
+  const hasLineup = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
+  const lineupAttrs = hasLineup
     ? ` has-lineup" data-match-id="${esc(match.id)}" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
     : ``;
 
@@ -613,9 +630,9 @@ function renderMatch(match, isNextUp) {
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>
           ${scoreHtml}
-          ${hasLineup ? '<span class="lineup-indicator">👕</span>' : ''}
         </div>
       </div>
+      ${hasLineup ? `<span class="lineup-toggle" aria-label="View team sheet">${CHEVRON_SVG}</span>` : ''}
     </div>`;
 }
 
