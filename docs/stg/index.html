@@ -417,11 +417,11 @@
   </div>
 
 </div>
-<script src="./config.js"></script>
+<script src="../config.js"></script>
 <script type="module">
 import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue } from './render.mjs';
 
-const FIXTURES_URL = './fixtures.json';
+const FIXTURES_URL = '../fixtures.json';
 
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
@@ -786,7 +786,7 @@ async function init() {
   try {
     const [fixturesRes, lineupsRes] = await Promise.allSettled([
       fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
-      fetch('lineups.json').then(r => r.ok ? r.json() : {}),
+      fetch('../lineups.json').then(r => r.ok ? r.json() : {}),
     ]);
     if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
     data      = fixturesRes.value;

@@ -136,15 +136,23 @@ Run the **Resync All Lineups** workflow manually (`Actions → Resync All Lineup
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for a full system overview, data flow diagrams, SDLC friction map, and key files reference.
 
-**Staging convention:** `staging-index.html` is a full copy of `index.html` used as a development sandbox. Features are built and reviewed there before being promoted.
+**Staging environment:** `docs/stg/` is a live staging site that shares production data files (`fixtures.json`, `lineups.json`, `config.js`) but has its own `index.html` and `render.mjs` for independent feature development.
 
-- Staging URL: `https://denishoctor.github.io/lcjru-fixtures/staging-index.html`
-- Production URL: `https://denishoctor.github.io/lcjru-fixtures/`
+| Environment | URL | Data source |
+|---|---|---|
+| Production | `https://denishoctor.github.io/lcjru-fixtures/` | `docs/fixtures.json` |
+| Staging | `https://denishoctor.github.io/lcjru-fixtures/stg/` | `docs/fixtures.json` (shared via `../`) |
 
-**Promoting staging to production:**
+**Developing a feature:**
+1. Edit `docs/stg/index.html` and/or `docs/stg/render.mjs`
+2. Push to a branch — stg URL is immediately live with real data for UAT
+3. When UAT passes, promote to production:
+
 ```bash
-cp docs/staging-index.html docs/index.html
-git add docs/index.html && git commit -m "feat: promote staging to production"
+npm run promote          # rewrites ../ → ./ and copies to docs/
+npm run promote --dry-run  # preview what would change without writing
 ```
+
+4. Commit and push — production site updates.
 
 **Adding a new season (annual):** Update `SEASON`, and if team IDs change also update `TEAM_SLUGS` and `LCJRU_TEAM_IDS` — all in `scripts/config.mjs`. Run the fetch script once to regenerate `docs/config.js` and the `.ics` feeds.

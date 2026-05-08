@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "setup": "git config core.hooksPath .githooks",
+    "promote": "node scripts/promote.mjs",
     "fetch": "node scripts/fetch-fixtures.mjs",
     "check": "node scripts/check.mjs",
     "smoke": "node scripts/smoke.mjs",

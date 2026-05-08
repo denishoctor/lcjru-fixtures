@@ -252,24 +252,27 @@ desc     → buildDescription() → icsEscape() → icsFold() → 75-octet folde
 
 ```mermaid
 flowchart LR
-    EDIT["Edit file\n(HTML / JS / config / script)"]
+    EDIT["Edit docs/stg/\n(index.html · render.mjs)"]
     CHECK["npm run check\n~0.1s — files exist"]
     SMOKE["npm run smoke\n~1s — HTTP serving"]
-    PUSH["git push"]
-    CI["GitHub Actions\n~90s — fetch + commit"]
-    PAGES["GitHub Pages\nlive site"]
-    VERIFY["Visual verify\nin browser"]
+    PUSH["git push branch"]
+    STG["GitHub Pages /stg/\nlive staging URL"]
+    UAT["UAT in browser\nreal data, real rendering"]
+    PROMOTE["npm run promote\nrewrite ../ → ./"]
+    PROD["GitHub Pages /\nproduction"]
 
     EDIT --> CHECK
     CHECK -->|pass| SMOKE
     SMOKE -->|pass| PUSH
-    PUSH --> CI
-    CI --> PAGES
-    PAGES --> VERIFY
-    VERIFY -.->|iterate| EDIT
+    PUSH --> STG
+    STG --> UAT
+    UAT -->|pass| PROMOTE
+    PROMOTE --> PUSH
+    PUSH --> PROD
 
     CHECK -->|MISSING file| EDIT
     SMOKE -->|FAIL check| EDIT
+    UAT -.->|iterate| EDIT
 ```
 
 **Pre-push hook** (requires one-time setup: `git config core.hooksPath .githooks`)
@@ -389,9 +392,10 @@ Zero new dependencies. Makes the full rendering pipeline refactorable with confi
 | `docs/config.js` | Browser-loadable config (generated, do not edit) | Generated from `config.mjs` | — | `smoke.mjs` |
 | `docs/fixtures.json` | All match data (generated, committed) | Written by fetch script | — | `fixtures-json.test.mjs`, `smoke.mjs` |
 | `docs/lineups.json` | Per-match lineup data (generated, committed) | Written by lineups script | — | `smoke.mjs` |
-| `docs/render.mjs` | Pure browser render helpers (ES module) — `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` | — | — | `render.test.mjs`, `smoke.mjs` |
-| `docs/index.html` | Production UI — `<script type="module">` importing `render.mjs` | `config.js`, `render.mjs`, `fixtures.json`, `lineups.json` at runtime | — | `smoke.mjs` (static only) |
-| `docs/staging-index.html` | Staging UI — experimental features, not linked from main page | `config.js`, `render.mjs`, `fixtures.json`, `lineups.json` at runtime | — | Manual only |
+| `docs/render.mjs` | Production render helpers (ES module) — `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` | — | — | `render.test.mjs`, `smoke.mjs` |
+| `docs/index.html` | Production UI — `<script type="module">` importing `./render.mjs` | `./config.js`, `./render.mjs`, `./fixtures.json`, `./lineups.json` at runtime | — | `smoke.mjs` (static only) |
+| `docs/stg/render.mjs` | Staging render helpers — independent copy of `docs/render.mjs`; promoted via `npm run promote` | — | — | `smoke.mjs` |
+| `docs/stg/index.html` | Staging UI — live at `/stg/`, shares production data via `../`; UAT environment for new features | `../config.js`, `./render.mjs`, `../fixtures.json`, `../lineups.json` at runtime | — | `smoke.mjs` |
 | `docs/*.ics` | Per-team calendar feeds (16 files, generated) | Written by fetch script | — | `ics.test.mjs` |
 | `tests/api.test.mjs` | Live API contract tests (requires network) | Rugby Xplorer API | — | Run manually / periodically |
 | `tests/fixtures-json.test.mjs` | Committed JSON structure tests | `docs/fixtures.json` | — | `npm test` |
