@@ -1,6 +1,6 @@
 # LCJRU Fixtures
 
-Live fixtures and results for **Lane Cove Junior Rugby Union**, fetched from Rugby Xplorer's GraphQL API and served as a static GitHub Pages site.
+Live fixtures, results, and match-day team sheets for **Lane Cove Junior Rugby Union**, fetched from Rugby Xplorer and served as a static GitHub Pages site.
 
 **Live page:** https://denishoctor.github.io/lcjru-fixtures/
 
@@ -8,65 +8,79 @@ Live fixtures and results for **Lane Cove Junior Rugby Union**, fetched from Rug
 
 ## How it works
 
-1. `scripts/fetch-fixtures.mjs` calls the Rugby Xplorer GraphQL API for all 16 LCJRU teams, diffs against the previous run to detect venue/time changes, and writes `docs/fixtures.json` and `changes.txt`.
-2. GitHub Actions runs the script on a cron schedule and commits the updated JSON.
-3. `docs/index.html` fetches `fixtures.json` at runtime and renders it — no build step.
+1. `scripts/fetch-fixtures.mjs` calls the Rugby Xplorer GraphQL API for all LCJRU teams, diffs against the previous run to detect changes, and writes `docs/fixtures.json`, per-team `.ics` feeds, and `changes.txt`.
+2. `scripts/fetch-lineups.mjs` scrapes the Rugby Xplorer match-centre HTML for each match, extracts the `__NEXT_DATA__` JSON payload, and writes `docs/lineups.json` with player, reserve, coach, and referee data.
+3. GitHub Actions runs both scripts on a cron schedule and commits the updated files.
+4. `docs/index.html` fetches `fixtures.json` and `lineups.json` at runtime and renders them — no build step.
 
 ---
 
-## Data source
+## Data sources
 
-| Field | Value |
-|---|---|
-| Endpoint | `https://rugby-au-cms.graphcdn.app/` (GraphQL, public) |
-| Operation | `EntityFixturesAndResults` |
-| Club | Lane Cove JRU — `entityId: 30901` |
-| Season | 2026 |
+| Data | Source | Method |
+|---|---|---|
+| Fixtures, results, team IDs | `https://rugby-au-cms.graphcdn.app/` | GraphQL — `EntityFixturesAndResults` |
+| Player lineups, coaches, referees | `https://xplorer.rugby/lcjru-/match-centre/{id}` | HTML scrape — `__NEXT_DATA__` JSON |
+
+Club entity ID: `30901` (Lane Cove JRU) · Season: 2026
 
 ---
 
 ## Refresh schedule
 
-The workflow runs hourly during active hours (all times AEST). Because AEST is UTC+10 and the window spans midnight UTC, each block requires two cron entries.
+The workflow runs every 30 minutes, 24/7:
 
-| Cron (UTC) | AEST window | Days |
-|---|---|---|
-| `0 22-23 * * 0,1,2,3,4` | 8–9am | Mon–Fri |
-| `0 0-8 * * 1,2,3,4,5` | 10am–6pm | Mon–Fri |
-| `0 19-23 * * 5,6` | 5–9am | Sat–Sun |
-| `0 0-8 * * 6,0` | 10am–6pm | Sat–Sun |
+```
+0  * * * *   # every hour on the hour
+30 * * * *   # every hour on the half-hour
+```
 
-**Why two entries per block:** AEST is UTC+10, so 8am AEST on Monday = 10pm UTC on Sunday. A single cron expression can't span a day boundary, so each active window is split at midnight UTC.
-
-If venue, time, new, or removed fixtures are detected, a push notification is sent via [ntfy.sh](https://ntfy.sh) using the `NTFY_TOPIC` repository secret.
+If venue, time, new, or removed fixtures are detected, a push notification is sent via [ntfy.sh](https://ntfy.sh) using the `NTFY_TOPIC` repository secret. A failure notification is also sent if the workflow errors.
 
 ---
 
 ## UI features
 
 - **Minis** (U6–U9) and **Juniors** (U10–U15) token filter rows
-- Sharable URL hash deep-links: `#u7-gold`, `#u13-blue`, etc.
+- Shareable URL hash deep-links: `#u11`, `#u13-blue`, etc.
 - Per-match anchor links (`#match-<id>`)
-- **Upcoming fixtures** — first upcoming match highlighted
-- **Completed games** — past Minis rounds show a grey DONE badge (no scores recorded); scored Junior results show a green RES badge with Win / Loss / Draw pill
-- **HOME** badge appears only at Tantallon Oval (Lane Cove's home ground)
-- JV teams display as "JV · St Ives" and "JV · Lindfield"
-- Venue names cleaned of pitch allocation noise ("Tryon Oval TT1 (U6/U7)" → "Tryon Oval, Ryde") via a suburb lookup table in `docs/index.html`
+- **Upcoming fixtures** — next match highlighted; past unfinalised fixtures shown with muted styling
+- **Completed games** — scored Junior results show Win / Loss / Draw pill; Minis show no score (not recorded)
+- **HOME** badge appears only at Tantallon Oval
+- Venue names cleaned of pitch allocation noise ("Tryon Oval TT1 (U6/U7)" → "Tryon Oval, Ryde") via a lookup table in `docs/config.js`
+- **iCal / webcal** feed and **Google Calendar** link per team
+- **Match team sheets** — click the chevron on any fixture row to expand a two-column lineup panel:
+  - Starters (jersey number · name · captain badge), Reserves, Coaches aligned side-by-side
+  - Club crests in column headers
+  - Referee and Referee Coach in the panel footer
+  - Rows pad to equal length so sections always align across both columns
+  - Rows with no published lineup show "Not published"
+  - Panel updates every 30 minutes via CI; historic matches (>15 days) are locked and not re-fetched
 
 ---
 
 ## Running locally
 
 ```bash
-# Fetch fresh data
+# Fetch fresh fixture data
 node scripts/fetch-fixtures.mjs
 
-# Run tests
-node --test tests/api.test.mjs           # live API integration tests
-node --test tests/fixtures-json.test.mjs # local JSON structure tests
+# Lineup commands
+node scripts/test-lineup-parse.mjs            # unit tests — no network required (15 tests)
+node scripts/fetch-lineups.mjs --match <id>   # smoke test: fetch one match, print result, no file writes
+node scripts/fetch-lineups.mjs                # full run — writes docs/lineups.json
+node scripts/fetch-lineups.mjs --force-all    # bypass 15-day lock; re-fetches all matches
 
-# View the page
-open docs/index.html
+# Diagnose a match's raw __NEXT_DATA__ structure
+node scripts/probe-lineup.mjs <matchId>
+
+# Validate generated files
+npm run check   # asserts all required files are present in docs/
+npm run smoke   # starts a local HTTP server and fetches fixtures.json, config.js, index.html, a .ics
+
+# Tests
+node --test tests/api.test.mjs            # live API integration tests
+node --test tests/fixtures-json.test.mjs  # local JSON structure tests
 ```
 
 ---
@@ -75,35 +89,52 @@ open docs/index.html
 
 ```
 scripts/
-  config.mjs                  Single source of truth — season, team IDs, venue table
-  fetch-fixtures.mjs          GraphQL fetch, diff, JSON + ICS writer
+  config.mjs              Single source of truth — season, team IDs, venue lookup table
+  fetch-fixtures.mjs      GraphQL fetch, diff, JSON + ICS writer
+  fetch-lineups.mjs       HTML scraper for match team sheets; writes lineups.json
+  probe-lineup.mjs        Diagnostic — dumps __NEXT_DATA__ pageProps for a match (run locally)
+  test-lineup-parse.mjs   Offline unit tests for lineup parsing logic (no network)
+  check.mjs               Asserts all required generated files exist
+  smoke.mjs               Local HTTP server smoke test
 docs/
-  config.js                   Generated — browser-loadable version of scripts/config.mjs
-  fixtures.json               Generated — committed by CI
-  index.html                  Single-file UI (no build step)
-  preview.html                Staging area for new features (see Development below)
-  *.ics                       Per-team iCalendar feeds — committed by CI
+  config.js               Generated — browser-loadable version of scripts/config.mjs
+  fixtures.json           Generated — committed by CI
+  lineups.json            Generated — committed by CI; matchId → { home, away, coaches, officials }
+  index.html              Production UI (single-file, no build step)
+  staging-index.html      Staging area for new features before promotion to index.html
+  *.ics                   Per-team iCalendar feeds — committed by CI
 tests/
-  api.test.mjs                Live API integration tests
-  fixtures-json.test.mjs      Local JSON tests
+  api.test.mjs            Live API integration tests
+  fixtures-json.test.mjs  Local JSON structure tests
 .github/workflows/
-  refresh-fixtures.yml        Cron job — fetch, notify, commit
+  refresh-fixtures.yml    Cron job — fetch fixtures + lineups, notify, commit
+  resync-lineups.yml      Manual workflow_dispatch — force-refetch all historic lineups
 ```
+
+---
+
+## Lineup caching
+
+`lineups.json` is the persistent cache. On each cron run:
+
+- **Match played > 15 days ago AND entry exists** → skip (locked; team sheets don't change after the game)
+- **All other matches** → fetch
+
+Run the **Resync All Lineups** workflow manually (`Actions → Resync All Lineups → Run workflow`) to force-refetch everything — useful after adding new data fields or fixing parsing bugs.
 
 ---
 
 ## Development
 
-**Staging convention:** `preview.html` is a development sandbox. New UI features are
-tried there before being promoted to `index.html`. It is served at `/preview.html` but
-not linked from the main page.
+**Staging convention:** `staging-index.html` is a full copy of `index.html` used as a development sandbox. Features are built and reviewed there before being promoted.
 
-**Promoting a feature from preview to production:**
-1. Copy the relevant functions and CSS into `index.html`
-2. Run `node --test tests/fixtures-json.test.mjs` to verify nothing broke
-3. Open both pages locally and confirm the feature works
-4. Remove the staging code from `preview.html`
+- Staging URL: `https://denishoctor.github.io/lcjru-fixtures/staging-index.html`
+- Production URL: `https://denishoctor.github.io/lcjru-fixtures/`
 
-**Adding a new season (annual):** Update `SEASON`, and if team IDs change also update
-`TEAM_SLUGS` and `LCJRU_TEAM_IDS` — all in `scripts/config.mjs`. Run the fetch script
-once to regenerate `docs/config.js` and the `.ics` feeds.
+**Promoting staging to production:**
+```bash
+cp docs/staging-index.html docs/index.html
+git add docs/index.html && git commit -m "feat: promote staging to production"
+```
+
+**Adding a new season (annual):** Update `SEASON`, and if team IDs change also update `TEAM_SLUGS` and `LCJRU_TEAM_IDS` — all in `scripts/config.mjs`. Run the fetch script once to regenerate `docs/config.js` and the `.ics` feeds.

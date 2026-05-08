@@ -1,11 +1,3 @@
-<!--
-  STAGING — preview.html is a development sandbox for features being tried before
-  promotion to index.html. It is served at /preview.html but is not linked from
-  the main UI. Do not treat it as production code.
-
-  Promotion checklist: copy any new functions/CSS into index.html, run the JSON
-  tests (npm test), verify both pages locally, then delete the staging code here.
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,8 +37,12 @@
   .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
   .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -.5px; }
   .title-block .tag { font-size: 13px; color: #C9D2E8; font-style: italic; }
-  .header-right { text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2; flex-shrink: 0; }
+  .header-right {
+    text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2;
+    flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+  }
   .header-right a { color: #fff; font-weight: 700; }
+  .header-stamp { font-size: 10px; color: #8A9BBF; }
 
   /* TOOLBAR — team token rows */
   .toolbar {
@@ -101,6 +97,7 @@
   .cal-links a:hover { text-decoration: underline; }
   .cal-sep { font-size: 10px; color: var(--muted); }
 
+
   /* WELCOME SCREEN */
   .welcome {
     padding: 36px 28px 44px;
@@ -140,62 +137,6 @@
   }
   .feature-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
 
-  /* HOME SECTIONS (welcome page) */
-  .home-stats {
-    display: flex; align-items: center; justify-content: center;
-    gap: 8px; margin: 0 0 28px;
-    font-size: 12px; color: var(--muted);
-  }
-  .home-stat-val { font-weight: 700; color: var(--ink); }
-  .home-stat-sep { color: var(--rule); }
-
-  .home-section {
-    margin-top: 28px; text-align: left;
-    border-top: 1px solid var(--rule); padding-top: 20px;
-  }
-  .home-section-hd {
-    font-size: 10px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1.5px; color: var(--navy);
-    display: flex; align-items: baseline; gap: 8px;
-    margin-bottom: 10px;
-  }
-  .home-section-hd span {
-    font-size: 11px; color: var(--muted);
-    font-weight: 400; text-transform: none; letter-spacing: 0;
-  }
-  .home-day-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted); margin: 12px 0 6px;
-  }
-  .home-day-label:first-child { margin-top: 0; }
-  .mini-row {
-    display: flex; align-items: center; gap: 8px;
-    padding: 5px 0; border-bottom: 1px solid var(--rule);
-    font-size: 12px; min-height: 30px;
-  }
-  .mini-row:last-child { border-bottom: none; }
-  .mini-team {
-    font-size: 10px; font-weight: 700; color: var(--navy);
-    width: 70px; flex-shrink: 0;
-  }
-  .mini-time { font-size: 10px; color: var(--muted); width: 44px; flex-shrink: 0; }
-  .mini-vs { font-size: 12px; flex: 1; color: var(--ink); min-width: 0; }
-  .mini-vs em { font-style: normal; color: var(--muted); }
-  .mini-loc {
-    font-size: 11px; color: var(--muted); flex-shrink: 0;
-    max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .mini-result { font-weight: 800; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
-  .mini-result.win  { color: var(--green); }
-  .mini-result.loss { color: #b71c1c; }
-  .mini-result.draw { color: var(--muted); }
-  .mini-done {
-    font-size: 9px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1px; padding: 2px 5px; border-radius: 3px;
-    background: #9E9E9E; color: #fff; flex-shrink: 0;
-  }
-  .home-empty { font-size: 12px; color: var(--muted); font-style: italic; padding: 10px 0; }
-
   /* SECTION HEADER */
   .section-header {
     padding: 7px 28px;
@@ -217,15 +158,18 @@
   .row:last-child { border-bottom: none; }
   .row.next-up { background: #FFFFF0; }
 
-  /* Anchor link on each row */
+  /* Anchor link on each row — desktop hover only; hidden from touch/tap flow */
   .row-anchor {
     position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
     font-size: 11px; color: #ccc; text-decoration: none;
-    opacity: 0; transition: opacity .15s;
+    opacity: 0; pointer-events: none; transition: opacity .15s;
     line-height: 1;
   }
-  .row:hover .row-anchor { opacity: 1; }
-  .row-anchor:hover { color: var(--navy); }
+  @media (hover: hover) {
+    .row:hover .row-anchor { opacity: 1; pointer-events: auto; }
+    .row-anchor:hover { color: var(--navy); }
+  }
+  .row-anchor:focus-visible { opacity: 1; pointer-events: auto; color: var(--navy); }
 
   /* BADGE */
   .rnd-badge {
@@ -248,16 +192,34 @@
   .date-block .note.final { color: var(--navy); }
 
   /* VENUES */
-  .venues { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-  .venue { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
+  .venues { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .venue { display: flex; align-items: center; gap: 7px; font-size: 13px; min-width: 0; overflow: hidden; }
   .team-pill {
     background: var(--cream); border: 1px solid var(--cream-edge);
     color: var(--navy); font-weight: 700; font-size: 10px;
     padding: 2px 8px; border-radius: 3px; letter-spacing: .5px;
     flex-shrink: 0; white-space: nowrap;
   }
-  .venue-link { color: var(--ink); text-decoration: none; border-bottom: 1px dotted #aaa; }
-  .venue-link:hover { color: var(--navy); border-bottom-color: var(--navy); }
+  .venue-link {
+    color: var(--ink); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 3px;
+    flex: 0 1 auto; min-width: 0; overflow: hidden;
+  }
+  .venue-link span {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #bbb;
+  }
+  .venue-link:hover { color: var(--navy); }
+  .venue-link:hover span { text-decoration-color: var(--navy); }
+  .icon-pin { width: 12px; height: 12px; fill: #bbb; flex-shrink: 0; transition: fill .12s; }
+  .venue-link:hover .icon-pin { fill: var(--navy); }
+  .pitch-on { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .pitch-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--muted); background: #F3F4F6;
+    border: 1px solid var(--rule); border-radius: 10px;
+    padding: 1px 8px;
+  }
   .home-pill {
     background: var(--gold); color: var(--navy);
     font-size: 9px; font-weight: 800;
@@ -298,6 +260,82 @@
   }
   .footer-note a { color: var(--navy); }
 
+  /* LINEUP TOGGLE + PANEL */
+  .row.has-lineup { cursor: pointer; }
+  .row.has-lineup:hover { background: var(--cream); }
+  .row.has-lineup:hover .lineup-toggle { border-color: var(--navy); }
+  .row.expanded { background: var(--cream); }
+  .row.expanded .lineup-toggle {
+    background: var(--navy); border-color: var(--navy);
+  }
+  .row.expanded .lineup-toggle svg { stroke: #fff; }
+
+  .lineup-toggle {
+    width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream); border: 1.5px solid var(--cream-edge);
+    flex-shrink: 0;
+    transition: background .15s, border-color .15s;
+  }
+  .lineup-toggle svg {
+    width: 13px; height: 13px;
+    fill: none; stroke: var(--navy); stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+    transition: transform .2s ease;
+  }
+  .row.expanded .lineup-toggle svg { transform: rotate(180deg); }
+  .lineup-panel {
+    display: none;
+    padding: 10px 16px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream);
+  }
+  .lineup-panel.open {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0 12px; align-items: start;
+  }
+  /* Team header — one per column, spans its own cell */
+  .lineup-col-header h4 {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted);
+    margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--cream-edge);
+  }
+  .lineup-crest {
+    width: 40px; height: 40px; object-fit: contain; flex-shrink: 0;
+  }
+  /* Section dividers span both columns */
+  .lineup-section-head {
+    grid-column: 1 / -1;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted);
+    padding: 7px 0 3px; margin-top: 2px; border-top: 1px solid var(--cream-edge);
+  }
+  .lineup-player { display: flex; gap: 6px; padding: 1px 0; font-size: 13px; min-height: 1lh; }
+  .lineup-player.lineup-empty { visibility: hidden; }
+  .lineup-num {
+    color: var(--muted); min-width: 18px; text-align: right;
+    font-variant-numeric: tabular-nums; font-size: 12px; flex-shrink: 0;
+  }
+  .lineup-none { font-size: 12px; color: var(--muted); font-style: italic; }
+  .lineup-captain {
+    display: inline-block; font-size: 8px; font-weight: 800;
+    background: var(--navy); color: #fff;
+    padding: 0 3px; border-radius: 2px; margin-left: 4px;
+    vertical-align: middle; letter-spacing: .5px;
+  }
+  .lineup-coach { font-size: 12px; color: var(--navy); padding: 1px 0; }
+  .lineup-coach.lineup-empty { visibility: hidden; }
+  .lineup-footer {
+    grid-column: 1 / -1; font-size: 11px; color: var(--muted);
+    padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 6px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lineup-footer a { color: var(--navy); }
+  .lineup-referee { font-size: 11px; color: var(--muted); }
+  .lineup-referee strong { color: var(--navy); font-weight: 600; }
+
   @media (max-width: 600px) {
     .header { flex-direction: column; align-items: flex-start; }
     .header-right { text-align: left; }
@@ -305,6 +343,14 @@
     .toolbar { padding: 10px 14px 8px; }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
+    /* keep 2-column on mobile — tighten spacing and sizing */
+    .lineup-panel { padding: 10px 10px 14px; }
+    .lineup-panel.open { gap: 0 8px; }
+    .lineup-crest { width: 28px; height: 28px; }
+    .lineup-col-header h4 { gap: 7px; font-size: 10px; padding-bottom: 6px; margin-bottom: 6px; }
+    .lineup-player { font-size: 12px; gap: 4px; }
+    .lineup-num { min-width: 16px; font-size: 11px; }
+    .lineup-footer { gap: 8px; }
   }
 </style>
 </head>
@@ -325,7 +371,8 @@
       </div>
     </div>
     <div class="header-right">
-      Updated hourly
+      <span>Official draw · live</span>
+      <span id="updated-stamp" class="header-stamp"></span>
     </div>
   </div>
 
@@ -353,14 +400,15 @@
       <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
     </div>
     <div class="toolbar-meta">
-      <span id="updated-stamp"></span>
       <div style="display:flex;gap:12px;align-items:center">
-        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Copy link</button>
+        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Share</button>
         <div class="cal-links" id="cal-links">
           📅
+          <a id="cal-ical" href="#">iCal / webcal</a>
+          <span class="cal-sep">·</span>
           <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <span class="cal-sep">·</span>
-          <a id="cal-apple" href="#">Apple / iCal</a>
+          <button class="copy-link-btn" id="cal-copy-ics" onclick="copyIcsUrl()">Copy ICS link</button>
         </div>
         <button class="clear-btn" id="clear-btn" onclick="selectTeam(null)">Home</button>
       </div>
@@ -370,7 +418,7 @@
   <div id="calendar"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Updated 3&times; daily
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://www.rugbyxplorer.com.au" target="_blank" rel="noopener">Rugby Xplorer</a>
   </div>
 
 </div>
@@ -379,20 +427,50 @@
 const FIXTURES_URL = './fixtures.json';
 const LC_CREST_PATTERN = '/30901.';
 
-const { TEAM_SLUGS, VENUE_SUBURBS, FINAL_ROUND } = window.LCJRU_CONFIG;
+const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
-let currentTeam = null; // teamId or null
+let currentTeam  = null; // teamId or null
 let fixturesData = null;
+let lineupsData  = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
 
-function displayLocation(rawVenue) {
-  if (!rawVenue) return rawVenue;
-  // Strip Minis pitch allocation suffix: "Tryon Oval TT1 (U6/U7)" → "Tryon Oval"
-  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUE_SUBURBS[clean];
-  return suburb ? `${clean}, ${suburb}` : clean;
+const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
+const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+
+function parseVenue(rawVenue) {
+  if (!rawVenue) return { display: '', pitch: null, mapsUrl: '#' };
+
+  // Minis: "Tryon Oval TT1 (U6/U7)" → base="Tryon Oval", pitch="TT1"
+  const miniMatch = rawVenue.match(/^(.+?) ((TT|M)\d+)\s*\([^)]+\)$/);
+  if (miniMatch) {
+    const base = miniMatch[1].trim();
+    const pitch = miniMatch[2];
+    const v = VENUES[base];
+    const display = v?.suburb ? `${base}, ${v.suburb}` : base;
+    return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
+  }
+
+  // Exact lookup first; then try stripping trailing field number (e.g. "Field 2")
+  let base = rawVenue.trim();
+  let pitch = null;
+  let v = VENUES[base];
+  if (!v) {
+    const fieldMatch = base.match(/^(.+?) (\d+)$/);
+    if (fieldMatch && VENUES[fieldMatch[1]]) {
+      base  = fieldMatch[1];
+      pitch = `Field ${fieldMatch[2]}`;
+      v     = VENUES[base];
+    }
+  }
+
+  const display = v?.suburb ? `${base}, ${v.suburb}` : base;
+  return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display) };
+}
+
+function _genericMapsUrl(display) {
+  return `https://maps.google.com/?q=${encodeURIComponent(display + ', Sydney NSW')}`;
 }
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -403,10 +481,6 @@ function esc(str) {
 
 function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
-}
-
-function mapsLink(location) {
-  return `https://maps.google.com/?q=${encodeURIComponent(location + ', Sydney NSW')}`;
 }
 
 function shortTeamName(name) {
@@ -439,149 +513,22 @@ function scoreClass(match) {
   return lc > opp ? 'win' : lc < opp ? 'loss' : 'draw';
 }
 
-function toAESTDateStr(iso) {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(new Date(iso));
-}
-
-function upcomingWeekendDates(now) {
-  // Find the upcoming Saturday and Sunday in Australia/Sydney time
-  const fmt = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Australia/Sydney',
-    weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit',
-  });
-  const parts = fmt.formatToParts(now);
-  const dow = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[parts.find(p => p.type === 'weekday').value];
-  // Advance to the next Saturday (or stay on Saturday); never go back
-  const daysToSat = dow === 6 ? 0 : (6 - dow + 7) % 7;
-  return [0, 1].map(offset => {
-    const d = new Date(now.getTime() + (daysToSat + offset) * 86400000);
-    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(d);
-  });
-}
-
-function fmtShortDate(dateStr) {
-  return new Date(dateStr + 'T00:00:00Z')
-    .toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
-}
-
-function renderThisWeekend(data, now) {
-  const [satStr, sunStr] = upcomingWeekendDates(now);
-  const days = [
-    { label: fmtShortDate(satStr), date: satStr },
-    { label: fmtShortDate(sunStr), date: sunStr },
-  ];
-  const rangeLabel = days[0].label + ' &amp; ' + days[1].label;
-
-  let hasAny = false;
-  let html = '';
-  for (const day of days) {
-    const dayMatches = data.matches.filter(m => toAESTDateStr(m.dateTime) === day.date);
-    if (!dayMatches.length) continue;
-    hasAny = true;
-    html += `<div class="home-day-label">${day.label}</div>`;
-    for (const m of dayMatches) {
-      const lcTeam   = isLaneCove(m.home) ? m.home : m.away;
-      const opponent = isLaneCove(m.home) ? m.away : m.home;
-      const timeStr  = fmtTime(m.dateTime);
-      const loc      = displayLocation(m.venue);
-      html += `
-        <div class="mini-row">
-          <span class="mini-team">${esc(shortTeamName(lcTeam.name))}</span>
-          <span class="mini-time">${timeStr !== '12:00am' ? timeStr : '—'}</span>
-          <span class="mini-vs">vs <em>${esc(opponent.name)}</em></span>
-          <span class="mini-loc">${esc(loc)}</span>
-        </div>`;
-    }
-  }
-  if (!hasAny) html = '<div class="home-empty">No matches scheduled this weekend.</div>';
-
-  return `
-    <div class="home-section">
-      <div class="home-section-hd">This weekend <span>${rangeLabel}</span></div>
-      ${html}
-    </div>`;
-}
-
-function renderLastRound(data, now) {
-  const completed = data.matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now);
-  if (!completed.length) return '';
-
-  let maxRound = 0;
-  for (const m of completed) {
-    const n = parseInt((m.round || '').replace(/\D/g, '')) || 0;
-    if (n > maxRound) maxRound = n;
-  }
-  if (!maxRound) return '';
-
-  const roundMatches = completed.filter(m =>
-    (parseInt((m.round || '').replace(/\D/g, '')) || 0) === maxRound
-  );
-
-  let html = '';
-  for (const m of roundMatches) {
-    const lcTeam   = isLaneCove(m.home) ? m.home : m.away;
-    const opponent = isLaneCove(m.home) ? m.away : m.home;
-    const hasScore = m.type === 'result' && m.home.score !== null;
-    let resultHtml;
-    if (hasScore) {
-      const sc = scoreClass(m);
-      const lbl = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
-      resultHtml = `<span class="mini-result ${sc}">${esc(m.home.score)}–${esc(m.away.score)}${lbl ? ' · ' + lbl : ''}</span>`;
-    } else {
-      resultHtml = '<span class="mini-done">Done</span>';
-    }
-    html += `
-      <div class="mini-row">
-        <span class="mini-team">${esc(shortTeamName(lcTeam.name))}</span>
-        <span class="mini-vs">vs <em>${esc(opponent.name)}</em></span>
-        ${resultHtml}
-      </div>`;
-  }
-
-  return `
-    <div class="home-section">
-      <div class="home-section-hd">Round ${maxRound} results</div>
-      ${html}
-    </div>`;
-}
-
-function renderWelcome(data) {
-  const now = new Date();
-
-  // Stats
-  const played    = data.matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now).length;
-  const remaining = data.matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now).length;
-  const numTeams  = (() => {
-    const ids = new Set();
-    for (const m of data.matches) {
-      if (isLaneCove(m.home)) ids.add(m.home.id);
-      if (isLaneCove(m.away)) ids.add(m.away.id);
-    }
-    return ids.size;
-  })();
-
+function renderWelcome() {
   return `
     <div class="welcome">
       <h2>Find your team's games</h2>
       <p class="welcome-sub">Venues, kick-off times and results for all Lane Cove JRU teams —<br>updated automatically from the official draw.</p>
       <div class="welcome-cta">↑ Select your team above to get started</div>
-      <div class="home-stats">
-        <span><span class="home-stat-val">${numTeams}</span> teams</span>
-        <span class="home-stat-sep">·</span>
-        <span><span class="home-stat-val">${played}</span> played</span>
-        <span class="home-stat-sep">·</span>
-        <span><span class="home-stat-val">${remaining}</span> to go</span>
-      </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-icon">📍</div>
           <div class="feature-title">Live draw</div>
-          <div class="feature-desc">Every venue, pitch number and kick-off time for every team — updated hourly so you're never caught out by a last-minute change.</div>
+          <div class="feature-desc">Venues, pitch numbers and kick-off times. Updated hourly, with extra checks on game day.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📅</div>
-          <div class="feature-title">Live sync</div>
-          <div class="feature-desc">Subscribe once and your calendar stays current. New games, venue changes, time shifts and cancellations all flow through automatically. Works in Google Calendar, Apple Calendar and Outlook.</div>
+          <div class="feature-title">Calendar sync</div>
+          <div class="feature-desc">Add your team's games to Google Calendar or Apple Calendar. Updates automatically when the draw changes.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔗</div>
@@ -589,9 +536,126 @@ function renderWelcome(data) {
           <div class="feature-desc">Every team has a direct link — drop it in your WhatsApp group so parents land straight on their fixtures.</div>
         </div>
       </div>
-      ${renderThisWeekend(data, now)}
-      ${renderLastRound(data, now)}
     </div>`;
+}
+
+// ── lineups ───────────────────────────────────────────────────────────────────
+
+async function loadLineups() {
+  if (lineupsData) return lineupsData;
+  const res = await fetch('lineups.json');
+  lineupsData = await res.json();
+  return lineupsData;
+}
+
+function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
+  const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
+
+  // Pad the shorter array with nulls so both sides have the same row count
+  const pad = (arr, len) => [...arr, ...Array(Math.max(0, len - arr.length)).fill(null)];
+
+  const homeStarters = (entry.home ?? []).filter(p => !p.isSub);
+  const awayStarters = (entry.away ?? []).filter(p => !p.isSub);
+  const homeSubs     = (entry.home ?? []).filter(p =>  p.isSub);
+  const awaySubs     = (entry.away ?? []).filter(p =>  p.isSub);
+  const homeCoaches  = entry.homeCoaches ?? [];
+  const awayCoaches  = entry.awayCoaches ?? [];
+
+  const playerCell = (p, noneLabel) => {
+    if (!p) return noneLabel
+      ? `<div class="lineup-player"><span class="lineup-none">${noneLabel}</span></div>`
+      : `<div class="lineup-player lineup-empty" aria-hidden="true"></div>`;
+    const cap = p.captain ? ' <span class="lineup-captain">C</span>' : '';
+    return `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${cap}</span></div>`;
+  };
+
+  const coachCell = c => c
+    ? `<div class="lineup-coach">${esc(c.name)}</div>`
+    : `<div class="lineup-coach lineup-empty" aria-hidden="true"></div>`;
+
+  const sectionHead = label => `<div class="lineup-section-head">${label}</div>`;
+
+  let html = '';
+
+  // Team headers (one per column)
+  const hdr = (name, crest) => {
+    const img = crest ? `<img class="lineup-crest" src="${esc(crest)}" alt="" loading="lazy">` : '';
+    return `<div class="lineup-col-header"><h4>${img}${esc(name)}</h4></div>`;
+  };
+  html += hdr(homeName, homeCrest) + hdr(awaName, awayCrest);
+
+  // Starters — pad to equal length; show "Not published" only when the whole side is empty
+  const homeEmpty = entry.home.length === 0;
+  const awayEmpty = entry.away.length === 0;
+  const maxStart  = Math.max(homeStarters.length, awayStarters.length, homeEmpty || awayEmpty ? 1 : 0);
+  const hStart = pad(homeStarters, maxStart);
+  const aStart = pad(awayStarters, maxStart);
+  for (let i = 0; i < maxStart; i++) {
+    html += playerCell(hStart[i], homeEmpty && i === 0 ? 'Not published' : null);
+    html += playerCell(aStart[i], awayEmpty && i === 0 ? 'Not published' : null);
+  }
+
+  // Reserves section
+  const maxSubs = Math.max(homeSubs.length, awaySubs.length);
+  if (maxSubs > 0) {
+    html += sectionHead('Reserves');
+    const hSubs = pad(homeSubs, maxSubs);
+    const aSubs = pad(awaySubs, maxSubs);
+    for (let i = 0; i < maxSubs; i++) {
+      html += playerCell(hSubs[i], null) + playerCell(aSubs[i], null);
+    }
+  }
+
+  // Coaches section
+  const maxCoaches = Math.max(homeCoaches.length, awayCoaches.length);
+  if (maxCoaches > 0) {
+    html += sectionHead('Coaches');
+    const hC = pad(homeCoaches, maxCoaches);
+    const aC = pad(awayCoaches, maxCoaches);
+    for (let i = 0; i < maxCoaches; i++) {
+      html += coachCell(hC[i]) + coachCell(aC[i]);
+    }
+  }
+
+  // Officials
+  const officials = entry.officials ?? [];
+  const mainRef   = officials.find(o => o.role === 'Referee');
+  const otherRefs = officials.filter(o => o.role !== 'Referee');
+  let refereeHtml = '';
+  if (mainRef) {
+    refereeHtml = `<span class="lineup-referee">Referee: <strong>${esc(mainRef.name)}</strong>`;
+    if (otherRefs.length)
+      refereeHtml += ` &nbsp;·&nbsp; ${otherRefs.map(r => `${esc(r.role)}: <strong>${esc(r.name)}</strong>`).join(' &nbsp;·&nbsp; ')}`;
+    refereeHtml += `</span>`;
+  }
+
+  html += `<div class="lineup-footer">${refereeHtml}<a href="${xplorerUrl}" target="_blank" rel="noopener">View on Rugby Xplorer ↗</a></div>`;
+  return html;
+}
+
+function attachLineupHandlers() {
+  document.querySelectorAll('.row.has-lineup').forEach(row => {
+    const matchId   = row.dataset.matchId;
+    const homeName  = row.dataset.homeName  ?? '';
+    const awaName   = row.dataset.awayName  ?? '';
+    const homeCrest = row.dataset.homeCrest ?? '';
+    const awayCrest = row.dataset.awayCrest ?? '';
+    const panel     = document.getElementById(`lineup-${matchId}`);
+    if (!panel) return;
+    row.addEventListener('click', e => {
+      if (e.target.closest('a')) return; // don't intercept venue / anchor link clicks
+      const isOpen = panel.classList.contains('open');
+      document.querySelectorAll('.lineup-panel.open').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
+      if (!isOpen) {
+        // lineupsData is already loaded eagerly in init(); this is always instant
+        const entry = lineupsData?.[matchId];
+        panel.innerHTML = renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest);
+        panel.classList.add('open');
+        row.classList.add('expanded');
+      }
+    });
+  });
 }
 
 // ── rendering ─────────────────────────────────────────────────────────────────
@@ -621,11 +685,17 @@ function renderMatch(match, isNextUp) {
   const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am'; // API sometimes lacks time
 
-  const loc    = displayLocation(match.venue);
+  const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
+  const entry     = lineupsData?.[match.id];
+  const hasLineup = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
+  const lineupAttrs = hasLineup
+    ? ` has-lineup" data-match-id="${esc(match.id)}" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
+    : ``;
+
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}" id="${esc(anchor)}">
+    <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}" id="${esc(anchor)}">
       <a class="row-anchor" href="#${esc(anchor)}" title="Copy link">#</a>
       <div class="${badgeCls}">
         <span>${badgeLabel}</span>
@@ -640,7 +710,8 @@ function renderMatch(match, isNextUp) {
       <div class="venues">
         <div class="venue">
           <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
-          <a class="venue-link" href="${mapsLink(loc)}" target="_blank" rel="noopener">${esc(loc)}</a>
+          <a class="venue-link" href="${mapsUrl}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>
+          ${pitch ? `<span class="pitch-on">on <span class="pitch-tag">${esc(pitch)}</span></span>` : ''}
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
           ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
@@ -649,12 +720,13 @@ function renderMatch(match, isNextUp) {
           ${scoreHtml}
         </div>
       </div>
+      ${hasLineup ? `<span class="lineup-toggle" aria-label="View team sheet">${CHEVRON_SVG}</span>` : ''}
     </div>`;
 }
 
 function render(data, teamId) {
   if (!teamId) {
-    document.getElementById('calendar').innerHTML = renderWelcome(data);
+    document.getElementById('calendar').innerHTML = renderWelcome();
     return;
   }
 
@@ -686,6 +758,16 @@ function render(data, teamId) {
   }
 
   document.getElementById('calendar').innerHTML = html;
+
+  // Insert a lineup panel <div> immediately after each upcoming fixture row
+  document.querySelectorAll('.row.has-lineup').forEach(row => {
+    const panel = document.createElement('div');
+    panel.className = 'lineup-panel';
+    panel.id = `lineup-${row.dataset.matchId}`;
+    row.insertAdjacentElement('afterend', panel);
+  });
+
+  attachLineupHandlers();
 }
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
@@ -695,7 +777,17 @@ function copyTeamLink() {
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById('copy-link-btn');
     btn.textContent = '✓ Copied';
-    setTimeout(() => { btn.textContent = '🔗 Copy link'; }, 2000);
+    setTimeout(() => { btn.textContent = '🔗 Share'; }, 2000);
+  });
+}
+
+let currentIcsUrl = '';
+
+function copyIcsUrl() {
+  navigator.clipboard.writeText(currentIcsUrl).then(() => {
+    const btn = document.getElementById('cal-copy-ics');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy ICS link'; }, 2000);
   });
 }
 
@@ -708,16 +800,26 @@ function selectTeam(teamId, pushState = true) {
   });
 
   // Show/hide clear button, copy link, and calendar subscribe links
+  const isAndroid = /Android/i.test(navigator.userAgent);
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
   document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
   document.getElementById('cal-links').classList.toggle('visible', !!teamId);
+  document.getElementById('cal-copy-ics').style.display = isAndroid ? 'none' : '';
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
     const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
-    document.getElementById('cal-google').href =
-      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
-    document.getElementById('cal-apple').href =
-      `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    currentIcsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
+    document.getElementById('cal-ical').href = webcalUrl;
+    const googleCalEl = document.getElementById('cal-google');
+    if (isAndroid) {
+      googleCalEl.href = 'https://calendar.google.com/calendar/r/settings/addbyurl';
+      googleCalEl.textContent = 'Google Calendar (web)';
+      googleCalEl.title = 'Tap Copy ICS link first, then paste into the form that opens';
+    } else {
+      googleCalEl.href = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
+      googleCalEl.textContent = 'Google Calendar';
+      googleCalEl.title = '';
+    }
   }
 
   // Update hash (without triggering hashchange listener)
@@ -762,11 +864,16 @@ async function init() {
   const calendar = document.getElementById('calendar');
   calendar.innerHTML = '<div class="empty">Loading fixtures…</div>';
 
+  // Load fixtures and lineups in parallel; lineup failure is non-fatal
   let data;
   try {
-    const res = await fetch(FIXTURES_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    data = await res.json();
+    const [fixturesRes, lineupsRes] = await Promise.allSettled([
+      fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+      fetch('lineups.json').then(r => r.ok ? r.json() : {}),
+    ]);
+    if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
+    data      = fixturesRes.value;
+    lineupsData = lineupsRes.status === 'fulfilled' ? lineupsRes.value : {};
   } catch (err) {
     calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;
@@ -781,8 +888,8 @@ async function init() {
     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
   })} AEST`;
   if (staleHours > 4) {
-    stamp.textContent += ' ⚠ data may be out of date';
-    stamp.style.color = '#b71c1c';
+    stamp.textContent += ' · sync may be delayed';
+    stamp.style.color = '#F0A030'; // amber — visible on dark navy header
   }
 
   // Apply team from hash (if any) without pushing history

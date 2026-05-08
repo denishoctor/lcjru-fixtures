@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import {
   SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
-  TEAM_SLUGS, VENUE_SUBURBS, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
+  TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
 } from './config.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -199,7 +199,7 @@ function formatChanges(changes) {
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
   const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUE_SUBURBS[clean];
+  const suburb = VENUES[clean]?.suburb;
   return suburb ? `${clean}, ${suburb}` : clean;
 }
 
@@ -328,6 +328,25 @@ function generateICS(slug, teamId, allMatches, updatedISO) {
     icsLine('X-WR-CALNAME', `LCJRU ${label} ${SEASON}`),
     icsLine('X-WR-CALDESC', `Lane Cove Junior Rugby — ${label} fixtures and results ${SEASON}`),
     'X-WR-TIMEZONE:Australia/Sydney',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT6H',
+    'X-PUBLISHED-TTL:PT6H',
+    'BEGIN:VTIMEZONE',
+    'TZID:Australia/Sydney',
+    'BEGIN:STANDARD',
+    'TZNAME:AEST',
+    'TZOFFSETFROM:+1100',
+    'TZOFFSETTO:+1000',
+    'DTSTART:19700405T030000',
+    'RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU',
+    'END:STANDARD',
+    'BEGIN:DAYLIGHT',
+    'TZNAME:AEDT',
+    'TZOFFSETFROM:+1000',
+    'TZOFFSETTO:+1100',
+    'DTSTART:19701004T020000',
+    'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU',
+    'END:DAYLIGHT',
+    'END:VTIMEZONE',
   ];
 
   for (const match of matches) {
@@ -449,7 +468,7 @@ async function main() {
     `  SITE_URL: ${JSON.stringify(SITE_URL)},`,
     `  FINAL_ROUND: ${FINAL_ROUND},`,
     `  TEAM_SLUGS: ${JSON.stringify(TEAM_SLUGS, null, 2).replace(/\n/g, '\n  ')},`,
-    `  VENUE_SUBURBS: ${JSON.stringify(VENUE_SUBURBS, null, 2).replace(/\n/g, '\n  ')},`,
+    `  VENUES: ${JSON.stringify(VENUES, null, 2).replace(/\n/g, '\n  ')},`,
     '};',
     '',
   ].join('\n');

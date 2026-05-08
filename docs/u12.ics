@@ -6,11 +6,30 @@ METHOD:PUBLISH
 X-WR-CALNAME:LCJRU U12 2026
 X-WR-CALDESC:Lane Cove Junior Rugby — U12 fixtures and results 2026
 X-WR-TIMEZONE:Australia/Sydney
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VTIMEZONE
+TZID:Australia/Sydney
+BEGIN:STANDARD
+TZNAME:AEST
+TZOFFSETFROM:+1100
+TZOFFSETTO:+1000
+DTSTART:19700405T030000
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:AEDT
+TZOFFSETFROM:+1000
+TZOFFSETTO:+1100
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
+END:DAYLIGHT
+END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-898845d0afeebd9d7-u12@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260508T061548Z
+LAST-MODIFIED:20260508T061548Z
 DTSTART;TZID=Australia/Sydney:20260329T083000
 DTEND;TZID=Australia/Sydney:20260329T100000
 SUMMARY:U12 vs Narrabeen Tigers Gold 12 | RND 1
@@ -26,25 +45,25 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-00df56a528c5b64c6-u12@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260508T061548Z
+LAST-MODIFIED:20260508T061548Z
 DTSTART;TZID=Australia/Sydney:20260329T092000
 DTEND;TZID=Australia/Sydney:20260329T105000
 SUMMARY:U12 vs Inner West Barbarians White 12 | RND 2
 LOCATION:Keirle Park Field 2\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove/St Ives 12 vs Inner West Barbarians White 12\n�
- �� Keirle Park Field 2\n📅 Round 2 · Sun\, 29 Mar · 9:20am AEST\n🏆 
- SJRU Grading Gala U12s\n\nℹ️ Venues and times may change. This calenda
- r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
- up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
- ixtures/#u12
+DESCRIPTION:🏉 Lane Cove/St Ives 12 vs Inner West Barbarians White 12\n
+ 📍 Keirle Park Field 2\n📅 Round 2 · Sun\, 29 Mar · 9:20am AEST\n
+ 🏆 SJRU Grading Gala U12s\n\nℹ️ Venues and times may change. This ca
+ lendar updates automatically\n(Apple Calendar: ~every hour · Google Calen
+ dar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lc
+ jru-fixtures/#u12
 URL:https://denishoctor.github.io/lcjru-fixtures/#u12
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-0f6feda396f56dac5-u12@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260508T061548Z
+LAST-MODIFIED:20260508T061548Z
 DTSTART;TZID=Australia/Sydney:20260329T101000
 DTEND;TZID=Australia/Sydney:20260329T114000
 SUMMARY:U12 vs Hunters Hill 12 | RND 3
@@ -59,24 +78,24 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-6952a340ff362209b-u12@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260508T061548Z
+LAST-MODIFIED:20260508T061548Z
 DTSTART;TZID=Australia/Sydney:20260426T095000
 DTEND;TZID=Australia/Sydney:20260426T112000
 SUMMARY:U12 vs Mosman Dolphins 12 | RND 1
-LOCATION:Rawson Oval\, Penshurst\, Sydney NSW
+LOCATION:Rawson Oval\, Mosman\, Sydney NSW
 DESCRIPTION:🏉 Lane Cove/St Ives 12 vs Mosman Dolphins 12\n📍 Rawson Ov
- al\, Penshurst\n📅 Round 1 · Sun\, 26 Apr · 9:50am AEST\n🏆 SJRU XVs
-  Under 12E\n\nℹ️ Venues and times may change. This calendar updates au
- tomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs
-  after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u12
+ al\, Mosman\n📅 Round 1 · Sun\, 26 Apr · 9:50am AEST\n🏆 SJRU XVs Un
+ der 12E\n\nℹ️ Venues and times may change. This calendar updates autom
+ atically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs af
+ ter a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u12
 URL:https://denishoctor.github.io/lcjru-fixtures/#u12
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-ccef95a05c3f75a09-u12@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
+DTSTAMP:20260508T061548Z
+LAST-MODIFIED:20260508T061548Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T123000
 SUMMARY:U12 vs Narrabeen Tigers Gold 12 | RND 2
@@ -88,23 +107,6 @@ DESCRIPTION:🏉 Lane Cove/St Ives 12 vs Narrabeen Tigers Gold 12\n📍 Nor
  imes may change. This calendar updates automatically\n(Apple Calendar: ~ev
  ery hour · Google Calendar: up to 24 hrs after a change)\n\n🔗 https://
  denishoctor.github.io/lcjru-fixtures/#u12
-URL:https://denishoctor.github.io/lcjru-fixtures/#u12
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-8fd92789765eae306-u12@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260504T091656Z
-LAST-MODIFIED:20260504T091656Z
-DTSTART;TZID=Australia/Sydney:20260510T104000
-DTEND;TZID=Australia/Sydney:20260510T121000
-SUMMARY:U12 vs Dural Sky 12 | RND 3
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove/St Ives 12 vs Dural Sky 12\n📍 Tantallon Oval\
- , Lane Cove North\n📅 Round 3 · Sun\, 10 May · 10:40am AEST\n🏆 SJRU
-  XVs Under 12E\n\nℹ️ Venues and times may change. This calendar update
- s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
-  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
- #u12
 URL:https://denishoctor.github.io/lcjru-fixtures/#u12
 END:VEVENT
 END:VCALENDAR
