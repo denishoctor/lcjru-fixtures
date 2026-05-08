@@ -39,6 +39,9 @@ jobs:
             echo "✓ Notification sent to ntfy.sh"
           fi
 
+      - name: Smoke test lineup fetch (confirms xplorer.rugby is reachable)
+        run: node scripts/fetch-lineups.mjs --match 434236a5964c39608
+
       - name: Fetch match lineups
         run: node scripts/fetch-lineups.mjs
 

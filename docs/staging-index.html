@@ -253,6 +253,10 @@
   .row.has-lineup { cursor: pointer; }
   .row.has-lineup:hover { background: var(--cream); }
   .row.expanded { background: var(--cream); }
+  .lineup-indicator {
+    font-size: 11px; margin-left: 5px; opacity: .75;
+    pointer-events: none; vertical-align: middle;
+  }
   .lineup-panel {
     display: none;
     padding: 10px 16px 14px;
@@ -261,8 +265,12 @@
   }
   .lineup-panel.open { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .lineup-col h4 {
+    display: flex; align-items: center; gap: 6px;
     font-size: 10px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 1px; color: var(--muted); margin: 0 0 5px;
+  }
+  .lineup-crest {
+    width: 20px; height: 20px; object-fit: contain; flex-shrink: 0;
   }
   .lineup-player { display: flex; gap: 6px; padding: 1px 0; font-size: 13px; }
   .lineup-num {
@@ -491,17 +499,19 @@ async function loadLineups() {
   return lineupsData;
 }
 
-function renderLineupPanel(matchId, entry) {
+function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
   const footer = `<div class="lineup-footer"><a href="${xplorerUrl}" target="_blank" rel="noopener">View full team sheet on Rugby Xplorer ↗</a></div>`;
 
-  if (!entry || (!entry.home.length && !entry.away.length)) {
-    return `<div class="lineup-footer">Lineup not yet published — <a href="${xplorerUrl}" target="_blank" rel="noopener">check Rugby Xplorer ↗</a></div>`;
-  }
+  const colHeader = (name, crest) => {
+    const img = crest ? `<img class="lineup-crest" src="${esc(crest)}" alt="" loading="lazy">` : '';
+    return `${img}${esc(name)}`;
+  };
 
-  const col = (players, label) => {
-    if (!players.length) return `<div class="lineup-col"><h4>${label}</h4><div class="lineup-none">Not published</div></div>`;
-    let html = `<div class="lineup-col"><h4>${label}</h4>`;
+  const col = (players, name, crest) => {
+    const header = colHeader(name, crest);
+    if (!players.length) return `<div class="lineup-col"><h4>${header}</h4><div class="lineup-none">Not published</div></div>`;
+    let html = `<div class="lineup-col"><h4>${header}</h4>`;
     let shownSub = false;
     for (const p of players) {
       if (!shownSub && p.isSub) {
@@ -515,13 +525,17 @@ function renderLineupPanel(matchId, entry) {
     return html;
   };
 
-  return col(entry.home, 'Home') + col(entry.away, 'Away') + footer;
+  return col(entry.home, homeName, homeCrest) + col(entry.away, awaName, awayCrest) + footer;
 }
 
 function attachLineupHandlers() {
   document.querySelectorAll('.row.has-lineup').forEach(row => {
-    const matchId = row.dataset.matchId;
-    const panel   = document.getElementById(`lineup-${matchId}`);
+    const matchId   = row.dataset.matchId;
+    const homeName  = row.dataset.homeName  ?? '';
+    const awaName   = row.dataset.awayName  ?? '';
+    const homeCrest = row.dataset.homeCrest ?? '';
+    const awayCrest = row.dataset.awayCrest ?? '';
+    const panel     = document.getElementById(`lineup-${matchId}`);
     if (!panel) return;
     row.addEventListener('click', e => {
       if (e.target.closest('a')) return; // don't intercept venue / anchor link clicks
@@ -529,11 +543,11 @@ function attachLineupHandlers() {
       document.querySelectorAll('.lineup-panel.open').forEach(p => p.classList.remove('open'));
       document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
       if (!isOpen) {
-        loadLineups().then(data => {
-          panel.innerHTML = renderLineupPanel(matchId, data[matchId]);
-          panel.classList.add('open');
-          row.classList.add('expanded');
-        });
+        // lineupsData is already loaded eagerly in init(); this is always instant
+        const entry = lineupsData?.[matchId];
+        panel.innerHTML = renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest);
+        panel.classList.add('open');
+        row.classList.add('expanded');
       }
     });
   });
@@ -569,8 +583,11 @@ function renderMatch(match, isNextUp) {
   const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
-  const showLineup = !match.isBye;
-  const lineupAttrs = showLineup ? ` has-lineup" data-match-id="${esc(match.id)}` : ``;
+  const entry        = lineupsData?.[match.id];
+  const hasLineup    = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
+  const lineupAttrs  = hasLineup
+    ? ` has-lineup" data-match-id="${esc(match.id)}" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
+    : ``;
 
   return `
     <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}" id="${esc(anchor)}">
@@ -596,6 +613,7 @@ function renderMatch(match, isNextUp) {
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>
           ${scoreHtml}
+          ${hasLineup ? '<span class="lineup-indicator">👕</span>' : ''}
         </div>
       </div>
     </div>`;
@@ -741,11 +759,16 @@ async function init() {
   const calendar = document.getElementById('calendar');
   calendar.innerHTML = '<div class="empty">Loading fixtures…</div>';
 
+  // Load fixtures and lineups in parallel; lineup failure is non-fatal
   let data;
   try {
-    const res = await fetch(FIXTURES_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    data = await res.json();
+    const [fixturesRes, lineupsRes] = await Promise.allSettled([
+      fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+      fetch('lineups.json').then(r => r.ok ? r.json() : {}),
+    ]);
+    if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
+    data      = fixturesRes.value;
+    lineupsData = lineupsRes.status === 'fulfilled' ? lineupsRes.value : {};
   } catch (err) {
     calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;
