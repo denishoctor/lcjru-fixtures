@@ -5,6 +5,7 @@
 const U6_U7     = ['u6-gold', 'u6-blue', 'u7-gold', 'u7-blue'];
 const U8_U9     = ['u8-gold', 'u8-blue', 'u9-gold', 'u9-blue'];
 const ALL_MINIS = [...U6_U7, ...U8_U9];
+const ALL_CLUB  = ['*']; // wildcard — render for any selected team
 
 export const EVENTS = [
 
@@ -36,14 +37,14 @@ export const EVENTS = [
     status: 'tentative', xplorerRound: 'Round 2',
   },
 
-  // Mother's Day social — Sun 10 May
+  // Mother's Day social — Sun 10 May (whole of club)
   {
     id: 'mothers-day-2026', type: 'event',
     title: "Mother's Day",
     description: 'Join us for early arvo drinks at Tantallon.',
     date: '2026-05-10', time: '14:00',
     venue: 'Tantallon Oval',
-    teams: ALL_MINIS,
+    teams: ALL_CLUB,
     status: 'confirmed',
     cta: { label: 'Join us — $60 Moet', url: 'https://www.instagram.com/p/DX_cYiPTPrP/' },
   },
@@ -62,13 +63,13 @@ export const EVENTS = [
     status: 'tentative', xplorerRound: 'Round 3',
   },
 
-  // Waratahs v Brumbies — Fri 22 May
+  // Waratahs v Brumbies — Fri 22 May (whole of club)
   {
     id: 'waratahs-2026', type: 'event',
     title: 'Waratahs v Brumbies',
     description: 'Club-wide invite. U10s pre-game match at 6:30pm.',
     date: '2026-05-22', time: '19:30',
-    teams: ALL_MINIS,
+    teams: ALL_CLUB,
     status: 'confirmed',
     cta: { label: 'Buy Tickets', url: 'https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF' },
   },
@@ -126,7 +127,8 @@ export const EVENTS = [
 
   // ── Inter-District Gala (Round 7): Sat 20 Jun ─────────────────────────────────
   {
-    id: 'gala-rnd-7-2026', type: 'event',
+    id: 'gala-rnd-7-2026', type: 'event', variant: 'gala',
+    galaLabel: 'GALA', galaNum: 'IDG',
     title: 'Inter-District Gala Day — Round 7',
     description: 'All Minis grades. Details TBC.',
     date: '2026-06-20', time: '08:30',
@@ -139,7 +141,8 @@ export const EVENTS = [
   // ── King of the Hills K1: Sun 28 Jun ──────────────────────────────────────────
   // Calendar: U5/U6/U7 friendlies (TBC); U8/U9 KotH gala at Yattenden Oval.
   {
-    id: 'koth-k1-u89', type: 'event',
+    id: 'koth-k1-u89', type: 'event', variant: 'gala',
+    galaLabel: 'KOTH', galaNum: 'K1',
     title: 'King of the Hills — K1 Gala',
     description: 'U8/U9 King of the Hills gala.',
     date: '2026-06-28', time: '09:00',
@@ -148,16 +151,18 @@ export const EVENTS = [
     status: 'confirmed',
   },
   {
-    id: 'koth-k1-u67', type: 'note',
-    date: '2026-06-28',
-    teams: U6_U7,
+    id: 'koth-k1-u67', type: 'event',
     title: 'U6/U7 friendly fixtures',
     description: 'Details TBC',
+    date: '2026-06-28',
+    teams: U6_U7,
+    status: 'tentative',
   },
 
   // ── King of the Hills K2: Sun 5 Jul ───────────────────────────────────────────
   {
-    id: 'koth-k2-u67', type: 'event',
+    id: 'koth-k2-u67', type: 'event', variant: 'gala',
+    galaLabel: 'KOTH', galaNum: 'K2',
     title: 'King of the Hills — K2 Gala',
     description: 'U6/U7 King of the Hills gala.',
     date: '2026-07-05', time: '09:00',
@@ -278,7 +283,8 @@ export const EVENTS = [
 
   // ── Tiger Cup: Sat 12 Sep — U6/U7 only ───────────────────────────────────────
   {
-    id: 'tiger-cup-2026', type: 'event',
+    id: 'tiger-cup-2026', type: 'event', variant: 'gala',
+    galaLabel: 'CUP', galaNum: 'TC',
     title: 'Tiger Cup',
     description: 'Invite-based. TBC.',
     date: '2026-09-12',
@@ -289,7 +295,8 @@ export const EVENTS = [
 
   // ── Chatswood Challenge Cup: Sun 13 Sep — U8/U9 only ─────────────────────────
   {
-    id: 'challenge-cup-2026', type: 'event',
+    id: 'challenge-cup-2026', type: 'event', variant: 'gala',
+    galaLabel: 'CUP', galaNum: 'CCC',
     title: 'Chatswood Challenge Cup',
     description: 'Invite-based. TBC.',
     date: '2026-09-13',

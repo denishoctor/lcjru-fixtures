@@ -183,6 +183,8 @@
   .rnd-badge.final { background: var(--gold); color: var(--navy); }
   .rnd-badge.result { background: #2e5a1e; }
   .rnd-badge.past { background: #9E9E9E; }
+  .rnd-badge.gala { background: #6A1B9A; color: #fff; }
+  .rnd-badge.gala.past { background: #9E9E9E; }
 
   /* DATE/TIME BLOCK */
   .date-block { flex-shrink: 0; width: 74px; line-height: 1.25; }
@@ -228,7 +230,7 @@
     letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
   .derby-pill {
-    background: #FFF3E0; color: #BF360C;
+    background: #E0F2F1; color: #00695C;
     font-size: 9px; font-weight: 800;
     padding: 2px 7px; border-radius: 3px;
     letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
@@ -605,17 +607,26 @@ function renderEvent(event) {
     (dt && dt < new Date());
 
   // Only show tentative / cancelled badges; confirmed and completed are implied by context.
-  const STATUS_LABELS = { tentative: 'Tentative', cancelled: 'Cancelled' };
+  const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
   const badgeHtml = STATUS_LABELS[event.status]
     ? `<span class="status-badge status-${esc(event.status)}">${STATUS_LABELS[event.status]}</span>`
     : '';
 
-  // Round-variant events render with the same RND badge as real Xplorer matches (greyed out)
-  const isRound  = event.variant === 'round' && event.xplorerRound;
-  const roundNum = isRound ? event.xplorerRound.replace('Round ', '') : '';
-  const badgeEl  = isRound
-    ? `<div class="rnd-badge past"><span>RND</span><span class="num">${esc(roundNum)}</span></div>`
-    : `<div class="event-badge">${CAL_SVG}</div>`;
+  // Round-variant events render with the same RND badge as real Xplorer matches (greyed out).
+  // Gala-variant events use a distinct purple circle to set them apart from regular rounds.
+  const isRound = event.variant === 'round' && event.xplorerRound;
+  const isGala  = event.variant === 'gala';
+  let badgeEl;
+  if (isGala) {
+    const galaLabel = event.galaLabel ?? 'GALA';
+    const galaNum   = event.galaNum   ?? '★';
+    badgeEl = `<div class="rnd-badge gala${isPast ? ' past' : ''}"><span>${esc(galaLabel)}</span><span class="num">${esc(galaNum)}</span></div>`;
+  } else if (isRound) {
+    const roundNum = event.xplorerRound.replace('Round ', '');
+    badgeEl = `<div class="rnd-badge past"><span>RND</span><span class="num">${esc(roundNum)}</span></div>`;
+  } else {
+    badgeEl = `<div class="event-badge">${CAL_SVG}</div>`;
+  }
 
   let venueHtml = '';
   if (event.venue) {
