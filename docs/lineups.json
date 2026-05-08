@@ -1,7 +1,7 @@
 {
   "93402959f62d91030": {
     "gameDateTime": "2026-03-28T21:00:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.545Z",
+    "fetchedAt": "2026-05-08T05:02:44.642Z",
     "home": [
       {
         "number": "1",
@@ -229,11 +229,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "James Wright"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "officials": []
   },
   "898845d0afeebd9d7": {
     "gameDateTime": "2026-03-28T21:30:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.620Z",
+    "fetchedAt": "2026-05-08T05:02:44.915Z",
     "home": [
       {
         "number": "1",
@@ -461,11 +472,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Edward Warburton"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Jamie Rendall"
+      }
+    ],
+    "officials": []
   },
   "a9324f6d8ef78b5fb": {
     "gameDateTime": "2026-03-28T21:50:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.688Z",
+    "fetchedAt": "2026-05-08T05:02:45.149Z",
     "home": [
       {
         "number": "1",
@@ -587,11 +609,18 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "00df56a528c5b64c6": {
     "gameDateTime": "2026-03-28T22:20:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.783Z",
+    "fetchedAt": "2026-05-08T05:02:45.326Z",
     "home": [
       {
         "number": "1",
@@ -854,11 +883,25 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Jamie Rendall"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Lee samson"
+      },
+      {
+        "name": "Paul Luchi"
+      }
+    ],
+    "officials": []
   },
   "c80fb50fbdc6a4bc0": {
     "gameDateTime": "2026-03-28T23:05:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.872Z",
+    "fetchedAt": "2026-05-08T05:02:45.539Z",
     "home": [
       {
         "number": "1",
@@ -980,11 +1023,18 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "0f6feda396f56dac5": {
     "gameDateTime": "2026-03-28T23:10:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.932Z",
+    "fetchedAt": "2026-05-08T05:02:45.748Z",
     "home": [
       {
         "number": "1",
@@ -1170,11 +1220,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Stephen Matthews"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Jamie Rendall"
+      }
+    ],
+    "officials": []
   },
   "ef7ae3a4d3c7e2f1a": {
     "gameDateTime": "2026-03-28T23:40:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:22.992Z",
+    "fetchedAt": "2026-05-08T05:02:45.953Z",
     "home": [
       {
         "number": "17",
@@ -1374,11 +1435,22 @@
         "captain": false,
         "isSub": false
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Daniel Finnane"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Ian Allsop"
+      }
+    ],
+    "officials": []
   },
   "cbed4fafd7e5d3667": {
     "gameDateTime": "2026-03-29T00:20:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.185Z",
+    "fetchedAt": "2026-05-08T05:02:46.157Z",
     "home": [],
     "away": [
       {
@@ -1465,11 +1537,18 @@
         "captain": false,
         "isSub": false
       }
-    ]
+    ],
+    "homeCoaches": [],
+    "awayCoaches": [
+      {
+        "name": "Andrew Frost"
+      }
+    ],
+    "officials": []
   },
   "9241bff1b902ea45a": {
     "gameDateTime": "2026-03-29T01:20:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.279Z",
+    "fetchedAt": "2026-05-08T05:02:46.422Z",
     "home": [
       {
         "number": "1",
@@ -1591,11 +1670,18 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Chris Hemara"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "535c98b32936cc8ac": {
     "gameDateTime": "2026-03-29T03:40:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.450Z",
+    "fetchedAt": "2026-05-08T05:02:46.627Z",
     "home": [],
     "away": [
       {
@@ -1738,11 +1824,21 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [],
+    "awayCoaches": [
+      {
+        "name": "Duane Keighran"
+      },
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "officials": []
   },
   "6e1f00b4270e2bd39": {
     "gameDateTime": "2026-03-29T03:40:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.508Z",
+    "fetchedAt": "2026-05-08T05:02:46.829Z",
     "home": [
       {
         "number": "1",
@@ -1970,11 +2066,25 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Werner Rademan"
+      },
+      {
+        "name": "Ben Thew"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "officials": []
   },
   "0012f3371c821ce0b": {
     "gameDateTime": "2026-03-29T04:30:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.574Z",
+    "fetchedAt": "2026-05-08T05:02:47.086Z",
     "home": [
       {
         "number": "1",
@@ -2223,11 +2333,28 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Duane Keighran"
+      },
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Peter Allott"
+      },
+      {
+        "name": "Brad Loder"
+      }
+    ],
+    "officials": []
   },
   "5f4d456da4c0fb5ad": {
     "gameDateTime": "2026-03-29T04:40:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.647Z",
+    "fetchedAt": "2026-05-08T05:02:47.345Z",
     "home": [
       {
         "number": "1",
@@ -2441,11 +2568,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "John Price"
+      }
+    ],
+    "officials": []
   },
   "20da0bd9dd3e133fb": {
     "gameDateTime": "2026-03-29T05:20:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.820Z",
+    "fetchedAt": "2026-05-08T05:02:47.553Z",
     "home": [],
     "away": [
       {
@@ -2553,11 +2691,21 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [],
+    "awayCoaches": [
+      {
+        "name": "Duane Keighran"
+      },
+      {
+        "name": "Ben Willis"
+      }
+    ],
+    "officials": []
   },
   "141ff75aa50708f11": {
     "gameDateTime": "2026-03-29T05:40:00+00:00",
-    "fetchedAt": "2026-05-08T02:14:23.878Z",
+    "fetchedAt": "2026-05-08T05:02:47.764Z",
     "home": [
       {
         "number": "1",
@@ -2771,11 +2919,25 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Simon Kinsey"
+      },
+      {
+        "name": "Rouan Snyman"
+      }
+    ],
+    "officials": []
   },
   "5d90ea6e29b6142fd": {
     "gameDateTime": "2026-04-25T23:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.068Z",
+    "fetchedAt": "2026-05-08T05:02:47.973Z",
     "home": [
       {
         "number": "1",
@@ -2982,11 +3144,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Jeremiah Maea"
+      }
+    ],
+    "officials": []
   },
   "6952a340ff362209b": {
     "gameDateTime": "2026-04-25T23:50:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.110Z",
+    "fetchedAt": "2026-05-08T05:02:48.295Z",
     "home": [],
     "away": [
       {
@@ -3115,11 +3288,21 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [],
+    "awayCoaches": [
+      {
+        "name": "Leonard Patchett"
+      },
+      {
+        "name": "Jamie Rendall"
+      }
+    ],
+    "officials": []
   },
   "318772014727a15a2": {
     "gameDateTime": "2026-04-26T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.157Z",
+    "fetchedAt": "2026-05-08T05:02:48.506Z",
     "home": [
       {
         "number": "1",
@@ -3396,11 +3579,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Jayson Brewer"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Duane Keighran"
+      }
+    ],
+    "officials": []
   },
   "ba3a6af645d1243bd": {
     "gameDateTime": "2026-04-26T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.225Z",
+    "fetchedAt": "2026-05-08T05:02:48.723Z",
     "home": [
       {
         "number": "1",
@@ -3719,11 +3913,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Timothy Henry"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Luke Howmangiles"
+      }
+    ],
+    "officials": []
   },
   "a5892d4037ff288c8": {
     "gameDateTime": "2026-04-26T00:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.267Z",
+    "fetchedAt": "2026-05-08T05:02:48.943Z",
     "home": [
       {
         "number": "17",
@@ -3923,11 +4128,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Ian Allsop"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Paul Worsley"
+      }
+    ],
+    "officials": []
   },
   "1a8a08e146eb00e60": {
     "gameDateTime": "2026-04-26T01:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.441Z",
+    "fetchedAt": "2026-05-08T05:02:49.118Z",
     "home": [
       {
         "number": "1",
@@ -4225,11 +4441,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Luke Dibden"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Luke Doran"
+      }
+    ],
+    "officials": []
   },
   "5e5cf8ed88a07ca1e": {
     "gameDateTime": "2026-04-26T02:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.483Z",
+    "fetchedAt": "2026-05-08T05:02:49.302Z",
     "home": [
       {
         "number": "1",
@@ -4478,11 +4705,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Andrew Russell"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Duane Keighran"
+      }
+    ],
+    "officials": []
   },
   "1d1e9d6d3598f42ff": {
     "gameDateTime": "2026-04-26T03:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.541Z",
+    "fetchedAt": "2026-05-08T05:02:49.505Z",
     "home": [
       {
         "number": "1",
@@ -4752,47 +4990,76 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Simon Guest"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "James Bacon"
+      }
+    ],
+    "officials": []
   },
   "f62f774d236cd097b": {
     "gameDateTime": "2026-05-02T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.728Z",
+    "fetchedAt": "2026-05-08T05:02:49.691Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "24418d8361c029d49": {
     "gameDateTime": "2026-05-02T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.768Z",
+    "fetchedAt": "2026-05-08T05:02:49.877Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "8f88f1231bf0b65f3": {
     "gameDateTime": "2026-05-02T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.809Z",
+    "fetchedAt": "2026-05-08T05:02:50.070Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "d3cd4a7ebf8ae20d8": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.858Z",
+    "fetchedAt": "2026-05-08T05:02:50.263Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "74537e4b47736fac6": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.902Z",
+    "fetchedAt": "2026-05-08T05:02:50.438Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "a64050181839884a0": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:48.950Z",
+    "fetchedAt": "2026-05-08T05:02:50.661Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "52b4cc992aab2179f": {
     "gameDateTime": "2026-05-02T23:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.069Z",
+    "fetchedAt": "2026-05-08T05:02:50.903Z",
     "home": [
       {
         "number": "1",
@@ -5013,11 +5280,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Michael Ross"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Ian Allsop"
+      }
+    ],
+    "officials": []
   },
   "a13d32240ed67103d": {
     "gameDateTime": "2026-05-03T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.118Z",
+    "fetchedAt": "2026-05-08T05:02:51.086Z",
     "home": [
       {
         "number": "1",
@@ -5245,11 +5523,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Morgan Tamatea"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "officials": []
   },
   "a8b67a32ce48b23da": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.164Z",
+    "fetchedAt": "2026-05-08T05:02:51.295Z",
     "home": [
       {
         "number": "1",
@@ -5533,11 +5822,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Christopher Bayliss"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Luke Howmangiles"
+      }
+    ],
+    "officials": []
   },
   "ccef95a05c3f75a09": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.211Z",
+    "fetchedAt": "2026-05-08T05:02:51.498Z",
     "home": [
       {
         "number": "1",
@@ -5800,23 +6100,43 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Edward Warburton"
+      },
+      {
+        "name": "Ross Windsham"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Jamie Rendall"
+      }
+    ],
+    "officials": []
   },
   "66e3dfc89fdc1326c": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.379Z",
+    "fetchedAt": "2026-05-08T05:02:51.743Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "4b15e5772f5f71d4a": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.417Z",
+    "fetchedAt": "2026-05-08T05:02:51.966Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "d79f1f9650cf0d378": {
     "gameDateTime": "2026-05-03T02:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.457Z",
+    "fetchedAt": "2026-05-08T05:02:52.196Z",
     "home": [
       {
         "number": "1",
@@ -6086,11 +6406,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Raff Rossi"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "James Bacon"
+      }
+    ],
+    "officials": []
   },
   "79a2565ac09bdb51f": {
     "gameDateTime": "2026-05-03T02:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.635Z",
+    "fetchedAt": "2026-05-08T05:02:52.405Z",
     "home": [
       {
         "number": "1",
@@ -6409,11 +6740,25 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Greg Milburn"
+      },
+      {
+        "name": "Nick Abrahams"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Luke Dibden"
+      }
+    ],
+    "officials": []
   },
   "115ca120b0ff150a2": {
     "gameDateTime": "2026-05-03T03:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.678Z",
+    "fetchedAt": "2026-05-08T05:02:52.678Z",
     "home": [
       {
         "number": "23",
@@ -6690,11 +7035,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Duane Keighran"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Aaron Broughton-Rouse"
+      }
+    ],
+    "officials": []
   },
   "30b25bdb20e4a0d28": {
     "gameDateTime": "2026-05-03T04:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.716Z",
+    "fetchedAt": "2026-05-08T05:02:52.872Z",
     "home": [
       {
         "number": "3",
@@ -6957,47 +7313,76 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Duane Keighran"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Siaosi Mokofisi"
+      }
+    ],
+    "officials": []
   },
   "c9c8cc1d4c80f95c6": {
     "gameDateTime": "2026-05-09T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.810Z",
+    "fetchedAt": "2026-05-08T05:02:53.269Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "22e3b63feb13081ee": {
     "gameDateTime": "2026-05-09T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.763Z",
+    "fetchedAt": "2026-05-08T05:02:53.111Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "811791f65a7375fed": {
     "gameDateTime": "2026-05-09T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.874Z",
+    "fetchedAt": "2026-05-08T05:02:53.528Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "91965622f91da0853": {
     "gameDateTime": "2026-05-09T23:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:49.917Z",
+    "fetchedAt": "2026-05-08T05:02:53.801Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "92ebdcf55a6b98f1d": {
     "gameDateTime": "2026-05-09T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.044Z",
+    "fetchedAt": "2026-05-08T05:02:54.004Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "ade833a122b91acac": {
     "gameDateTime": "2026-05-09T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.091Z",
+    "fetchedAt": "2026-05-08T05:02:54.262Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "a07ffa61757bcec48": {
     "gameDateTime": "2026-05-09T23:50:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.130Z",
+    "fetchedAt": "2026-05-08T05:02:54.519Z",
     "home": [
       {
         "number": "1",
@@ -7126,23 +7511,36 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Nicholas Hobbs"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "1878b66db5814a3af": {
     "gameDateTime": "2026-05-10T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.177Z",
+    "fetchedAt": "2026-05-08T05:02:54.840Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "5084cf18e3531c0fa": {
     "gameDateTime": "2026-05-10T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.228Z",
+    "fetchedAt": "2026-05-08T05:02:55.065Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "8fd92789765eae306": {
     "gameDateTime": "2026-05-10T00:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.269Z",
+    "fetchedAt": "2026-05-08T05:02:55.289Z",
     "home": [],
     "away": [
       {
@@ -7264,11 +7662,18 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [],
+    "awayCoaches": [
+      {
+        "name": "David Blackman"
+      }
+    ],
+    "officials": []
   },
   "dbeab38b90ffd0030": {
     "gameDateTime": "2026-05-10T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.218Z",
+    "fetchedAt": "2026-05-08T05:02:55.686Z",
     "home": [
       {
         "number": "1",
@@ -7531,17 +7936,31 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "James Lloyd"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Stefano Hunt"
+      }
+    ],
+    "officials": []
   },
   "39a5df2fb853c13ba": {
     "gameDateTime": "2026-05-10T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:50.441Z",
+    "fetchedAt": "2026-05-08T05:02:55.492Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "f6121916d22435d96": {
     "gameDateTime": "2026-05-10T01:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.256Z",
+    "fetchedAt": "2026-05-08T05:02:55.881Z",
     "home": [
       {
         "number": "1",
@@ -7684,11 +8103,18 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Luke Dibden"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "ab1330b1d2192ec74": {
     "gameDateTime": "2026-05-10T02:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.325Z",
+    "fetchedAt": "2026-05-08T05:02:56.084Z",
     "home": [
       {
         "number": "1",
@@ -7852,11 +8278,21 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "Michael Playford"
+      },
+      {
+        "name": "Ryan Davies"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "948fc97bd95a9e40b": {
     "gameDateTime": "2026-05-10T02:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.539Z",
+    "fetchedAt": "2026-05-08T05:02:56.553Z",
     "home": [
       {
         "number": "1",
@@ -8140,11 +8576,22 @@
         "captain": false,
         "isSub": true
       }
-    ]
+    ],
+    "homeCoaches": [
+      {
+        "name": "Jack Upton"
+      }
+    ],
+    "awayCoaches": [
+      {
+        "name": "Duane Keighran"
+      }
+    ],
+    "officials": []
   },
   "434236a5964c39608": {
     "gameDateTime": "2026-05-10T02:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.365Z",
+    "fetchedAt": "2026-05-08T05:02:56.300Z",
     "home": [
       {
         "number": "1",
@@ -8280,96 +8727,148 @@
         "isSub": true
       }
     ],
-    "away": []
+    "away": [],
+    "homeCoaches": [
+      {
+        "name": "James Bacon"
+      }
+    ],
+    "awayCoaches": [],
+    "officials": []
   },
   "01f2902ee8e69399a": {
     "gameDateTime": "2026-05-16T22:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.769Z",
+    "fetchedAt": "2026-05-08T05:02:56.724Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "a07d465f1865a1658": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.987Z",
+    "fetchedAt": "2026-05-08T05:02:57.364Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "4e2e205661c1ed071": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.024Z",
+    "fetchedAt": "2026-05-08T05:02:57.566Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "ab4a497bfe6427057": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.903Z",
+    "fetchedAt": "2026-05-08T05:02:56.973Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "5a1a57e2ba70ce563": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:53.945Z",
+    "fetchedAt": "2026-05-08T05:02:57.185Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "191903965db43cf42": {
     "gameDateTime": "2026-05-17T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.071Z",
+    "fetchedAt": "2026-05-08T05:02:57.773Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "26ec93db605657a87": {
     "gameDateTime": "2026-05-17T00:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.112Z",
+    "fetchedAt": "2026-05-08T05:02:57.943Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "2c9f55e45a95805ec": {
     "gameDateTime": "2026-05-23T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.153Z",
+    "fetchedAt": "2026-05-08T05:02:58.184Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "d57e48a9a0a4c3ae6": {
     "gameDateTime": "2026-05-23T22:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.252Z",
+    "fetchedAt": "2026-05-08T05:02:58.381Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "2b84865c3a814c358": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.457Z",
+    "fetchedAt": "2026-05-08T05:02:58.822Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "0408067ab7b83599b": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.492Z",
+    "fetchedAt": "2026-05-08T05:02:59.051Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "b597c38c7fdc2ae9c": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.293Z",
+    "fetchedAt": "2026-05-08T05:02:58.596Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "20a62ce4531249509": {
     "gameDateTime": "2026-05-23T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.548Z",
+    "fetchedAt": "2026-05-08T05:02:59.307Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "f083afb622e946941": {
     "gameDateTime": "2026-05-24T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.671Z",
+    "fetchedAt": "2026-05-08T05:02:59.478Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   },
   "0a419741b4a83fe43": {
     "gameDateTime": "2026-05-24T00:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:58:54.716Z",
+    "fetchedAt": "2026-05-08T05:02:59.666Z",
     "home": [],
-    "away": []
+    "away": [],
+    "homeCoaches": [],
+    "awayCoaches": [],
+    "officials": []
   }
 }
