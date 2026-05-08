@@ -401,7 +401,7 @@
     </div>
     <div class="toolbar-meta">
       <div style="display:flex;gap:12px;align-items:center">
-        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Copy link</button>
+        <button class="copy-link-btn" id="copy-link-btn" onclick="copyTeamLink()">🔗 Share</button>
         <div class="cal-links" id="cal-links">
           📅
           <a id="cal-ical" href="#">iCal / webcal</a>
@@ -777,7 +777,7 @@ function copyTeamLink() {
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById('copy-link-btn');
     btn.textContent = '✓ Copied';
-    setTimeout(() => { btn.textContent = '🔗 Copy link'; }, 2000);
+    setTimeout(() => { btn.textContent = '🔗 Share'; }, 2000);
   });
 }
 
