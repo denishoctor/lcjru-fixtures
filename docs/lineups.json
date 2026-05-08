@@ -2775,7 +2775,7 @@
   },
   "5d90ea6e29b6142fd": {
     "gameDateTime": "2026-04-25T23:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:16.123Z",
+    "fetchedAt": "2026-05-08T03:58:48.068Z",
     "home": [
       {
         "number": "1",
@@ -2986,7 +2986,7 @@
   },
   "6952a340ff362209b": {
     "gameDateTime": "2026-04-25T23:50:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:16.277Z",
+    "fetchedAt": "2026-05-08T03:58:48.110Z",
     "home": [],
     "away": [
       {
@@ -3119,7 +3119,7 @@
   },
   "318772014727a15a2": {
     "gameDateTime": "2026-04-26T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:16.562Z",
+    "fetchedAt": "2026-05-08T03:58:48.157Z",
     "home": [
       {
         "number": "1",
@@ -3400,7 +3400,7 @@
   },
   "ba3a6af645d1243bd": {
     "gameDateTime": "2026-04-26T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:16.405Z",
+    "fetchedAt": "2026-05-08T03:58:48.225Z",
     "home": [
       {
         "number": "1",
@@ -3723,7 +3723,7 @@
   },
   "a5892d4037ff288c8": {
     "gameDateTime": "2026-04-26T00:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:16.778Z",
+    "fetchedAt": "2026-05-08T03:58:48.267Z",
     "home": [
       {
         "number": "17",
@@ -3927,7 +3927,7 @@
   },
   "1a8a08e146eb00e60": {
     "gameDateTime": "2026-04-26T01:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.029Z",
+    "fetchedAt": "2026-05-08T03:58:48.441Z",
     "home": [
       {
         "number": "1",
@@ -4229,7 +4229,7 @@
   },
   "5e5cf8ed88a07ca1e": {
     "gameDateTime": "2026-04-26T02:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.135Z",
+    "fetchedAt": "2026-05-08T03:58:48.483Z",
     "home": [
       {
         "number": "1",
@@ -4482,7 +4482,7 @@
   },
   "1d1e9d6d3598f42ff": {
     "gameDateTime": "2026-04-26T03:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.271Z",
+    "fetchedAt": "2026-05-08T03:58:48.541Z",
     "home": [
       {
         "number": "1",
@@ -4756,43 +4756,43 @@
   },
   "f62f774d236cd097b": {
     "gameDateTime": "2026-05-02T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.645Z",
+    "fetchedAt": "2026-05-08T03:58:48.728Z",
     "home": [],
     "away": []
   },
   "24418d8361c029d49": {
     "gameDateTime": "2026-05-02T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.465Z",
+    "fetchedAt": "2026-05-08T03:58:48.768Z",
     "home": [],
     "away": []
   },
   "8f88f1231bf0b65f3": {
     "gameDateTime": "2026-05-02T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.791Z",
+    "fetchedAt": "2026-05-08T03:58:48.809Z",
     "home": [],
     "away": []
   },
   "d3cd4a7ebf8ae20d8": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:18.343Z",
+    "fetchedAt": "2026-05-08T03:58:48.858Z",
     "home": [],
     "away": []
   },
   "74537e4b47736fac6": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:18.147Z",
+    "fetchedAt": "2026-05-08T03:58:48.902Z",
     "home": [],
     "away": []
   },
   "a64050181839884a0": {
     "gameDateTime": "2026-05-02T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:17.943Z",
+    "fetchedAt": "2026-05-08T03:58:48.950Z",
     "home": [],
     "away": []
   },
   "52b4cc992aab2179f": {
     "gameDateTime": "2026-05-02T23:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:18.465Z",
+    "fetchedAt": "2026-05-08T03:58:49.069Z",
     "home": [
       {
         "number": "1",
@@ -5017,7 +5017,7 @@
   },
   "a13d32240ed67103d": {
     "gameDateTime": "2026-05-03T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:18.627Z",
+    "fetchedAt": "2026-05-08T03:58:49.118Z",
     "home": [
       {
         "number": "1",
@@ -5249,7 +5249,7 @@
   },
   "a8b67a32ce48b23da": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.006Z",
+    "fetchedAt": "2026-05-08T03:58:49.164Z",
     "home": [
       {
         "number": "1",
@@ -5537,7 +5537,7 @@
   },
   "ccef95a05c3f75a09": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.293Z",
+    "fetchedAt": "2026-05-08T03:58:49.211Z",
     "home": [
       {
         "number": "1",
@@ -5804,19 +5804,19 @@
   },
   "66e3dfc89fdc1326c": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.150Z",
+    "fetchedAt": "2026-05-08T03:58:49.379Z",
     "home": [],
     "away": []
   },
   "4b15e5772f5f71d4a": {
     "gameDateTime": "2026-05-03T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:18.854Z",
+    "fetchedAt": "2026-05-08T03:58:49.417Z",
     "home": [],
     "away": []
   },
   "d79f1f9650cf0d378": {
     "gameDateTime": "2026-05-03T02:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.456Z",
+    "fetchedAt": "2026-05-08T03:58:49.457Z",
     "home": [
       {
         "number": "1",
@@ -6090,7 +6090,7 @@
   },
   "79a2565ac09bdb51f": {
     "gameDateTime": "2026-05-03T02:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.753Z",
+    "fetchedAt": "2026-05-08T03:58:49.635Z",
     "home": [
       {
         "number": "1",
@@ -6413,7 +6413,7 @@
   },
   "115ca120b0ff150a2": {
     "gameDateTime": "2026-05-03T03:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:19.886Z",
+    "fetchedAt": "2026-05-08T03:58:49.678Z",
     "home": [
       {
         "number": "23",
@@ -6694,7 +6694,7 @@
   },
   "30b25bdb20e4a0d28": {
     "gameDateTime": "2026-05-03T04:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.008Z",
+    "fetchedAt": "2026-05-08T03:58:49.716Z",
     "home": [
       {
         "number": "3",
@@ -6961,43 +6961,43 @@
   },
   "c9c8cc1d4c80f95c6": {
     "gameDateTime": "2026-05-09T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.260Z",
+    "fetchedAt": "2026-05-08T03:58:49.810Z",
     "home": [],
     "away": []
   },
   "22e3b63feb13081ee": {
     "gameDateTime": "2026-05-09T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.145Z",
+    "fetchedAt": "2026-05-08T03:58:49.763Z",
     "home": [],
     "away": []
   },
   "811791f65a7375fed": {
     "gameDateTime": "2026-05-09T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.427Z",
+    "fetchedAt": "2026-05-08T03:58:49.874Z",
     "home": [],
     "away": []
   },
   "91965622f91da0853": {
     "gameDateTime": "2026-05-09T23:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.562Z",
+    "fetchedAt": "2026-05-08T03:58:49.917Z",
     "home": [],
     "away": []
   },
   "92ebdcf55a6b98f1d": {
     "gameDateTime": "2026-05-09T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.848Z",
+    "fetchedAt": "2026-05-08T03:58:50.044Z",
     "home": [],
     "away": []
   },
   "ade833a122b91acac": {
     "gameDateTime": "2026-05-09T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:20.713Z",
+    "fetchedAt": "2026-05-08T03:58:50.091Z",
     "home": [],
     "away": []
   },
   "a07ffa61757bcec48": {
     "gameDateTime": "2026-05-09T23:50:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.047Z",
+    "fetchedAt": "2026-05-08T03:58:50.130Z",
     "home": [
       {
         "number": "1",
@@ -7130,19 +7130,19 @@
   },
   "1878b66db5814a3af": {
     "gameDateTime": "2026-05-10T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.382Z",
+    "fetchedAt": "2026-05-08T03:58:50.177Z",
     "home": [],
     "away": []
   },
   "5084cf18e3531c0fa": {
     "gameDateTime": "2026-05-10T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.226Z",
+    "fetchedAt": "2026-05-08T03:58:50.228Z",
     "home": [],
     "away": []
   },
   "8fd92789765eae306": {
     "gameDateTime": "2026-05-10T00:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.489Z",
+    "fetchedAt": "2026-05-08T03:58:50.269Z",
     "home": [],
     "away": [
       {
@@ -7268,7 +7268,7 @@
   },
   "dbeab38b90ffd0030": {
     "gameDateTime": "2026-05-10T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.623Z",
+    "fetchedAt": "2026-05-08T03:58:53.218Z",
     "home": [
       {
         "number": "1",
@@ -7535,13 +7535,13 @@
   },
   "39a5df2fb853c13ba": {
     "gameDateTime": "2026-05-10T01:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.790Z",
+    "fetchedAt": "2026-05-08T03:58:50.441Z",
     "home": [],
     "away": []
   },
   "f6121916d22435d96": {
     "gameDateTime": "2026-05-10T01:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:21.953Z",
+    "fetchedAt": "2026-05-08T03:58:53.256Z",
     "home": [
       {
         "number": "1",
@@ -7688,7 +7688,7 @@
   },
   "ab1330b1d2192ec74": {
     "gameDateTime": "2026-05-10T02:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.087Z",
+    "fetchedAt": "2026-05-08T03:58:53.325Z",
     "home": [
       {
         "number": "1",
@@ -7856,13 +7856,295 @@
   },
   "948fc97bd95a9e40b": {
     "gameDateTime": "2026-05-10T02:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.319Z",
-    "home": [],
-    "away": []
+    "fetchedAt": "2026-05-08T03:58:53.539Z",
+    "home": [
+      {
+        "number": "1",
+        "name": "Willem Lau",
+        "position": "1",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "2",
+        "name": "Banjo Hartman",
+        "position": "2",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "3",
+        "name": "Oliver Hindmarsh",
+        "position": "3",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "4",
+        "name": "Edward McGuiness",
+        "position": "4",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "5",
+        "name": "Ignatius Findlay",
+        "position": "5",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "6",
+        "name": "Barnaby Timmins",
+        "position": "6",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "7",
+        "name": "William Ballantyne",
+        "position": "7",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "8",
+        "name": "Benjamin  BAILEY ",
+        "position": "8",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "9",
+        "name": "Angus Quilkey",
+        "position": "9",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "10",
+        "name": "Parker Parry-Okeden",
+        "position": "10",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "11",
+        "name": "Bertie Owens",
+        "position": "11",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "12",
+        "name": "Conrad Barbour",
+        "position": "12",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "13",
+        "name": "Harry Carson",
+        "position": "13",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "14",
+        "name": "Archie Montgomery",
+        "position": "14",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "15",
+        "name": "Rafferty Redpath",
+        "position": "15",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "16",
+        "name": "Henry Ridhalgh",
+        "position": "16",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "17",
+        "name": "Tom Bull",
+        "position": "17",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "18",
+        "name": "Oliver Debney",
+        "position": "18",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "19",
+        "name": "Johnny Sheedy",
+        "position": "19",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "20",
+        "name": "Jasper White",
+        "position": "20",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "21",
+        "name": "Lachlan Woodlock",
+        "position": "21",
+        "captain": false,
+        "isSub": true
+      }
+    ],
+    "away": [
+      {
+        "number": "4",
+        "name": "Jack McNeill",
+        "position": "1",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "2",
+        "name": "Dylan Hill",
+        "position": "2",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "24",
+        "name": "Malachi Ioane-Chandler",
+        "position": "3",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "18",
+        "name": "Lucas Hambouris",
+        "position": "4",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "20",
+        "name": "Name Withheld",
+        "position": "5",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "6",
+        "name": "Maliyaan Compton",
+        "position": "6",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "7",
+        "name": "Patrick Healy",
+        "position": "7",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "8",
+        "name": "Clancy Willis",
+        "position": "8",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "9",
+        "name": "Kaiden Keighran",
+        "position": "9",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "15",
+        "name": "William Cullen",
+        "position": "10",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "11",
+        "name": "Harry Sweeney",
+        "position": "11",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "12",
+        "name": "Liam Kelly",
+        "position": "12",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "13",
+        "name": "George Bowie",
+        "position": "13",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "14",
+        "name": "Thomas Brownie",
+        "position": "14",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "71",
+        "name": "Chandon Thompson",
+        "position": "15",
+        "captain": false,
+        "isSub": false
+      },
+      {
+        "number": "1",
+        "name": "Oscar Moylan",
+        "position": "16",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "5",
+        "name": "Cooper Briscoe",
+        "position": "17",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "17",
+        "name": "Oliver Curtin",
+        "position": "18",
+        "captain": false,
+        "isSub": true
+      },
+      {
+        "number": "21",
+        "name": "Jackson Norris",
+        "position": "19",
+        "captain": false,
+        "isSub": true
+      }
+    ]
   },
   "434236a5964c39608": {
     "gameDateTime": "2026-05-10T02:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.445Z",
+    "fetchedAt": "2026-05-08T03:58:53.365Z",
     "home": [
       {
         "number": "1",
@@ -8002,91 +8284,91 @@
   },
   "01f2902ee8e69399a": {
     "gameDateTime": "2026-05-16T22:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.569Z",
+    "fetchedAt": "2026-05-08T03:58:53.769Z",
     "home": [],
     "away": []
   },
   "a07d465f1865a1658": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.134Z",
+    "fetchedAt": "2026-05-08T03:58:53.987Z",
     "home": [],
     "away": []
   },
   "4e2e205661c1ed071": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.930Z",
+    "fetchedAt": "2026-05-08T03:58:54.024Z",
     "home": [],
     "away": []
   },
   "ab4a497bfe6427057": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.292Z",
+    "fetchedAt": "2026-05-08T03:58:53.903Z",
     "home": [],
     "away": []
   },
   "5a1a57e2ba70ce563": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:22.749Z",
+    "fetchedAt": "2026-05-08T03:58:53.945Z",
     "home": [],
     "away": []
   },
   "191903965db43cf42": {
     "gameDateTime": "2026-05-17T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.464Z",
+    "fetchedAt": "2026-05-08T03:58:54.071Z",
     "home": [],
     "away": []
   },
   "26ec93db605657a87": {
     "gameDateTime": "2026-05-17T00:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.632Z",
+    "fetchedAt": "2026-05-08T03:58:54.112Z",
     "home": [],
     "away": []
   },
   "2c9f55e45a95805ec": {
     "gameDateTime": "2026-05-23T22:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.753Z",
+    "fetchedAt": "2026-05-08T03:58:54.153Z",
     "home": [],
     "away": []
   },
   "d57e48a9a0a4c3ae6": {
     "gameDateTime": "2026-05-23T22:30:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:23.869Z",
+    "fetchedAt": "2026-05-08T03:58:54.252Z",
     "home": [],
     "away": []
   },
   "2b84865c3a814c358": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.151Z",
+    "fetchedAt": "2026-05-08T03:58:54.457Z",
     "home": [],
     "away": []
   },
   "0408067ab7b83599b": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.014Z",
+    "fetchedAt": "2026-05-08T03:58:54.492Z",
     "home": [],
     "away": []
   },
   "b597c38c7fdc2ae9c": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.336Z",
+    "fetchedAt": "2026-05-08T03:58:54.293Z",
     "home": [],
     "away": []
   },
   "20a62ce4531249509": {
     "gameDateTime": "2026-05-23T23:20:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.516Z",
+    "fetchedAt": "2026-05-08T03:58:54.548Z",
     "home": [],
     "away": []
   },
   "f083afb622e946941": {
     "gameDateTime": "2026-05-24T00:00:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.715Z",
+    "fetchedAt": "2026-05-08T03:58:54.671Z",
     "home": [],
     "away": []
   },
   "0a419741b4a83fe43": {
     "gameDateTime": "2026-05-24T00:10:00+00:00",
-    "fetchedAt": "2026-05-08T03:38:24.900Z",
+    "fetchedAt": "2026-05-08T03:58:54.716Z",
     "home": [],
     "away": []
   }
