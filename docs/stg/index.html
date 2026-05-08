@@ -289,7 +289,6 @@
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 0 12px; align-items: start;
   }
-  /* Team header — one per column, spans its own cell */
   .lineup-col-header h4 {
     display: flex; align-items: center; gap: 10px;
     font-size: 11px; font-weight: 700; text-transform: uppercase;
@@ -299,7 +298,6 @@
   .lineup-crest {
     width: 40px; height: 40px; object-fit: contain; flex-shrink: 0;
   }
-  /* Section dividers span both columns */
   .lineup-section-head {
     grid-column: 1 / -1;
     font-size: 9px; font-weight: 700; text-transform: uppercase;
@@ -330,6 +328,33 @@
   .lineup-footer a { color: var(--navy); }
   .lineup-referee { font-size: 11px; color: var(--muted); }
   .lineup-referee strong { color: var(--navy); font-weight: 600; }
+
+  /* EVENTS */
+  .event-badge {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--cream); border: 2px solid var(--cream-edge);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .event-icon {
+    width: 22px; height: 22px; stroke: var(--navy); fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .event-past .event-badge { background: #F5F5F5; border-color: var(--rule); }
+  .event-past .event-icon  { stroke: #BDBDBD; }
+  .event-past .event-title { color: var(--muted); }
+  .event-title { font-weight: 700; font-size: 14px; color: var(--ink); }
+  .event-note  { font-size: 12px; color: var(--muted); }
+  .event-cta   { font-size: 11px; font-weight: 700; color: var(--navy); }
+  .status-badge {
+    font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
+  }
+  .status-confirmed { background: #E8F5E9; color: #2E7D4F; }
+  .status-tentative { background: #FFF3E0; color: #E65100; }
+  .status-cancelled { background: #FFEBEE; color: #b71c1c; }
+  .status-completed { background: #F5F5F5; color: var(--muted); }
+  .note-row { min-height: 40px; padding-top: 7px; padding-bottom: 7px; background: #FFFDF5; }
+  .note-text { font-size: 12px; color: var(--muted); font-style: italic; flex: 1; margin: 0; }
 
   @media (max-width: 600px) {
     .header { flex-direction: column; align-items: flex-start; }
@@ -426,9 +451,10 @@ const FIXTURES_URL = '../fixtures.json';
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
-let currentTeam  = null; // teamId or null
+let currentTeam  = null;
 let fixturesData = null;
 let lineupsData  = null;
+let eventsData   = null;
 
 const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
@@ -464,7 +490,6 @@ function renderWelcome() {
 function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
 
-  // Pad the shorter array with nulls so both sides have the same row count
   const pad = (arr, len) => [...arr, ...Array(Math.max(0, len - arr.length)).fill(null)];
 
   const homeStarters = (entry.home ?? []).filter(p => !p.isSub);
@@ -489,15 +514,12 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
   const sectionHead = label => `<div class="lineup-section-head">${label}</div>`;
 
   let html = '';
-
-  // Team headers (one per column)
   const hdr = (name, crest) => {
     const img = crest ? `<img class="lineup-crest" src="${esc(crest)}" alt="" loading="lazy">` : '';
     return `<div class="lineup-col-header"><h4>${img}${esc(name)}</h4></div>`;
   };
   html += hdr(homeName, homeCrest) + hdr(awaName, awayCrest);
 
-  // Starters — pad to equal length; show "Not published" only when the whole side is empty
   const homeEmpty = entry.home.length === 0;
   const awayEmpty = entry.away.length === 0;
   const maxStart  = Math.max(homeStarters.length, awayStarters.length, homeEmpty || awayEmpty ? 1 : 0);
@@ -508,7 +530,6 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
     html += playerCell(aStart[i], awayEmpty && i === 0 ? 'Not published' : null);
   }
 
-  // Reserves section
   const maxSubs = Math.max(homeSubs.length, awaySubs.length);
   if (maxSubs > 0) {
     html += sectionHead('Reserves');
@@ -519,7 +540,6 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
     }
   }
 
-  // Coaches section
   const maxCoaches = Math.max(homeCoaches.length, awayCoaches.length);
   if (maxCoaches > 0) {
     html += sectionHead('Coaches');
@@ -530,7 +550,6 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
     }
   }
 
-  // Officials
   const officials = entry.officials ?? [];
   const mainRef   = officials.find(o => o.role === 'Referee');
   const otherRefs = officials.filter(o => o.role !== 'Referee');
@@ -556,12 +575,11 @@ function attachLineupHandlers() {
     const panel     = document.getElementById(`lineup-${matchId}`);
     if (!panel) return;
     row.addEventListener('click', e => {
-      if (e.target.closest('a')) return; // don't intercept venue / anchor link clicks
+      if (e.target.closest('a')) return;
       const isOpen = panel.classList.contains('open');
       document.querySelectorAll('.lineup-panel.open').forEach(p => p.classList.remove('open'));
       document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
       if (!isOpen) {
-        // lineupsData is already loaded eagerly in init(); this is always instant
         const entry = lineupsData?.[matchId];
         panel.innerHTML = renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest);
         panel.classList.add('open');
@@ -569,6 +587,58 @@ function attachLineupHandlers() {
       }
     });
   });
+}
+
+// ── events ────────────────────────────────────────────────────────────────────
+
+function eventDt(e) {
+  return e.date
+    ? new Date(e.time ? `${e.date}T${e.time}:00+10:00` : `${e.date}T12:00:00+10:00`)
+    : null;
+}
+
+function renderEvent(event) {
+  const dt     = eventDt(event);
+  const isPast = event.status === 'completed' || event.status === 'cancelled' ||
+    (dt && dt < new Date());
+
+  const STATUS_LABELS = { confirmed: 'Confirmed', tentative: 'Tentative', cancelled: 'Cancelled', completed: 'Completed' };
+  const badgeHtml = event.status
+    ? `<span class="status-badge status-${esc(event.status)}">${esc(STATUS_LABELS[event.status] || event.status)}</span>`
+    : '';
+
+  let venueHtml = '';
+  if (event.venue) {
+    const { display: loc, mapsUrl } = parseVenue(event.venue, VENUES);
+    venueHtml = `<div class="venue"><a class="venue-link" href="${esc(mapsUrl)}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a></div>`;
+  }
+
+  const ctaHtml = event.cta
+    ? `<a href="${esc(event.cta.url ?? '#')}" class="event-cta" target="_blank" rel="noopener">${esc(event.cta.label)}</a>`
+    : '';
+
+  const CAL_SVG = `<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+
+  return `
+    <div class="row event-row${isPast ? ' event-past' : ''}">
+      <div class="event-badge">${CAL_SVG}</div>
+      <div class="date-block">
+        ${dt ? `<div class="dow">${fmtDow(dt.toISOString())}</div><div class="date">${fmtDate(dt.toISOString())}</div>${event.time ? `<div class="time">${esc(event.time)}</div>` : ''}` : ''}
+      </div>
+      <div class="venues">
+        <div class="venue"><span class="event-title">${esc(event.title)}</span>${badgeHtml}</div>
+        ${venueHtml}
+        ${event.note ? `<div class="venue"><span class="event-note">${esc(event.note)}</span></div>` : ''}
+        ${ctaHtml}
+      </div>
+    </div>`;
+}
+
+function renderNote(event) {
+  return `
+    <div class="row note-row">
+      <p class="note-text">${esc(event.text)}</p>
+    </div>`;
 }
 
 // ── rendering ─────────────────────────────────────────────────────────────────
@@ -596,7 +666,7 @@ function renderMatch(match, isNextUp) {
     : '';
 
   const timeStr = fmtTime(match.dateTime);
-  const showTime = timeStr !== '12:00am'; // API sometimes lacks time
+  const showTime = timeStr !== '12:00am';
 
   const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '', VENUES);
   const anchor = rowId(match);
@@ -643,36 +713,70 @@ function render(data, teamId) {
     return;
   }
 
-  const now = new Date();
+  const slug = SLUG_BY_ID[teamId];
+  const now  = new Date();
   const matches = data.matches.filter(m => m.home.id === teamId || m.away.id === teamId);
 
-  const past     = [...matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now)].reverse();
-  const upcoming =   matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now);
+  const teamEvents = (eventsData || []).filter(e =>
+    e.teams?.includes('*') || e.teams?.includes(slug)
+  );
+
+  const upcomingMatches = matches.filter(m => m.type === 'fixture' && new Date(m.dateTime) >= now);
+  const pastMatches     = [...matches.filter(m => m.type === 'result' || new Date(m.dateTime) < now)].reverse();
+
+  const upcomingEvents = teamEvents.filter(e => {
+    if (e.status === 'cancelled' || e.status === 'completed') return false;
+    const dt = eventDt(e);
+    return dt ? dt >= now : e.type === 'note';
+  });
+  const pastEvents = teamEvents.filter(e => {
+    if (e.type === 'note') return false;
+    const dt = eventDt(e);
+    return dt ? dt < now : false;
+  });
+
+  const upcomingAll = [
+    ...upcomingMatches.map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m })),
+    ...upcomingEvents.map(e => ({ kind: e.type,   dt: eventDt(e) ?? new Date('9999-12-31'), item: e })),
+  ].sort((a, b) => a.dt - b.dt);
+
+  const pastAll = [
+    ...pastMatches.map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m })),
+    ...pastEvents.map(e => ({ kind: e.type,   dt: eventDt(e),           item: e })),
+  ].sort((a, b) => b.dt - a.dt);
 
   let html = '';
 
-  if (upcoming.length > 0) {
-    html += `<div class="section-header">Upcoming fixtures</div>`;
+  if (upcomingAll.length > 0) {
+    html += `<div class="section-header">Upcoming</div>`;
     let markedNext = false;
-    for (const m of upcoming) {
-      const isNext = !markedNext;
-      if (isNext) markedNext = true;
-      html += renderMatch(m, isNext);
+    for (const { kind, item } of upcomingAll) {
+      if (kind === 'match') {
+        const isNext = !markedNext;
+        if (isNext) markedNext = true;
+        html += renderMatch(item, isNext);
+      } else if (kind === 'event') {
+        html += renderEvent(item);
+      } else if (kind === 'note') {
+        html += renderNote(item);
+      }
     }
   }
 
-  if (past.length > 0) {
+  if (pastAll.length > 0) {
     html += `<div class="section-header">Completed games</div>`;
-    for (const m of past) html += renderMatch(m, false);
+    for (const { kind, item } of pastAll) {
+      if (kind === 'match')      html += renderMatch(item, false);
+      else if (kind === 'event') html += renderEvent(item);
+    }
   }
 
-  if (matches.length === 0) {
+  if (matches.length === 0 && teamEvents.length === 0) {
     html = `<div class="empty">No matches found for the selected team.</div>`;
   }
 
   document.getElementById('calendar').innerHTML = html;
 
-  // Insert a lineup panel <div> immediately after each upcoming fixture row
   document.querySelectorAll('.row.has-lineup').forEach(row => {
     const panel = document.createElement('div');
     panel.className = 'lineup-panel';
@@ -707,12 +811,10 @@ function copyIcsUrl() {
 function selectTeam(teamId, pushState = true) {
   currentTeam = teamId;
 
-  // Update token active states
   document.querySelectorAll('.token').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.team === teamId);
   });
 
-  // Show/hide clear button, copy link, and calendar subscribe links
   const isAndroid = /Android/i.test(navigator.userAgent);
   document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
   document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
@@ -735,7 +837,6 @@ function selectTeam(teamId, pushState = true) {
     }
   }
 
-  // Update hash (without triggering hashchange listener)
   const slug = teamId ? SLUG_BY_ID[teamId] : '';
   if (pushState) {
     history.pushState(null, '', slug ? '#' + slug : location.href.split('#')[0]);
@@ -745,15 +846,14 @@ function selectTeam(teamId, pushState = true) {
 }
 
 function readHash() {
-  const slug = location.hash.replace('#', '').split('/')[0]; // ignore sub-anchor
+  const slug = location.hash.replace('#', '').split('/')[0];
   return TEAM_SLUGS[slug] || null;
 }
 
-// Token clicks
 document.querySelectorAll('.token').forEach(btn => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.team;
-    selectTeam(id === currentTeam ? null : id); // toggle off if already selected
+    selectTeam(id === currentTeam ? null : id);
   });
 });
 
@@ -761,12 +861,10 @@ document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink)
 document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
-// Browser back/forward
 window.addEventListener('hashchange', () => {
   const teamId = readHash();
   selectTeam(teamId, false);
 
-  // If hash points to a specific match anchor, scroll to it after render
   const anchor = location.hash.replace('#', '');
   if (anchor.startsWith('match-')) {
     requestAnimationFrame(() => {
@@ -781,16 +879,17 @@ async function init() {
   const calendar = document.getElementById('calendar');
   calendar.innerHTML = '<div class="empty">Loading fixtures…</div>';
 
-  // Load fixtures and lineups in parallel; lineup failure is non-fatal
   let data;
   try {
-    const [fixturesRes, lineupsRes] = await Promise.allSettled([
+    const [fixturesRes, lineupsRes, eventsRes] = await Promise.allSettled([
       fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
       fetch('../lineups.json').then(r => r.ok ? r.json() : {}),
+      fetch('../events.json').then(r => r.ok ? r.json() : []),
     ]);
     if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
-    data      = fixturesRes.value;
+    data        = fixturesRes.value;
     lineupsData = lineupsRes.status === 'fulfilled' ? lineupsRes.value : {};
+    eventsData  = eventsRes.status  === 'fulfilled' ? eventsRes.value  : [];
   } catch (err) {
     calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;
@@ -806,10 +905,9 @@ async function init() {
   })} AEST`;
   if (staleHours > 4) {
     stamp.textContent += ' · sync may be delayed';
-    stamp.style.color = '#F0A030'; // amber — visible on dark navy header
+    stamp.style.color = '#F0A030';
   }
 
-  // Apply team from hash (if any) without pushing history
   const initialTeam = readHash();
   if (initialTeam) {
     selectTeam(initialTeam, false);
@@ -817,7 +915,6 @@ async function init() {
     render(data, null);
   }
 
-  // Scroll to match anchor if present
   const anchor = location.hash.replace('#', '');
   if (anchor.startsWith('match-')) {
     requestAnimationFrame(() => {

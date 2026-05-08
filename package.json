@@ -6,6 +6,7 @@
     "setup": "git config core.hooksPath .githooks",
     "promote": "node scripts/promote.mjs",
     "fetch": "node scripts/fetch-fixtures.mjs",
+    "build-events": "node scripts/build-events.mjs",
     "check": "node scripts/check.mjs",
     "smoke": "node scripts/smoke.mjs",
     "test": "node --test tests/fixtures-json.test.mjs tests/ics.test.mjs tests/lineup.test.mjs tests/normalise.test.mjs tests/render.test.mjs",

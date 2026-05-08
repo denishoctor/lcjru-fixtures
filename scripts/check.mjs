@@ -8,6 +8,7 @@ const DOCS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs
 const required = [
   'fixtures.json',
   'lineups.json',
+  'events.json',
   'config.js',
   'render.mjs',
   'index.html',

@@ -23,7 +23,8 @@ const prodRender = readFileSync(join(ROOT, 'docs/render.mjs'),     'utf8');
 const promotedHtml = stgHtml
   .replace('<script src="../config.js">', '<script src="./config.js">')
   .replace("const FIXTURES_URL = '../fixtures.json';", "const FIXTURES_URL = './fixtures.json';")
-  .replace("fetch('../lineups.json')", "fetch('lineups.json')");
+  .replace("fetch('../lineups.json')", "fetch('lineups.json')")
+  .replace("fetch('../events.json')", "fetch('./events.json')");
 
 const htmlChanged   = promotedHtml !== prodHtml;
 const renderChanged = stgRender    !== prodRender;
