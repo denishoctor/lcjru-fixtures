@@ -249,6 +249,32 @@
   }
   .footer-note a { color: var(--navy); }
 
+  /* LINEUP PANEL */
+  .row.has-lineup { cursor: pointer; }
+  .row.has-lineup:hover { background: var(--cream); }
+  .row.expanded { background: var(--cream); }
+  .lineup-panel {
+    display: none;
+    padding: 10px 16px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream);
+  }
+  .lineup-panel.open { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lineup-col h4 {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); margin: 0 0 5px;
+  }
+  .lineup-player { display: flex; gap: 6px; padding: 1px 0; font-size: 13px; }
+  .lineup-num {
+    color: var(--muted); min-width: 18px; text-align: right;
+    font-variant-numeric: tabular-nums; font-size: 12px; flex-shrink: 0;
+  }
+  .lineup-footer {
+    grid-column: 1 / -1; font-size: 11px; color: var(--muted);
+    padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 4px;
+  }
+  .lineup-footer a { color: var(--navy); }
+
   @media (max-width: 600px) {
     .header { flex-direction: column; align-items: flex-start; }
     .header-right { text-align: left; }
@@ -256,6 +282,7 @@
     .toolbar { padding: 10px 14px 8px; }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
+    .lineup-panel.open { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -335,8 +362,9 @@ const LC_CREST_PATTERN = '/30901.';
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
 
-let currentTeam = null; // teamId or null
+let currentTeam  = null; // teamId or null
 let fixturesData = null;
+let lineupsData  = null;
 
 // ── venue display ─────────────────────────────────────────────────────────────
 
@@ -442,6 +470,56 @@ function renderWelcome() {
     </div>`;
 }
 
+// ── lineups ───────────────────────────────────────────────────────────────────
+
+async function loadLineups() {
+  if (lineupsData) return lineupsData;
+  const res = await fetch('lineups.json');
+  lineupsData = await res.json();
+  return lineupsData;
+}
+
+function renderLineupPanel(matchId, entry) {
+  const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
+  const footer = `<div class="lineup-footer"><a href="${xplorerUrl}" target="_blank" rel="noopener">View full team sheet on Rugby Xplorer ↗</a></div>`;
+
+  if (!entry || (!entry.home.length && !entry.away.length)) {
+    return `<div class="lineup-footer">Lineup not yet published — <a href="${xplorerUrl}" target="_blank" rel="noopener">check Rugby Xplorer ↗</a></div>`;
+  }
+
+  const col = (players, label) =>
+    `<div class="lineup-col"><h4>${label}</h4>` +
+    players.map(p => {
+      const num  = p.number ?? p.jerseyNumber ?? '';
+      const name = p.name ?? [p.firstName, p.lastName].filter(Boolean).join(' ') ?? '';
+      return `<div class="lineup-player"><span class="lineup-num">${esc(String(num))}</span><span>${esc(name)}</span></div>`;
+    }).join('') +
+    `</div>`;
+
+  return col(entry.home, 'Home') + col(entry.away, 'Away') + footer;
+}
+
+function attachLineupHandlers() {
+  document.querySelectorAll('.row.has-lineup').forEach(row => {
+    const matchId = row.dataset.matchId;
+    const panel   = document.getElementById(`lineup-${matchId}`);
+    if (!panel) return;
+    row.addEventListener('click', e => {
+      if (e.target.closest('a')) return; // don't intercept venue / anchor link clicks
+      const isOpen = panel.classList.contains('open');
+      document.querySelectorAll('.lineup-panel.open').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
+      if (!isOpen) {
+        loadLineups().then(data => {
+          panel.innerHTML = renderLineupPanel(matchId, data[matchId]);
+          panel.classList.add('open');
+          row.classList.add('expanded');
+        });
+      }
+    });
+  });
+}
+
 // ── rendering ─────────────────────────────────────────────────────────────────
 
 function renderMatch(match, isNextUp) {
@@ -472,8 +550,11 @@ function renderMatch(match, isNextUp) {
   const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '');
   const anchor = rowId(match);
 
+  const isUpcoming = !isResult && !isPastFixture;
+  const lineupAttrs = isUpcoming ? ` has-lineup" data-match-id="${esc(match.id)}` : ``;
+
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}" id="${esc(anchor)}">
+    <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}" id="${esc(anchor)}">
       <a class="row-anchor" href="#${esc(anchor)}" title="Copy link">#</a>
       <div class="${badgeCls}">
         <span>${badgeLabel}</span>
@@ -535,6 +616,16 @@ function render(data, teamId) {
   }
 
   document.getElementById('calendar').innerHTML = html;
+
+  // Insert a lineup panel <div> immediately after each upcoming fixture row
+  document.querySelectorAll('.row.has-lineup').forEach(row => {
+    const panel = document.createElement('div');
+    panel.className = 'lineup-panel';
+    panel.id = `lineup-${row.dataset.matchId}`;
+    row.insertAdjacentElement('afterend', panel);
+  });
+
+  attachLineupHandlers();
 }
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
