@@ -54,11 +54,31 @@ async function fetchLineup(matchId) {
   if (!m) throw new Error('No __NEXT_DATA__ in response');
 
   const pageProps = JSON.parse(m[1])?.props?.pageProps ?? {};
-  const lineUp = pageProps?.matchData?.allMatchStatsSummary?.lineUp;
+  const matchData = pageProps?.matchData ?? {};
+  const stats     = matchData?.allMatchStatsSummary ?? {};
+  const lineUp    = stats?.lineUp;
+
+  // Discover officials path — log matchData top-level keys for future exploration
+  if (matchArg) {
+    console.log(`  matchData keys: ${Object.keys(matchData).join(', ')}`);
+    console.log(`  allMatchStatsSummary keys: ${Object.keys(stats).join(', ')}`);
+  }
+
+  // Try known paths for match officials / referee
+  const rawOfficials =
+    matchData.officials ??
+    matchData.matchOfficials ??
+    stats.officials ??
+    stats.matchOfficials ??
+    null;
+
+  const officials = rawOfficials
+    ? rawOfficials.map(o => ({ name: o.name ?? o.officialName ?? '', role: o.role ?? o.type ?? o.officialType ?? '' })).filter(o => o.name)
+    : [];
 
   if (!lineUp) {
     // lineUp is null when no team sheet has been submitted yet
-    return { home: [], away: [] };
+    return { home: [], away: [], homeCoaches: [], awayCoaches: [], officials };
   }
 
   const allPlayers = [
@@ -80,14 +100,19 @@ async function fetchLineup(matchId) {
   const home = sort(allPlayers.filter(p => p.isHome  === true )).map(normalise);
   const away = sort(allPlayers.filter(p => p.isHome  === false)).map(normalise);
 
-  return { home, away };
+  // Coaches are in lineUp.coaches[] with isHome boolean
+  const rawCoaches    = lineUp.coaches ?? [];
+  const homeCoaches   = rawCoaches.filter(c => c.isHome === true ).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
+  const awayCoaches   = rawCoaches.filter(c => c.isHome === false).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
+
+  return { home, away, homeCoaches, awayCoaches, officials };
 }
 
 // ── smoke test (--match <id>) ─────────────────────────────────────────────────
 
 async function smokeTest(matchId) {
   console.log(`Smoke test: fetching lineup for match ${matchId}…`);
-  const { home, away } = await fetchLineup(matchId);
+  const { home, away, homeCoaches, awayCoaches, officials } = await fetchLineup(matchId);
   if (home.length === 0 && away.length === 0) {
     console.log('  No lineup published for this match (home=0 away=0) — fetch succeeded but sheet is empty.');
   } else {
@@ -95,8 +120,14 @@ async function smokeTest(matchId) {
     if (home.length) console.log(`  First home player: #${home[0].number} ${home[0].name}`);
     if (away.length) console.log(`  First away player: #${away[0].number} ${away[0].name}`);
   }
+  if (homeCoaches.length || awayCoaches.length)
+    console.log(`  Coaches: home=${homeCoaches.map(c=>c.name).join(', ')||'none'}  away=${awayCoaches.map(c=>c.name).join(', ')||'none'}`);
+  if (officials.length)
+    console.log(`  Officials: ${officials.map(o => `${o.role} ${o.name}`).join(', ')}`);
+  else
+    console.log('  Officials: none found (may not be published for this grade)');
   console.log('\nFull result:');
-  console.log(JSON.stringify({ home, away }, null, 2));
+  console.log(JSON.stringify({ home, away, homeCoaches, awayCoaches, officials }, null, 2));
 }
 
 // ── main ──────────────────────────────────────────────────────────────────────
@@ -126,12 +157,15 @@ async function main() {
 
   for (const match of toFetch) {
     try {
-      const { home, away } = await fetchLineup(match.id);
+      const { home, away, homeCoaches, awayCoaches, officials } = await fetchLineup(match.id);
       lineups[match.id] = {
         gameDateTime: match.dateTime,
         fetchedAt:    new Date().toISOString(),
         home,
         away,
+        homeCoaches,
+        awayCoaches,
+        officials,
       };
       console.log(`  ✓ ${match.id}: home=${home.length} away=${away.length}`);
       fetched++;

@@ -11,8 +11,22 @@ import assert from 'node:assert/strict';
 // ── The parsing logic (copy of what's in fetch-lineups.mjs) ──────────────────
 
 function extractLineup(pageProps) {
-  const lineUp = pageProps?.matchData?.allMatchStatsSummary?.lineUp;
-  if (!lineUp) return { home: [], away: [] };
+  const matchData = pageProps?.matchData ?? {};
+  const stats     = matchData?.allMatchStatsSummary ?? {};
+  const lineUp    = stats?.lineUp;
+
+  const rawOfficials =
+    matchData.officials ??
+    matchData.matchOfficials ??
+    stats.officials ??
+    stats.matchOfficials ??
+    null;
+
+  const officials = rawOfficials
+    ? rawOfficials.map(o => ({ name: o.name ?? o.officialName ?? '', role: o.role ?? o.type ?? o.officialType ?? '' })).filter(o => o.name)
+    : [];
+
+  if (!lineUp) return { home: [], away: [], homeCoaches: [], awayCoaches: [], officials };
 
   const allPlayers = [
     ...(lineUp.players     ?? []),
@@ -32,7 +46,11 @@ function extractLineup(pageProps) {
   const home = sort(allPlayers.filter(p => p.isHome === true )).map(normalise);
   const away = sort(allPlayers.filter(p => p.isHome === false)).map(normalise);
 
-  return { home, away };
+  const rawCoaches  = lineUp.coaches ?? [];
+  const homeCoaches = rawCoaches.filter(c => c.isHome === true ).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
+  const awayCoaches = rawCoaches.filter(c => c.isHome === false).map(c => ({ name: c.name ?? '' })).filter(c => c.name);
+
+  return { home, away, homeCoaches, awayCoaches, officials };
 }
 
 // ── Fixture data from probe-lineup.mjs on match 434236a5964c39608 ─────────────
@@ -90,7 +108,7 @@ function test(description, fn) {
   }
 }
 
-const { home, away } = extractLineup(PROBE_PAGE_PROPS);
+const { home, away, homeCoaches, awayCoaches, officials } = extractLineup(PROBE_PAGE_PROPS);
 
 test('home team has 15 starters', () => assert.equal(home.filter(p => !p.isSub).length, 15));
 test('home team has 4 subs', ()      => assert.equal(home.filter(p =>  p.isSub).length,  4));
@@ -128,24 +146,51 @@ test('subs are sorted by position after starters', () => {
   assert.equal(subs[3].name, 'Bill Giblin');     // position 19
 });
 
-test('coach is excluded (position 0 is filtered by isHome split, coaches array ignored)', () => {
-  // Coaches are in a separate array that we don't include in allPlayers
+test('coach is NOT in player list (coaches array kept separate)', () => {
   const coach = home.find(p => p.name === 'James Bacon');
   assert.equal(coach, undefined);
+});
+
+test('home coach extracted from lineUp.coaches[]', () => {
+  assert.equal(homeCoaches.length, 1);
+  assert.equal(homeCoaches[0].name, 'James Bacon');
+});
+
+test('away coaches empty when none published', () => {
+  assert.equal(awayCoaches.length, 0);
+});
+
+test('officials empty when not in matchData', () => {
+  assert.equal(officials.length, 0);
 });
 
 test('captain flag false when captainType is empty string', () => {
   assert.ok(home.every(p => p.captain === false));
 });
 
-test('null lineUp returns empty arrays', () => {
+test('null lineUp returns all empty arrays', () => {
   const result = extractLineup({ matchData: { allMatchStatsSummary: { lineUp: null } } });
-  assert.deepEqual(result, { home: [], away: [] });
+  assert.deepEqual(result, { home: [], away: [], homeCoaches: [], awayCoaches: [], officials: [] });
 });
 
-test('missing matchData returns empty arrays', () => {
+test('missing matchData returns all empty arrays', () => {
   const result = extractLineup({});
-  assert.deepEqual(result, { home: [], away: [] });
+  assert.deepEqual(result, { home: [], away: [], homeCoaches: [], awayCoaches: [], officials: [] });
+});
+
+test('officials extracted when present in matchData', () => {
+  const result = extractLineup({
+    matchData: {
+      officials: [
+        { name: 'John Smith', role: 'Referee' },
+        { name: 'Jane Doe',   role: 'AR1' },
+      ],
+      allMatchStatsSummary: { lineUp: null },
+    },
+  });
+  assert.equal(result.officials.length, 2);
+  assert.equal(result.officials[0].name, 'John Smith');
+  assert.equal(result.officials[0].role, 'Referee');
 });
 
 console.log(`\n${passed} tests passed${process.exitCode ? ', some FAILED' : ''}`);

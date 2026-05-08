@@ -305,11 +305,23 @@
     padding: 0 3px; border-radius: 2px; margin-left: 4px;
     vertical-align: middle; letter-spacing: .5px;
   }
+  .lineup-coaches {
+    margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--cream-edge);
+  }
+  .lineup-coaches-head {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); margin-bottom: 3px;
+  }
+  .lineup-coach { font-size: 12px; color: var(--navy); padding: 1px 0; }
   .lineup-footer {
     grid-column: 1 / -1; font-size: 11px; color: var(--muted);
     padding-top: 8px; border-top: 1px solid var(--cream-edge); margin-top: 4px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    flex-wrap: wrap;
   }
   .lineup-footer a { color: var(--navy); }
+  .lineup-referee { font-size: 11px; color: var(--muted); }
+  .lineup-referee strong { color: var(--navy); font-weight: 600; }
 
   @media (max-width: 600px) {
     .header { flex-direction: column; align-items: flex-start; }
@@ -518,16 +530,22 @@ async function loadLineups() {
 
 function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
-  const footer = `<div class="lineup-footer"><a href="${xplorerUrl}" target="_blank" rel="noopener">View full team sheet on Rugby Xplorer ↗</a></div>`;
 
   const colHeader = (name, crest) => {
     const img = crest ? `<img class="lineup-crest" src="${esc(crest)}" alt="" loading="lazy">` : '';
     return `${img}${esc(name)}`;
   };
 
-  const col = (players, name, crest) => {
+  const coachBlock = coaches => {
+    if (!coaches || !coaches.length) return '';
+    return `<div class="lineup-coaches"><div class="lineup-coaches-head">Coaches</div>` +
+      coaches.map(c => `<div class="lineup-coach">${esc(c.name)}</div>`).join('') +
+      `</div>`;
+  };
+
+  const col = (players, coaches, name, crest) => {
     const header = colHeader(name, crest);
-    if (!players.length) return `<div class="lineup-col"><h4>${header}</h4><div class="lineup-none">Not published</div></div>`;
+    if (!players.length) return `<div class="lineup-col"><h4>${header}</h4><div class="lineup-none">Not published</div>${coachBlock(coaches)}</div>`;
     let html = `<div class="lineup-col"><h4>${header}</h4>`;
     let shownSub = false;
     for (const p of players) {
@@ -538,11 +556,29 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
       const captain = p.captain ? ' <span class="lineup-captain">C</span>' : '';
       html += `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${captain}</span></div>`;
     }
+    html += coachBlock(coaches);
     html += `</div>`;
     return html;
   };
 
-  return col(entry.home, homeName, homeCrest) + col(entry.away, awaName, awayCrest) + footer;
+  // Officials: find referee and any ARs
+  const officials   = entry.officials ?? [];
+  const referee     = officials.find(o => /referee/i.test(o.role));
+  const assistants  = officials.filter(o => /\bAR\b|assistant/i.test(o.role));
+
+  let refereeHtml = '';
+  if (referee) {
+    refereeHtml = `<span class="lineup-referee">Referee: <strong>${esc(referee.name)}</strong>`;
+    if (assistants.length)
+      refereeHtml += ` &nbsp;·&nbsp; AR: ${assistants.map(a => `<strong>${esc(a.name)}</strong>`).join(', ')}`;
+    refereeHtml += `</span>`;
+  }
+
+  const footer = `<div class="lineup-footer">${refereeHtml}<a href="${xplorerUrl}" target="_blank" rel="noopener">View on Rugby Xplorer ↗</a></div>`;
+
+  return col(entry.home, entry.homeCoaches, homeName, homeCrest) +
+         col(entry.away, entry.awayCoaches, awaName, awayCrest) +
+         footer;
 }
 
 function attachLineupHandlers() {
