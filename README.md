@@ -126,6 +126,8 @@ Run the **Resync All Lineups** workflow manually (`Actions → Resync All Lineup
 
 ## Development
 
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for a full system overview, data flow diagrams, SDLC friction map, and key files reference.
+
 **Staging convention:** `staging-index.html` is a full copy of `index.html` used as a development sandbox. Features are built and reviewed there before being promoted.
 
 - Staging URL: `https://denishoctor.github.io/lcjru-fixtures/staging-index.html`
