@@ -139,35 +139,43 @@
   .token.active .squad-g { color: var(--gold); }
   .token.active .squad-b { color: #93C5FD; }
 
-  /* Collapsed state — once a team is selected the grid shrinks to show only
-     the active token in the top-left, with an expand chevron on the right.
-     Tapping the chevron re-expands the grid so the user can pick another team.
-     The View Transitions API (when supported) animates the active token from
-     its grid position into the top-left; everything else fades out. */
+  /* Once a team is selected, the token grid hides entirely and a small pill
+     with the team label + a down chevron appears at the top-right of the
+     header (above the home button). Tapping the pill re-shows the grid so
+     the user can pick another team. The View Transitions API (when
+     supported) animates the active token flying from its grid cell up to
+     the header pill; otherwise the swap is instant. */
   .token.active { view-transition-name: active-team-token; }
-  .token-grid.collapsed { grid-template-columns: 1fr 32px; gap: 6px; }
-  .token-grid.collapsed .token:not(.active) { display: none; }
-  .token-grid.collapsed .token.active { grid-column: 1 / 2; }
+  .token-grid.collapsed { display: none; }
+  /* Suppress the duplicate name when the token is hidden inside a collapsed
+     grid — the header pill below claims the same name to drive the morph. */
+  .token-grid.collapsed .token.active { view-transition-name: none; }
 
-  .team-toggle-btn {
-    appearance: none;
-    width: 32px; height: 32px; border-radius: 50%;
-    background: var(--cream); border: 1.5px solid var(--cream-edge);
-    cursor: pointer; padding: 0;
-    align-items: center; justify-content: center;
-    flex-shrink: 0;
-    display: none;
+  .header-team {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top));
+    right: max(20px, env(safe-area-inset-right));
+    display: inline-flex; align-items: center; gap: 5px;
+    appearance: none; cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    color: var(--navy); background: var(--cream);
+    border: 1.5px solid var(--cream-edge);
+    padding: 4px 11px; border-radius: 999px;
+    line-height: 1; white-space: nowrap;
     transition: background .12s, border-color .12s;
   }
-  .team-toggle-btn:hover { border-color: var(--navy); background: #fff; }
-  .team-toggle-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
-  .team-toggle-btn svg {
-    width: 14px; height: 14px;
+  .header-team[hidden] { display: none; }
+  .header-team:hover { border-color: var(--navy); background: #fff; }
+  .header-team:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .header-team:not([hidden]) { view-transition-name: active-team-token; }
+  .header-team-chevron {
+    width: 12px; height: 12px;
     fill: none; stroke: var(--navy); stroke-width: 2.5;
     stroke-linecap: round; stroke-linejoin: round;
-    transition: transform .25s ease;
   }
-  .token-grid.collapsed .team-toggle-btn { display: flex; grid-column: 2 / 3; }
+  .header-team .squad { font-weight: 800; margin-left: 2px; }
+  .header-team .squad-g { color: #B68500; }
+  .header-team .squad-b { color: #1E5DD4; }
 
   /* INSTALL HINT — only shown when installable + not yet dismissed + not already standalone */
   .install-hint {
@@ -208,6 +216,11 @@
     border-top: 1px dashed var(--cream-edge);
   }
   .action-bar[hidden] { display: none; }
+  /* Grid hidden? Drop the dashed separator + extra spacing — the action-bar
+     would otherwise appear with a stray rule above it. */
+  .token-grid.collapsed + .action-bar {
+    border-top: none; margin-top: 0; padding-top: 0;
+  }
 
   .filter-row {
     display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;
@@ -767,6 +780,8 @@
     .button-row .action-btn .action-icon { font-size: 11px; }
     .button-row .action-btn .action-caret { font-size: 8px; }
     .header-home { padding: 4px 11px; font-size: 11px; bottom: 6px; right: max(14px, env(safe-area-inset-right)); gap: 5px; }
+    .header-team { padding: 3px 9px; font-size: 10.5px; right: max(14px, env(safe-area-inset-right)); gap: 4px; }
+    .header-team-chevron { width: 11px; height: 11px; }
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
@@ -812,6 +827,10 @@
         <div id="updated-stamp" class="updated-stamp">Loading…</div>
       </div>
     </div>
+    <button class="header-team" id="team-pill" type="button" hidden aria-label="Show all teams">
+      <span class="header-team-label" id="team-pill-label"></span>
+      <svg class="header-team-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
     <button class="header-home" id="clear-btn" type="button" hidden>
       <span class="action-icon" aria-hidden="true">↩</span>
       <span class="action-label">Home</span>
@@ -836,9 +855,6 @@
       <button class="token" data-team="42ZRPX8ej8P9co4Ws" aria-label="U14 Gold">U14<span class="squad squad-g" aria-hidden="true">G</span></button>
       <button class="token" data-team="mtDoyNMX26Bm94nuk">U14</button>
       <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
-      <button class="team-toggle-btn" id="team-toggle" type="button" aria-label="Show all teams">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
     </div>
     <div class="action-bar" id="action-bar" hidden>
       <div class="filter-row" id="filter-group" role="group" aria-label="Show or hide event types">
@@ -1721,19 +1737,41 @@ function toggleCalPopover() {
 }
 
 // Runs `apply` inside a view transition when supported — `view-transition-name`
-// on .token.active means the active token morphs between its old and new
-// positions instead of jump-cutting. Falls back to a plain call elsewhere.
+// on .token.active and the header pill means the active token morphs between
+// its grid cell and the header pill instead of jump-cutting. Falls back to a
+// plain call elsewhere.
 function withTokenAnimation(apply) {
   if (document.startViewTransition) document.startViewTransition(apply);
   else apply();
 }
 
-// Toggle the token-grid collapsed/expanded state. Used by the chevron expand
-// button when a team is already selected.
+// Sync the header team pill (visibility + label) with the current state.
+// When `collapsed`, the grid is hidden and the pill stands in for it; the
+// pill mirrors the active token's HTML so the squad colours carry across.
+function syncTeamPill(teamId, collapsed) {
+  const pill = document.getElementById('team-pill');
+  const label = document.getElementById('team-pill-label');
+  if (!pill || !label) return;
+  if (teamId && collapsed) {
+    const token = document.querySelector(`.token[data-team="${teamId}"]`);
+    label.innerHTML = token?.innerHTML ?? '';
+    pill.setAttribute('aria-label', `${token?.getAttribute('aria-label') ?? token?.textContent ?? 'Team'} — show all teams`);
+    pill.removeAttribute('hidden');
+  } else {
+    pill.setAttribute('hidden', '');
+    label.innerHTML = '';
+  }
+}
+
+// Toggle the token-grid collapsed state. The pill takes over when collapsed,
+// so any caller of this function also wants the pill to follow suit.
 function setTokensCollapsed(collapsed, { animate = true } = {}) {
   const grid = document.getElementById('team-tokens');
   if (!grid) return;
-  const apply = () => grid.classList.toggle('collapsed', collapsed);
+  const apply = () => {
+    grid.classList.toggle('collapsed', collapsed);
+    syncTeamPill(currentTeam, collapsed);
+  };
   if (animate) withTokenAnimation(apply);
   else apply();
 }
@@ -1742,14 +1780,16 @@ function selectTeam(teamId, pushState = true, { animate = true } = {}) {
   const previousTeam = currentTeam;
   currentTeam = teamId;
 
-  // The active class swap + collapsed toggle drive the View Transitions
-  // animation, so both must happen inside the same callback — otherwise the
-  // browser captures snapshots that don't reflect the user's intent.
+  // The active class swap + collapsed toggle + pill swap drive the View
+  // Transitions animation, so they must all happen inside the same callback —
+  // otherwise the browser captures snapshots that don't reflect the user's
+  // intent (e.g. label crossfade between teams won't fire).
   const applyTokenState = () => {
     document.querySelectorAll('.token').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.team === teamId);
     });
     document.getElementById('team-tokens').classList.toggle('collapsed', !!teamId);
+    syncTeamPill(teamId, !!teamId);
   };
   if (animate && previousTeam !== teamId) withTokenAnimation(applyTokenState);
   else applyTokenState();
@@ -1835,11 +1875,11 @@ document.getElementById('copy-link-btn').addEventListener('click', () => { track
 document.getElementById('cal-copy-ics').addEventListener('click', () => { trackEvent('cal-copy-ics'); copyIcsUrl(); });
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
-// Chevron expands the collapsed token grid so the user can switch teams
-// without first going home. Tapping a token then re-collapses; the home
-// button still wipes the selection entirely.
-document.getElementById('team-toggle').addEventListener('click', () => {
-  trackEvent('team-toggle-expand');
+// The header pill is the visible signpost for the collapsed selection;
+// tapping it brings the full grid back so the user can switch teams without
+// first going home. The pill itself disappears (the morph plays in reverse).
+document.getElementById('team-pill').addEventListener('click', () => {
+  trackEvent('team-pill-expand');
   setTokensCollapsed(false);
 });
 
