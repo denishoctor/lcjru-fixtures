@@ -171,6 +171,7 @@
     .row-anchor:hover { color: var(--navy); }
   }
   .row-anchor:focus-visible { opacity: 1; pointer-events: auto; color: var(--navy); }
+  .row-anchor.row-anchor-copied { opacity: 1; color: var(--green); font-weight: 700; }
 
   /* BADGE */
   .rnd-badge {
@@ -955,7 +956,14 @@ function render(data, teamId) {
 // ── team selection & URL hash ─────────────────────────────────────────────────
 
 function copyTeamLink() {
-  const url = location.href.split('#')[0] + (currentTeam ? '#' + SLUG_BY_ID[currentTeam] : '');
+  // location.href is kept in sync with the open state (team + expanded row) by replaceState,
+  // so sharing it always captures whatever the user currently sees.
+  const expandedRow = document.querySelector('.row.expanded');
+  const teamSlug = currentTeam ? SLUG_BY_ID[currentTeam] : '';
+  let hash = '';
+  if (expandedRow) hash = '#' + rowHash(expandedRow.id);
+  else if (teamSlug) hash = '#' + teamSlug;
+  const url = location.href.split('#')[0] + hash;
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById('copy-link-btn');
     btn.textContent = '✓ Copied';
@@ -1043,6 +1051,37 @@ document.querySelectorAll('.token').forEach(btn => {
 document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink);
 document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
+
+// Row '#' anchor: copy the deep link (instead of just navigating to it), expand the row so
+// the sender's view matches what the recipient will land on, and flash a tick for feedback.
+// Delegated so it survives every render() rebuild of the calendar.
+document.getElementById('calendar').addEventListener('click', (e) => {
+  const a = e.target.closest('.row-anchor');
+  if (!a) return;
+  e.preventDefault();
+  const row = a.closest('.row');
+  if (!row) return;
+  const url = location.href.split('#')[0] + '#' + rowHash(row.id);
+  const flash = () => {
+    const original = a.textContent;
+    a.textContent = '✓';
+    a.classList.add('row-anchor-copied');
+    setTimeout(() => {
+      a.textContent = original;
+      a.classList.remove('row-anchor-copied');
+    }, 1500);
+  };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(url).then(flash, flash);
+  } else {
+    flash();
+  }
+  const canExpand = row.classList.contains('has-lineup') || row.classList.contains('has-venue-details');
+  if (canExpand && !row.classList.contains('expanded')) {
+    expandRow(row);
+  }
+  history.replaceState(null, '', '#' + rowHash(row.id));
+});
 
 window.addEventListener('hashchange', () => {
   const teamId = readHash();
