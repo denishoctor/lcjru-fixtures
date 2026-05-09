@@ -48,8 +48,26 @@
     display: flex; align-items: center;
     border-bottom: 6px solid var(--gold);
     gap: 14px;
+    position: relative;
   }
   .header-left { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 auto; }
+  .header-home {
+    position: absolute;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: 8px;
+    display: inline-flex; align-items: center; gap: 5px;
+    appearance: none; cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    color: #fff; background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.22);
+    padding: 4px 11px; border-radius: 999px;
+    line-height: 1; white-space: nowrap;
+    transition: background .12s, border-color .12s;
+  }
+  .header-home[hidden] { display: none; }
+  .header-home:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.45); }
+  .header-home:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .header-home .action-icon { font-size: 12px; line-height: 1; }
   .crest { width: 52px; height: 64px; overflow: hidden; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
   .crest img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .title-block { min-width: 0; }
@@ -150,19 +168,18 @@
   }
   .install-hint-dismiss:hover { color: var(--navy); }
 
-  /* Action bar — filter toggles + Share / Calendar / Home.
-     Desktop: filter-row left, button-row right, single row.
-     Mobile: each row spans full width and stacks. */
+  /* Action bar — filter toggles + Share / Calendar.
+     Single row at every width: filter-row left, button-row right. */
   .action-bar {
     display: flex; gap: 8px 12px; align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-top: 9px; padding-top: 9px;
     border-top: 1px dashed var(--cream-edge);
   }
   .action-bar[hidden] { display: none; }
 
   .filter-row {
-    display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+    display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;
     flex: 1 1 auto; min-width: 0;
   }
   .button-row {
@@ -221,10 +238,6 @@
   .action-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
   .action-btn .action-icon { font-size: 12px; line-height: 1; }
   .action-btn .action-caret { font-size: 9px; opacity: .7; margin-left: 1px; }
-  .action-btn-ghost {
-    background: transparent; border-color: transparent; color: var(--muted);
-  }
-  .action-btn-ghost:hover { color: var(--navy); border-color: var(--cream-edge); }
 
   .action-menu { position: relative; }
   .action-popover {
@@ -711,9 +724,8 @@
     .button-row .action-btn { padding: 5px 9px; font-size: 10.5px; }
     .button-row .action-btn .action-icon { font-size: 11px; }
     .button-row .action-btn .action-caret { font-size: 8px; }
-    /* Home is the lightest action — drop its text on mobile to claw back room. */
-    .button-row .action-btn-ghost { padding: 5px 6px; }
-    .button-row .action-btn-ghost .action-label { display: none; }
+    .header-home { padding: 3px 9px; font-size: 10.5px; bottom: 6px; right: max(14px, env(safe-area-inset-right)); }
+    .header-home .action-label { display: none; }
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
@@ -758,6 +770,10 @@
         <div id="updated-stamp" class="updated-stamp">Loading…</div>
       </div>
     </div>
+    <button class="header-home" id="clear-btn" type="button" hidden>
+      <span class="action-icon" aria-hidden="true">↩</span>
+      <span class="action-label">Home</span>
+    </button>
   </div>
 
   <div class="toolbar">
@@ -782,9 +798,9 @@
     <div class="action-bar" id="action-bar" hidden>
       <div class="filter-row" id="filter-group" role="group" aria-label="Show or hide event types">
         <span class="filter-label">Show</span>
-        <button class="filter-toggle active" type="button" data-filter="rnds" aria-pressed="true">Rnds</button>
-        <button class="filter-toggle active" type="button" data-filter="galas" aria-pressed="true">Galas</button>
-        <button class="filter-toggle active" type="button" data-filter="events" aria-pressed="true">Events</button>
+        <button class="filter-toggle active" type="button" data-filter="rnds" aria-pressed="true">Rnd</button>
+        <button class="filter-toggle active" type="button" data-filter="galas" aria-pressed="true">Gala</button>
+        <button class="filter-toggle active" type="button" data-filter="events" aria-pressed="true">Event</button>
       </div>
       <div class="button-row">
         <button class="action-btn" id="copy-link-btn" type="button">
@@ -821,10 +837,6 @@
             </button>
           </div>
         </div>
-        <button class="action-btn action-btn-ghost" id="clear-btn" type="button">
-          <span class="action-icon" aria-hidden="true">↩</span>
-          <span class="action-label">Home</span>
-        </button>
       </div>
     </div>
   </div>
@@ -1634,8 +1646,9 @@ function selectTeam(teamId, pushState = true) {
   });
 
   const actionBar = document.getElementById('action-bar');
-  if (teamId) actionBar.removeAttribute('hidden');
-  else { actionBar.setAttribute('hidden', ''); closeCalPopover(); }
+  const homeBtn = document.getElementById('clear-btn');
+  if (teamId) { actionBar.removeAttribute('hidden'); homeBtn.removeAttribute('hidden'); }
+  else { actionBar.setAttribute('hidden', ''); homeBtn.setAttribute('hidden', ''); closeCalPopover(); }
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
     const webcalUrl = `webcal://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
