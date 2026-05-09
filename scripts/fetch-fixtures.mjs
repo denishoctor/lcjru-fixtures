@@ -17,6 +17,7 @@ import {
   TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
 } from './config.mjs';
 import { EVENTS } from './events.mjs';
+import { parseVenue } from '../docs/render.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
@@ -211,9 +212,12 @@ function formatChanges(changes) {
 
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
-  const clean = rawVenue.replace(/ (?:TT|M)\d+\s*\([^)]+\)$/, '').trim();
-  const suburb = VENUES[clean]?.suburb;
-  return suburb ? `${clean}, ${suburb}` : clean;
+  const { display, pitch, base } = parseVenue(rawVenue, VENUES);
+  if (!pitch) return display;
+  // Sandwich the pitch (TT6, M2, Field 1, …) between the venue name and suburb so
+  // calendar events still show "which field" — geocoders fall back to the base name.
+  const suburb = base ? VENUES[base]?.suburb : null;
+  return suburb && base ? `${base} ${pitch}, ${suburb}` : `${display} ${pitch}`;
 }
 
 // ── ICS calendar generation ────────────────────────────────────────────────────
@@ -411,7 +415,7 @@ function buildEventDescription(event, slug) {
   const loc = displayLocation(event.venue);
   if (loc) parts.push(`📍 ${loc}`);
 
-  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTime(event.time) + ' AEST' : ''}`);
+  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTimeRange(event) + ' AEST' : ''}`);
 
   if (event.description) {
     parts.push('');
@@ -443,6 +447,12 @@ function buildEventDescription(event, slug) {
   parts.push(`🔗 ${SITE_URL}/#${slug}`);
 
   return parts.join('\n');
+}
+
+function fmtEventTimeRange(event) {
+  return event.endTime
+    ? `${fmtEventTime(event.time)} – ${fmtEventTime(event.endTime)}`
+    : fmtEventTime(event.time);
 }
 
 export function generateICS(slug, teamId, allMatches, updatedISO) {
@@ -555,7 +565,9 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
 
     if (event.time) {
       const startDt = eventStartLocal(event.date, event.time);
-      const endDt   = eventEndLocal(event.date, event.time, eventDurationMinutes(event));
+      const endDt   = event.endTime
+        ? eventStartLocal(event.date, event.endTime)
+        : eventEndLocal(event.date, event.time, eventDurationMinutes(event));
       lines.push(`DTSTART;TZID=Australia/Sydney:${startDt}`);
       lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
     } else {
@@ -624,7 +636,9 @@ export function generateEventICS(event, updatedISO) {
 
   if (event.time) {
     const startDt = eventStartLocal(event.date, event.time);
-    const endDt   = eventEndLocal(event.date, event.time, eventDurationMinutes(event));
+    const endDt   = event.endTime
+      ? eventStartLocal(event.date, event.endTime)
+      : eventEndLocal(event.date, event.time, eventDurationMinutes(event));
     lines.push(`DTSTART;TZID=Australia/Sydney:${startDt}`);
     lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
   } else {
@@ -650,7 +664,7 @@ function buildEventDescriptionForExport(event) {
   const loc = displayLocation(event.venue);
   if (loc) parts.push(`📍 ${loc}`);
 
-  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTime(event.time) + ' AEST' : ''}`);
+  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTimeRange(event) + ' AEST' : ''}`);
 
   if (event.description) {
     parts.push('');

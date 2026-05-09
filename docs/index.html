@@ -1454,7 +1454,7 @@ function renderEvent(event) {
       <a class="row-anchor" href="#${esc(rowHash(anchor))}" title="Copy link">#</a>
       ${badgeEl}
       <div class="date-block">
-        ${dt ? `<div class="dow">${fmtDow(dt.toISOString())}</div><div class="date">${fmtDate(dt.toISOString())}</div>${event.time ? `<div class="time">${esc(event.time)}</div>` : ''}` : ''}
+        ${dt ? `<div class="dow">${fmtDow(dt.toISOString())}</div><div class="date">${fmtDate(dt.toISOString())}</div>${event.time ? `<div class="time">${esc(event.time)}${event.endTime ? '–' + esc(event.endTime) : ''}</div>` : ''}` : ''}
       </div>
       <div class="venues">
         <div class="venue"><span class="event-title">${esc(event.title)}</span>${badgeHtml}</div>
