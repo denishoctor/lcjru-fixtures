@@ -224,6 +224,47 @@
     border-bottom: 1px solid var(--rule);
   }
 
+  /* Compact rows used on the home page — denser than .row, single-line, link-styled */
+  .home-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 28px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13px; line-height: 1.3;
+    color: var(--ink); text-decoration: none;
+    transition: background .12s;
+  }
+  .home-row:hover { background: #FFFDF5; }
+  .home-row:last-child { border-bottom: none; }
+  .home-row.next-up { background: #FFFFF0; box-shadow: inset 3px 0 0 var(--gold); }
+  .home-row-when {
+    flex-shrink: 0; min-width: 76px;
+    font-size: 11.5px; color: var(--muted); font-weight: 600;
+    font-variant-numeric: tabular-nums; letter-spacing: .2px;
+  }
+  .home-row-result {
+    flex-shrink: 0; min-width: 76px;
+    font-size: 12px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .home-row-result.win  { color: var(--green); }
+  .home-row-result.loss { color: #b71c1c; }
+  .home-row-result.draw { color: var(--muted); }
+  .home-row-result-letter { font-weight: 800; margin-right: 4px; }
+  .home-row .team-pill { flex-shrink: 0; }
+  .team-pill-event {
+    background: #EEF2FE; border-color: #C9D5F5; color: var(--navy);
+    text-transform: uppercase; letter-spacing: .8px;
+  }
+  .home-row-text {
+    flex: 1 1 auto; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .home-row-venue { color: var(--muted); }
+  .home-row-extra { flex-shrink: 0; display: flex; gap: 5px; align-items: center; }
+  .home-row-extra .home-pill,
+  .home-row-extra .derby-pill,
+  .home-row-extra .status-badge { margin: 0; }
+
   /* SECTION HEADER */
   .section-header {
     padding: 7px 28px;
@@ -552,6 +593,9 @@
     .home-intro { padding: 18px 16px 14px; }
     .home-outro { padding: 22px 16px 26px; }
     .home-empty { padding: 14px 16px; }
+    .home-row { padding: 7px 16px; gap: 8px; font-size: 12.5px; }
+    .home-row-when, .home-row-result { min-width: 64px; font-size: 11px; }
+    .home-row-result { font-size: 11.5px; }
     /* keep 2-column on mobile — tighten spacing and sizing */
     .lineup-panel { padding: 10px 10px 14px; }
     .lineup-panel.open { gap: 0 8px; }
@@ -652,7 +696,7 @@
   <div id="calendar"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://www.rugbyxplorer.com.au" target="_blank" rel="noopener">Rugby Xplorer</a> · <a href="venues.html">Venues</a>
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://xplorer.rugby/lcjru-/fixtures-results?team=All&amp;comp=All&amp;season=2026&amp;tab=Fixtures" target="_blank" rel="noopener">Rugby Xplorer</a> · <a href="venues.html">Venues</a> · <a href="mailto:denishoctor@gmail.com?subject=LCJRUApp%20Feedback">Feedback</a>
   </div>
 
 </div>
@@ -702,10 +746,91 @@ function sectionHeader(title, meta = '') {
   return `<div class="section-header"><span>${esc(title)}</span>${metaHtml}</div>`;
 }
 
+// Renders one match as a compact, single-line home-page row. Each row is a deep link to
+// the LC team's full schedule, with the match expanded.
+function renderHomeMatchRow(match, { isNextUp = false, mode = 'fixture' } = {}) {
+  const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
+  const opponent = isLaneCove(match.home) ? match.away : match.home;
+  const isHome   = (match.venue || '').toLowerCase().includes('tantallon');
+  const isDerby  = isLaneCove(match.home) && isLaneCove(match.away);
+  const slug     = SLUG_BY_ID[lcTeam.id];
+  const href     = slug ? `#${slug}/${rowId(match)}` : '#';
+  const { display: loc } = parseVenue(match.venue ?? '', VENUES);
+
+  // Left column: result+score for completed games, day+time for upcoming
+  let leftCol;
+  if (mode === 'result') {
+    const sc = scoreClass(match);
+    const letter = { win: 'W', loss: 'L', draw: 'D' }[sc] || '·';
+    leftCol = `<span class="home-row-result ${sc}"><span class="home-row-result-letter">${letter}</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
+  } else {
+    const dt = new Date(match.dateTime);
+    const dow = fmtDow(match.dateTime);
+    const time = fmtTime(match.dateTime);
+    const showTime = time !== '12:00am';
+    leftCol = `<span class="home-row-when">${esc(dow)}${showTime ? ' ' + esc(time) : ''}</span>`;
+  }
+
+  const badges = [];
+  if (isHome)  badges.push('<span class="home-pill">Home</span>');
+  if (isDerby) badges.push('<span class="derby-pill">Derby</span>');
+
+  const classes = ['home-row'];
+  if (isNextUp) classes.push('next-up');
+
+  return `<a class="${classes.join(' ')}" href="${esc(href)}">
+    ${leftCol}
+    <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
+    <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}</span>
+    <span class="home-row-extra">${badges.join('')}</span>
+  </a>`;
+}
+
+// Renders an event as a compact home-page row. Deep-links to the first applicable team's
+// view (events tagged with '*' fall back to u10 so the panel can open).
+function renderHomeEventRow(event) {
+  const dt = eventDt(event);
+  const dowDate = dt ? `${fmtDow(dt.toISOString())} ${fmtDate(dt.toISOString())}` : '';
+  const tail = [event.venue, event.description].filter(Boolean).map(esc).join(' · ');
+
+  const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
+  const statusBadge = STATUS_LABELS[event.status]
+    ? `<span class="status-badge status-${esc(event.status)}">${STATUS_LABELS[event.status]}</span>` : '';
+
+  let slug = '';
+  if (event.teams?.length) {
+    slug = event.teams.includes('*') ? 'u10' : event.teams[0];
+  }
+  const href = slug ? `#${slug}/event-${event.id}` : '#';
+
+  const pillLabel = event.galaLabel || (event.variant === 'gala' ? 'Gala' : 'Event');
+
+  return `<a class="home-row" href="${esc(href)}">
+    <span class="home-row-when">${esc(dowDate)}</span>
+    <span class="team-pill team-pill-event">${esc(pillLabel)}</span>
+    <span class="home-row-text">${esc(event.title)}${tail ? ' <span class="home-row-venue">· ' + tail + '</span>' : ''}</span>
+    <span class="home-row-extra">${statusBadge}</span>
+  </a>`;
+}
+
+// Walks back week by week from `now` until we find a weekend with at least one scored
+// match. Cap stops the loop early in pre-season / extended breaks. Returns null if
+// nothing scored in the window.
+function findLastResultsWeekend(now, allMatches, maxWeeks = 6) {
+  for (let i = -1; i >= -maxWeeks; i--) {
+    const [s, e] = weekendRange(now, i);
+    const matches = allMatches.filter(m => {
+      const dt = new Date(m.dateTime);
+      return dt >= s && dt < e && m.home.score !== null && m.away.score !== null;
+    }).sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+    if (matches.length > 0) return { sat: s, end: e, matches };
+  }
+  return null;
+}
+
 function renderHomePage() {
   const now = new Date();
   const [thisSat, thisEnd] = weekendRange(now, 0);
-  const [lastSat, lastEnd] = weekendRange(now, -1);
 
   const allMatches = fixturesData?.matches ?? [];
   const allEvents  = eventsData ?? [];
@@ -718,8 +843,7 @@ function renderHomePage() {
     return dt && dt >= s && dt < e;
   };
 
-  // This weekend: real fixtures + special events. Skip "round" placeholder events
-  // (their info is already in fixtures) and notes.
+  // This weekend: real fixtures + special events (skip "round" placeholders + notes)
   const thisWeekend = [
     ...allMatches.filter(m => matchInRange(m, [thisSat, thisEnd]))
       .map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m })),
@@ -729,14 +853,11 @@ function renderHomePage() {
     ).map(e => ({ kind: 'event', dt: eventDt(e), item: e })),
   ].sort((a, b) => a.dt - b.dt);
 
-  // Last weekend: only matches (results most relevant; skip placeholder events)
-  const lastWeekend = allMatches
-    .filter(m => matchInRange(m, [lastSat, lastEnd]))
-    .map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m }))
-    .sort((a, b) => a.dt - b.dt);
+  // Last results weekend: walk back until we find a weekend with scored games. Skips
+  // school-holiday / bye weekends so the section doesn't render empty.
+  const lastResults = findLastResultsWeekend(now, allMatches);
 
-  // Coming up: special events after this weekend, next ~12 weeks. Skips rounds + notes
-  // + cancelled/completed. Capped to a digestible list.
+  // Coming up: special events after this weekend, ~12 week horizon
   const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
   const upcomingEvents = allEvents
     .filter(e =>
@@ -744,17 +865,16 @@ function renderHomePage() {
       e.status !== 'cancelled' && e.status !== 'completed' &&
       eventInRange(e, [thisEnd, horizon])
     )
-    .map(e => ({ kind: 'event', dt: eventDt(e), item: e }))
-    .sort((a, b) => a.dt - b.dt)
-    .slice(0, 6);
+    .sort((a, b) => eventDt(a) - eventDt(b))
+    .slice(0, 8);
 
   const teamCount = Object.keys(TEAM_SLUGS).length;
 
   let html = `
     <div class="home-intro">
-      <h2>What's on at Lane Cove Junior Rugby</h2>
-      <p class="home-intro-sub">Live draw, results and club events for all ${teamCount} LCJRU minis &amp; juniors teams. Tantallon Oval is our home ground — most weekends we travel across Sydney for grading and competition rounds.</p>
-      <div class="home-cta">Select a team above for full schedule, calendar sync &amp; team sheets</div>
+      <h2>Lane Cove Junior Rugby — what's on</h2>
+      <p class="home-intro-sub">This weekend's games, last results and club events for all ${teamCount} LCJRU teams. Tantallon Oval is our home ground — most weekends we travel across Sydney for the SJRU draw.</p>
+      <div class="home-cta">Pick a team above for the full schedule, calendar sync &amp; team sheets</div>
     </div>`;
 
   // This weekend
@@ -765,27 +885,27 @@ function renderHomePage() {
     let markedNext = false;
     for (const { kind, item } of thisWeekend) {
       if (kind === 'match') {
-        const isNext = !markedNext && new Date(item.dateTime) >= now;
-        if (isNext) markedNext = true;
-        html += renderMatch(item, isNext);
+        const isNextUp = !markedNext && new Date(item.dateTime) >= now;
+        if (isNextUp) markedNext = true;
+        html += renderHomeMatchRow(item, { isNextUp, mode: 'fixture' });
       } else {
-        html += renderEvent(item);
+        html += renderHomeEventRow(item);
       }
     }
   }
 
-  // Last weekend
-  html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastSat));
-  if (lastWeekend.length === 0) {
-    html += `<div class="home-empty">No matches played last weekend.</div>`;
-  } else {
-    for (const { item } of lastWeekend) html += renderMatch(item, false);
+  // Last weekend's results — only games with scores (Minis aren't scored). Walk-back
+  // means the section can show e.g. "Sat 19 – Sun 20 Apr" when the last weekend was a
+  // school-holiday bye.
+  if (lastResults) {
+    html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastResults.sat));
+    for (const m of lastResults.matches) html += renderHomeMatchRow(m, { mode: 'result' });
   }
 
   // Coming up
   if (upcomingEvents.length > 0) {
-    html += sectionHeader('Coming up', 'Galas, club events &amp; trips');
-    for (const { item } of upcomingEvents) html += renderEvent(item);
+    html += sectionHeader('Coming up', 'Galas, club events & trips');
+    for (const e of upcomingEvents) html += renderHomeEventRow(e);
   }
 
   html += `
@@ -1206,7 +1326,6 @@ function injectPanelsAndHandlers() {
 function render(data, teamId) {
   if (!teamId) {
     document.getElementById('calendar').innerHTML = renderHomePage();
-    injectPanelsAndHandlers();
     return;
   }
 
