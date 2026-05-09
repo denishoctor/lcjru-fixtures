@@ -99,6 +99,12 @@ npm run test:api              # live API integration tests (requires network)
 
 ---
 
+## Analytics
+
+**Cloudflare Web Analytics** — privacy-friendly, cookieless, no consent banner. The beacon runs in `spa: true` mode so the existing hash navigation (team selection, lineup expansion, deep-link visits) becomes per-path page views in the CF dashboard. Calendar-subscribe and share-link buttons briefly set `location.hash = '#tap/<label>'` so taps are visible too. Beacon token lives inline in `docs/index.html` — rotate it from the Cloudflare dashboard if needed.
+
+---
+
 ## Repository structure
 
 ```
