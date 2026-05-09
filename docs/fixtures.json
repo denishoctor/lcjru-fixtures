@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-09T01:17:30.798Z",
+  "updated": "2026-05-09T04:27:22.898Z",
   "season": "2026",
   "entityId": 30901,
   "totalMatches": 70,
@@ -1482,32 +1482,6 @@
       "name": "SJRU Minis U8 Sunday",
       "matches": [
         {
-          "id": "d3cd4a7ebf8ae20d8",
-          "type": "fixture",
-          "competition": "SJRU Minis U8 Sunday",
-          "compId": "hvxK25gJJt24GLGPp",
-          "round": "Round 1",
-          "roundLabel": "Round 1",
-          "dateTime": "2026-05-02T23:20:00+00:00",
-          "venue": "Tryon Oval TT4 (U6/U7)",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": "G-8-7",
-          "home": {
-            "id": "K6KJYRD4rKcpPgrdx",
-            "name": "Killara-West Pymble/Lindfield 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
-          },
-          "away": {
-            "id": "5SyzYzsjmbeaPZsXT",
-            "name": "Lane Cove Blue 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          }
-        },
-        {
           "id": "a64050181839884a0",
           "type": "fixture",
           "competition": "SJRU Minis U8 Sunday",
@@ -1529,6 +1503,32 @@
           "away": {
             "id": "azWv34qmnBYrN7atm",
             "name": "Lane Cove Gold 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          }
+        },
+        {
+          "id": "d3cd4a7ebf8ae20d8",
+          "type": "fixture",
+          "competition": "SJRU Minis U8 Sunday",
+          "compId": "hvxK25gJJt24GLGPp",
+          "round": "Round 1",
+          "roundLabel": "Round 1",
+          "dateTime": "2026-05-02T23:20:00+00:00",
+          "venue": "Tryon Oval TT4 (U6/U7)",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": "G-8-7",
+          "home": {
+            "id": "K6KJYRD4rKcpPgrdx",
+            "name": "Killara-West Pymble/Lindfield 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
+          },
+          "away": {
+            "id": "5SyzYzsjmbeaPZsXT",
+            "name": "Lane Cove Blue 8",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           }
@@ -2583,27 +2583,27 @@
       }
     },
     {
-      "id": "d3cd4a7ebf8ae20d8",
+      "id": "a64050181839884a0",
       "type": "fixture",
       "competition": "SJRU Minis U8 Sunday",
       "compId": "hvxK25gJJt24GLGPp",
       "round": "Round 1",
       "roundLabel": "Round 1",
       "dateTime": "2026-05-02T23:20:00+00:00",
-      "venue": "Tryon Oval TT4 (U6/U7)",
+      "venue": "Tryon Oval TT8 (U6/U7)",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
-      "matchLabel": "G-8-7",
+      "matchLabel": "G-8-6",
       "home": {
-        "id": "K6KJYRD4rKcpPgrdx",
-        "name": "Killara-West Pymble/Lindfield 8",
+        "id": "xy3utBwCCHhawcXz5",
+        "name": "Hornsby Red 8",
         "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30898.png?v=1767609305492"
       },
       "away": {
-        "id": "5SyzYzsjmbeaPZsXT",
-        "name": "Lane Cove Blue 8",
+        "id": "azWv34qmnBYrN7atm",
+        "name": "Lane Cove Gold 8",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
@@ -2635,27 +2635,27 @@
       }
     },
     {
-      "id": "a64050181839884a0",
+      "id": "d3cd4a7ebf8ae20d8",
       "type": "fixture",
       "competition": "SJRU Minis U8 Sunday",
       "compId": "hvxK25gJJt24GLGPp",
       "round": "Round 1",
       "roundLabel": "Round 1",
       "dateTime": "2026-05-02T23:20:00+00:00",
-      "venue": "Tryon Oval TT8 (U6/U7)",
+      "venue": "Tryon Oval TT4 (U6/U7)",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
-      "matchLabel": "G-8-6",
+      "matchLabel": "G-8-7",
       "home": {
-        "id": "xy3utBwCCHhawcXz5",
-        "name": "Hornsby Red 8",
+        "id": "K6KJYRD4rKcpPgrdx",
+        "name": "Killara-West Pymble/Lindfield 8",
         "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30898.png?v=1767609305492"
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
       },
       "away": {
-        "id": "azWv34qmnBYrN7atm",
-        "name": "Lane Cove Gold 8",
+        "id": "5SyzYzsjmbeaPZsXT",
+        "name": "Lane Cove Blue 8",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
@@ -2739,6 +2739,32 @@
       }
     },
     {
+      "id": "a8b67a32ce48b23da",
+      "type": "result",
+      "competition": "SJRU XVs Under 14C",
+      "compId": "nzDecpJLNCpZo3SPy",
+      "round": "Round 2",
+      "roundLabel": "Round 2",
+      "dateTime": "2026-05-03T01:00:00+00:00",
+      "venue": "Lofberg Oval",
+      "status": "Result",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": null,
+      "home": {
+        "id": "9S8N3tpXSYPD585Ap",
+        "name": "Killara-West Pymble 14",
+        "score": "33",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
+      },
+      "away": {
+        "id": "42ZRPX8ej8P9co4Ws",
+        "name": "Lane Cove Gold 14",
+        "score": "10",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
       "id": "ccef95a05c3f75a09",
       "type": "result",
       "competition": "SJRU XVs Under 12E",
@@ -2788,32 +2814,6 @@
         "name": "Wakehurst Wizards 9",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
-      }
-    },
-    {
-      "id": "a8b67a32ce48b23da",
-      "type": "result",
-      "competition": "SJRU XVs Under 14C",
-      "compId": "nzDecpJLNCpZo3SPy",
-      "round": "Round 2",
-      "roundLabel": "Round 2",
-      "dateTime": "2026-05-03T01:00:00+00:00",
-      "venue": "Lofberg Oval",
-      "status": "Result",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": null,
-      "home": {
-        "id": "9S8N3tpXSYPD585Ap",
-        "name": "Killara-West Pymble 14",
-        "score": "33",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
-      },
-      "away": {
-        "id": "42ZRPX8ej8P9co4Ws",
-        "name": "Lane Cove Gold 14",
-        "score": "10",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
     },
     {
