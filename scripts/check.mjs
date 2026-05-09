@@ -12,8 +12,6 @@ const required = [
   'config.js',
   'render.mjs',
   'index.html',
-  'stg/index.html',
-  'stg/render.mjs',
   ...Object.keys(TEAM_SLUGS).map(slug => `${slug}.ics`),
 ];
 

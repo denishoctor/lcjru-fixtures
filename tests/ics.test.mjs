@@ -252,13 +252,3 @@ test('index.html has correct calendar subscription UI', () => {
   assert.ok(html.includes('copyIcsUrl'),       'index.html: copyIcsUrl function must exist');
   assert.ok(html.includes('currentIcsUrl'),    'index.html: currentIcsUrl variable must exist');
 });
-
-test('staging-index.html has correct calendar subscription UI', () => {
-  const htmlPath = join(DOCS, 'staging-index.html');
-  if (!existsSync(htmlPath)) return;
-  const html = readFileSync(htmlPath, 'utf8');
-  assert.ok(html.includes('id="cal-ical"'),                  'staging-index.html: webcal link must use id="cal-ical"');
-  assert.ok(html.includes("encodeURIComponent(webcalUrl)"),  'staging-index.html: desktop cid= must encode webcal://');
-  assert.ok(/Desktop only/i.test(html),                      'staging-index.html: Google Calendar must be labelled desktop-only');
-  assert.ok(html.includes('copyIcsUrl'),                     'staging-index.html: copyIcsUrl must exist');
-});

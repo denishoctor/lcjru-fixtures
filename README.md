@@ -62,10 +62,9 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 ## Running locally
 
 ```bash
-# Full UI rendering in browser (production + staging)
+# Full UI rendering in browser
 npm run serve
-# Opens http://localhost:3000/      ← production
-#        http://localhost:3000/stg/ ← staging
+# Opens http://localhost:3000/
 # Uses the committed docs/ files — run fetch scripts first if you want fresh data.
 
 # Fetch fresh fixture data
@@ -110,8 +109,7 @@ docs/
   fixtures.json           Generated — committed by CI
   lineups.json            Generated — committed by CI; matchId → { home, away, coaches, officials }
   render.mjs              Pure render helpers (ES module) — imported by index.html
-  index.html              Production UI — <script type="module"> importing render.mjs
-  staging-index.html      Staging area for new features before promotion to index.html
+  index.html              UI — <script type="module"> importing render.mjs
   *.ics                   Per-team iCalendar feeds — committed by CI
 tests/
   api.test.mjs            Live API integration tests (requires network)
@@ -142,23 +140,6 @@ Run the **Resync All Lineups** workflow manually (`Actions → Resync All Lineup
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for a full system overview, data flow diagrams, SDLC friction map, and key files reference.
 
-**Staging environment:** `docs/stg/` is a live staging site that shares production data files (`fixtures.json`, `lineups.json`, `config.js`) but has its own `index.html` and `render.mjs` for independent feature development.
-
-| Environment | URL | Data source |
-|---|---|---|
-| Production | `https://denishoctor.github.io/lcjru-fixtures/` | `docs/fixtures.json` |
-| Staging | `https://denishoctor.github.io/lcjru-fixtures/stg/` | `docs/fixtures.json` (shared via `../`) |
-
-**Developing a feature:**
-1. Edit `docs/stg/index.html` and/or `docs/stg/render.mjs`
-2. Push to a branch — stg URL is immediately live with real data for UAT
-3. When UAT passes, promote to production:
-
-```bash
-npm run promote          # rewrites ../ → ./ and copies to docs/
-npm run promote --dry-run  # preview what would change without writing
-```
-
-4. Commit and push — production site updates.
+**Developing a feature:** edit `docs/index.html` and/or `docs/render.mjs` on a branch, run `npm run serve` for local UAT, push and merge — GitHub Pages updates production from `main`.
 
 **Adding a new season (annual):** Update `SEASON`, and if team IDs change also update `TEAM_SLUGS` and `LCJRU_TEAM_IDS` — all in `scripts/config.mjs`. Run the fetch script once to regenerate `docs/config.js` and the `.ics` feeds.

@@ -95,18 +95,6 @@ await check('u7-gold.ics', `${base}/u7-gold.ics`, [
   ['is iCalendar',       (_, b) => b.startsWith('BEGIN:VCALENDAR')],
 ]);
 
-await check('stg/index.html', `${base}/stg/index.html`, [
-  ['HTTP 200',           r      => r.status === 200],
-  ['has #calendar div',  (_, b) => b.includes('id="calendar"')],
-  ['fetches ../config',  (_, b) => b.includes('../config.js')],
-  ['fetches ../fixtures',(_, b) => b.includes('../fixtures.json')],
-]);
-
-await check('stg/render.mjs', `${base}/stg/render.mjs`, [
-  ['HTTP 200',           r      => r.status === 200],
-  ['exports esc',        (_, b) => b.includes('export function esc')],
-]);
-
 server.close();
 
 if (failures > 0) {

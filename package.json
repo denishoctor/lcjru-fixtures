@@ -5,7 +5,6 @@
   "scripts": {
     "setup": "git config core.hooksPath .githooks",
     "serve": "node scripts/serve.mjs",
-    "promote": "node scripts/promote.mjs",
     "fetch": "node scripts/fetch-fixtures.mjs",
     "build-events": "node scripts/build-events.mjs",
     "check": "node scripts/check.mjs",

@@ -740,8 +740,6 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
   return html;
 }
 
-// Asset paths in renderVenueDetails are relative to docs/, so /stg/ pages need '../'.
-// promote.mjs rewrites this to '' when copying into production.
 const VENUE_ASSET_PREFIX = '';
 
 // Builds the URL hash for a row's # anchor: '<team-slug>/<row-id>' so deep links keep the
