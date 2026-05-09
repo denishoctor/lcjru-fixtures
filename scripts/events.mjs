@@ -41,12 +41,24 @@ export const EVENTS = [
   {
     id: 'mothers-day-2026', type: 'event',
     title: "Mother's Day",
-    description: 'Join us for early arvo drinks at Tantallon.',
+    description: 'Five games + drinks at Tantallon from 9am.',
     date: '2026-05-10', time: '14:00',
     venue: 'Tantallon Oval',
     teams: ALL_CLUB,
     status: 'confirmed',
-    cta: { label: 'Join us — $60 Moet', url: 'https://www.instagram.com/p/DX_cYiPTPrP/' },
+    details: {
+      body: "Five games rolling through Tantallon from 9am to 1:50pm — U10s, U11s, U12s, U14s JV and U15s. Stick around for the Mums.",
+      highlights: [
+        "Proper bar setup — white tablecloths, flowers, glass flutes, ice buckets",
+        "Moët $10 / glass · $60 / bottle",
+        "Piper-Heidsieck $8 / glass · $50 / bottle",
+        "Champagne and orange juice $6 / glass",
+        "Chocolate for every mum",
+        "Music, sunshine, coffee cart booked",
+        "Canteen open with the usual offerings",
+      ],
+      cta: { label: 'See the post', url: 'https://www.instagram.com/p/DX_cYiPTPrP/' },
+    },
   },
 
   // ── Round 3: Sun 17 May ───────────────────────────────────────────────────────
@@ -67,12 +79,25 @@ export const EVENTS = [
   {
     id: 'waratahs-2026', type: 'event',
     title: 'Waratahs v Brumbies',
-    description: 'Club-wide invite. U10s pre-game match at 6:30pm.',
+    description: 'U10s curtain raiser at 6:30pm. Tickets via 26CLUB code.',
     date: '2026-05-22', time: '19:30',
+    venue: 'Allianz Stadium',
     teams: ALL_CLUB,
     status: 'confirmed',
     iconUrl: 'https://waratahs.rugby/_next/image?url=https%3A%2F%2Fd26phqdbpt0w91.cloudfront.net%2FNonVideo%2F7807bdbd-94f9-419a-a74c-fe3389f427b4.png&w=96&q=75',
-    cta: { label: 'Buy Tickets', url: 'https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF' },
+    details: {
+      body:
+        "Our U10s have been chosen as the curtain raiser before Waratahs v Brumbies — coached by Ian Allsop, managed by Caroline Roberts. They'll play Mudgee U10s at the northern end of the stadium, kick-off 6:30pm.\n\n" +
+        "Meet outside the Rugby AU building (next to the stadium) at 6pm. At 6:15pm we'll form a tunnel for the Waratahs to run out, then walk across to the stadium together. Players and parents from every LCJRU team are very welcome — a pretty special night for any 10-year-old.\n\n" +
+        "General admission $15. Use the unlock code 26CLUB at checkout.",
+      steps: [
+        "Open the link — lands on the NSW Waratahs Home Games page",
+        "Pick the 22 May game, then tap the green 'Find Tickets' button",
+        "Enter code 26CLUB and 'Unlock tickets'",
+        "Choose 'Find best available', set your ticket count + delivery, then checkout",
+      ],
+      cta: { label: 'Buy tickets ($15)', url: 'https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF' },
+    },
   },
 
   // ── Round 4: Sun 24 May ───────────────────────────────────────────────────────

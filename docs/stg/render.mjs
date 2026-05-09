@@ -134,3 +134,38 @@ export function renderVenueDetails(baseName, venues, { assetPrefix = '' } = {}) 
 
   return parts.join('');
 }
+
+// Renders the per-event details panel (long-form body, optional bullet/numbered lists,
+// and a primary CTA button). Returns '' if the event has no details. Body splits on
+// blank lines into <p>; everything is esc()-d.
+export function renderEventDetails(event) {
+  const d = event?.details;
+  if (!d) return '';
+
+  const parts = [];
+
+  if (d.body) {
+    const paras = String(d.body).split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+    parts.push(paras.map(p => `<p class="event-body">${esc(p).replace(/\n/g, '<br>')}</p>`).join(''));
+  }
+
+  if (Array.isArray(d.highlights) && d.highlights.length) {
+    parts.push(
+      `<ul class="event-highlights">${d.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>`
+    );
+  }
+
+  if (Array.isArray(d.steps) && d.steps.length) {
+    parts.push(
+      `<ol class="event-steps">${d.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>`
+    );
+  }
+
+  if (d.cta?.label && d.cta?.url) {
+    parts.push(
+      `<a class="event-cta-btn" href="${esc(d.cta.url)}" target="_blank" rel="noopener">${esc(d.cta.label)} ↗</a>`
+    );
+  }
+
+  return parts.join('');
+}

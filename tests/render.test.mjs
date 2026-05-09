@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -261,4 +261,76 @@ test('renderVenueDetails: escapes html in user-supplied text', () => {
   const html = renderVenueDetails('Hostile Park', venues);
   assert.ok(!html.includes('<script>'));
   assert.ok(html.includes('&lt;script&gt;'));
+});
+
+// ── renderEventDetails ────────────────────────────────────────────────────────
+
+test('renderEventDetails: empty string when no details block', () => {
+  assert.equal(renderEventDetails({ id: 'x', title: 'Y' }), '');
+  assert.equal(renderEventDetails(null), '');
+  assert.equal(renderEventDetails(undefined), '');
+});
+
+test('renderEventDetails: body splits on blank lines into paragraphs', () => {
+  const html = renderEventDetails({ details: { body: 'Para one.\n\nPara two.' } });
+  assert.ok(html.includes('<p class="event-body">Para one.</p>'));
+  assert.ok(html.includes('<p class="event-body">Para two.</p>'));
+});
+
+test('renderEventDetails: single newlines inside a paragraph become <br>', () => {
+  const html = renderEventDetails({ details: { body: 'Line a\nLine b' } });
+  assert.ok(html.includes('Line a<br>Line b'));
+});
+
+test('renderEventDetails: highlights render as <ul>', () => {
+  const html = renderEventDetails({ details: { highlights: ['Bar setup', 'Coffee cart'] } });
+  assert.ok(html.includes('<ul class="event-highlights">'));
+  assert.ok(html.includes('<li>Bar setup</li>'));
+  assert.ok(html.includes('<li>Coffee cart</li>'));
+});
+
+test('renderEventDetails: steps render as <ol>', () => {
+  const html = renderEventDetails({ details: { steps: ['Step 1', 'Step 2'] } });
+  assert.ok(html.includes('<ol class="event-steps">'));
+  assert.ok(html.includes('<li>Step 1</li>'));
+});
+
+test('renderEventDetails: cta renders as a button-styled link', () => {
+  const html = renderEventDetails({ details: { cta: { label: 'Buy tickets', url: 'https://example.com/x' } } });
+  assert.ok(html.includes('class="event-cta-btn"'));
+  assert.ok(html.includes('href="https://example.com/x"'));
+  assert.ok(html.includes('Buy tickets ↗'));
+  assert.ok(html.includes('target="_blank"'));
+});
+
+test('renderEventDetails: cta omitted when label or url missing', () => {
+  assert.equal(renderEventDetails({ details: { cta: { label: 'X' } } }), '');
+  assert.equal(renderEventDetails({ details: { cta: { url: '#' } } }), '');
+});
+
+test('renderEventDetails: escapes html in body, highlights, steps, cta', () => {
+  const html = renderEventDetails({ details: {
+    body: '<b>nope</b>',
+    highlights: ['<i>foo</i>'],
+    steps: ['<script>x</script>'],
+    cta: { label: '<x>L', url: 'javascript:alert(1)' },
+  }});
+  assert.ok(!html.includes('<b>nope</b>'));
+  assert.ok(html.includes('&lt;b&gt;nope&lt;/b&gt;'));
+  assert.ok(html.includes('&lt;i&gt;foo&lt;/i&gt;'));
+  assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'));
+  assert.ok(html.includes('&lt;x&gt;L'));
+  // url is esc()'d but not validated; that's a separate concern from XSS in attribute context
+  assert.ok(html.includes('href="javascript:alert(1)"'));
+});
+
+test('renderEventDetails: order is body → highlights → steps → cta', () => {
+  const html = renderEventDetails({ details: {
+    body: 'B', highlights: ['H'], steps: ['S'], cta: { label: 'C', url: '#' },
+  }});
+  const iBody = html.indexOf('event-body');
+  const iHi   = html.indexOf('event-highlights');
+  const iSt   = html.indexOf('event-steps');
+  const iCta  = html.indexOf('event-cta-btn');
+  assert.ok(iBody < iHi && iHi < iSt && iSt < iCta);
 });

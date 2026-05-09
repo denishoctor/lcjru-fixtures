@@ -370,6 +370,26 @@
     .venue-meta dt:first-of-type { padding-top: 0; }
   }
 
+  /* Event details panel content */
+  .event-body {
+    margin: 0 0 10px; font-size: 13px; line-height: 1.55; color: var(--ink);
+  }
+  .event-body:last-of-type { margin-bottom: 12px; }
+  .event-highlights, .event-steps {
+    margin: 0 0 14px; padding-left: 20px;
+    font-size: 13px; line-height: 1.55; color: var(--ink);
+  }
+  .event-highlights li, .event-steps li { margin-bottom: 4px; }
+  .event-cta-btn {
+    display: inline-block; margin: 4px 0 6px;
+    padding: 9px 18px; border-radius: 4px;
+    background: var(--navy); color: #fff;
+    font-size: 13px; font-weight: 700; letter-spacing: .3px;
+    text-decoration: none;
+    transition: background .12s;
+  }
+  .event-cta-btn:hover { background: #0a1f5c; }
+
   /* EVENTS */
   .event-badge {
     width: 50px; height: 50px; border-radius: 50%;
@@ -488,7 +508,7 @@
 </div>
 <script src="../config.js"></script>
 <script type="module">
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails } from './render.mjs';
+import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
 
 const FIXTURES_URL = '../fixtures.json';
 
@@ -633,7 +653,13 @@ function expandRow(row) {
   const lineupPanel = document.getElementById(`lineup-${matchId}`);
   const venuePanel  = document.getElementById(`venue-${matchId}`);
   if (venuePanel && row.classList.contains('has-venue-details')) {
-    venuePanel.innerHTML = renderVenueDetails(row.dataset.venueBase, VENUES, { assetPrefix: VENUE_ASSET_PREFIX });
+    const eventId = row.dataset.eventId;
+    const event = eventId ? eventsData?.find(e => e.id === eventId) : null;
+    const eventHtml = event ? renderEventDetails(event) : '';
+    const venueHtml = row.dataset.venueBase
+      ? renderVenueDetails(row.dataset.venueBase, VENUES, { assetPrefix: VENUE_ASSET_PREFIX })
+      : '';
+    venuePanel.innerHTML = eventHtml + venueHtml;
     venuePanel.classList.add('open');
   }
   if (lineupPanel && row.classList.contains('has-lineup')) {
@@ -704,16 +730,20 @@ function renderEvent(event) {
   }
 
   let venueHtml = '';
-  let venueBase = null, hasDetails = false;
+  let venueBase = null, venueHasDetails = false;
   if (event.venue) {
     const parsed = parseVenue(event.venue, VENUES);
     venueBase = parsed.base;
-    hasDetails = parsed.hasDetails;
+    venueHasDetails = parsed.hasDetails;
     const homePill = event.home ? '<span class="home-pill">Home</span>' : '';
     venueHtml = `<div class="venue"><a class="venue-link" href="${esc(parsed.mapsUrl)}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(parsed.display)}</span></a>${homePill}</div>`;
   }
 
-  const ctaHtml = event.cta
+  const eventHasDetails = !!event.details;
+  const hasDetails = eventHasDetails || venueHasDetails;
+
+  // Inline cta only renders when we DON'T have an expanded panel (panel CTA wins).
+  const ctaHtml = event.cta && !eventHasDetails
     ? `<a href="${esc(event.cta.url ?? '#')}" class="event-cta" target="_blank" rel="noopener">${esc(event.cta.label)}</a>`
     : '';
 
@@ -721,12 +751,12 @@ function renderEvent(event) {
 
   const anchor = `event-${event.id}`;
   const rowDataId = `event-${event.id}`;
-  const venueAttrs = hasDetails
-    ? ` has-venue-details" data-venue-base="${esc(venueBase)}`
+  const detailsAttrs = hasDetails
+    ? ` has-venue-details" data-venue-base="${esc(venueBase ?? '')}" data-event-id="${esc(event.id)}`
     : ``;
 
   return `
-    <div class="row event-row${isPast ? ' event-past' : ''}${venueAttrs}" id="${esc(anchor)}" data-match-id="${esc(rowDataId)}">
+    <div class="row event-row${isPast ? ' event-past' : ''}${detailsAttrs}" id="${esc(anchor)}" data-match-id="${esc(rowDataId)}">
       <a class="row-anchor" href="#${esc(rowHash(anchor))}" title="Copy link">#</a>
       ${badgeEl}
       <div class="date-block">
