@@ -144,7 +144,7 @@
     "status": "confirmed",
     "iconUrl": "https://waratahs.rugby/_next/image?url=https%3A%2F%2Fd26phqdbpt0w91.cloudfront.net%2FNonVideo%2F7807bdbd-94f9-419a-a74c-fe3389f427b4.png&w=96&q=75",
     "details": {
-      "body": "Our U10s have been chosen as the curtain raiser before Waratahs v Brumbies — coached by Ian Allsop, managed by Caroline Roberts. They'll play Mudgee U10s at the northern end of the stadium, kick-off 6:30pm.\n\nMeet outside the Rugby AU building (next to the stadium) at 6pm. At 6:15pm we'll form a tunnel for the Waratahs to run out, then walk across to the stadium together. Players and parents from every LCJRU team are very welcome — a pretty special night for any 10-year-old.\n\nGeneral admission $15. Use the unlock code 26CLUB at checkout.",
+      "body": "Our U10s have been chosen as the curtain raiser before Waratahs v Brumbies — coached by Ian Allsop, managed by Caroline Roberts. They'll play Mudgee U10s at the northern end of the stadium, kick-off 6:30pm.\n\nMeet outside the Rugby AU building (next to the stadium) at 6pm. At 6:15pm we'll form a tunnel for the Waratahs to run out, then walk across to the stadium together. Players and parents from every LCJRU team are very welcome — a pretty special night for any 10-year-old.\n\nAdult $15, Youth $10. Use the unlock code 26CLUB at checkout.",
       "steps": [
         "Open the link — lands on the NSW Waratahs Home Games page",
         "Pick the 22 May game, then tap the green 'Find Tickets' button",
@@ -152,7 +152,7 @@
         "Choose 'Find best available', set your ticket count + delivery, then checkout"
       ],
       "cta": {
-        "label": "Buy tickets ($15)",
+        "label": "Buy tickets ($15 / $10)",
         "url": "https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF"
       }
     }
