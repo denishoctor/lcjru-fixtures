@@ -16,6 +16,7 @@ import {
   SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
   TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
 } from './config.mjs';
+import { EVENTS } from './events.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
@@ -307,7 +308,123 @@ function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
   return parts.join('\n');
 }
 
-function generateICS(slug, teamId, allMatches, updatedISO) {
+// ── events → VEVENT ──────────────────────────────────────────────────────────
+// Surfaces calendar entries from scripts/events.mjs (Mother's Day, Waratahs
+// game, gala days, school holiday notes, etc.) in the per-team ICS feeds.
+// Mirrors the filter logic in docs/index.html: include if teams contains '*'
+// or the slug; suppress entries whose xplorerRound is already covered by a
+// real fixture for this team.
+
+function eventsForTeam(slug, teamId, fixtureMatches) {
+  return EVENTS.filter(e => {
+    if (e.status === 'cancelled' || e.status === 'completed') return false;
+    if (!e.teams?.includes('*') && !e.teams?.includes(slug)) return false;
+    if (e.xplorerRound) {
+      const covered = fixtureMatches.some(m =>
+        (m.home.id === teamId || m.away.id === teamId) && m.round === e.xplorerRound
+      );
+      if (covered) return false;
+    }
+    return true;
+  });
+}
+
+// Default duration in minutes for an event without an explicit end time.
+function eventDurationMinutes(event) {
+  if (event.variant === 'round') return 60;
+  if (event.variant === 'gala')  return 240;
+  return 120;
+}
+
+function eventIcon(event) {
+  if (event.type === 'note')     return '📌';
+  if (event.variant === 'round') return '🏉';
+  if (event.variant === 'gala')  return '🏆';
+  return '🎉';
+}
+
+function fmtEventDate(date) {
+  // "2026-05-10" → "Sun, 10 May" (interpret as a calendar date, no TZ math)
+  const [y, m, d] = date.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-AU', {
+    weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC',
+  });
+}
+
+function fmtEventTime(time24) {
+  // "14:00" → "2:00pm"
+  const [h, m] = time24.split(':').map(Number);
+  const period = h >= 12 ? 'pm' : 'am';
+  const h12 = ((h + 11) % 12) + 1;
+  return `${h12}:${String(m).padStart(2, '0')}${period}`;
+}
+
+function eventStartLocal(date, time) {
+  return date.replace(/-/g, '') + 'T' + time.replace(':', '') + '00';
+}
+
+function eventEndLocal(date, time, durationMin) {
+  // Add minutes to the wall-clock time; both DTSTART and DTEND carry
+  // TZID=Australia/Sydney so we don't need a UTC conversion here.
+  const [y, mo, d] = date.split('-').map(Number);
+  const [h, mi]    = time.split(':').map(Number);
+  const dt = new Date(Date.UTC(y, mo - 1, d, h, mi + durationMin));
+  const p = n => String(n).padStart(2, '0');
+  return `${dt.getUTCFullYear()}${p(dt.getUTCMonth() + 1)}${p(dt.getUTCDate())}T${p(dt.getUTCHours())}${p(dt.getUTCMinutes())}00`;
+}
+
+function eventDateOnly(date) {
+  return date.replace(/-/g, '');
+}
+
+function eventNextDate(date) {
+  const [y, m, d] = date.split('-').map(Number);
+  const next = new Date(Date.UTC(y, m - 1, d + 1));
+  const p = n => String(n).padStart(2, '0');
+  return `${next.getUTCFullYear()}${p(next.getUTCMonth() + 1)}${p(next.getUTCDate())}`;
+}
+
+function buildEventDescription(event, slug) {
+  const parts = [`${eventIcon(event)} ${event.title}`];
+
+  const loc = displayLocation(event.venue);
+  if (loc) parts.push(`📍 ${loc}`);
+
+  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTime(event.time) + ' AEST' : ''}`);
+
+  if (event.description) {
+    parts.push('');
+    parts.push(event.description);
+  }
+
+  const d = event.details;
+  if (d?.body) {
+    parts.push('');
+    parts.push(d.body);
+  }
+  if (Array.isArray(d?.highlights) && d.highlights.length) {
+    parts.push('');
+    for (const h of d.highlights) parts.push(`• ${h}`);
+  }
+  if (Array.isArray(d?.steps) && d.steps.length) {
+    parts.push('');
+    d.steps.forEach((s, i) => parts.push(`${i + 1}. ${s}`));
+  }
+  if (d?.cta?.label && d?.cta?.url) {
+    parts.push('');
+    parts.push(`${d.cta.label}: ${d.cta.url}`);
+  }
+
+  parts.push('');
+  parts.push('ℹ️ Venues and times may change. This calendar updates automatically');
+  parts.push('(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a change)');
+  parts.push('');
+  parts.push(`🔗 ${SITE_URL}/#${slug}`);
+
+  return parts.join('\n');
+}
+
+export function generateICS(slug, teamId, allMatches, updatedISO) {
   const label      = slugToLabel(slug);
   const isMinis    = MINIS_SLUGS.has(slug);
   const durMin     = isMinis ? 60 : 90;
@@ -396,6 +513,40 @@ function generateICS(slug, teamId, allMatches, updatedISO) {
     lines.push(icsLine('LOCATION',    location));
     lines.push(icsLine('DESCRIPTION', description));
     lines.push(icsLine('URL',         `${SITE_URL}/#${slug}`));
+    lines.push('END:VEVENT');
+  }
+
+  for (const event of eventsForTeam(slug, teamId, matches)) {
+    const loc         = displayLocation(event.venue);
+    const summary     = icsEscape(event.title);
+    const location    = icsEscape(loc ? `${loc}, Sydney NSW` : '');
+    const description = icsEscape(buildEventDescription(event, slug));
+    const url         = event.details?.cta?.url || `${SITE_URL}/#${slug}`;
+    const status      = event.status === 'tentative' ? 'TENTATIVE'
+                      : event.status === 'confirmed' ? 'CONFIRMED'
+                      : null;
+
+    lines.push('BEGIN:VEVENT');
+    lines.push(icsLine('UID', `lcjru-event-${event.id}-${slug}@lcjru.github.io`));
+    lines.push('SEQUENCE:0');
+    lines.push(`DTSTAMP:${dtstamp}`);
+    lines.push(`LAST-MODIFIED:${lastMod}`);
+
+    if (event.time) {
+      const startDt = eventStartLocal(event.date, event.time);
+      const endDt   = eventEndLocal(event.date, event.time, eventDurationMinutes(event));
+      lines.push(`DTSTART;TZID=Australia/Sydney:${startDt}`);
+      lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
+    } else {
+      lines.push(`DTSTART;VALUE=DATE:${eventDateOnly(event.date)}`);
+      lines.push(`DTEND;VALUE=DATE:${eventNextDate(event.date)}`);
+    }
+
+    lines.push(icsLine('SUMMARY',     summary));
+    lines.push(icsLine('LOCATION',    location));
+    lines.push(icsLine('DESCRIPTION', description));
+    lines.push(icsLine('URL',         url));
+    if (status) lines.push(`STATUS:${status}`);
     lines.push('END:VEVENT');
   }
 
