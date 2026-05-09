@@ -1,12 +1,8 @@
 /**
  * Local development server — serves docs/ over HTTP for browser UAT.
- * Opens both the production and staging URLs in your default browser.
  *
  * Run:  node scripts/serve.mjs          (default port 3000)
  *       PORT=4000 node scripts/serve.mjs
- *
- * Production:  http://localhost:3000/
- * Staging:     http://localhost:3000/stg/
  *
  * Uses only Node builtins — no npm install required.
  */
@@ -35,10 +31,8 @@ const MIME = {
 };
 
 const server = http.createServer((req, res) => {
-  // Strip query string; treat bare / and /stg/ as their index files
   let urlPath = req.url.split('?')[0];
-  if (urlPath === '/' || urlPath === '')           urlPath = '/index.html';
-  if (urlPath === '/stg' || urlPath === '/stg/')   urlPath = '/stg/index.html';
+  if (urlPath === '/' || urlPath === '') urlPath = '/index.html';
 
   const filePath = path.join(DOCS, urlPath);
 
@@ -58,19 +52,14 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  const prod = `http://localhost:${PORT}/`;
-  const stg  = `http://localhost:${PORT}/stg/`;
-  console.log(`\nserve: docs/ → http://localhost:${PORT}/`);
-  console.log(`\n  Production:  ${prod}`);
-  console.log(`  Staging:     ${stg}`);
+  const url = `http://localhost:${PORT}/`;
+  console.log(`\nserve: docs/ → ${url}`);
   console.log('\nCtrl+C to stop.\n');
 
-  // Open both URLs in the default browser (macOS / Linux / Windows)
   const opener = process.platform === 'win32' ? 'start'
                : process.platform === 'darwin' ? 'open'
                : 'xdg-open';
   try {
-    execSync(`${opener} ${prod}`);
-    execSync(`${opener} ${stg}`);
+    execSync(`${opener} ${url}`);
   } catch { /* browser open is best-effort */ }
 });
