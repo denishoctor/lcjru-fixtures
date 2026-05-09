@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'unsafe-inline'; manifest-src 'self'; worker-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline' https://gc.zgo.at; connect-src 'self' https://lcjru.goatcounter.com; style-src 'unsafe-inline'; manifest-src 'self'; worker-src 'self'">
 <title>Lane Cove Junior Rugby — Fixtures 2026</title>
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
@@ -663,7 +663,7 @@
     .lineup-footer { gap: 8px; }
   }
 </style>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "93a6d01a924a47bea85518ac3bc8c782", "spa": true}'></script>
+<script data-goatcounter="https://lcjru.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="page">
@@ -1174,6 +1174,7 @@ function attachExpandHandlers() {
         history.replaceState(null, '', slug ? '#' + slug : location.pathname + location.search);
       } else {
         expandRow(row);
+        trackRowExpand(row);
         // Reflect the open state in the URL so refresh / share preserves it.
         history.replaceState(null, '', '#' + rowHash(row.id));
       }
@@ -1580,28 +1581,41 @@ function focusRow(rowId) {
 document.querySelectorAll('.token').forEach(btn => {
   btn.addEventListener('click', () => {
     const id = btn.dataset.team;
-    selectTeam(id === currentTeam ? null : id);
+    const next = id === currentTeam ? null : id;
+    if (next) trackEvent('team-' + (SLUG_BY_ID[next] || next));
+    selectTeam(next);
   });
 });
 
-// Briefly nudge the hash so Cloudflare Web Analytics' SPA mode (which counts
-// pushState / replaceState as virtual page views) records the tap, then restore.
-function trackTap(label) {
-  const original = location.hash;
-  history.replaceState(null, '', '#tap/' + label);
-  setTimeout(() => history.replaceState(null, '', original || location.pathname + location.search), 50);
+// Fires a GoatCounter custom event. Safe no-op if the script is blocked or still loading.
+function trackEvent(name) {
+  window.goatcounter?.count?.({ path: name, event: true });
 }
 
-document.getElementById('copy-link-btn').addEventListener('click', () => { trackTap('share-link'); copyTeamLink(); });
-document.getElementById('cal-copy-ics').addEventListener('click', () => { trackTap('cal-copy-ics'); copyIcsUrl(); });
+// For an expanded row, fires `lineup-<matchId>` or `venue-<matchId>` matching the panel
+// the user actually sees (default 'lineup' when the row has both).
+function trackRowExpand(row) {
+  const matchId = row.dataset.matchId;
+  if (!matchId) return;
+  const hasLineup = row.classList.contains('has-lineup');
+  const hasVenue  = row.classList.contains('has-venue-details');
+  const tab = (hasLineup && hasVenue) ? (row.dataset.activeTab || 'lineup')
+            : hasLineup ? 'lineup'
+            : hasVenue  ? 'venue'
+            : null;
+  if (tab) trackEvent(`${tab}-${matchId}`);
+}
+
+document.getElementById('copy-link-btn').addEventListener('click', () => { trackEvent('share-link'); copyTeamLink(); });
+document.getElementById('cal-copy-ics').addEventListener('click', () => { trackEvent('cal-copy-ics'); copyIcsUrl(); });
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
 document.getElementById('cal-trigger').addEventListener('click', (e) => {
   e.stopPropagation();
   toggleCalPopover();
 });
-document.getElementById('cal-ical').addEventListener('click', () => { trackTap('cal-ical'); closeCalPopover(); });
-document.getElementById('cal-google').addEventListener('click', () => { trackTap('cal-google'); closeCalPopover(); });
+document.getElementById('cal-ical').addEventListener('click', () => { trackEvent('cal-ical'); closeCalPopover(); });
+document.getElementById('cal-google').addEventListener('click', () => { trackEvent('cal-google'); closeCalPopover(); });
 document.addEventListener('click', (e) => {
   const popover = document.getElementById('cal-popover');
   if (!popover.classList.contains('open')) return;
@@ -1622,7 +1636,10 @@ document.getElementById('calendar').addEventListener('click', (e) => {
     const tabsBar = tabBtn.closest('.panel-tabs');
     const matchId = tabsBar?.id.replace('tabs-', '');
     const row = matchId ? document.querySelector(`.row[data-match-id="${matchId}"]`) : null;
-    if (row) switchTab(row, tabBtn.dataset.tab);
+    if (row) {
+      switchTab(row, tabBtn.dataset.tab);
+      trackEvent(`${tabBtn.dataset.tab}-${matchId}`);
+    }
     return;
   }
 
@@ -1651,6 +1668,7 @@ document.getElementById('calendar').addEventListener('click', (e) => {
   const canExpand = row.classList.contains('has-lineup') || row.classList.contains('has-venue-details');
   if (canExpand && !row.classList.contains('expanded')) {
     expandRow(row);
+    trackRowExpand(row);
   }
   history.replaceState(null, '', '#' + rowHash(row.id));
 });

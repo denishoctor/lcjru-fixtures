@@ -97,6 +97,9 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) {
+    // GoatCounter loader + count beacon: let the browser handle directly so
+    // analytics aren't served from cache (would suppress every repeat event).
+    if (url.host === 'gc.zgo.at' || url.host.endsWith('.goatcounter.com')) return;
     // CDN crests etc. — keep the page resilient when offline.
     event.respondWith(networkFirstCrossOrigin(request));
     return;

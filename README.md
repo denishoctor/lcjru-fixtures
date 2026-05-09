@@ -101,7 +101,14 @@ npm run test:api              # live API integration tests (requires network)
 
 ## Analytics
 
-**Cloudflare Web Analytics** — privacy-friendly, cookieless, no consent banner. The beacon runs in `spa: true` mode so the existing hash navigation (team selection, lineup expansion, deep-link visits) becomes per-path page views in the CF dashboard. Calendar-subscribe and share-link buttons briefly set `location.hash = '#tap/<label>'` so taps are visible too. Beacon token lives inline in `docs/index.html` — rotate it from the Cloudflare dashboard if needed.
+**GoatCounter** — privacy-friendly, cookieless, no consent banner. Page views are recorded automatically by `count.js`. User actions are reported as custom events via `window.goatcounter.count({ path, event: true })`:
+
+- `team-<slug>` — team filter token tapped (e.g. `team-u10`)
+- `lineup-<matchId>` / `venue-<matchId>` — fixture row expanded into the lineup or venue panel
+- `cal-ical` / `cal-google` / `cal-copy-ics` — calendar-subscribe popover actions
+- `share-link` — copy team link button
+
+The endpoint (`https://lcjru.goatcounter.com/count`) lives inline in `docs/index.html` — change the subdomain there if the GoatCounter site is rotated. The service worker explicitly bypasses `gc.zgo.at` and `*.goatcounter.com` so events aren't served from cache.
 
 ---
 
