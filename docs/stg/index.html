@@ -257,10 +257,13 @@
   }
   .footer-note a { color: var(--navy); }
 
-  /* LINEUP TOGGLE + PANEL */
-  .row.has-lineup { cursor: pointer; }
-  .row.has-lineup:hover { background: var(--cream); }
-  .row.has-lineup:hover .lineup-toggle { border-color: var(--navy); }
+  /* ROW EXPAND TOGGLE + PANELS (lineup, venue) */
+  .row.has-lineup,
+  .row.has-venue-details { cursor: pointer; }
+  .row.has-lineup:hover,
+  .row.has-venue-details:hover { background: var(--cream); }
+  .row.has-lineup:hover .lineup-toggle,
+  .row.has-venue-details:hover .lineup-toggle { border-color: var(--navy); }
   .row.expanded { background: var(--cream); }
   .row.expanded .lineup-toggle {
     background: var(--navy); border-color: var(--navy);
@@ -330,6 +333,42 @@
   .lineup-footer a { color: var(--navy); }
   .lineup-referee { font-size: 11px; color: var(--muted); }
   .lineup-referee strong { color: var(--navy); font-weight: 600; }
+
+  /* VENUE PANEL */
+  .venue-panel {
+    display: none;
+    padding: 12px 16px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream);
+  }
+  .venue-panel.open { display: block; }
+  .venue-map-link { display: block; line-height: 0; }
+  .venue-map {
+    width: 100%; max-height: 70vh; object-fit: contain;
+    background: #000; border-radius: 4px;
+    border: 1px solid var(--cream-edge);
+  }
+  .venue-map-caption {
+    font-size: 11px; color: var(--muted); padding: 6px 2px 10px;
+    letter-spacing: .3px;
+  }
+  .venue-meta {
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 6px 14px; margin: 0; font-size: 13px; line-height: 1.45;
+  }
+  .venue-meta dt {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); padding-top: 2px;
+  }
+  .venue-meta dd {
+    margin: 0; color: var(--ink);
+  }
+  .venue-meta dd strong { color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; margin-right: 4px; }
+  @media (max-width: 480px) {
+    .venue-meta { grid-template-columns: 1fr; gap: 2px 0; }
+    .venue-meta dt { padding-top: 8px; }
+    .venue-meta dt:first-of-type { padding-top: 0; }
+  }
 
   /* EVENTS */
   .event-badge {
@@ -443,13 +482,13 @@
   <div id="calendar"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://www.rugbyxplorer.com.au" target="_blank" rel="noopener">Rugby Xplorer</a>
+    Lane Cove Junior Rugby · 2026 · All times and venues subject to change · Data sourced from <a href="https://www.rugbyxplorer.com.au" target="_blank" rel="noopener">Rugby Xplorer</a> · <a href="venues.html">Venues</a>
   </div>
 
 </div>
 <script src="../config.js"></script>
 <script type="module">
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue } from './render.mjs';
+import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails } from './render.mjs';
 
 const FIXTURES_URL = '../fixtures.json';
 
@@ -571,24 +610,34 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
   return html;
 }
 
-function attachLineupHandlers() {
-  document.querySelectorAll('.row.has-lineup').forEach(row => {
-    const matchId   = row.dataset.matchId;
-    const homeName  = row.dataset.homeName  ?? '';
-    const awaName   = row.dataset.awayName  ?? '';
-    const homeCrest = row.dataset.homeCrest ?? '';
-    const awayCrest = row.dataset.awayCrest ?? '';
-    const panel     = document.getElementById(`lineup-${matchId}`);
-    if (!panel) return;
+// Asset paths in renderVenueDetails are relative to docs/, so /stg/ pages need '../'.
+// promote.mjs rewrites this to '' when copying into production.
+const VENUE_ASSET_PREFIX = '../';
+
+function attachExpandHandlers() {
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
     row.addEventListener('click', e => {
       if (e.target.closest('a')) return;
-      const isOpen = panel.classList.contains('open');
-      document.querySelectorAll('.lineup-panel.open').forEach(p => p.classList.remove('open'));
+      const matchId = row.dataset.matchId;
+      const lineupPanel = document.getElementById(`lineup-${matchId}`);
+      const venuePanel  = document.getElementById(`venue-${matchId}`);
+      const isOpen = row.classList.contains('expanded');
+      document.querySelectorAll('.lineup-panel.open, .venue-panel.open').forEach(p => p.classList.remove('open'));
       document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
       if (!isOpen) {
-        const entry = lineupsData?.[matchId];
-        panel.innerHTML = renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest);
-        panel.classList.add('open');
+        if (venuePanel && row.classList.contains('has-venue-details')) {
+          venuePanel.innerHTML = renderVenueDetails(row.dataset.venueBase, VENUES, { assetPrefix: VENUE_ASSET_PREFIX });
+          venuePanel.classList.add('open');
+        }
+        if (lineupPanel && row.classList.contains('has-lineup')) {
+          const entry = lineupsData?.[matchId];
+          lineupPanel.innerHTML = renderLineupPanel(
+            matchId, entry,
+            row.dataset.homeName  ?? '', row.dataset.awayName  ?? '',
+            row.dataset.homeCrest ?? '', row.dataset.awayCrest ?? '',
+          );
+          lineupPanel.classList.add('open');
+        }
         row.classList.add('expanded');
       }
     });
@@ -703,17 +752,21 @@ function renderMatch(match, isNextUp) {
   const timeStr = fmtTime(match.dateTime);
   const showTime = timeStr !== '12:00am';
 
-  const { display: loc, pitch, mapsUrl } = parseVenue(match.venue ?? '', VENUES);
+  const { display: loc, pitch, mapsUrl, base: venueBase, hasDetails } = parseVenue(match.venue ?? '', VENUES);
   const anchor = rowId(match);
 
   const entry     = lineupsData?.[match.id];
   const hasLineup = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
   const lineupAttrs = hasLineup
-    ? ` has-lineup" data-match-id="${esc(match.id)}" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
+    ? ` has-lineup" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
     : ``;
+  const venueAttrs = hasDetails
+    ? ` has-venue-details" data-venue-base="${esc(venueBase)}`
+    : ``;
+  const expandable = hasLineup || hasDetails;
 
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}" id="${esc(anchor)}">
+    <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}${venueAttrs}" id="${esc(anchor)}" data-match-id="${esc(match.id)}">
       <a class="row-anchor" href="#${esc(anchor)}" title="Copy link">#</a>
       <div class="${badgeCls}">
         <span>${badgeLabel}</span>
@@ -738,7 +791,7 @@ function renderMatch(match, isNextUp) {
           ${scoreHtml}
         </div>
       </div>
-      ${hasLineup ? `<span class="lineup-toggle" aria-label="View team sheet">${CHEVRON_SVG}</span>` : ''}
+      ${expandable ? `<span class="lineup-toggle" aria-label="Expand row">${CHEVRON_SVG}</span>` : ''}
     </div>`;
 }
 
@@ -819,14 +872,22 @@ function render(data, teamId) {
 
   document.getElementById('calendar').innerHTML = html;
 
+  // Inject lineup panels first, then venue panels — afterend prepends, so venue ends up
+  // immediately after the row and lineup ends up below it.
   document.querySelectorAll('.row.has-lineup').forEach(row => {
     const panel = document.createElement('div');
     panel.className = 'lineup-panel';
     panel.id = `lineup-${row.dataset.matchId}`;
     row.insertAdjacentElement('afterend', panel);
   });
+  document.querySelectorAll('.row.has-venue-details').forEach(row => {
+    const panel = document.createElement('div');
+    panel.className = 'venue-panel';
+    panel.id = `venue-${row.dataset.matchId}`;
+    row.insertAdjacentElement('afterend', panel);
+  });
 
-  attachLineupHandlers();
+  attachExpandHandlers();
 }
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
