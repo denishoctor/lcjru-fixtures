@@ -71,6 +71,7 @@ export const EVENTS = [
     date: '2026-05-22', time: '19:30',
     teams: ALL_CLUB,
     status: 'confirmed',
+    iconUrl: 'https://waratahs.rugby/_next/image?url=https%3A%2F%2Fd26phqdbpt0w91.cloudfront.net%2FNonVideo%2F7807bdbd-94f9-419a-a74c-fe3389f427b4.png&w=96&q=75',
     cta: { label: 'Buy Tickets', url: 'https://www.ticketmaster.com.au/nsw-waratahs-v-act-brumbies-sydney-22-05-2026/event/2500642F887373FF' },
   },
 

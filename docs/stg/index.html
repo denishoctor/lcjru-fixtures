@@ -341,12 +341,14 @@
     width: 22px; height: 22px; stroke: var(--navy); fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
+  .event-badge-img { width: 38px; height: 38px; object-fit: contain; }
   .event-past .event-badge { background: #F5F5F5; border-color: var(--rule); }
   .event-past .event-icon  { stroke: #BDBDBD; }
+  .event-past .event-badge-img { filter: grayscale(1); opacity: .55; }
   .event-past .event-title { color: var(--muted); }
   .event-title { font-weight: 700; font-size: 14px; color: var(--ink); }
   .event-note  { font-size: 12px; color: var(--muted); }
-  .event-cta   { font-size: 11px; font-weight: 700; color: var(--navy); }
+  .event-cta   { align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--navy); }
   .status-badge {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
     letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
@@ -614,6 +616,7 @@ function renderEvent(event) {
 
   // Round-variant events render with the same RND badge as real Xplorer matches (greyed out).
   // Gala-variant events use a distinct purple circle to set them apart from regular rounds.
+  // Otherwise: optional iconUrl swaps the calendar SVG for a logo (e.g. Waratahs match-up).
   const isRound = event.variant === 'round' && event.xplorerRound;
   const isGala  = event.variant === 'gala';
   let badgeEl;
@@ -624,6 +627,8 @@ function renderEvent(event) {
   } else if (isRound) {
     const roundNum = event.xplorerRound.replace('Round ', '');
     badgeEl = `<div class="rnd-badge past"><span>RND</span><span class="num">${esc(roundNum)}</span></div>`;
+  } else if (event.iconUrl) {
+    badgeEl = `<div class="event-badge"><img class="event-badge-img" src="${esc(event.iconUrl)}" alt="" loading="lazy"></div>`;
   } else {
     badgeEl = `<div class="event-badge">${CAL_SVG}</div>`;
   }
