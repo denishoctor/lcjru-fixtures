@@ -9,7 +9,7 @@
  * Run:  node scripts/fetch-fixtures.mjs
  */
 
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import {
@@ -309,14 +309,24 @@ function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
 }
 
 // ── events → VEVENT ──────────────────────────────────────────────────────────
-// Surfaces calendar entries from scripts/events.mjs (Mother's Day, Waratahs
-// game, gala days, school holiday notes, etc.) in the per-team ICS feeds.
-// Mirrors the filter logic in docs/index.html: include if teams contains '*'
-// or the slug; suppress entries whose xplorerRound is already covered by a
-// real fixture for this team.
+// Two output paths:
+//   • Game-variant events (round, friendly, gala) go into the per-team ICS feed
+//     for each team listed under `teams`. They behave like Xplorer fixtures and
+//     subscribers see them automatically.
+//   • All other events (Mother's Day, Waratahs, Bathurst Tour, presentation
+//     day, holiday notes, etc.) get a per-event ICS file at docs/events/<id>.ics
+//     so users can opt in to the ones they care about — avoids the 16×
+//     duplication that would happen if a parent subscribed to multiple teams.
 
-function eventsForTeam(slug, teamId, fixtureMatches) {
+function isGameEvent(event) {
+  return event.variant === 'round'
+      || event.variant === 'friendly'
+      || event.variant === 'gala';
+}
+
+function gameEventsForTeam(slug, teamId, fixtureMatches) {
   return EVENTS.filter(e => {
+    if (!isGameEvent(e)) return false;
     if (e.status === 'cancelled' || e.status === 'completed') return false;
     if (!e.teams?.includes('*') && !e.teams?.includes(slug)) return false;
     if (e.xplorerRound) {
@@ -329,17 +339,28 @@ function eventsForTeam(slug, teamId, fixtureMatches) {
   });
 }
 
+// Special events live in their own per-event .ics files. Notes (no rugby /
+// holidays) stay website-only — they're announcements, not calendar entries.
+function specialEventsForExport() {
+  return EVENTS.filter(e =>
+    e.type === 'event' && !isGameEvent(e) &&
+    e.status !== 'cancelled' && e.status !== 'completed'
+  );
+}
+
 // Default duration in minutes for an event without an explicit end time.
 function eventDurationMinutes(event) {
-  if (event.variant === 'round') return 60;
-  if (event.variant === 'gala')  return 240;
+  if (event.variant === 'round')    return 60;
+  if (event.variant === 'friendly') return 60;
+  if (event.variant === 'gala')     return 240;
   return 120;
 }
 
 function eventIcon(event) {
-  if (event.type === 'note')     return '📌';
-  if (event.variant === 'round') return '🏉';
-  if (event.variant === 'gala')  return '🏆';
+  if (event.type === 'note')        return '📌';
+  if (event.variant === 'round')    return '🏉';
+  if (event.variant === 'friendly') return '🏉';
+  if (event.variant === 'gala')     return '🏆';
   return '🎉';
 }
 
@@ -516,7 +537,7 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
     lines.push('END:VEVENT');
   }
 
-  for (const event of eventsForTeam(slug, teamId, matches)) {
+  for (const event of gameEventsForTeam(slug, teamId, matches)) {
     const loc         = displayLocation(event.venue);
     const summary     = icsEscape(event.title);
     const location    = icsEscape(loc ? `${loc}, Sydney NSW` : '');
@@ -552,6 +573,112 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
 
   lines.push('END:VCALENDAR');
   return lines.join('\r\n') + '\r\n';
+}
+
+// Per-event single-VEVENT calendar download. UID is stable and slug-free so
+// users can re-import without duplicate entries piling up.
+export function generateEventICS(event, updatedISO) {
+  const dtstamp = icsNow();
+  const lastMod = updatedISO.replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+
+  const loc         = displayLocation(event.venue);
+  const summary     = icsEscape(event.title);
+  const location    = icsEscape(loc ? `${loc}, Sydney NSW` : '');
+  const description = icsEscape(buildEventDescriptionForExport(event));
+  const url         = event.details?.cta?.url || `${SITE_URL}/`;
+  const status      = event.status === 'tentative' ? 'TENTATIVE'
+                    : event.status === 'confirmed' ? 'CONFIRMED'
+                    : null;
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    `PRODID:-//LCJRU//Events ${SEASON}//EN`,
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    icsLine('X-WR-CALNAME', `LCJRU — ${event.title}`),
+    'X-WR-TIMEZONE:Australia/Sydney',
+    'BEGIN:VTIMEZONE',
+    'TZID:Australia/Sydney',
+    'BEGIN:STANDARD',
+    'TZNAME:AEST',
+    'TZOFFSETFROM:+1100',
+    'TZOFFSETTO:+1000',
+    'DTSTART:19700405T030000',
+    'RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU',
+    'END:STANDARD',
+    'BEGIN:DAYLIGHT',
+    'TZNAME:AEDT',
+    'TZOFFSETFROM:+1000',
+    'TZOFFSETTO:+1100',
+    'DTSTART:19701004T020000',
+    'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU',
+    'END:DAYLIGHT',
+    'END:VTIMEZONE',
+    'BEGIN:VEVENT',
+    icsLine('UID', `lcjru-event-${event.id}@lcjru.github.io`),
+    'SEQUENCE:0',
+    `DTSTAMP:${dtstamp}`,
+    `LAST-MODIFIED:${lastMod}`,
+  ];
+
+  if (event.time) {
+    const startDt = eventStartLocal(event.date, event.time);
+    const endDt   = eventEndLocal(event.date, event.time, eventDurationMinutes(event));
+    lines.push(`DTSTART;TZID=Australia/Sydney:${startDt}`);
+    lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
+  } else {
+    lines.push(`DTSTART;VALUE=DATE:${eventDateOnly(event.date)}`);
+    lines.push(`DTEND;VALUE=DATE:${eventNextDate(event.date)}`);
+  }
+
+  lines.push(icsLine('SUMMARY',     summary));
+  lines.push(icsLine('LOCATION',    location));
+  lines.push(icsLine('DESCRIPTION', description));
+  lines.push(icsLine('URL',         url));
+  if (status) lines.push(`STATUS:${status}`);
+  lines.push('END:VEVENT');
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n') + '\r\n';
+}
+
+// Stand-alone description (no team-specific deep link, since this file is
+// shared across all subscribers).
+function buildEventDescriptionForExport(event) {
+  const parts = [`${eventIcon(event)} ${event.title}`];
+
+  const loc = displayLocation(event.venue);
+  if (loc) parts.push(`📍 ${loc}`);
+
+  parts.push(`📅 ${fmtEventDate(event.date)}${event.time ? ' · ' + fmtEventTime(event.time) + ' AEST' : ''}`);
+
+  if (event.description) {
+    parts.push('');
+    parts.push(event.description);
+  }
+
+  const d = event.details;
+  if (d?.body) {
+    parts.push('');
+    parts.push(d.body);
+  }
+  if (Array.isArray(d?.highlights) && d.highlights.length) {
+    parts.push('');
+    for (const h of d.highlights) parts.push(`• ${h}`);
+  }
+  if (Array.isArray(d?.steps) && d.steps.length) {
+    parts.push('');
+    d.steps.forEach((s, i) => parts.push(`${i + 1}. ${s}`));
+  }
+  if (d?.cta?.label && d?.cta?.url) {
+    parts.push('');
+    parts.push(`${d.cta.label}: ${d.cta.url}`);
+  }
+
+  parts.push('');
+  parts.push(`🔗 ${SITE_URL}/`);
+
+  return parts.join('\n');
 }
 
 // ── main ──────────────────────────────────────────────────────────────────────
@@ -621,6 +748,17 @@ async function main() {
     writeFileSync(join(ROOT, 'docs', `${slug}.ics`), ics);
   }
   console.log(`✓ Written ${Object.keys(TEAM_SLUGS).length} ICS feeds → docs/*.ics`);
+
+  // Per-event single-file ICS downloads for special events (Mother's Day,
+  // Waratahs, presentation day, etc.). Users add only the ones they care
+  // about — avoids duplication when subscribing to multiple team feeds.
+  const eventsDir = join(ROOT, 'docs', 'events');
+  mkdirSync(eventsDir, { recursive: true });
+  const specials = specialEventsForExport();
+  for (const event of specials) {
+    writeFileSync(join(eventsDir, `${event.id}.ics`), generateEventICS(event, output.updated));
+  }
+  console.log(`✓ Written ${specials.length} per-event ICS files → docs/events/*.ics`);
 
   // Emit docs/config.js so HTML files share the same source of truth
   const configJs = [

@@ -691,6 +691,17 @@
   .event-title { font-weight: 700; font-size: 14px; color: var(--ink); }
   .event-note  { font-size: 12px; color: var(--muted); }
   .event-cta   { align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--navy); }
+  .event-cal-link {
+    align-self: flex-start; font-size: 11px; font-weight: 600;
+    color: var(--navy); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 2px;
+  }
+  .event-cal-link:hover { text-decoration: underline; }
+  .event-cal-link svg {
+    width: 12px; height: 12px; stroke: currentColor;
+    fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
   .status-badge {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
     letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
@@ -891,6 +902,16 @@ try {
 const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 const CAL_SVG     = '<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+const CAL_PLUS_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
+
+// Game-variant events (round/friendly/gala) belong in the team's subscription
+// feed; everything else (Mother's Day, Waratahs, holidays, presentation day)
+// gets a per-event .ics download so multi-team subscribers don't see duplicates.
+function isGameEvent(event) {
+  return event?.variant === 'round'
+      || event?.variant === 'friendly'
+      || event?.variant === 'gala';
+}
 
 // Returns [Sat 00:00, Mon 00:00) for the weekend offset relative to now.
 // offset 0 = current/upcoming weekend (Sun is treated as part of the current weekend);
@@ -1346,6 +1367,14 @@ function renderEvent(event) {
     ? `<a href="${esc(event.cta.url ?? '#')}" class="event-cta" target="_blank" rel="noopener">${esc(event.cta.label)}</a>`
     : '';
 
+  // Special events (not rounds/friendlies/galas) ship as per-event .ics
+  // downloads so users add only the ones they care about. Games come through
+  // the team feed instead.
+  const isSpecialEvent = event.type === 'event' && !isGameEvent(event);
+  const calLinkHtml = isSpecialEvent && !isPast
+    ? `<a class="event-cal-link" href="./events/${esc(event.id)}.ics" download>${CAL_PLUS_SVG}<span>Add to calendar</span></a>`
+    : '';
+
   const description = event.description ?? event.note ?? '';
 
   const anchor = `event-${event.id}`;
@@ -1366,6 +1395,7 @@ function renderEvent(event) {
         ${venueHtml}
         ${description ? `<div class="venue"><span class="event-note">${esc(description)}</span></div>` : ''}
         ${ctaHtml}
+        ${calLinkHtml}
       </div>
       ${hasDetails ? `<span class="lineup-toggle" aria-label="Expand row">${CHEVRON_SVG}</span>` : ''}
     </div>`;

@@ -8,7 +8,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import { TEAM_SLUGS } from '../scripts/config.mjs';
@@ -16,13 +16,18 @@ import { TEAM_SLUGS } from '../scripts/config.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
 
-// Load all ICS files once
-const icsFiles = Object.fromEntries(
-  Object.keys(TEAM_SLUGS).map(slug => {
-    const p = join(DOCS, `${slug}.ics`);
-    return [slug, existsSync(p) ? readFileSync(p, 'utf8') : null];
-  })
-);
+// Per-team feeds plus per-event single-event downloads from docs/events/
+const eventDir = join(DOCS, 'events');
+const teamEntries = Object.keys(TEAM_SLUGS).map(slug => {
+  const p = join(DOCS, `${slug}.ics`);
+  return [slug, existsSync(p) ? readFileSync(p, 'utf8') : null];
+});
+const eventEntries = existsSync(eventDir)
+  ? readdirSync(eventDir).filter(f => f.endsWith('.ics')).map(f =>
+      [`events/${f.replace(/\.ics$/, '')}`, readFileSync(join(eventDir, f), 'utf8')]
+    )
+  : [];
+const icsFiles = Object.fromEntries([...teamEntries, ...eventEntries]);
 
 // Parse an ICS file into a list of { key, params, value } property objects
 function parseICS(content) {
@@ -103,9 +108,11 @@ test('all ICS files include a VTIMEZONE component for Australia/Sydney', () => {
 
 // ── refresh hints ──────────────────────────────────────────────────────────────
 
-test('all ICS files include REFRESH-INTERVAL and X-PUBLISHED-TTL', () => {
+test('team feeds include REFRESH-INTERVAL and X-PUBLISHED-TTL', () => {
+  // Only subscription feeds (per-team) carry refresh hints; per-event downloads
+  // are one-shot imports that don't need them.
   for (const [slug, content] of Object.entries(icsFiles)) {
-    if (!content) continue;
+    if (!content || slug.startsWith('events/')) continue;
     assert.ok(content.includes('REFRESH-INTERVAL'), `${slug}.ics: missing REFRESH-INTERVAL`);
     assert.ok(content.includes('X-PUBLISHED-TTL'), `${slug}.ics: missing X-PUBLISHED-TTL`);
   }
