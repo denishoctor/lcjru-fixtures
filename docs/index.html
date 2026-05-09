@@ -32,6 +32,8 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     margin: 0; background: #FAFAFA; color: var(--ink);
     -webkit-font-smoothing: antialiased;
+    /* Keep content clear of the iOS home indicator when launched standalone. */
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .page { max-width: 900px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
 
@@ -1478,7 +1480,10 @@ function copyTeamLink() {
   };
   // Native share sheet on Android / iOS where supported; clipboard fallback elsewhere.
   if (navigator.share && navigator.canShare?.(shareData)) {
-    navigator.share(shareData).catch(() => navigator.clipboard?.writeText(url).then(flashCopied));
+    navigator.share(shareData).catch((err) => {
+      // User-cancelled share dialogs reject with AbortError — don't surprise them with a clipboard write.
+      if (err?.name !== 'AbortError') navigator.clipboard?.writeText(url).then(flashCopied);
+    });
   } else if (navigator.clipboard?.writeText) {
     navigator.clipboard.writeText(url).then(flashCopied);
   }
@@ -1659,7 +1664,11 @@ function setupInstallHint() {
   const dismiss = document.getElementById('install-hint-dismiss');
   if (!hint || !text || !cta || !dismiss) return;
 
-  if (isStandalone() || localStorage.getItem(INSTALL_DISMISSED_KEY) === '1') return;
+  if (isStandalone()) return;
+  // localStorage access can throw in some private modes — treat any failure as "not dismissed".
+  let dismissed = false;
+  try { dismissed = localStorage.getItem(INSTALL_DISMISSED_KEY) === '1'; } catch { /* ignore */ }
+  if (dismissed) return;
 
   let deferredPrompt = null;
 

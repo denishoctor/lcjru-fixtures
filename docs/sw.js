@@ -2,14 +2,17 @@
  * LCJRU Fixtures — service worker.
  *
  * Strategy:
- *   - app shell  (HTML / JS / icons / manifest) → cache-first, precached on install
- *   - data JSON  (fixtures, lineups, events)    → stale-while-revalidate
- *   - .ics feeds                                → stale-while-revalidate
- *   - CDN crest images (cross-origin)           → network-first, cache fallback
+ *   - HTML navigations         → network-first with cache fallback
+ *     (so a fresh deploy lands without a manual SHELL_CACHE bump; cache
+ *     only wins when the user is offline)
+ *   - other same-origin assets → stale-while-revalidate
+ *     (instant render from cache, refreshed in the background — keeps
+ *     render.mjs / config.js / manifest / icons updates one reload away)
+ *   - cross-origin CDN images  → network-first with cache fallback
  *
- * Bump SHELL_CACHE / DATA_CACHE versions on every UI deploy so old shells
- * are purged. The activate handler deletes any cache that doesn't match the
- * current pair.
+ * Bumping SHELL_CACHE / DATA_CACHE versions still helps when an asset is
+ * removed or renamed entirely. The activate handler deletes any cache that
+ * doesn't match the current pair.
  */
 
 const SHELL_CACHE = 'lcjru-shell-v1';
@@ -18,6 +21,7 @@ const DATA_CACHE = 'lcjru-data-v1';
 const SHELL_FILES = [
   './',
   'index.html',
+  'venues.html',
   'render.mjs',
   'config.js',
   'manifest.webmanifest',
@@ -49,14 +53,8 @@ function isDataRequest(url) {
       || url.pathname.endsWith('.ics');
 }
 
-function isShellRequest(url) {
-  if (url.origin !== self.location.origin) return false;
-  if (url.pathname.endsWith('.json') || url.pathname.endsWith('.ics')) return false;
-  return true;
-}
-
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(DATA_CACHE);
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
   const network = fetch(request).then((res) => {
     if (res.ok) cache.put(request, res.clone());
@@ -65,20 +63,16 @@ async function staleWhileRevalidate(request) {
   return cached || network;
 }
 
-async function cacheFirst(request) {
+async function networkFirstNavigation(request) {
   const cache = await caches.open(SHELL_CACHE);
-  const cached = await cache.match(request);
-  if (cached) return cached;
   try {
     const res = await fetch(request);
     if (res.ok) cache.put(request, res.clone());
     return res;
   } catch (err) {
-    // Navigation fallback — return the precached index for offline SPA loads.
-    if (request.mode === 'navigate') {
-      const fallback = await cache.match('index.html');
-      if (fallback) return fallback;
-    }
+    // Offline — try the requested URL, fall back to the precached index.
+    const cached = await cache.match(request) || await cache.match('index.html') || await cache.match('./');
+    if (cached) return cached;
     throw err;
   }
 }
@@ -108,12 +102,18 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (isDataRequest(url)) {
-    event.respondWith(staleWhileRevalidate(request));
+  // HTML navigations are network-first so a fresh deploy lands without a
+  // manual SHELL_CACHE bump; cache only wins when the user is offline.
+  if (request.mode === 'navigate') {
+    event.respondWith(networkFirstNavigation(request));
     return;
   }
 
-  if (isShellRequest(url)) {
-    event.respondWith(cacheFirst(request));
+  if (isDataRequest(url)) {
+    event.respondWith(staleWhileRevalidate(request, DATA_CACHE));
+    return;
   }
+
+  // All other same-origin requests (JS / icons / manifest) → SWR via SHELL_CACHE.
+  event.respondWith(staleWhileRevalidate(request, SHELL_CACHE));
 });
