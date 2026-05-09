@@ -225,21 +225,21 @@ test('all UIDs are unique within each ICS file', () => {
   }
 });
 
-test('UIDs are unique across all ICS feeds', () => {
-  const seen = new Map(); // uid → slug
+test('per-event ICS files have globally unique UIDs', () => {
+  // Per-team feeds legitimately reuse UIDs (same match in multiple sibling
+  // team views), but per-event downloads each represent a unique real-world
+  // event. A duplicate UID across events/ would cause calendar apps to merge
+  // or overwrite imports.
+  const seen = new Map(); // uid → file
   for (const [slug, content] of Object.entries(icsFiles)) {
-    if (!content) continue;
-    const events = extractEvents(content);
-    for (const event of events) {
+    if (!content || !slug.startsWith('events/')) continue;
+    for (const event of extractEvents(content)) {
       const uid = event.find(p => p.key === 'UID')?.value;
       if (!uid) continue;
-      // UIDs can legitimately appear in multiple feeds (same match, different team view)
-      // but should never be identical within the SAME feed — already checked above.
-      // Cross-feed duplicates for different slugs are acceptable (sibling team views).
+      assert.ok(!seen.has(uid), `${slug}.ics: UID ${uid} also appears in ${seen.get(uid)}.ics`);
+      seen.set(uid, slug);
     }
   }
-  // This test is intentionally a no-op beyond the per-file check above.
-  assert.ok(true);
 });
 
 // ── HTML: calendar subscription UI ───────────────────────────────────────────
