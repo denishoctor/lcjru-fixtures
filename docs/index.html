@@ -126,7 +126,8 @@
     border: 1.5px solid var(--cream-edge);
     background: var(--cream); color: var(--navy);
     cursor: pointer; user-select: none;
-    transition: background .12s, color .12s, border-color .12s;
+    transition: background .12s, color .12s, border-color .12s,
+                opacity .25s ease, transform .25s ease;
     white-space: nowrap; line-height: 1.3; text-align: center;
     min-width: 0;
   }
@@ -137,6 +138,44 @@
   .token .squad-b { color: #1E5DD4; }
   .token.active .squad-g { color: var(--gold); }
   .token.active .squad-b { color: #93C5FD; }
+
+  /* Once a team is selected, the token grid hides entirely and a small pill
+     with the team label + a down chevron appears at the top-right of the
+     header (above the home button). Tapping the pill re-shows the grid so
+     the user can pick another team. The View Transitions API (when
+     supported) animates the active token flying from its grid cell up to
+     the header pill; otherwise the swap is instant. */
+  .token.active { view-transition-name: active-team-token; }
+  .token-grid.collapsed { display: none; }
+  /* Suppress the duplicate name when the token is hidden inside a collapsed
+     grid — the header pill below claims the same name to drive the morph. */
+  .token-grid.collapsed .token.active { view-transition-name: none; }
+
+  .header-team {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top));
+    right: max(20px, env(safe-area-inset-right));
+    display: inline-flex; align-items: center; gap: 5px;
+    appearance: none; cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    color: var(--navy); background: var(--cream);
+    border: 1.5px solid var(--cream-edge);
+    padding: 4px 11px; border-radius: 999px;
+    line-height: 1; white-space: nowrap;
+    transition: background .12s, border-color .12s;
+  }
+  .header-team[hidden] { display: none; }
+  .header-team:hover { border-color: var(--navy); background: #fff; }
+  .header-team:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .header-team:not([hidden]) { view-transition-name: active-team-token; }
+  .header-team-chevron {
+    width: 12px; height: 12px;
+    fill: none; stroke: var(--navy); stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .header-team .squad { font-weight: 800; margin-left: 2px; }
+  .header-team .squad-g { color: #B68500; }
+  .header-team .squad-b { color: #1E5DD4; }
 
   /* INSTALL HINT — only shown when installable + not yet dismissed + not already standalone */
   .install-hint {
@@ -177,6 +216,11 @@
     border-top: 1px dashed var(--cream-edge);
   }
   .action-bar[hidden] { display: none; }
+  /* Grid hidden? Drop the dashed separator + extra spacing — the action-bar
+     would otherwise appear with a stray rule above it. */
+  .token-grid.collapsed + .action-bar {
+    border-top: none; margin-top: 0; padding-top: 0;
+  }
 
   .filter-row {
     display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;
@@ -735,8 +779,9 @@
     .button-row .action-btn { padding: 5px 9px; font-size: 10.5px; }
     .button-row .action-btn .action-icon { font-size: 11px; }
     .button-row .action-btn .action-caret { font-size: 8px; }
-    .header-home { padding: 3px 9px; font-size: 10.5px; bottom: 6px; right: max(14px, env(safe-area-inset-right)); }
-    .header-home .action-label { display: none; }
+    .header-home { padding: 4px 11px; font-size: 11px; bottom: 6px; right: max(14px, env(safe-area-inset-right)); gap: 5px; }
+    .header-team { padding: 3px 9px; font-size: 10.5px; right: max(14px, env(safe-area-inset-right)); gap: 4px; }
+    .header-team-chevron { width: 11px; height: 11px; }
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
@@ -782,6 +827,10 @@
         <div id="updated-stamp" class="updated-stamp">Loading…</div>
       </div>
     </div>
+    <button class="header-team" id="team-pill" type="button" hidden aria-label="Show all teams">
+      <span class="header-team-label" id="team-pill-label"></span>
+      <svg class="header-team-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
     <button class="header-home" id="clear-btn" type="button" hidden>
       <span class="action-icon" aria-hidden="true">↩</span>
       <span class="action-label">Home</span>
@@ -898,6 +947,23 @@ try {
   const saved = JSON.parse(localStorage.getItem(FILTER_KEY) ?? 'null');
   if (saved && typeof saved === 'object') activeFilters = { ...DEFAULT_FILTERS, ...saved };
 } catch { /* private mode / corrupt — fall back to defaults */ }
+
+// Last-selected team, persisted across reloads so a user landing on the
+// bare URL goes straight back to their team. URL hash still wins on initial
+// load — explicit deep links override the stored preference.
+const TEAM_KEY = 'lcjru-team';
+function loadSavedTeam() {
+  try {
+    const id = localStorage.getItem(TEAM_KEY);
+    return id && SLUG_BY_ID[id] ? id : null;
+  } catch { return null; }
+}
+function saveTeam(teamId) {
+  try {
+    if (teamId) localStorage.setItem(TEAM_KEY, teamId);
+    else localStorage.removeItem(TEAM_KEY);
+  } catch { /* private mode */ }
+}
 
 const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>';
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
@@ -1670,12 +1736,63 @@ function toggleCalPopover() {
   else openCalPopover();
 }
 
-function selectTeam(teamId, pushState = true) {
+// Runs `apply` inside a view transition when supported — `view-transition-name`
+// on .token.active and the header pill means the active token morphs between
+// its grid cell and the header pill instead of jump-cutting. Falls back to a
+// plain call elsewhere.
+function withTokenAnimation(apply) {
+  if (document.startViewTransition) document.startViewTransition(apply);
+  else apply();
+}
+
+// Sync the header team pill (visibility + label) with the current state.
+// When `collapsed`, the grid is hidden and the pill stands in for it; the
+// pill mirrors the active token's HTML so the squad colours carry across.
+function syncTeamPill(teamId, collapsed) {
+  const pill = document.getElementById('team-pill');
+  const label = document.getElementById('team-pill-label');
+  if (!pill || !label) return;
+  if (teamId && collapsed) {
+    const token = document.querySelector(`.token[data-team="${teamId}"]`);
+    label.innerHTML = token?.innerHTML ?? '';
+    pill.setAttribute('aria-label', `${token?.getAttribute('aria-label') ?? token?.textContent ?? 'Team'} — show all teams`);
+    pill.removeAttribute('hidden');
+  } else {
+    pill.setAttribute('hidden', '');
+    label.innerHTML = '';
+  }
+}
+
+// Toggle the token-grid collapsed state. The pill takes over when collapsed,
+// so any caller of this function also wants the pill to follow suit.
+function setTokensCollapsed(collapsed, { animate = true } = {}) {
+  const grid = document.getElementById('team-tokens');
+  if (!grid) return;
+  const apply = () => {
+    grid.classList.toggle('collapsed', collapsed);
+    syncTeamPill(currentTeam, collapsed);
+  };
+  if (animate) withTokenAnimation(apply);
+  else apply();
+}
+
+function selectTeam(teamId, pushState = true, { animate = true } = {}) {
+  const previousTeam = currentTeam;
   currentTeam = teamId;
 
-  document.querySelectorAll('.token').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.team === teamId);
-  });
+  // The active class swap + collapsed toggle + pill swap drive the View
+  // Transitions animation, so they must all happen inside the same callback —
+  // otherwise the browser captures snapshots that don't reflect the user's
+  // intent (e.g. label crossfade between teams won't fire).
+  const applyTokenState = () => {
+    document.querySelectorAll('.token').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.team === teamId);
+    });
+    document.getElementById('team-tokens').classList.toggle('collapsed', !!teamId);
+    syncTeamPill(teamId, !!teamId);
+  };
+  if (animate && previousTeam !== teamId) withTokenAnimation(applyTokenState);
+  else applyTokenState();
 
   const actionBar = document.getElementById('action-bar');
   const homeBtn = document.getElementById('clear-btn');
@@ -1689,6 +1806,9 @@ function selectTeam(teamId, pushState = true) {
     document.getElementById('cal-google').href =
       `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
   }
+
+  // Persist the choice so a returning user lands on their team.
+  saveTeam(teamId);
 
   const slug = teamId ? SLUG_BY_ID[teamId] : '';
   if (pushState) {
@@ -1754,6 +1874,14 @@ function trackRowExpand(row) {
 document.getElementById('copy-link-btn').addEventListener('click', () => { trackEvent('share-link'); copyTeamLink(); });
 document.getElementById('cal-copy-ics').addEventListener('click', () => { trackEvent('cal-copy-ics'); copyIcsUrl(); });
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
+
+// The header pill is the visible signpost for the collapsed selection;
+// tapping it brings the full grid back so the user can switch teams without
+// first going home. The pill itself disappears (the morph plays in reverse).
+document.getElementById('team-pill').addEventListener('click', () => {
+  trackEvent('team-pill-expand');
+  setTokensCollapsed(false);
+});
 
 // Filter toggles — flip the bit, persist, re-render the active team's view.
 function syncFilterButtons() {
@@ -1953,9 +2081,12 @@ async function init() {
     stamp.style.color = '#F0A030';
   }
 
-  const initialTeam = readHash();
+  // Hash wins (deep links beat preferences); otherwise fall back to the
+  // previously selected team from localStorage. The first paint shouldn't
+  // animate — the grid jumps straight to its collapsed state.
+  const initialTeam = readHash() ?? loadSavedTeam();
   if (initialTeam) {
-    selectTeam(initialTeam, false);
+    selectTeam(initialTeam, false, { animate: false });
   } else {
     render(data, null);
   }
