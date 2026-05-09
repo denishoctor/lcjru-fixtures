@@ -46,6 +46,17 @@
   .header-left { display: flex; flex-direction: column; gap: 2px; }
   .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
   .title-block h1 { font-size: 26px; margin: 2px 0 0; font-weight: 800; letter-spacing: -.5px; }
+  .title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+  .title-row h1 { margin: 0; }
+  .beta-pill {
+    display: inline-flex; align-items: center;
+    font-size: 10px; font-weight: 800; color: var(--navy);
+    background: var(--gold);
+    padding: 3px 9px; border-radius: 999px;
+    letter-spacing: 1px; line-height: 1; white-space: nowrap;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
   .header-right a { color: #fff; font-weight: 700; font-size: 12px; text-decoration: none; }
   .header-right a:hover { text-decoration: underline; }
 
@@ -111,7 +122,12 @@
   <div class="header">
     <div class="header-left">
       <div class="eyebrow">Lane Cove JRU</div>
-      <div class="title-block"><h1>Venues — 2026</h1></div>
+      <div class="title-block">
+        <div class="title-row">
+          <h1>Venues — 2026</h1>
+          <span class="beta-pill" aria-label="App is in beta">Beta</span>
+        </div>
+      </div>
     </div>
     <div class="header-right"><a href="index.html">← Fixtures</a></div>
   </div>
@@ -123,7 +139,7 @@
   <div id="venues-list"></div>
 
   <div class="footer-note">
-    Lane Cove Junior Rugby · 2026 · Got something to add? Edit <code>scripts/config.mjs</code> and open a PR. · <a href="index.html">Fixtures</a>
+    Lane Cove Junior Rugby · 2026 · Beta — under active development. Spotted a bug? Use Feedback. · Got something to add? Edit <code>scripts/config.mjs</code> and open a PR. · <a href="index.html">Fixtures</a> · <a href="mailto:denishoctor@gmail.com?subject=LCJRUApp%20Feedback">Feedback</a>
   </div>
 </div>
 
