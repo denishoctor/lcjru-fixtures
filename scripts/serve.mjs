@@ -27,6 +27,10 @@ const MIME = {
   '.json': 'application/json',
   '.ics':  'text/calendar',
   '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.svg':  'image/svg+xml',
+  '.webp': 'image/webp',
   '.ico':  'image/x-icon',
 };
 

@@ -49,7 +49,14 @@ window.LCJRU_CONFIG = {
     },
     "Keirle Park": {
       "suburb": "Manly",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/keirle-park.jpg",
+          "caption": "Pitch layout — TT1–TT8 plus MOD1, MOD2",
+          "asOf": "2026-03"
+        }
+      }
     },
     "Lofberg Oval": {
       "suburb": "West Pymble",
@@ -105,7 +112,20 @@ window.LCJRU_CONFIG = {
     },
     "Tunks Park": {
       "suburb": "Cammeray",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/tunks-park.jpg",
+          "caption": "Pitch layout — TT1–TT6, M1–M2, plus Sports Field 5",
+          "asOf": "2026-03"
+        },
+        "parking": "Limited at the ground — if you see a park on the way down, take it. Allow 5 min to walk to the fields (under the bridge, at the back).",
+        "coffee": {
+          "onsite": "Coffee cart at the entrance",
+          "nearby": "Cafés along Sailors Bay Rd — grab one on the way in."
+        },
+        "notes": "Welcome to Tunks — Brothers Ave, Northbridge. Hosted by Norths Pirates."
+      }
     },
     "Wakehurst Rugby Park": {
       "suburb": "Belrose",

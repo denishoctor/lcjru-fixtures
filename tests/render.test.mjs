@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -134,8 +134,8 @@ test('parseVenue: unknown venue falls back to generic maps URL', () => {
 });
 
 test('parseVenue: empty/falsy returns sentinel', () => {
-  assert.deepEqual(parseVenue('',   VENUES), { display: '', pitch: null, mapsUrl: '#' });
-  assert.deepEqual(parseVenue(null, VENUES), { display: '', pitch: null, mapsUrl: '#' });
+  assert.deepEqual(parseVenue('',   VENUES), { display: '', pitch: null, mapsUrl: '#', base: null, hasDetails: false });
+  assert.deepEqual(parseVenue(null, VENUES), { display: '', pitch: null, mapsUrl: '#', base: null, hasDetails: false });
 });
 
 test('parseVenue: field number suffix stripped and returned as pitch', () => {
@@ -155,4 +155,182 @@ test('parseVenue: minis pitch format "Tryon Oval M2 (U8/U9)"', () => {
   const r = parseVenue('Tryon Oval M2 (U8/U9)', VENUES);
   assert.equal(r.display, 'Tryon Oval, East Lindfield');
   assert.equal(r.pitch,   'M2');
+});
+
+// ── parseVenue: hasDetails + base ────────────────────────────────────────────
+
+const VENUES_WITH_DETAILS = {
+  'Tantallon Oval': { suburb: 'Lane Cove North', mapsUrl: 'https://maps.example.com/tantallon' },
+  'Keirle Park':    { suburb: 'Manly',           mapsUrl: 'https://maps.example.com/keirle',
+    details: { map: { src: 'assets/venues/keirle-park.jpg', caption: 'Pitch layout', asOf: '2026-03' } },
+  },
+  'Tryon Oval':     { suburb: 'East Lindfield',  mapsUrl: 'https://maps.example.com/tryon',
+    details: {
+      map:     { src: 'assets/venues/tryon-oval.jpg', asOf: '2026-03' },
+      parking: 'Tight on game day.',
+      coffee:  { onsite: 'Kiosk', nearby: 'Café up the road.' },
+      notes:   'Watch for low sun.\nDouble-check pitch number.',
+    },
+  },
+};
+
+test('parseVenue: hasDetails true when venue has details block', () => {
+  const r = parseVenue('Keirle Park', VENUES_WITH_DETAILS);
+  assert.equal(r.hasDetails, true);
+  assert.equal(r.base, 'Keirle Park');
+});
+
+test('parseVenue: hasDetails false when venue lacks details block', () => {
+  const r = parseVenue('Tantallon Oval', VENUES_WITH_DETAILS);
+  assert.equal(r.hasDetails, false);
+  assert.equal(r.base, 'Tantallon Oval');
+});
+
+test('parseVenue: unknown venue → base null, hasDetails false', () => {
+  const r = parseVenue('Mystery Park', VENUES_WITH_DETAILS);
+  assert.equal(r.base, null);
+  assert.equal(r.hasDetails, false);
+});
+
+test('parseVenue: minis format propagates hasDetails', () => {
+  const r = parseVenue('Tryon Oval M2 (U8/U9)', VENUES_WITH_DETAILS);
+  assert.equal(r.base, 'Tryon Oval');
+  assert.equal(r.hasDetails, true);
+});
+
+// ── venueSlug ─────────────────────────────────────────────────────────────────
+
+test('venueSlug: plain name', () => {
+  assert.equal(venueSlug('Tantallon Oval'), 'tantallon-oval');
+});
+
+test('venueSlug: handles parens', () => {
+  assert.equal(venueSlug('Mark Taylor Oval (Waitara Oval)'), 'mark-taylor-oval-waitara-oval');
+});
+
+test('venueSlug: strips apostrophes (curly + straight)', () => {
+  assert.equal(venueSlug("O'Connor Reserve"), 'oconnor-reserve');
+  assert.equal(venueSlug('O’Sullivan Park'),  'osullivan-park');
+});
+
+test('venueSlug: collapses multiple separators', () => {
+  assert.equal(venueSlug('AR  Hurst   Reserve'), 'ar-hurst-reserve');
+});
+
+test('venueSlug: empty / null → empty string', () => {
+  assert.equal(venueSlug(''),    '');
+  assert.equal(venueSlug(null),  '');
+});
+
+// ── renderVenueDetails ────────────────────────────────────────────────────────
+
+test('renderVenueDetails: empty string when venue has no details', () => {
+  assert.equal(renderVenueDetails('Tantallon Oval', VENUES_WITH_DETAILS), '');
+});
+
+test('renderVenueDetails: empty string for unknown venue', () => {
+  assert.equal(renderVenueDetails('Nowhere', VENUES_WITH_DETAILS), '');
+});
+
+test('renderVenueDetails: includes map src and asOf caption', () => {
+  const html = renderVenueDetails('Keirle Park', VENUES_WITH_DETAILS);
+  assert.ok(html.includes('assets/venues/keirle-park.jpg'), 'map src');
+  assert.ok(html.includes('Pitch layout'),                   'caption');
+  assert.ok(html.includes('Layout as of Mar 2026'),          'asOf caption rendered');
+  assert.ok(html.includes('venue-map-link'),                 'wraps img in link to fullsize');
+});
+
+test('renderVenueDetails: assetPrefix prepended to map src', () => {
+  const html = renderVenueDetails('Keirle Park', VENUES_WITH_DETAILS, { assetPrefix: '../' });
+  assert.ok(html.includes('../assets/venues/keirle-park.jpg'));
+});
+
+test('renderVenueDetails: includes parking, coffee onsite + nearby, notes', () => {
+  const html = renderVenueDetails('Tryon Oval', VENUES_WITH_DETAILS);
+  assert.ok(html.includes('Tight on game day.'));
+  assert.ok(html.includes('<strong>Onsite:</strong> Kiosk'));
+  assert.ok(html.includes('<strong>Nearby:</strong> Café up the road.'));
+  assert.ok(html.includes('Watch for low sun.<br>Double-check pitch number.'),
+    'notes preserves newlines as <br>');
+});
+
+test('renderVenueDetails: escapes html in user-supplied text', () => {
+  const venues = { 'Hostile Park': { suburb: '', mapsUrl: '#',
+    details: { parking: '<script>alert(1)</script>' },
+  } };
+  const html = renderVenueDetails('Hostile Park', venues);
+  assert.ok(!html.includes('<script>'));
+  assert.ok(html.includes('&lt;script&gt;'));
+});
+
+// ── renderEventDetails ────────────────────────────────────────────────────────
+
+test('renderEventDetails: empty string when no details block', () => {
+  assert.equal(renderEventDetails({ id: 'x', title: 'Y' }), '');
+  assert.equal(renderEventDetails(null), '');
+  assert.equal(renderEventDetails(undefined), '');
+});
+
+test('renderEventDetails: body splits on blank lines into paragraphs', () => {
+  const html = renderEventDetails({ details: { body: 'Para one.\n\nPara two.' } });
+  assert.ok(html.includes('<p class="event-body">Para one.</p>'));
+  assert.ok(html.includes('<p class="event-body">Para two.</p>'));
+});
+
+test('renderEventDetails: single newlines inside a paragraph become <br>', () => {
+  const html = renderEventDetails({ details: { body: 'Line a\nLine b' } });
+  assert.ok(html.includes('Line a<br>Line b'));
+});
+
+test('renderEventDetails: highlights render as <ul>', () => {
+  const html = renderEventDetails({ details: { highlights: ['Bar setup', 'Coffee cart'] } });
+  assert.ok(html.includes('<ul class="event-highlights">'));
+  assert.ok(html.includes('<li>Bar setup</li>'));
+  assert.ok(html.includes('<li>Coffee cart</li>'));
+});
+
+test('renderEventDetails: steps render as <ol>', () => {
+  const html = renderEventDetails({ details: { steps: ['Step 1', 'Step 2'] } });
+  assert.ok(html.includes('<ol class="event-steps">'));
+  assert.ok(html.includes('<li>Step 1</li>'));
+});
+
+test('renderEventDetails: cta renders as a button-styled link', () => {
+  const html = renderEventDetails({ details: { cta: { label: 'Buy tickets', url: 'https://example.com/x' } } });
+  assert.ok(html.includes('class="event-cta-btn"'));
+  assert.ok(html.includes('href="https://example.com/x"'));
+  assert.ok(html.includes('Buy tickets ↗'));
+  assert.ok(html.includes('target="_blank"'));
+});
+
+test('renderEventDetails: cta omitted when label or url missing', () => {
+  assert.equal(renderEventDetails({ details: { cta: { label: 'X' } } }), '');
+  assert.equal(renderEventDetails({ details: { cta: { url: '#' } } }), '');
+});
+
+test('renderEventDetails: escapes html in body, highlights, steps, cta', () => {
+  const html = renderEventDetails({ details: {
+    body: '<b>nope</b>',
+    highlights: ['<i>foo</i>'],
+    steps: ['<script>x</script>'],
+    cta: { label: '<x>L', url: 'javascript:alert(1)' },
+  }});
+  assert.ok(!html.includes('<b>nope</b>'));
+  assert.ok(html.includes('&lt;b&gt;nope&lt;/b&gt;'));
+  assert.ok(html.includes('&lt;i&gt;foo&lt;/i&gt;'));
+  assert.ok(html.includes('&lt;script&gt;x&lt;/script&gt;'));
+  assert.ok(html.includes('&lt;x&gt;L'));
+  // url is esc()'d but not validated; that's a separate concern from XSS in attribute context
+  assert.ok(html.includes('href="javascript:alert(1)"'));
+});
+
+test('renderEventDetails: order is body → highlights → steps → cta', () => {
+  const html = renderEventDetails({ details: {
+    body: 'B', highlights: ['H'], steps: ['S'], cta: { label: 'C', url: '#' },
+  }});
+  const iBody = html.indexOf('event-body');
+  const iHi   = html.indexOf('event-highlights');
+  const iSt   = html.indexOf('event-steps');
+  const iCta  = html.indexOf('event-cta-btn');
+  assert.ok(iBody < iHi && iHi < iSt && iSt < iCta);
 });

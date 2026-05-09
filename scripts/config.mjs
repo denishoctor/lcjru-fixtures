@@ -45,7 +45,11 @@ export const VENUES = {
   'Eric Tweedale Field':             { suburb: 'Merrylands',      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia' },
   'Hassall Park':                    { suburb: 'St Ives',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia' },
   'James Morgan Reserve':            { suburb: 'Cromer',          mapsUrl: 'https://www.google.com/maps/search/?api=1&query=James+Morgan+Reserve+Fisher+Rd+N+%26+Carawa+Rd%2C+Cromer+NSW+2099%2C+Australia' },
-  'Keirle Park':                     { suburb: 'Manly',           mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia' },
+  'Keirle Park':                     { suburb: 'Manly',           mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia',
+    details: {
+      map: { src: 'assets/venues/keirle-park.jpg', caption: 'Pitch layout — TT1–TT8 plus MOD1, MOD2', asOf: '2026-03' },
+    },
+  },
   'Lofberg Oval':                    { suburb: 'West Pymble',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia' },
   'Mark Taylor Oval':                { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
   'Mark Taylor Oval (Waitara Oval)': { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
@@ -59,7 +63,14 @@ export const VENUES = {
   'Tantallon Oval':                  { suburb: 'Lane Cove North', mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia' },
   'Taplin Park':                     { suburb: 'Drummoyne',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taplin+Park%2C+Bayswater+St%2C+Drummoyne+NSW+2047%2C+Australia' },
   'Tryon Oval':                      { suburb: 'East Lindfield',  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tryon+Oval+62a+Tryon+Rd%2C+East+Lindfield+NSW+2070%2C+Australia' },
-  'Tunks Park':                      { suburb: 'Cammeray',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia' },
+  'Tunks Park':                      { suburb: 'Cammeray',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia',
+    details: {
+      map:     { src: 'assets/venues/tunks-park.jpg', caption: 'Pitch layout — TT1–TT6, M1–M2, plus Sports Field 5', asOf: '2026-03' },
+      parking: 'Limited at the ground — if you see a park on the way down, take it. Allow 5 min to walk to the fields (under the bridge, at the back).',
+      coffee:  { onsite: 'Coffee cart at the entrance', nearby: 'Cafés along Sailors Bay Rd — grab one on the way in.' },
+      notes:   'Welcome to Tunks — Brothers Ave, Northbridge. Hosted by Norths Pirates.',
+    },
+  },
   'Wakehurst Rugby Park':            { suburb: 'Belrose',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Wakehurst+Rugby+Park+Forest+Way+%26+Waldon+Rd%2C+Belrose+NSW+2085%2C+Australia' },
   'Woollahra Oval':                  { suburb: 'Rose Bay',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Woollahra+Oval%2C+50+O%27Sullivan+Rd%2C+Rose+Bay+NSW+2029%2C+Australia' },
 };
