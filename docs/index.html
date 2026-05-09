@@ -196,7 +196,7 @@
   }
   .home-intro-sub {
     font-size: 13px; color: var(--muted); line-height: 1.5;
-    margin: 0; max-width: 580px; margin: 0 auto;
+    max-width: 580px; margin: 0 auto;
   }
   .home-cta {
     display: inline-flex; gap: 6px; align-items: center;
@@ -764,7 +764,6 @@ function renderHomeMatchRow(match, { isNextUp = false, mode = 'fixture' } = {}) 
     const letter = { win: 'W', loss: 'L', draw: 'D' }[sc] || '·';
     leftCol = `<span class="home-row-result ${sc}"><span class="home-row-result-letter">${letter}</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
   } else {
-    const dt = new Date(match.dateTime);
     const dow = fmtDow(match.dateTime);
     const time = fmtTime(match.dateTime);
     const showTime = time !== '12:00am';
