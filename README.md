@@ -39,6 +39,25 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 
 ---
 
+## Calendar feed caching
+
+Subscribed `.ics` feeds refresh on the calendar app's schedule, not when we publish:
+
+- **Apple Calendar** honours `X-PUBLISHED-TTL: PT6H` in each feed — refreshes roughly hourly.
+- **Google Calendar** ignores publisher hints and polls every 12–24 hours.
+
+A content change can take up to a day to appear on a subscriber's device. Re-subscribing to the same URL within that window can serve a stale fetch from Google's CDN even after GitHub Pages has the new file.
+
+**Workaround for stale subscribers:** append any query string to the webcal URL and re-subscribe — GitHub Pages ignores the query string but Google treats it as a new URL and fetches from origin:
+
+```
+webcal://denishoctor.github.io/lcjru-fixtures/u7-gold.ics?refresh=1
+```
+
+Useful when communicating a known release to existing subscribers. Don't bake a permanent `?v=N` into the published links — it only helps users who manually re-subscribe (existing subscribers keep polling the URL they already hold), and it fragments shared links across the club.
+
+---
+
 ## UI features
 
 - **Home page** — at-a-glance summary when no team is selected:
