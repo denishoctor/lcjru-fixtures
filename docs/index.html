@@ -184,6 +184,46 @@
   }
   .feature-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
 
+  /* HOME — compact intro + at-a-glance sections */
+  .home-intro {
+    padding: 22px 28px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .home-intro h2 {
+    font-size: 19px; font-weight: 800; color: var(--navy);
+    margin: 0 0 6px; letter-spacing: -.3px;
+  }
+  .home-intro-sub {
+    font-size: 13px; color: var(--muted); line-height: 1.5;
+    margin: 0; max-width: 580px; margin: 0 auto;
+  }
+  .home-cta {
+    display: inline-flex; gap: 6px; align-items: center;
+    margin-top: 14px;
+    background: var(--cream); color: var(--navy);
+    border: 1.5px solid var(--cream-edge);
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px;
+    letter-spacing: .2px;
+  }
+  .home-cta::before { content: "↑"; font-weight: 800; }
+  .home-outro {
+    padding: 26px 28px 32px;
+    border-top: 1px solid var(--rule);
+    background: #FAFAF7;
+  }
+  .home-outro-title {
+    font-size: 11px; font-weight: 800; color: var(--navy);
+    text-transform: uppercase; letter-spacing: 1.2px;
+    margin: 0 0 12px; text-align: center;
+  }
+  .home-empty {
+    padding: 18px 28px; font-size: 13px;
+    color: var(--muted); font-style: italic; text-align: center;
+    border-bottom: 1px solid var(--rule);
+  }
+
   /* SECTION HEADER */
   .section-header {
     padding: 7px 28px;
@@ -192,6 +232,11 @@
     border-bottom: 1px solid var(--rule);
     text-transform: uppercase; letter-spacing: 2px;
     font-size: 10px; font-weight: 700; color: var(--navy);
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  }
+  .section-header .section-meta {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    color: var(--muted); text-transform: none;
   }
 
   /* ROW */
@@ -504,6 +549,9 @@
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
+    .home-intro { padding: 18px 16px 14px; }
+    .home-outro { padding: 22px 16px 26px; }
+    .home-empty { padding: 14px 16px; }
     /* keep 2-column on mobile — tighten spacing and sizing */
     .lineup-panel { padding: 10px 10px 14px; }
     .lineup-panel.open { gap: 0 8px; }
@@ -626,30 +674,148 @@ const PIN_SVG     = '<svg class="icon-pin" viewBox="0 0 24 24" aria-hidden="true
 const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 const CAL_SVG     = '<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
 
-function renderWelcome() {
-  return `
-    <div class="welcome">
-      <h2>Find your team's games</h2>
-      <p class="welcome-sub">Venues, kick-off times and results for all Lane Cove JRU teams —<br>updated automatically from the official draw.</p>
-      <div class="welcome-cta">↑ Select your team above to get started</div>
+// Returns [Sat 00:00, Mon 00:00) for the weekend offset relative to now.
+// offset 0 = current/upcoming weekend (Sun is treated as part of the current weekend);
+// offset -1 = the previous weekend.
+function weekendRange(now, offset = 0) {
+  const d = new Date(now);
+  const dow = d.getDay(); // 0=Sun, 6=Sat
+  const daysToSat = dow === 0 ? -1 : (dow === 6 ? 0 : 6 - dow);
+  const sat = new Date(d.getFullYear(), d.getMonth(), d.getDate() + daysToSat + offset * 7);
+  sat.setHours(0, 0, 0, 0);
+  const monAfter = new Date(sat);
+  monAfter.setDate(sat.getDate() + 2);
+  return [sat, monAfter];
+}
+
+function fmtWeekendLabel(sat) {
+  const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
+  const f = (d, opts) => d.toLocaleDateString('en-AU', { ...opts, timeZone: 'Australia/Sydney' });
+  if (sat.getMonth() === sun.getMonth()) {
+    return `${f(sat, { weekday: 'short' })} ${sat.getDate()} – ${f(sun, { weekday: 'short' })} ${f(sun, { day: 'numeric', month: 'short' })}`;
+  }
+  return `${f(sat, { weekday: 'short', day: 'numeric', month: 'short' })} – ${f(sun, { weekday: 'short', day: 'numeric', month: 'short' })}`;
+}
+
+function sectionHeader(title, meta = '') {
+  const metaHtml = meta ? `<span class="section-meta">${esc(meta)}</span>` : '';
+  return `<div class="section-header"><span>${esc(title)}</span>${metaHtml}</div>`;
+}
+
+function renderHomePage() {
+  const now = new Date();
+  const [thisSat, thisEnd] = weekendRange(now, 0);
+  const [lastSat, lastEnd] = weekendRange(now, -1);
+
+  const allMatches = fixturesData?.matches ?? [];
+  const allEvents  = eventsData ?? [];
+  const matchInRange = (m, [s, e]) => {
+    const dt = new Date(m.dateTime);
+    return dt >= s && dt < e;
+  };
+  const eventInRange = (ev, [s, e]) => {
+    const dt = eventDt(ev);
+    return dt && dt >= s && dt < e;
+  };
+
+  // This weekend: real fixtures + special events. Skip "round" placeholder events
+  // (their info is already in fixtures) and notes.
+  const thisWeekend = [
+    ...allMatches.filter(m => matchInRange(m, [thisSat, thisEnd]))
+      .map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m })),
+    ...allEvents.filter(e =>
+      e.type === 'event' && e.variant !== 'round' &&
+      e.status !== 'cancelled' && eventInRange(e, [thisSat, thisEnd])
+    ).map(e => ({ kind: 'event', dt: eventDt(e), item: e })),
+  ].sort((a, b) => a.dt - b.dt);
+
+  // Last weekend: only matches (results most relevant; skip placeholder events)
+  const lastWeekend = allMatches
+    .filter(m => matchInRange(m, [lastSat, lastEnd]))
+    .map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m }))
+    .sort((a, b) => a.dt - b.dt);
+
+  // Coming up: special events after this weekend, next ~12 weeks. Skips rounds + notes
+  // + cancelled/completed. Capped to a digestible list.
+  const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
+  const upcomingEvents = allEvents
+    .filter(e =>
+      e.type === 'event' && e.variant !== 'round' &&
+      e.status !== 'cancelled' && e.status !== 'completed' &&
+      eventInRange(e, [thisEnd, horizon])
+    )
+    .map(e => ({ kind: 'event', dt: eventDt(e), item: e }))
+    .sort((a, b) => a.dt - b.dt)
+    .slice(0, 6);
+
+  const teamCount = Object.keys(TEAM_SLUGS).length;
+
+  let html = `
+    <div class="home-intro">
+      <h2>What's on at Lane Cove Junior Rugby</h2>
+      <p class="home-intro-sub">Live draw, results and club events for all ${teamCount} LCJRU minis &amp; juniors teams. Tantallon Oval is our home ground — most weekends we travel across Sydney for grading and competition rounds.</p>
+      <div class="home-cta">Select a team above for full schedule, calendar sync &amp; team sheets</div>
+    </div>`;
+
+  // This weekend
+  html += sectionHeader('This weekend', fmtWeekendLabel(thisSat));
+  if (thisWeekend.length === 0) {
+    html += `<div class="home-empty">No games scheduled this weekend.</div>`;
+  } else {
+    let markedNext = false;
+    for (const { kind, item } of thisWeekend) {
+      if (kind === 'match') {
+        const isNext = !markedNext && new Date(item.dateTime) >= now;
+        if (isNext) markedNext = true;
+        html += renderMatch(item, isNext);
+      } else {
+        html += renderEvent(item);
+      }
+    }
+  }
+
+  // Last weekend
+  html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastSat));
+  if (lastWeekend.length === 0) {
+    html += `<div class="home-empty">No matches played last weekend.</div>`;
+  } else {
+    for (const { item } of lastWeekend) html += renderMatch(item, false);
+  }
+
+  // Coming up
+  if (upcomingEvents.length > 0) {
+    html += sectionHeader('Coming up', 'Galas, club events &amp; trips');
+    for (const { item } of upcomingEvents) html += renderEvent(item);
+  }
+
+  html += `
+    <div class="home-outro">
+      <p class="home-outro-title">How to use this page</p>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-icon">📍</div>
           <div class="feature-title">Live draw</div>
-          <div class="feature-desc">Venues, pitch numbers and kick-off times. Updated hourly, with extra checks on game day.</div>
+          <div class="feature-desc">Venues, pitch numbers and kick-off times sourced from Rugby Xplorer. Updated hourly, with extra checks on game day.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📅</div>
           <div class="feature-title">Calendar sync</div>
-          <div class="feature-desc">Add your team's games to Google Calendar or Apple Calendar. Updates automatically when the draw changes.</div>
+          <div class="feature-desc">Subscribe your team's games to Google or Apple Calendar — updates automatically when the draw changes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">Team sheets</div>
+          <div class="feature-desc">Tap any fixture row to see starters, reserves, coaches and the appointed referee — published before kick-off.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔗</div>
-          <div class="feature-title">Share your team</div>
+          <div class="feature-title">Share with the team</div>
           <div class="feature-desc">Every team has a direct link — drop it in your WhatsApp group so parents land straight on their fixtures.</div>
         </div>
       </div>
     </div>`;
+
+  return html;
 }
 
 // ── lineups ───────────────────────────────────────────────────────────────────
@@ -1006,9 +1172,41 @@ function renderMatch(match, isNextUp) {
     </div>`;
 }
 
+function injectPanelsAndHandlers() {
+  // Inject panels in reverse desired order (afterend always inserts directly after the row,
+  // so the latest insertion ends up first). Final DOM: row → tabs? → lineup? → venue?.
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
+    const hasLineup = row.classList.contains('has-lineup');
+    const hasVenue  = row.classList.contains('has-venue-details');
+    if (hasVenue) {
+      const venuePanel = document.createElement('div');
+      venuePanel.className = 'venue-panel';
+      venuePanel.id = `venue-${row.dataset.matchId}`;
+      row.insertAdjacentElement('afterend', venuePanel);
+    }
+    if (hasLineup) {
+      const lineupPanel = document.createElement('div');
+      lineupPanel.className = 'lineup-panel';
+      lineupPanel.id = `lineup-${row.dataset.matchId}`;
+      row.insertAdjacentElement('afterend', lineupPanel);
+    }
+    if (hasLineup && hasVenue) {
+      const tabs = document.createElement('div');
+      tabs.className = 'panel-tabs';
+      tabs.id = `tabs-${row.dataset.matchId}`;
+      tabs.innerHTML =
+        '<button class="panel-tab active" data-tab="lineup" type="button">Lineup</button>' +
+        '<button class="panel-tab" data-tab="venue" type="button">Venue</button>';
+      row.insertAdjacentElement('afterend', tabs);
+    }
+  });
+  attachExpandHandlers();
+}
+
 function render(data, teamId) {
   if (!teamId) {
-    document.getElementById('calendar').innerHTML = renderWelcome();
+    document.getElementById('calendar').innerHTML = renderHomePage();
+    injectPanelsAndHandlers();
     return;
   }
 
@@ -1082,36 +1280,7 @@ function render(data, teamId) {
   }
 
   document.getElementById('calendar').innerHTML = html;
-
-  // Inject panels in reverse desired order (afterend always inserts directly after the row,
-  // so the latest insertion ends up first). Final DOM: row → tabs? → lineup? → venue?.
-  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
-    const hasLineup = row.classList.contains('has-lineup');
-    const hasVenue  = row.classList.contains('has-venue-details');
-    if (hasVenue) {
-      const venuePanel = document.createElement('div');
-      venuePanel.className = 'venue-panel';
-      venuePanel.id = `venue-${row.dataset.matchId}`;
-      row.insertAdjacentElement('afterend', venuePanel);
-    }
-    if (hasLineup) {
-      const lineupPanel = document.createElement('div');
-      lineupPanel.className = 'lineup-panel';
-      lineupPanel.id = `lineup-${row.dataset.matchId}`;
-      row.insertAdjacentElement('afterend', lineupPanel);
-    }
-    if (hasLineup && hasVenue) {
-      const tabs = document.createElement('div');
-      tabs.className = 'panel-tabs';
-      tabs.id = `tabs-${row.dataset.matchId}`;
-      tabs.innerHTML =
-        '<button class="panel-tab active" data-tab="lineup" type="button">Lineup</button>' +
-        '<button class="panel-tab" data-tab="venue" type="button">Venue</button>';
-      row.insertAdjacentElement('afterend', tabs);
-    }
-  });
-
-  attachExpandHandlers();
+  injectPanelsAndHandlers();
 }
 
 // ── team selection & URL hash ─────────────────────────────────────────────────
