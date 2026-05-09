@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; manifest-src 'self'; worker-src 'self'">
 <title>Venues — Lane Cove Junior Rugby 2026</title>
-<link rel="icon" href="https://digitalshift-assets.sfo2.cdn.digitaloceanspaces.com/pw/bacc8d3f-26ad-40d6-8a7f-e81787bacf96/favicon-1600636355774638552.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#021444">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LCJRU">
+<meta name="format-detection" content="telephone=no">
 <style>
   :root {
     --navy: #021444;
@@ -21,12 +30,17 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     margin: 0; background: #FAFAFA; color: var(--ink);
     -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .page { max-width: 900px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
 
   .header {
     background: var(--navy); color: #fff;
-    padding: 20px 28px; display: flex; align-items: center;
+    padding: 20px 28px;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-left: max(28px, env(safe-area-inset-left));
+    padding-right: max(28px, env(safe-area-inset-right));
+    display: flex; align-items: center;
     justify-content: space-between; border-bottom: 6px solid var(--gold); gap: 16px;
   }
   .header-left { display: flex; flex-direction: column; gap: 2px; }
@@ -75,19 +89,13 @@
     letter-spacing: .3px;
   }
   .venue-meta {
-    display: grid; grid-template-columns: max-content 1fr;
-    gap: 6px 14px; margin: 0 0 14px; font-size: 13px; line-height: 1.45;
+    margin: 0 0 14px; font-size: 13px; line-height: 1.45; color: var(--ink);
   }
-  .venue-meta dt {
+  .venue-meta-row { margin: 0 0 6px; }
+  .venue-meta-row:last-child { margin-bottom: 0; }
+  .venue-meta-label {
     font-size: 10px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted); padding-top: 2px;
-  }
-  .venue-meta dd { margin: 0; color: var(--ink); }
-  .venue-meta dd strong { color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; margin-right: 4px; }
-  @media (max-width: 480px) {
-    .venue-meta { grid-template-columns: 1fr; gap: 2px 0; }
-    .venue-meta dt { padding-top: 8px; }
-    .venue-meta dt:first-of-type { padding-top: 0; }
+    letter-spacing: 1px; color: var(--muted); margin-right: 6px;
   }
 
   .footer-note {
@@ -149,6 +157,15 @@ document.getElementById('venues-list').innerHTML = names.map(n => renderCard(n, 
 if (location.hash) {
   const target = document.querySelector(location.hash);
   if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+}
+
+// Register the same service worker as index.html so this page works offline
+// when reached from the installed app.
+if ('serviceWorker' in navigator
+    && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* best-effort */ });
+  });
 }
 </script>
 </body>
