@@ -12,6 +12,12 @@ const required = [
   'config.js',
   'render.mjs',
   'index.html',
+  'manifest.webmanifest',
+  'sw.js',
+  'assets/icon-192.png',
+  'assets/icon-512.png',
+  'assets/icon-512-maskable.png',
+  'assets/apple-touch-icon-180.png',
   ...Object.keys(TEAM_SLUGS).map(slug => `${slug}.ics`),
 ];
 

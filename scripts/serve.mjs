@@ -17,17 +17,18 @@ const DOCS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs
 const PORT = Number(process.env.PORT) || 3000;
 
 const MIME = {
-  '.html': 'text/html; charset=utf-8',
-  '.js':   'application/javascript',
-  '.mjs':  'application/javascript',
-  '.json': 'application/json',
-  '.ics':  'text/calendar',
-  '.png':  'image/png',
-  '.jpg':  'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.svg':  'image/svg+xml',
-  '.webp': 'image/webp',
-  '.ico':  'image/x-icon',
+  '.html':         'text/html; charset=utf-8',
+  '.js':           'application/javascript',
+  '.mjs':          'application/javascript',
+  '.json':         'application/json',
+  '.webmanifest':  'application/manifest+json',
+  '.ics':          'text/calendar',
+  '.png':          'image/png',
+  '.jpg':          'image/jpeg',
+  '.jpeg':         'image/jpeg',
+  '.svg':          'image/svg+xml',
+  '.webp':         'image/webp',
+  '.ico':          'image/x-icon',
 };
 
 const server = http.createServer((req, res) => {
