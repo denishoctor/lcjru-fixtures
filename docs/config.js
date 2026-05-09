@@ -106,6 +106,11 @@ window.LCJRU_CONFIG = {
       "suburb": "Lane Cove North",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia",
       "details": {
+        "map": {
+          "src": "assets/venues/tantallon-oval.jpg",
+          "caption": "Pitch layout — TT1–TT4 (also labelled A, B, C, D in the draw)",
+          "asOf": "2026-05"
+        },
         "parking": "Space at the club, far side of the Oval and on nearby streets.",
         "coffee": {
           "onsite": "Cart on site."
