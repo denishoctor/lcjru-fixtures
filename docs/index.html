@@ -1739,6 +1739,7 @@ document.getElementById('filter-group').addEventListener('click', (e) => {
   const key = btn.dataset.filter;
   activeFilters[key] = !activeFilters[key];
   try { localStorage.setItem(FILTER_KEY, JSON.stringify(activeFilters)); } catch { /* private mode */ }
+  trackEvent(`filter-${key}-${activeFilters[key] ? 'on' : 'off'}`);
   syncFilterButtons();
   if (currentTeam && fixturesData) render(fixturesData, currentTeam);
 });
