@@ -151,18 +151,17 @@
   .install-hint-dismiss:hover { color: var(--navy); }
 
   /* Action bar — filter toggles + Share / Calendar / Home.
-     Desktop: filter-row left, button-row right, single row.
-     Mobile: each row spans full width and stacks. */
+     Single row at every width: filter-row left, button-row right. */
   .action-bar {
     display: flex; gap: 8px 12px; align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-top: 9px; padding-top: 9px;
     border-top: 1px dashed var(--cream-edge);
   }
   .action-bar[hidden] { display: none; }
 
   .filter-row {
-    display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+    display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;
     flex: 1 1 auto; min-width: 0;
   }
   .button-row {
