@@ -41,6 +41,11 @@ If venue, time, new, or removed fixtures are detected, a push notification is se
 
 ## UI features
 
+- **Home page** — at-a-glance summary when no team is selected:
+  - **This weekend** — every LCJRU match for the upcoming Sat–Sun, plus any club events that fall in the window (e.g. Mother's Day)
+  - **Last weekend's results** — scored matches only; walks back up to 6 weeks so a school-holiday or bye weekend doesn't render an empty section
+  - **Coming up** — special non-round events (galas, tours, presentation day) for the next ~12 weeks
+  - Compact single-line rows; tap any row to deep-link into that team's full schedule with the match/event expanded
 - **Minis** (U6–U9) and **Juniors** (U10–U15) token filter rows
 - Shareable URL hash deep-links: `#u11`, `#u13-blue`, etc.
 - Per-match anchor links (`#match-<id>`)
