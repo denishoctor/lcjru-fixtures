@@ -42,7 +42,7 @@ export const EVENTS = [
     id: 'mothers-day-2026', type: 'event',
     title: "Mother's Day",
     description: 'Five games + drinks at Tantallon from 9am.',
-    date: '2026-05-10', time: '14:00',
+    date: '2026-05-10', time: '11:00', endTime: '14:00',
     venue: 'Tantallon Oval',
     teams: ALL_CLUB,
     status: 'confirmed',
