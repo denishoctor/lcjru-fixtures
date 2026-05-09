@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; manifest-src 'self'; worker-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'unsafe-inline'; manifest-src 'self'; worker-src 'self'">
 <title>Lane Cove Junior Rugby — Fixtures 2026</title>
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
@@ -663,6 +663,7 @@
     .lineup-footer { gap: 8px; }
   }
 </style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "93a6d01a924a47bea85518ac3bc8c782", "spa": true}'></script>
 </head>
 <body>
 <div class="page">
@@ -1583,16 +1584,25 @@ document.querySelectorAll('.token').forEach(btn => {
   });
 });
 
-document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink);
-document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
+document.getElementById('copy-link-btn').addEventListener('click', () => { trackTap('share-link'); copyTeamLink(); });
+document.getElementById('cal-copy-ics').addEventListener('click', () => { trackTap('cal-copy-ics'); copyIcsUrl(); });
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
+
+// Calendar-subscribe taps don't change URL on their own, so we briefly nudge the hash
+// to register them with Cloudflare Web Analytics' SPA mode (which counts pushState /
+// replaceState calls as virtual page views), then restore the original hash.
+function trackTap(label) {
+  const original = location.hash;
+  history.replaceState(null, '', '#tap/' + label);
+  setTimeout(() => history.replaceState(null, '', original || location.pathname + location.search), 50);
+}
 
 document.getElementById('cal-trigger').addEventListener('click', (e) => {
   e.stopPropagation();
   toggleCalPopover();
 });
-document.getElementById('cal-ical').addEventListener('click', () => closeCalPopover());
-document.getElementById('cal-google').addEventListener('click', () => closeCalPopover());
+document.getElementById('cal-ical').addEventListener('click', () => { trackTap('cal-ical'); closeCalPopover(); });
+document.getElementById('cal-google').addEventListener('click', () => { trackTap('cal-google'); closeCalPopover(); });
 document.addEventListener('click', (e) => {
   const popover = document.getElementById('cal-popover');
   if (!popover.classList.contains('open')) return;
