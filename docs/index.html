@@ -703,16 +703,17 @@
     .toolbar { padding: 9px 14px; }
     .token-grid { gap: 5px; }
     .token { padding: 5px 4px; font-size: 10.5px; letter-spacing: .2px; }
-    .action-bar { gap: 8px; margin-top: 8px; padding-top: 8px; }
-    .filter-row { flex-basis: 100%; gap: 5px; }
-    .filter-label { font-size: 9.5px; letter-spacing: .8px; }
-    .filter-toggle { padding: 5px 10px 5px 8px; font-size: 10.5px; }
-    .button-row { flex-basis: 100%; gap: 5px; }
-    .button-row .action-btn,
-    .button-row .action-menu { flex: 1 1 0; min-width: 0; }
-    .button-row .action-btn { padding: 6px 9px; justify-content: center; }
-    .button-row .action-menu .action-btn { width: 100%; }
-    .button-row .action-btn-ghost { flex: 0 0 auto; }
+    .action-bar { gap: 6px; margin-top: 8px; padding-top: 8px; }
+    .filter-row { gap: 4px; }
+    .filter-label { display: none; }
+    .filter-toggle { padding: 4px 10px 4px 7px; gap: 5px; font-size: 10.5px; }
+    .button-row { gap: 4px; flex: 0 0 auto; }
+    .button-row .action-btn { padding: 5px 9px; font-size: 10.5px; }
+    .button-row .action-btn .action-icon { font-size: 11px; }
+    .button-row .action-btn .action-caret { font-size: 8px; }
+    /* Home is the lightest action — drop its text on mobile to claw back room. */
+    .button-row .action-btn-ghost { padding: 5px 6px; }
+    .button-row .action-btn-ghost .action-label { display: none; }
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
