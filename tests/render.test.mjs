@@ -275,10 +275,13 @@ test('renderVenueDetails: assetPrefix prepended to map src', () => {
 test('renderVenueDetails: includes parking, coffee onsite + nearby, notes', () => {
   const html = renderVenueDetails('Tryon Oval', VENUES_WITH_DETAILS);
   assert.ok(html.includes('Tight on game day.'));
-  assert.ok(html.includes('<strong>Onsite:</strong> Kiosk'));
-  assert.ok(html.includes('<strong>Nearby:</strong> Café up the road.'));
+  // Coffee row joins onsite + nearby on one line with " · " separator
+  assert.ok(html.includes('Kiosk · Nearby: Café up the road.'));
   assert.ok(html.includes('Watch for low sun.<br>Double-check pitch number.'),
     'notes preserves newlines as <br>');
+  // Inline meta layout: each row is a <p class="venue-meta-row"> with a <span class="venue-meta-label">
+  assert.ok(html.includes('venue-meta-row'));
+  assert.ok(html.includes('venue-meta-label'));
 });
 
 test('renderVenueDetails: escapes html in user-supplied text', () => {
