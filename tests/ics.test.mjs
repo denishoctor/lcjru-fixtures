@@ -8,7 +8,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import { TEAM_SLUGS } from '../scripts/config.mjs';
@@ -16,13 +16,18 @@ import { TEAM_SLUGS } from '../scripts/config.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs');
 
-// Load all ICS files once
-const icsFiles = Object.fromEntries(
-  Object.keys(TEAM_SLUGS).map(slug => {
-    const p = join(DOCS, `${slug}.ics`);
-    return [slug, existsSync(p) ? readFileSync(p, 'utf8') : null];
-  })
-);
+// Per-team feeds plus per-event single-event downloads from docs/events/
+const eventDir = join(DOCS, 'events');
+const teamEntries = Object.keys(TEAM_SLUGS).map(slug => {
+  const p = join(DOCS, `${slug}.ics`);
+  return [slug, existsSync(p) ? readFileSync(p, 'utf8') : null];
+});
+const eventEntries = existsSync(eventDir)
+  ? readdirSync(eventDir).filter(f => f.endsWith('.ics')).map(f =>
+      [`events/${f.replace(/\.ics$/, '')}`, readFileSync(join(eventDir, f), 'utf8')]
+    )
+  : [];
+const icsFiles = Object.fromEntries([...teamEntries, ...eventEntries]);
 
 // Parse an ICS file into a list of { key, params, value } property objects
 function parseICS(content) {
@@ -103,9 +108,11 @@ test('all ICS files include a VTIMEZONE component for Australia/Sydney', () => {
 
 // ── refresh hints ──────────────────────────────────────────────────────────────
 
-test('all ICS files include REFRESH-INTERVAL and X-PUBLISHED-TTL', () => {
+test('team feeds include REFRESH-INTERVAL and X-PUBLISHED-TTL', () => {
+  // Only subscription feeds (per-team) carry refresh hints; per-event downloads
+  // are one-shot imports that don't need them.
   for (const [slug, content] of Object.entries(icsFiles)) {
-    if (!content) continue;
+    if (!content || slug.startsWith('events/')) continue;
     assert.ok(content.includes('REFRESH-INTERVAL'), `${slug}.ics: missing REFRESH-INTERVAL`);
     assert.ok(content.includes('X-PUBLISHED-TTL'), `${slug}.ics: missing X-PUBLISHED-TTL`);
   }
@@ -218,21 +225,21 @@ test('all UIDs are unique within each ICS file', () => {
   }
 });
 
-test('UIDs are unique across all ICS feeds', () => {
-  const seen = new Map(); // uid → slug
+test('per-event ICS files have globally unique UIDs', () => {
+  // Per-team feeds legitimately reuse UIDs (same match in multiple sibling
+  // team views), but per-event downloads each represent a unique real-world
+  // event. A duplicate UID across events/ would cause calendar apps to merge
+  // or overwrite imports.
+  const seen = new Map(); // uid → file
   for (const [slug, content] of Object.entries(icsFiles)) {
-    if (!content) continue;
-    const events = extractEvents(content);
-    for (const event of events) {
+    if (!content || !slug.startsWith('events/')) continue;
+    for (const event of extractEvents(content)) {
       const uid = event.find(p => p.key === 'UID')?.value;
       if (!uid) continue;
-      // UIDs can legitimately appear in multiple feeds (same match, different team view)
-      // but should never be identical within the SAME feed — already checked above.
-      // Cross-feed duplicates for different slugs are acceptable (sibling team views).
+      assert.ok(!seen.has(uid), `${slug}.ics: UID ${uid} also appears in ${seen.get(uid)}.ics`);
+      seen.set(uid, slug);
     }
   }
-  // This test is intentionally a no-op beyond the per-file check above.
-  assert.ok(true);
 });
 
 // ── HTML: calendar subscription UI ───────────────────────────────────────────

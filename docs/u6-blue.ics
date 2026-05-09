@@ -28,7 +28,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-24418d8361c029d49-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260503T080000
 DTEND;TZID=Australia/Sydney:20260503T090000
@@ -47,7 +47,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-22e3b63feb13081ee-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260510T080000
 DTEND;TZID=Australia/Sydney:20260510T090000
@@ -66,7 +66,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-a07d465f1865a1658-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
@@ -85,7 +85,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-2c9f55e45a95805ec-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260524T080000
 DTEND;TZID=Australia/Sydney:20260524T090000
@@ -100,5 +100,209 @@ DESCRIPTION:🏉 Lane Cove Blue 6 vs Killara-West Pymble Gold 6\n📍 Beauc
  📍 Beauchamp Park\, Chatswood  ⏰ 8:40am  vs Wakehurst Wallabies 6\n(Th
  eir separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-5-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260531T090000
+DTEND;TZID=Australia/Sydney:20260531T100000
+SUMMARY:Round 5
+LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Round 5\n📍 Tantallon Oval\, Lane Cove North\n📅 Sun\,
+  31 May · 9:00am AEST\n\nℹ️ Venues and times may change. This calenda
+ r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
+ up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
+ ixtures/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-6-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260614T090000
+DTEND;TZID=Australia/Sydney:20260614T100000
+SUMMARY:Round 6
+LOCATION:Hassall Park\, St Ives\, Sydney NSW
+DESCRIPTION:🏉 Round 6\n📍 Hassall Park\, St Ives\n📅 Sun\, 14 June 
+ · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar update
+ s automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24
+  hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/
+ #u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-gala-rnd-7-2026-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260620T083000
+DTEND;TZID=Australia/Sydney:20260620T123000
+SUMMARY:Inter-District Gala Day — Round 7
+LOCATION:Eric Tweedale Field\, Merrylands\, Sydney NSW
+DESCRIPTION:🏆 Inter-District Gala Day — Round 7\n📍 Eric Tweedale Fi
+ eld\, Merrylands\n📅 Sat\, 20 June · 8:30am AEST\n\nAll Minis grades. D
+ etails TBC.\n\nℹ️ Venues and times may change. This calendar updates a
+ utomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hr
+ s after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6
+ -blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-koth-k1-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;VALUE=DATE:20260628
+DTEND;VALUE=DATE:20260629
+SUMMARY:U6/U7 friendly fixtures
+LOCATION:
+DESCRIPTION:🏉 U6/U7 friendly fixtures\n📅 Sun\, 28 June\n\nDetails TBC
+ \n\nℹ️ Venues and times may change. This calendar updates automaticall
+ y\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a c
+ hange)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-koth-k2-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260705T090000
+DTEND;TZID=Australia/Sydney:20260705T130000
+SUMMARY:King of the Hills — K2 Gala
+LOCATION:Yattenden Oval\, Baulkham Hills\, Sydney NSW
+DESCRIPTION:🏆 King of the Hills — K2 Gala\n📍 Yattenden Oval\, Baulk
+ ham Hills\n📅 Sun\, 5 July · 9:00am AEST\n\nU6/U7 King of the Hills gal
+ a.\n\nℹ️ Venues and times may change. This calendar updates automatica
+ lly\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a
+  change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-8-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260726T090000
+DTEND;TZID=Australia/Sydney:20260726T100000
+SUMMARY:Round 8
+LOCATION:Tunks Park\, Cammeray\, Sydney NSW
+DESCRIPTION:🏉 Round 8\n📍 Tunks Park\, Cammeray\n📅 Sun\, 26 July ·
+  9:00am AEST\n\nℹ️ Venues and times may change. This calendar updates 
+ automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
+ rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
+ 6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-9-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260802T090000
+DTEND;TZID=Australia/Sydney:20260802T100000
+SUMMARY:Round 9
+LOCATION:Mark Taylor Oval\, Waitara\, Sydney NSW
+DESCRIPTION:🏉 Round 9\n📍 Mark Taylor Oval\, Waitara\n📅 Sun\, 2 Aug
+  · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar updat
+ es automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 2
+ 4 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures
+ /#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-10-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260809T090000
+DTEND;TZID=Australia/Sydney:20260809T100000
+SUMMARY:Round 10
+LOCATION:Melwood Oval\, Forestville\, Sydney NSW
+DESCRIPTION:🏉 Round 10\n📍 Melwood Oval\, Forestville\n📅 Sun\, 9 Au
+ g · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upda
+ tes automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 
+ 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixture
+ s/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-11-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260816T090000
+DTEND;TZID=Australia/Sydney:20260816T100000
+SUMMARY:Round 11
+LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
+DESCRIPTION:🏉 Round 11\n📍 Wakehurst Rugby Park\, Belrose\n📅 Sun\, 
+ 16 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar
+  updates automatically\n(Apple Calendar: ~every hour · Google Calendar: u
+ p to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fi
+ xtures/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-12-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260823T090000
+DTEND;TZID=Australia/Sydney:20260823T100000
+SUMMARY:Round 12
+LOCATION:Lofberg Oval\, West Pymble\, Sydney NSW
+DESCRIPTION:🏉 Round 12\n📍 Lofberg Oval\, West Pymble\n📅 Sun\, 23 A
+ ug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
+ ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
+  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
+ es/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-13-u67-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260830T090000
+DTEND;TZID=Australia/Sydney:20260830T100000
+SUMMARY:Round 13 — Final Round
+LOCATION:Hassall Park\, St Ives\, Sydney NSW
+DESCRIPTION:🏉 Round 13 — Final Round\n📍 Hassall Park\, St Ives\n
+ 📅 Sun\, 30 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. Th
+ is calendar updates automatically\n(Apple Calendar: ~every hour · Google 
+ Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.
+ io/lcjru-fixtures/#u6-blue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-tiger-cup-2026-u6-blue@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:Tiger Cup
+LOCATION:Wahroonga\, Sydney NSW
+DESCRIPTION:🏆 Tiger Cup\n📍 Wahroonga\n📅 Sat\, 12 Sept\n\nInvite-ba
+ sed. TBC.\n\nℹ️ Venues and times may change. This calendar updates aut
+ omatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs 
+ after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u6-b
+ lue
+URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
+STATUS:TENTATIVE
 END:VEVENT
 END:VCALENDAR

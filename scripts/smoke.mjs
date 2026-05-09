@@ -95,6 +95,12 @@ await check('u7-gold.ics', `${base}/u7-gold.ics`, [
   ['is iCalendar',       (_, b) => b.startsWith('BEGIN:VCALENDAR')],
 ]);
 
+await check('events/mothers-day-2026.ics', `${base}/events/mothers-day-2026.ics`, [
+  ['HTTP 200',           r      => r.status === 200],
+  ['is iCalendar',       (_, b) => b.startsWith('BEGIN:VCALENDAR')],
+  ['has stable UID',     (_, b) => b.includes('UID:lcjru-event-mothers-day-2026@lcjru.github.io')],
+]);
+
 server.close();
 
 if (failures > 0) {

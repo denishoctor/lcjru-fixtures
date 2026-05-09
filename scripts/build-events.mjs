@@ -14,7 +14,7 @@ const OUT  = join(ROOT, 'docs', 'events.json');
 
 const VALID_STATUS   = new Set(Object.keys(EVENT_STATUS));
 const VALID_TYPES    = new Set(['event', 'note']);
-const VALID_VARIANTS = new Set(['round', 'gala']);
+const VALID_VARIANTS = new Set(['round', 'gala', 'friendly']);
 
 let errors = 0;
 for (const e of EVENTS) {

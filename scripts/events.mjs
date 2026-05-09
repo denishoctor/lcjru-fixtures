@@ -177,7 +177,7 @@ export const EVENTS = [
     status: 'confirmed',
   },
   {
-    id: 'koth-k1-u67', type: 'event',
+    id: 'koth-k1-u67', type: 'event', variant: 'friendly',
     title: 'U6/U7 friendly fixtures',
     description: 'Details TBC',
     date: '2026-06-28',

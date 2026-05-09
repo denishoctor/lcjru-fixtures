@@ -28,7 +28,7 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-66e3dfc89fdc1326c-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T120000
@@ -47,7 +47,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-39a5df2fb853c13ba-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260510T110000
 DTEND;TZID=Australia/Sydney:20260510T120000
@@ -66,7 +66,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-01f2902ee8e69399a-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260517T083000
 DTEND;TZID=Australia/Sydney:20260517T093000
@@ -85,7 +85,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-d57e48a9a0a4c3ae6-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260509T110213Z
+DTSTAMP:20260509T112417Z
 LAST-MODIFIED:20260509T110213Z
 DTSTART;TZID=Australia/Sydney:20260524T083000
 DTEND;TZID=Australia/Sydney:20260524T093000
@@ -100,5 +100,193 @@ DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Warriors 9\n📍 Bantry Bay
  Oval\, Seaforth  ⏰ 10:10am  vs Chatswood Green 9\n(Their separate game 
  — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-5-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260531T090000
+DTEND;TZID=Australia/Sydney:20260531T100000
+SUMMARY:Round 5
+LOCATION:Lofberg Oval\, West Pymble\, Sydney NSW
+DESCRIPTION:🏉 Round 5\n📍 Lofberg Oval\, West Pymble\n📅 Sun\, 31 Ma
+ y · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upda
+ tes automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 
+ 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixture
+ s/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-6-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260614T090000
+DTEND;TZID=Australia/Sydney:20260614T100000
+SUMMARY:Round 6
+LOCATION:James Morgan Reserve\, Cromer\, Sydney NSW
+DESCRIPTION:🏉 Round 6\n📍 James Morgan Reserve\, Cromer\n📅 Sun\, 14
+  June · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar 
+ updates automatically\n(Apple Calendar: ~every hour · Google Calendar: up
+  to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fix
+ tures/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-gala-rnd-7-2026-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260620T083000
+DTEND;TZID=Australia/Sydney:20260620T123000
+SUMMARY:Inter-District Gala Day — Round 7
+LOCATION:Eric Tweedale Field\, Merrylands\, Sydney NSW
+DESCRIPTION:🏆 Inter-District Gala Day — Round 7\n📍 Eric Tweedale Fi
+ eld\, Merrylands\n📅 Sat\, 20 June · 8:30am AEST\n\nAll Minis grades. D
+ etails TBC.\n\nℹ️ Venues and times may change. This calendar updates a
+ utomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hr
+ s after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9
+ -gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-koth-k1-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260628T090000
+DTEND;TZID=Australia/Sydney:20260628T130000
+SUMMARY:King of the Hills — K1 Gala
+LOCATION:Yattenden Oval\, Baulkham Hills\, Sydney NSW
+DESCRIPTION:🏆 King of the Hills — K1 Gala\n📍 Yattenden Oval\, Baulk
+ ham Hills\n📅 Sun\, 28 June · 9:00am AEST\n\nU8/U9 King of the Hills ga
+ la.\n\nℹ️ Venues and times may change. This calendar updates automatic
+ ally\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after 
+ a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-8-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260726T090000
+DTEND;TZID=Australia/Sydney:20260726T100000
+SUMMARY:Round 8
+LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Round 8\n📍 Beauchamp Park\, Chatswood\n📅 Sun\, 26 Ju
+ ly · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
+ ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
+  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
+ es/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-9-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260802T090000
+DTEND;TZID=Australia/Sydney:20260802T100000
+SUMMARY:Round 9
+LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
+DESCRIPTION:🏉 Round 9\n📍 Wakehurst Rugby Park\, Belrose\n📅 Sun\, 2
+  Aug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar u
+ pdates automatically\n(Apple Calendar: ~every hour · Google Calendar: up 
+ to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixt
+ ures/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-10-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260809T090000
+DTEND;TZID=Australia/Sydney:20260809T100000
+SUMMARY:Round 10
+LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Round 10\n📍 Tantallon Oval\, Lane Cove North\n📅 Sun\
+ , 9 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. This calenda
+ r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
+ up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
+ ixtures/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-11-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260816T090000
+DTEND;TZID=Australia/Sydney:20260816T100000
+SUMMARY:Round 11
+LOCATION:Mark Taylor Oval\, Waitara\, Sydney NSW
+DESCRIPTION:🏉 Round 11\n📍 Mark Taylor Oval\, Waitara\n📅 Sun\, 16 A
+ ug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
+ ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
+  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
+ es/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-12-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260823T090000
+DTEND;TZID=Australia/Sydney:20260823T100000
+SUMMARY:Round 12
+LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Round 12\n📍 Beauchamp Park\, Chatswood\n📅 Sun\, 23 A
+ ug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
+ ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
+  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
+ es/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-rnd-13-u89-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;TZID=Australia/Sydney:20260830T090000
+DTEND;TZID=Australia/Sydney:20260830T100000
+SUMMARY:Round 13 — Final Round
+LOCATION:Hassall Park\, St Ives\, Sydney NSW
+DESCRIPTION:🏉 Round 13 — Final Round\n📍 Hassall Park\, St Ives\n
+ 📅 Sun\, 30 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. Th
+ is calendar updates automatically\n(Apple Calendar: ~every hour · Google 
+ Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.
+ io/lcjru-fixtures/#u9-gold
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-event-challenge-cup-2026-u9-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260509T112417Z
+LAST-MODIFIED:20260509T110213Z
+DTSTART;VALUE=DATE:20260913
+DTEND;VALUE=DATE:20260914
+SUMMARY:Chatswood Challenge Cup
+LOCATION:
+DESCRIPTION:🏆 Chatswood Challenge Cup\n📅 Sun\, 13 Sept\n\nInvite-base
+ d. TBC.\n\nℹ️ Venues and times may change. This calendar updates autom
+ atically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs af
+ ter a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gol
+ d
+URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
+STATUS:TENTATIVE
 END:VEVENT
 END:VCALENDAR
