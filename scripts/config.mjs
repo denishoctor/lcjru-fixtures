@@ -42,6 +42,7 @@ export const VENUES = {
   'AR Hurst Reserve':                { suburb: 'Sylvania',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=AR+Hurst+Reserve%2C+The+Esplanade%2C+Sylvania+NSW+2224%2C+Australia' },
   'Bantry Bay Oval':                 { suburb: 'Seaforth',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bantry+Bay+Oval+Reserve+St%2C+Seaforth+NSW+2092%2C+Australia' },
   'Beauchamp Park':                  { suburb: 'Chatswood',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia' },
+  'Boronia Park':                    { suburb: 'Hunters Hill',    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boronia+Park%2C+Park+Rd%2C+Hunters+Hill+NSW+2110%2C+Australia' },
   'Eric Tweedale Field':             { suburb: 'Merrylands',      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia' },
   'Hassall Park':                    { suburb: 'St Ives',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia' },
   'James Morgan Reserve':            { suburb: 'Cromer',          mapsUrl: 'https://www.google.com/maps/search/?api=1&query=James+Morgan+Reserve+Fisher+Rd+N+%26+Carawa+Rd%2C+Cromer+NSW+2099%2C+Australia' },
@@ -60,7 +61,14 @@ export const VENUES = {
   'Porter Reserve':                  { suburb: 'Newport',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Porter+Reserve%2C+Burke+St%2C+Newport+NSW+2106%2C+Australia' },
   'Rawson Oval':                     { suburb: 'Mosman',          mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rawson+Oval%2C+Cross+St%2C+Mosman+NSW+2088%2C+Australia' },
   'Ryde Park':                       { suburb: 'Ryde',            mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ryde+Park%2C+Argyle+Ave%2C+Ryde+NSW+2112%2C+Australia' },
-  'Tantallon Oval':                  { suburb: 'Lane Cove North', mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia' },
+  'Tantallon Oval':                  { suburb: 'Lane Cove North', mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia',
+    details: {
+      // map: { src: 'assets/venues/tantallon-oval.jpg', ... } — added in a follow-up commit once the labelled image is in place.
+      parking: 'Space at the club, far side of the Oval and on nearby streets.',
+      coffee:  { onsite: 'Cart on site.' },
+      notes:   'Home ground for Lane Cove JRU. Canteen + BBQ open with the usual snacks on game days. Bus stops on both sides of Epping Rd if you\'d rather not drive.',
+    },
+  },
   'Taplin Park':                     { suburb: 'Drummoyne',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taplin+Park%2C+Bayswater+St%2C+Drummoyne+NSW+2047%2C+Australia' },
   'Tryon Oval':                      { suburb: 'East Lindfield',  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tryon+Oval+62a+Tryon+Rd%2C+East+Lindfield+NSW+2070%2C+Australia' },
   'Tunks Park':                      { suburb: 'Cammeray',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia',

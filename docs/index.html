@@ -966,16 +966,26 @@ function renderMatch(match, isNextUp) {
 
   const entry     = lineupsData?.[match.id];
   const hasLineup = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
-  const lineupAttrs = hasLineup
-    ? ` has-lineup" data-home-name="${esc(match.home.name)}" data-away-name="${esc(match.away.name)}" data-home-crest="${esc(match.home.crest)}" data-away-crest="${esc(match.away.crest)}`
-    : ``;
-  const venueAttrs = hasDetails
-    ? ` has-venue-details" data-venue-base="${esc(venueBase)}`
-    : ``;
   const expandable = hasLineup || hasDetails;
 
+  const classes = ['row'];
+  if (isNextUp)    classes.push('next-up');
+  if (hasLineup)   classes.push('has-lineup');
+  if (hasDetails)  classes.push('has-venue-details');
+
+  const attrs = [`id="${esc(anchor)}"`, `data-match-id="${esc(match.id)}"`];
+  if (hasLineup) {
+    attrs.push(`data-home-name="${esc(match.home.name)}"`);
+    attrs.push(`data-away-name="${esc(match.away.name)}"`);
+    attrs.push(`data-home-crest="${esc(match.home.crest)}"`);
+    attrs.push(`data-away-crest="${esc(match.away.crest)}"`);
+  }
+  if (hasDetails) {
+    attrs.push(`data-venue-base="${esc(venueBase)}"`);
+  }
+
   return `
-    <div class="row${isNextUp ? ' next-up' : ''}${lineupAttrs}${venueAttrs}" id="${esc(anchor)}" data-match-id="${esc(match.id)}">
+    <div class="${classes.join(' ')}" ${attrs.join(' ')}>
       <a class="row-anchor" href="#${esc(rowHash(anchor))}" title="Copy link">#</a>
       <div class="${badgeCls}">
         <span>${badgeLabel}</span>

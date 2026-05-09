@@ -35,6 +35,10 @@ window.LCJRU_CONFIG = {
       "suburb": "Chatswood",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia"
     },
+    "Boronia Park": {
+      "suburb": "Hunters Hill",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Boronia+Park%2C+Park+Rd%2C+Hunters+Hill+NSW+2110%2C+Australia"
+    },
     "Eric Tweedale Field": {
       "suburb": "Merrylands",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia"
@@ -100,7 +104,14 @@ window.LCJRU_CONFIG = {
     },
     "Tantallon Oval": {
       "suburb": "Lane Cove North",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia",
+      "details": {
+        "parking": "Space at the club, far side of the Oval and on nearby streets.",
+        "coffee": {
+          "onsite": "Cart on site."
+        },
+        "notes": "Home ground for Lane Cove JRU. Canteen + BBQ open with the usual snacks on game days. Bus stops on both sides of Epping Rd if you'd rather not drive."
+      }
     },
     "Taplin Park": {
       "suburb": "Drummoyne",
