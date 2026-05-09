@@ -89,19 +89,13 @@
     letter-spacing: .3px;
   }
   .venue-meta {
-    display: grid; grid-template-columns: max-content 1fr;
-    gap: 6px 14px; margin: 0 0 14px; font-size: 13px; line-height: 1.45;
+    margin: 0 0 14px; font-size: 13px; line-height: 1.45; color: var(--ink);
   }
-  .venue-meta dt {
+  .venue-meta-row { margin: 0 0 6px; }
+  .venue-meta-row:last-child { margin-bottom: 0; }
+  .venue-meta-label {
     font-size: 10px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--muted); padding-top: 2px;
-  }
-  .venue-meta dd { margin: 0; color: var(--ink); }
-  .venue-meta dd strong { color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; margin-right: 4px; }
-  @media (max-width: 480px) {
-    .venue-meta { grid-template-columns: 1fr; gap: 2px 0; }
-    .venue-meta dt { padding-top: 8px; }
-    .venue-meta dt:first-of-type { padding-top: 0; }
+    letter-spacing: 1px; color: var(--muted); margin-right: 6px;
   }
 
   .footer-note {
