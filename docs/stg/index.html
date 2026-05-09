@@ -29,74 +29,112 @@
   /* HEADER */
   .header {
     background: var(--navy); color: #fff;
-    padding: 20px 28px; display: flex; align-items: center;
-    justify-content: space-between; border-bottom: 6px solid var(--gold); gap: 16px;
+    padding: 16px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 6px solid var(--gold);
+    gap: 14px; flex-wrap: wrap;
   }
-  .header-left { display: flex; align-items: center; gap: 18px; }
-  .crest { width: 64px; height: 78px; overflow: hidden; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+  .header-left { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 auto; }
+  .crest { width: 56px; height: 68px; overflow: hidden; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
   .crest img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
-  .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; color: var(--gold); font-weight: 600; }
-  .title-block h1 { font-size: 30px; margin: 4px 0 2px; font-weight: 800; letter-spacing: -.5px; }
-  .title-block .tag { font-size: 13px; color: #C9D2E8; font-style: italic; }
-  .header-right {
-    text-align: right; font-size: 12px; line-height: 1.6; color: #DCE3F2;
-    flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
-  }
-  .header-right a { color: #fff; font-weight: 700; }
-  .header-stamp { font-size: 10px; color: #8A9BBF; }
+  .title-block { min-width: 0; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 10.5px; color: var(--gold); font-weight: 600; }
+  .title-block h1 { font-size: clamp(22px, 5.4vw, 28px); margin: 2px 0 0; font-weight: 800; letter-spacing: -.5px; line-height: 1.1; }
 
-  /* TOOLBAR — team token rows */
+  .live-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 700; color: #fff;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    padding: 5px 11px 5px 9px; border-radius: 999px;
+    letter-spacing: .3px; line-height: 1; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #4ADE80; flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(74,222,128,.18);
+  }
+  .live-sep { color: rgba(255,255,255,.35); }
+  .live-stamp { color: #C9D2E8; font-weight: 600; }
+
+  /* TOOLBAR — team token grid + action bar */
   .toolbar {
-    padding: 10px 20px 8px;
+    padding: 12px 20px;
     background: #FFFDF5;
     border-bottom: 1px solid var(--rule);
   }
-  .token-row {
-    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-  }
-  .token-row + .token-row { margin-top: 5px; }
-  .token-label {
+  .token-group + .token-group { margin-top: 10px; }
+  .token-group-label {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 1.5px; color: var(--muted); width: 60px; flex-shrink: 0;
+    letter-spacing: 1.5px; color: var(--muted);
+    margin: 0 0 5px 2px;
+  }
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 6px;
   }
   .token {
     font-size: 11px; font-weight: 700;
-    padding: 4px 10px; border-radius: 20px;
+    padding: 5px 8px; border-radius: 20px;
     border: 1.5px solid var(--cream-edge);
     background: var(--cream); color: var(--navy);
     cursor: pointer; user-select: none;
     transition: background .12s, color .12s, border-color .12s;
-    white-space: nowrap; line-height: 1.3;
+    white-space: nowrap; line-height: 1.3; text-align: center;
   }
   .token:hover { border-color: var(--navy); }
   .token.active {
     background: var(--navy); color: #fff; border-color: var(--navy);
   }
-  .toolbar-meta {
-    margin-top: 6px;
-    font-size: 10px; color: var(--muted);
-    display: flex; justify-content: space-between; align-items: center;
+
+  /* Action bar — Share / Calendar / Home */
+  .action-bar {
+    display: flex; gap: 6px; justify-content: flex-end; align-items: center;
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--cream-edge);
   }
-  .clear-btn {
-    font-size: 10px; font-weight: 700; color: var(--navy);
-    background: none; border: none; cursor: pointer;
-    padding: 0; text-decoration: underline; display: none;
+  .action-bar[hidden] { display: none; }
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    color: var(--navy); background: var(--cream);
+    border: 1.5px solid var(--cream-edge);
+    padding: 6px 11px; border-radius: 20px;
+    cursor: pointer; line-height: 1; white-space: nowrap;
+    transition: background .12s, border-color .12s, color .12s;
   }
-  .clear-btn.visible { display: inline; }
-  .copy-link-btn {
-    font-size: 10px; font-weight: 700; color: var(--navy);
-    background: none; border: none; cursor: pointer;
-    padding: 0; text-decoration: underline; display: none; white-space: nowrap;
+  .action-btn:hover { border-color: var(--navy); }
+  .action-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+  .action-btn .action-icon { font-size: 12px; line-height: 1; }
+  .action-btn .action-caret { font-size: 9px; opacity: .7; margin-left: 1px; }
+  .action-btn-ghost {
+    background: transparent; border-color: transparent; color: var(--muted);
   }
-  .copy-link-btn.visible { display: inline; }
-  .cal-links { display: none; align-items: center; gap: 6px; }
-  .cal-links.visible { display: flex; }
-  .cal-links a {
-    font-size: 10px; font-weight: 700; color: var(--navy);
-    text-decoration: none; white-space: nowrap;
+  .action-btn-ghost:hover { color: var(--navy); border-color: var(--cream-edge); }
+
+  .action-menu { position: relative; }
+  .action-popover {
+    position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
+    display: none; flex-direction: column;
+    background: #fff; border: 1px solid var(--rule); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    padding: 5px; min-width: 200px;
   }
-  .cal-links a:hover { text-decoration: underline; }
-  .cal-sep { font-size: 10px; color: var(--muted); }
+  .action-popover.open { display: flex; }
+  .action-popover a,
+  .action-popover button {
+    display: flex; align-items: center; gap: 8px;
+    text-align: left; text-decoration: none;
+    font-family: inherit; font-size: 12px; font-weight: 600;
+    color: var(--ink); background: transparent;
+    border: none; padding: 8px 10px; border-radius: 5px;
+    cursor: pointer; line-height: 1.2; white-space: nowrap;
+  }
+  .action-popover a:hover,
+  .action-popover button:hover { background: var(--cream); color: var(--navy); }
+  .action-popover-icon { font-size: 13px; line-height: 1; flex-shrink: 0; width: 16px; text-align: center; }
 
 
   /* WELCOME SCREEN */
@@ -449,10 +487,19 @@
   .note-text { font-size: 12px; color: var(--muted); font-style: italic; flex: 1; margin: 0; }
 
   @media (max-width: 600px) {
-    .header { flex-direction: column; align-items: flex-start; }
-    .header-right { text-align: left; }
+    .header { padding: 12px 16px; gap: 10px; }
+    .header-left { gap: 12px; }
+    .crest { width: 48px; height: 60px; }
+    .live-pill { font-size: 10px; padding: 4px 9px 4px 8px; gap: 6px; }
+    .live-dot { width: 6px; height: 6px; }
     .row { padding: 10px 16px; gap: 10px; }
-    .toolbar { padding: 10px 14px 8px; }
+    .toolbar { padding: 10px 14px; }
+    .token-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+    .token { padding: 5px 6px; }
+    .action-bar { gap: 4px; }
+    .action-btn { padding: 6px 9px; flex: 1 1 0; justify-content: center; }
+    .action-btn-ghost { flex: 0 0 auto; }
+    .action-popover { right: auto; left: 0; min-width: 180px; }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
     .welcome { padding: 28px 16px 36px; }
     /* keep 2-column on mobile — tighten spacing and sizing */
@@ -482,48 +529,71 @@
         <h1>Fixtures &amp; Results 2026</h1>
       </div>
     </div>
-    <div class="header-right">
-      <span>Official draw · live</span>
-      <span id="updated-stamp" class="header-stamp"></span>
-    </div>
+    <span class="live-pill" aria-label="Live, official draw">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span>Live</span>
+      <span class="live-sep" aria-hidden="true">·</span>
+      <span id="updated-stamp" class="live-stamp">Loading…</span>
+    </span>
   </div>
 
   <div class="toolbar">
-    <div class="token-row" id="minis-row">
-      <span class="token-label">Minis</span>
-      <button class="token" data-team="wjBCCDfvXpx8QivYu">U6 Gold</button>
-      <button class="token" data-team="nXtZPbg5Pb9xgh6Rd">U6 Blue</button>
-      <button class="token" data-team="84q7BEamwEAGPZgc2">U7 Gold</button>
-      <button class="token" data-team="52MoHPFgMFTPppk9H">U7 Blue</button>
-      <button class="token" data-team="azWv34qmnBYrN7atm">U8 Gold</button>
-      <button class="token" data-team="5SyzYzsjmbeaPZsXT">U8 Blue</button>
-      <button class="token" data-team="PyQredZ4NJS2JafcM">U9 Gold</button>
-      <button class="token" data-team="BAczTuGAgyjokt4pJ">U9 Blue</button>
-    </div>
-    <div class="token-row" id="xvs-row">
-      <span class="token-label">Juniors</span>
-      <button class="token" data-team="ga3nagC9irHRNJXWn">U10</button>
-      <button class="token" data-team="4nA7pxpFZt6gbj347">U11</button>
-      <button class="token" data-team="BPR2bFQZAuLK4CzLD">U12</button>
-      <button class="token" data-team="AX6MBpn8Xva2AmC8N">U13 Gold</button>
-      <button class="token" data-team="SafHgsHsRWsZmAHbq">U13 Blue</button>
-      <button class="token" data-team="42ZRPX8ej8P9co4Ws">U14 Gold</button>
-      <button class="token" data-team="mtDoyNMX26Bm94nuk">U14</button>
-      <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
-    </div>
-    <div class="toolbar-meta">
-      <div style="display:flex;gap:12px;align-items:center">
-        <button class="copy-link-btn" id="copy-link-btn">🔗 Share</button>
-        <div class="cal-links" id="cal-links">
-          📅
-          <a id="cal-ical" href="#">iCal / webcal</a>
-          <span class="cal-sep">·</span>
-          <a id="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
-          <span class="cal-sep">·</span>
-          <button class="copy-link-btn" id="cal-copy-ics">Copy ICS link</button>
-        </div>
-        <button class="clear-btn" id="clear-btn">Home</button>
+    <div class="token-group">
+      <div class="token-group-label">Minis</div>
+      <div class="token-grid" id="minis-row">
+        <button class="token" data-team="wjBCCDfvXpx8QivYu">U6 Gold</button>
+        <button class="token" data-team="nXtZPbg5Pb9xgh6Rd">U6 Blue</button>
+        <button class="token" data-team="84q7BEamwEAGPZgc2">U7 Gold</button>
+        <button class="token" data-team="52MoHPFgMFTPppk9H">U7 Blue</button>
+        <button class="token" data-team="azWv34qmnBYrN7atm">U8 Gold</button>
+        <button class="token" data-team="5SyzYzsjmbeaPZsXT">U8 Blue</button>
+        <button class="token" data-team="PyQredZ4NJS2JafcM">U9 Gold</button>
+        <button class="token" data-team="BAczTuGAgyjokt4pJ">U9 Blue</button>
       </div>
+    </div>
+    <div class="token-group">
+      <div class="token-group-label">Juniors</div>
+      <div class="token-grid" id="xvs-row">
+        <button class="token" data-team="ga3nagC9irHRNJXWn">U10</button>
+        <button class="token" data-team="4nA7pxpFZt6gbj347">U11</button>
+        <button class="token" data-team="BPR2bFQZAuLK4CzLD">U12</button>
+        <button class="token" data-team="AX6MBpn8Xva2AmC8N">U13 Gold</button>
+        <button class="token" data-team="SafHgsHsRWsZmAHbq">U13 Blue</button>
+        <button class="token" data-team="42ZRPX8ej8P9co4Ws">U14 Gold</button>
+        <button class="token" data-team="mtDoyNMX26Bm94nuk">U14</button>
+        <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
+      </div>
+    </div>
+    <div class="action-bar" id="action-bar" hidden>
+      <button class="action-btn" id="copy-link-btn" type="button">
+        <span class="action-icon" aria-hidden="true">🔗</span>
+        <span class="action-label">Share</span>
+      </button>
+      <div class="action-menu">
+        <button class="action-btn" id="cal-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="cal-popover">
+          <span class="action-icon" aria-hidden="true">📅</span>
+          <span class="action-label">Calendar</span>
+          <span class="action-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="action-popover" id="cal-popover" role="menu">
+          <a id="cal-ical" href="#" role="menuitem">
+            <span class="action-popover-icon" aria-hidden="true">📥</span>
+            <span class="cal-google-label">iCal / webcal</span>
+          </a>
+          <a id="cal-google" href="#" target="_blank" rel="noopener" role="menuitem">
+            <span class="action-popover-icon" aria-hidden="true">🟦</span>
+            <span class="cal-google-label">Google Calendar</span>
+          </a>
+          <button id="cal-copy-ics" type="button" role="menuitem">
+            <span class="action-popover-icon" aria-hidden="true">📎</span>
+            <span class="cal-copy-label">Copy ICS link</span>
+          </button>
+        </div>
+      </div>
+      <button class="action-btn action-btn-ghost" id="clear-btn" type="button">
+        <span class="action-icon" aria-hidden="true">↩</span>
+        <span class="action-label">Home</span>
+      </button>
     </div>
   </div>
 
@@ -1044,9 +1114,9 @@ function copyTeamLink() {
   else if (teamSlug) hash = '#' + teamSlug;
   const url = location.href.split('#')[0] + hash;
   navigator.clipboard.writeText(url).then(() => {
-    const btn = document.getElementById('copy-link-btn');
-    btn.textContent = '✓ Copied';
-    setTimeout(() => { btn.textContent = '🔗 Share'; }, 2000);
+    const labelEl = document.querySelector('#copy-link-btn .action-label');
+    labelEl.textContent = 'Copied';
+    setTimeout(() => { labelEl.textContent = 'Share'; }, 2000);
   });
 }
 
@@ -1054,10 +1124,24 @@ let currentIcsUrl = '';
 
 function copyIcsUrl() {
   navigator.clipboard.writeText(currentIcsUrl).then(() => {
-    const btn = document.getElementById('cal-copy-ics');
-    btn.textContent = '✓ Copied';
-    setTimeout(() => { btn.textContent = 'Copy ICS link'; }, 2000);
+    const labelEl = document.querySelector('#cal-copy-ics .cal-copy-label');
+    labelEl.textContent = 'Copied';
+    setTimeout(() => { labelEl.textContent = 'Copy ICS link'; }, 2000);
+    closeCalPopover();
   });
+}
+
+function openCalPopover() {
+  document.getElementById('cal-popover').classList.add('open');
+  document.getElementById('cal-trigger').setAttribute('aria-expanded', 'true');
+}
+function closeCalPopover() {
+  document.getElementById('cal-popover').classList.remove('open');
+  document.getElementById('cal-trigger').setAttribute('aria-expanded', 'false');
+}
+function toggleCalPopover() {
+  if (document.getElementById('cal-popover').classList.contains('open')) closeCalPopover();
+  else openCalPopover();
 }
 
 function selectTeam(teamId, pushState = true) {
@@ -1068,9 +1152,9 @@ function selectTeam(teamId, pushState = true) {
   });
 
   const isAndroid = /Android/i.test(navigator.userAgent);
-  document.getElementById('clear-btn').classList.toggle('visible', !!teamId);
-  document.getElementById('copy-link-btn').classList.toggle('visible', !!teamId);
-  document.getElementById('cal-links').classList.toggle('visible', !!teamId);
+  const actionBar = document.getElementById('action-bar');
+  if (teamId) actionBar.removeAttribute('hidden');
+  else { actionBar.setAttribute('hidden', ''); closeCalPopover(); }
   document.getElementById('cal-copy-ics').style.display = isAndroid ? 'none' : '';
   if (teamId) {
     const slug = SLUG_BY_ID[teamId];
@@ -1078,13 +1162,14 @@ function selectTeam(teamId, pushState = true) {
     currentIcsUrl = `https://denishoctor.github.io/lcjru-fixtures/${slug}.ics`;
     document.getElementById('cal-ical').href = webcalUrl;
     const googleCalEl = document.getElementById('cal-google');
+    const googleLabelEl = googleCalEl.querySelector('.cal-google-label');
     if (isAndroid) {
       googleCalEl.href = 'https://calendar.google.com/calendar/r/settings/addbyurl';
-      googleCalEl.textContent = 'Google Calendar (web)';
+      googleLabelEl.textContent = 'Google Calendar (web)';
       googleCalEl.title = 'Tap Copy ICS link first, then paste into the form that opens';
     } else {
       googleCalEl.href = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcalUrl)}`;
-      googleCalEl.textContent = 'Google Calendar';
+      googleLabelEl.textContent = 'Google Calendar';
       googleCalEl.title = '';
     }
   }
@@ -1132,6 +1217,23 @@ document.querySelectorAll('.token').forEach(btn => {
 document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink);
 document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
+
+document.getElementById('cal-trigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleCalPopover();
+});
+document.getElementById('cal-ical').addEventListener('click', () => closeCalPopover());
+document.getElementById('cal-google').addEventListener('click', () => closeCalPopover());
+document.addEventListener('click', (e) => {
+  const popover = document.getElementById('cal-popover');
+  if (!popover.classList.contains('open')) return;
+  if (!e.target.closest('#cal-popover') && !e.target.closest('#cal-trigger')) {
+    closeCalPopover();
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCalPopover();
+});
 
 // Delegated calendar click handler: covers row '#' anchors and panel tabs. Survives every
 // render() rebuild because it's bound once on the calendar container.
