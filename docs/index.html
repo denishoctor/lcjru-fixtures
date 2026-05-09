@@ -335,6 +335,33 @@
   .lineup-referee { font-size: 11px; color: var(--muted); }
   .lineup-referee strong { color: var(--navy); font-weight: 600; }
 
+  /* PANEL TABS — shown when a row has both lineup + venue details */
+  .panel-tabs {
+    display: none;
+    padding: 8px 16px 0;
+    background: var(--cream);
+    gap: 4px;
+    border-bottom: 1px solid var(--cream-edge);
+  }
+  .panel-tabs.open { display: flex; }
+  .panel-tab {
+    border: none;
+    background: transparent;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted);
+    padding: 6px 12px 8px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color .12s, border-color .12s;
+  }
+  .panel-tab:hover { color: var(--navy); }
+  .panel-tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--navy);
+  }
+
   /* VENUE PANEL */
   .venue-panel {
     display: none;
@@ -643,17 +670,24 @@ function rowHash(rowId) {
 }
 
 function collapseAll() {
-  document.querySelectorAll('.lineup-panel.open, .venue-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.lineup-panel.open, .venue-panel.open, .panel-tabs.open').forEach(p => p.classList.remove('open'));
   document.querySelectorAll('.row.expanded').forEach(r => r.classList.remove('expanded'));
 }
 
 // Closes any open row, then opens the panels for `row`. Single-open invariant per page.
+// When a row has both a lineup and venue details, only the active tab's panel is shown
+// (default 'lineup'); a tab strip lets the user flip between them.
 function expandRow(row) {
   collapseAll();
   const matchId = row.dataset.matchId;
   const lineupPanel = document.getElementById(`lineup-${matchId}`);
   const venuePanel  = document.getElementById(`venue-${matchId}`);
-  if (venuePanel && row.classList.contains('has-venue-details')) {
+  const tabsBar     = document.getElementById(`tabs-${matchId}`);
+  const hasLineup = row.classList.contains('has-lineup');
+  const hasVenue  = row.classList.contains('has-venue-details');
+
+  // Populate panel content (always — cheap, and lineupsData may have arrived since last open)
+  if (venuePanel && hasVenue) {
     const eventId = row.dataset.eventId;
     const event = eventId ? eventsData?.find(e => e.id === eventId) : null;
     const eventHtml = event ? renderEventDetails(event) : '';
@@ -661,18 +695,50 @@ function expandRow(row) {
       ? renderVenueDetails(row.dataset.venueBase, VENUES, { assetPrefix: VENUE_ASSET_PREFIX })
       : '';
     venuePanel.innerHTML = eventHtml + venueHtml;
-    venuePanel.classList.add('open');
   }
-  if (lineupPanel && row.classList.contains('has-lineup')) {
+  if (lineupPanel && hasLineup) {
     const entry = lineupsData?.[matchId];
     lineupPanel.innerHTML = renderLineupPanel(
       matchId, entry,
       row.dataset.homeName  ?? '', row.dataset.awayName  ?? '',
       row.dataset.homeCrest ?? '', row.dataset.awayCrest ?? '',
     );
-    lineupPanel.classList.add('open');
+  }
+
+  // Reveal the right panels
+  if (hasLineup && hasVenue) {
+    const activeTab = row.dataset.activeTab || 'lineup';
+    setActiveTab(tabsBar, activeTab);
+    tabsBar?.classList.add('open');
+    (activeTab === 'lineup' ? lineupPanel : venuePanel)?.classList.add('open');
+  } else if (hasLineup) {
+    lineupPanel?.classList.add('open');
+  } else if (hasVenue) {
+    venuePanel?.classList.add('open');
   }
   row.classList.add('expanded');
+
+  // Bring the row + open panel into view (works for click expand and deep-link arrival).
+  // requestAnimationFrame waits for layout so the smooth scroll lands on the post-open height.
+  requestAnimationFrame(() => row.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+}
+
+function setActiveTab(tabsBar, tabName) {
+  if (!tabsBar) return;
+  tabsBar.querySelectorAll('.panel-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabName);
+  });
+}
+
+function switchTab(row, tabName) {
+  const matchId = row.dataset.matchId;
+  const tabsBar     = document.getElementById(`tabs-${matchId}`);
+  const lineupPanel = document.getElementById(`lineup-${matchId}`);
+  const venuePanel  = document.getElementById(`venue-${matchId}`);
+  row.dataset.activeTab = tabName;
+  setActiveTab(tabsBar, tabName);
+  lineupPanel?.classList.toggle('open', tabName === 'lineup');
+  venuePanel?.classList.toggle('open', tabName === 'venue');
 }
 
 function attachExpandHandlers() {
@@ -935,19 +1001,32 @@ function render(data, teamId) {
 
   document.getElementById('calendar').innerHTML = html;
 
-  // Inject lineup panels first, then venue panels — afterend prepends, so venue ends up
-  // immediately after the row and lineup ends up below it.
-  document.querySelectorAll('.row.has-lineup').forEach(row => {
-    const panel = document.createElement('div');
-    panel.className = 'lineup-panel';
-    panel.id = `lineup-${row.dataset.matchId}`;
-    row.insertAdjacentElement('afterend', panel);
-  });
-  document.querySelectorAll('.row.has-venue-details').forEach(row => {
-    const panel = document.createElement('div');
-    panel.className = 'venue-panel';
-    panel.id = `venue-${row.dataset.matchId}`;
-    row.insertAdjacentElement('afterend', panel);
+  // Inject panels in reverse desired order (afterend always inserts directly after the row,
+  // so the latest insertion ends up first). Final DOM: row → tabs? → lineup? → venue?.
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
+    const hasLineup = row.classList.contains('has-lineup');
+    const hasVenue  = row.classList.contains('has-venue-details');
+    if (hasVenue) {
+      const venuePanel = document.createElement('div');
+      venuePanel.className = 'venue-panel';
+      venuePanel.id = `venue-${row.dataset.matchId}`;
+      row.insertAdjacentElement('afterend', venuePanel);
+    }
+    if (hasLineup) {
+      const lineupPanel = document.createElement('div');
+      lineupPanel.className = 'lineup-panel';
+      lineupPanel.id = `lineup-${row.dataset.matchId}`;
+      row.insertAdjacentElement('afterend', lineupPanel);
+    }
+    if (hasLineup && hasVenue) {
+      const tabs = document.createElement('div');
+      tabs.className = 'panel-tabs';
+      tabs.id = `tabs-${row.dataset.matchId}`;
+      tabs.innerHTML =
+        '<button class="panel-tab active" data-tab="lineup" type="button">Lineup</button>' +
+        '<button class="panel-tab" data-tab="venue" type="button">Venue</button>';
+      row.insertAdjacentElement('afterend', tabs);
+    }
   });
 
   attachExpandHandlers();
@@ -1030,14 +1109,16 @@ function readHashAnchor() {
 
 // Scrolls the row with id=rowId into view and opens its panel(s) if expandable.
 // Used on initial load and on hashchange so deep links always land on the open state.
+// expandRow handles its own scroll; only non-expandable rows need a manual scroll here.
 function focusRow(rowId) {
   if (!rowId) return;
   const row = document.getElementById(rowId);
   if (!row) return;
-  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
   const isExpandable = row.classList.contains('has-lineup') || row.classList.contains('has-venue-details');
   if (isExpandable && !row.classList.contains('expanded')) {
     expandRow(row);
+  } else {
+    row.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
@@ -1052,10 +1133,21 @@ document.getElementById('copy-link-btn').addEventListener('click', copyTeamLink)
 document.getElementById('cal-copy-ics').addEventListener('click', copyIcsUrl);
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
-// Row '#' anchor: copy the deep link (instead of just navigating to it), expand the row so
-// the sender's view matches what the recipient will land on, and flash a tick for feedback.
-// Delegated so it survives every render() rebuild of the calendar.
+// Delegated calendar click handler: covers row '#' anchors and panel tabs. Survives every
+// render() rebuild because it's bound once on the calendar container.
 document.getElementById('calendar').addEventListener('click', (e) => {
+  // Tab click — switch which panel is shown, no scroll, no URL change.
+  const tabBtn = e.target.closest('.panel-tab');
+  if (tabBtn) {
+    const tabsBar = tabBtn.closest('.panel-tabs');
+    const matchId = tabsBar?.id.replace('tabs-', '');
+    const row = matchId ? document.querySelector(`.row[data-match-id="${matchId}"]`) : null;
+    if (row) switchTab(row, tabBtn.dataset.tab);
+    return;
+  }
+
+  // Row '#' anchor — copy the deep link, expand the row so the sender's view matches what the
+  // recipient will land on, flash a tick for feedback.
   const a = e.target.closest('.row-anchor');
   if (!a) return;
   e.preventDefault();
