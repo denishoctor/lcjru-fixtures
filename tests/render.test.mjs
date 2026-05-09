@@ -144,6 +144,33 @@ test('parseVenue: field number suffix stripped and returned as pitch', () => {
   assert.equal(r.pitch,   'Field 2');
 });
 
+test('parseVenue: "Field N" suffix stripped (xplorer also serves this shape)', () => {
+  const r = parseVenue('Tantallon Oval Field 2', VENUES);
+  assert.equal(r.display, 'Tantallon Oval, Lane Cove North');
+  assert.equal(r.pitch,   'Field 2');
+  assert.equal(r.base,    'Tantallon Oval');
+});
+
+test('parseVenue: prefers the longest matching venue prefix', () => {
+  // "Eric Tweedale Field" (the venue) ends in "Field" — must NOT shorten to "Eric Tweedale"
+  const venues = {
+    'Eric Tweedale Field': { suburb: 'Merrylands', mapsUrl: 'https://maps.example.com/etf' },
+  };
+  const r = parseVenue('Eric Tweedale Field 5', venues);
+  assert.equal(r.base,    'Eric Tweedale Field');
+  assert.equal(r.pitch,   'Field 5');
+  assert.equal(r.display, 'Eric Tweedale Field, Merrylands');
+});
+
+test('parseVenue: keeps free-form suffix verbatim ("No 2 (Front)" etc.)', () => {
+  const venues = {
+    'North Narrabeen Reserve': { suburb: 'Narrabeen', mapsUrl: 'https://maps.example.com/nnr' },
+  };
+  const r = parseVenue('North Narrabeen Reserve No 2 (Front)', venues);
+  assert.equal(r.base,  'North Narrabeen Reserve');
+  assert.equal(r.pitch, 'No 2 (Front)');
+});
+
 test('parseVenue: minis pitch format "Tryon Oval TT1 (U6/U7)"', () => {
   const r = parseVenue('Tryon Oval TT1 (U6/U7)', VENUES);
   assert.equal(r.display, 'Tryon Oval, East Lindfield');

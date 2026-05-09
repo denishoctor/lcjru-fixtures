@@ -65,16 +65,28 @@ export function parseVenue(rawVenue, venues) {
     return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display), base: v ? base : null, hasDetails: !!v?.details };
   }
 
-  // Exact lookup first; then try stripping trailing field number (e.g. "Field 2")
+  // Exact lookup first; then walk word-prefixes from longest to shortest until we find a
+  // venue key. The remainder becomes the pitch label. Handles all of:
+  //   "Keirle Park Field 2"                  → base "Keirle Park",            pitch "Field 2"
+  //   "Eric Tweedale Field 5"                → base "Eric Tweedale Field",    pitch "Field 5"
+  //   "Tantallon Oval 2"                     → base "Tantallon Oval",         pitch "Field 2"
+  //   "North Narrabeen Reserve No 2 (Front)" → base "North Narrabeen Reserve", pitch "No 2 (Front)"
   let base = rawVenue.trim();
   let pitch = null;
   let v = venues[base];
   if (!v) {
-    const fieldMatch = base.match(/^(.+?) (\d+)$/);
-    if (fieldMatch && venues[fieldMatch[1]]) {
-      base  = fieldMatch[1];
-      pitch = `Field ${fieldMatch[2]}`;
-      v     = venues[base];
+    const words = base.split(' ');
+    for (let i = words.length - 1; i >= 1; i--) {
+      const prefix = words.slice(0, i).join(' ');
+      if (venues[prefix]) {
+        base  = prefix;
+        v     = venues[prefix];
+        const suffix = words.slice(i).join(' ').trim();
+        // Bare digits get the friendly "Field N" label; everything else passes through verbatim
+        // (so "Field 5", "No 2 (Front)" etc. render as the council names them).
+        pitch = /^\d+$/.test(suffix) ? `Field ${suffix}` : suffix;
+        break;
+      }
     }
   }
 
