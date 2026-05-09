@@ -108,14 +108,14 @@ window.LCJRU_CONFIG = {
       "details": {
         "map": {
           "src": "assets/venues/tantallon-oval.jpg",
-          "caption": "Pitch layout — TT1–TT4 (also labelled A, B, C, D in the draw)",
+          "caption": "Pitch layout — TT1–TT4 (A, B, C, D in the draw)",
           "asOf": "2026-05"
         },
-        "parking": "Space at the club, far side of the Oval and on nearby streets.",
+        "parking": "At the club, far side of the Oval, and nearby streets.",
         "coffee": {
           "onsite": "Cart on site."
         },
-        "notes": "Home ground for Lane Cove JRU. Canteen + BBQ open with the usual snacks on game days. Bus stops on both sides of Epping Rd if you'd rather not drive."
+        "notes": "Home ground for Lane Cove JRU. Canteen + BBQ on game days. Bus stops on both sides of Epping Rd."
       }
     },
     "Taplin Park": {

@@ -103,10 +103,10 @@ export function venueSlug(baseName) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Renders the venue details block. Order: notes/parking/coffee on top, then the map image,
-// with only the layout caption (asOf + caption text) sitting below the image. Returns ''
-// if the venue has no details. assetPrefix is prepended to map.src so stg pages (which sit
-// one level deeper) can pass '../' to resolve assets/venues/... correctly.
+// Renders the venue details block. Order: notes/parking/coffee on top (each row's title
+// inline with its text), then the map image with only the layout caption beneath. Returns
+// '' if the venue has no details. assetPrefix is prepended to map.src so pages can pass
+// a relative prefix to resolve assets/venues/... correctly.
 export function renderVenueDetails(baseName, venues, { assetPrefix = '' } = {}) {
   const v = venues?.[baseName];
   const d = v?.details;
@@ -118,15 +118,17 @@ export function renderVenueDetails(baseName, venues, { assetPrefix = '' } = {}) 
   if (d.parking) rows.push(['Parking', esc(d.parking).replace(/\n/g, '<br>')]);
   if (d.coffee) {
     const bits = [];
-    if (d.coffee.onsite) bits.push(`<strong>Onsite:</strong> ${esc(d.coffee.onsite)}`);
-    if (d.coffee.nearby) bits.push(`<strong>Nearby:</strong> ${esc(d.coffee.nearby)}`);
-    if (bits.length) rows.push(['Coffee', bits.join('<br>')]);
+    if (d.coffee.onsite) bits.push(esc(d.coffee.onsite));
+    if (d.coffee.nearby) bits.push(`Nearby: ${esc(d.coffee.nearby)}`);
+    if (bits.length) rows.push(['Coffee', bits.join(' · ')]);
   }
   if (d.notes) rows.push(['Notes', esc(d.notes).replace(/\n/g, '<br>')]);
 
   if (rows.length) {
-    const dl = rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('');
-    parts.push(`<dl class="venue-meta">${dl}</dl>`);
+    const inline = rows.map(([k, v]) =>
+      `<p class="venue-meta-row"><span class="venue-meta-label">${esc(k)}</span> ${v}</p>`
+    ).join('');
+    parts.push(`<div class="venue-meta">${inline}</div>`);
   }
 
   if (d.map) {
