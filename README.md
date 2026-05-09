@@ -101,7 +101,7 @@ npm run test:api              # live API integration tests (requires network)
 
 ## Analytics
 
-Page traffic is measured by **Cloudflare Web Analytics** — a privacy-friendly, cookieless beacon loaded on `docs/index.html`. No personal data, no cookies, no consent banner needed. The beacon is set to `spa: true` so each `pushState` / `replaceState` (team selection, lineup expansion, deep-link visits) shows up as a separate page-view path in the CF dashboard. Calendar-subscribe clicks (`cal-ical`, `cal-google`, `cal-copy-ics`, share-link) briefly nudge `location.hash` to `#tap/<label>` so they're visible too. The beacon token lives inline in `index.html`; rotate it from the Cloudflare dashboard if needed.
+**Cloudflare Web Analytics** — privacy-friendly, cookieless, no consent banner. The beacon runs in `spa: true` mode so the existing hash navigation (team selection, lineup expansion, deep-link visits) becomes per-path page views in the CF dashboard. Calendar-subscribe and share-link buttons briefly set `location.hash = '#tap/<label>'` so taps are visible too. Beacon token lives inline in `docs/index.html` — rotate it from the Cloudflare dashboard if needed.
 
 ---
 

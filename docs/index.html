@@ -1584,18 +1584,17 @@ document.querySelectorAll('.token').forEach(btn => {
   });
 });
 
-document.getElementById('copy-link-btn').addEventListener('click', () => { trackTap('share-link'); copyTeamLink(); });
-document.getElementById('cal-copy-ics').addEventListener('click', () => { trackTap('cal-copy-ics'); copyIcsUrl(); });
-document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
-
-// Calendar-subscribe taps don't change URL on their own, so we briefly nudge the hash
-// to register them with Cloudflare Web Analytics' SPA mode (which counts pushState /
-// replaceState calls as virtual page views), then restore the original hash.
+// Briefly nudge the hash so Cloudflare Web Analytics' SPA mode (which counts
+// pushState / replaceState as virtual page views) records the tap, then restore.
 function trackTap(label) {
   const original = location.hash;
   history.replaceState(null, '', '#tap/' + label);
   setTimeout(() => history.replaceState(null, '', original || location.pathname + location.search), 50);
 }
+
+document.getElementById('copy-link-btn').addEventListener('click', () => { trackTap('share-link'); copyTeamLink(); });
+document.getElementById('cal-copy-ics').addEventListener('click', () => { trackTap('cal-copy-ics'); copyIcsUrl(); });
+document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
 document.getElementById('cal-trigger').addEventListener('click', (e) => {
   e.stopPropagation();
