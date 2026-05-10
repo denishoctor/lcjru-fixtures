@@ -1,8 +1,8 @@
 {
-  "updated": "2026-05-10T00:11:10.499Z",
+  "updated": "2026-05-10T03:52:28.634Z",
   "season": "2026",
   "entityId": 30901,
-  "totalMatches": 69,
+  "totalMatches": 70,
   "competitions": [
     {
       "name": "SJRU Grading Gala U13s",
@@ -471,27 +471,27 @@
         },
         {
           "id": "a07ffa61757bcec48",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU XVs Under 11B",
           "compId": "8sAwB257vb8vWAF8q",
           "round": "Round 3",
           "roundLabel": "Round 3",
           "dateTime": "2026-05-09T23:50:00+00:00",
           "venue": "Tantallon Oval",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": null,
           "home": {
             "id": "4nA7pxpFZt6gbj347",
             "name": "Lane Cove 11",
-            "score": "5",
+            "score": "24",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           },
           "away": {
             "id": "8HuRd9baLcQdpqxcN",
             "name": "Newport Breakers 11",
-            "score": "5",
+            "score": "20",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48063.png?v=1712658712730"
           }
         }
@@ -554,27 +554,27 @@
         },
         {
           "id": "8fd92789765eae306",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU XVs Under 12E",
           "compId": "kcmjnQaevmq5BKraX",
           "round": "Round 3",
           "roundLabel": "Round 3",
           "dateTime": "2026-05-10T00:40:00+00:00",
           "venue": "Tantallon Oval",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": null,
           "home": {
             "id": "BPR2bFQZAuLK4CzLD",
             "name": "Lane Cove/St Ives 12",
-            "score": null,
+            "score": "26",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           },
           "away": {
             "id": "FqwwWfiyNSzrDqZu6",
             "name": "Dural Sky 12",
-            "score": null,
+            "score": "26",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53301.png?v=1770942562762"
           }
         }
@@ -800,6 +800,32 @@
             "score": "22",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           }
+        },
+        {
+          "id": "91965622f91da0853",
+          "type": "result",
+          "competition": "SJRU XVs Under 10B",
+          "compId": "P2LopKkh4dpG836Pv",
+          "round": "Round 3",
+          "roundLabel": "Round 3",
+          "dateTime": "2026-05-09T23:00:00+00:00",
+          "venue": "Tantallon Oval",
+          "status": "Result",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": null,
+          "home": {
+            "id": "ga3nagC9irHRNJXWn",
+            "name": "Lane Cove 10",
+            "score": "12",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "EZpiqmNZ7Bk6enSQB",
+            "name": "Wahroonga Black 10",
+            "score": "27",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53596.png?v=1712789407331"
+          }
         }
       ]
     },
@@ -860,27 +886,27 @@
         },
         {
           "id": "f6121916d22435d96",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU XVs Under 14D",
           "compId": "Z7Et6YCcRfeSAqyHM",
           "round": "Round 3",
           "roundLabel": "Round 3",
           "dateTime": "2026-05-10T01:40:00+00:00",
           "venue": "Tantallon Oval",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": null,
           "home": {
             "id": "mtDoyNMX26Bm94nuk",
             "name": "Lane Cove/Lindfield 14",
-            "score": null,
+            "score": "40",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           },
           "away": {
             "id": "L99WJfPkdkpT5wYqG",
             "name": "Mosman Dolphins 14",
-            "score": null,
+            "score": "22",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/41064.png?v=1712801577389"
           }
         }
@@ -943,27 +969,27 @@
         },
         {
           "id": "dbeab38b90ffd0030",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU XVs Under 13F",
           "compId": "fg98mBAXTHsnGv5XK",
           "round": "Round 3",
           "roundLabel": "Round 3",
           "dateTime": "2026-05-10T01:00:00+00:00",
           "venue": "Boronia Park Field 1",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": null,
           "home": {
             "id": "oGBEFzT5A4puuzi4H",
             "name": "Hunters Hill Cerise 13",
-            "score": null,
+            "score": "19",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team-full-size/30899.jpg?v=1712807282139"
           },
           "away": {
             "id": "SafHgsHsRWsZmAHbq",
             "name": "Lane Cove Blue 13",
-            "score": null,
+            "score": "21",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           }
         }
@@ -1026,27 +1052,27 @@
         },
         {
           "id": "434236a5964c39608",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU XVs Under 15B",
           "compId": "dLonQE28B4YTayhQb",
           "round": "Round 3",
           "roundLabel": "Round 3",
           "dateTime": "2026-05-10T02:40:00+00:00",
           "venue": "Tantallon Oval",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": null,
           "home": {
             "id": "LmZzP4t9h9bdYr9Pt",
             "name": "Lane Cove 15",
-            "score": null,
+            "score": "41",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           },
           "away": {
             "id": "sRhSDCGyurAo54jWf",
             "name": "Wahroonga Black 15",
-            "score": null,
+            "score": "19",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53596.png?v=1712789407331"
           }
         }
@@ -1108,32 +1134,6 @@
           }
         },
         {
-          "id": "c9c8cc1d4c80f95c6",
-          "type": "fixture",
-          "competition": "SJRU Minis U6 Tri Time Sunday",
-          "compId": "k4rCbcW4BBmPg5qbM",
-          "round": "Round 2",
-          "roundLabel": "Round 2",
-          "dateTime": "2026-05-09T22:00:00+00:00",
-          "venue": "Tunks Park TT6 (U6/U7)",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": "G-6-14",
-          "home": {
-            "id": "wjBCCDfvXpx8QivYu",
-            "name": "Lane Cove Gold 6",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          },
-          "away": {
-            "id": "Ku2vor6ak4pXw7FA9",
-            "name": "Norths Pirates Gold 6",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-          }
-        },
-        {
           "id": "22e3b63feb13081ee",
           "type": "fixture",
           "competition": "SJRU Minis U6 Tri Time Sunday",
@@ -1157,6 +1157,32 @@
             "name": "Lane Cove Blue 6",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          }
+        },
+        {
+          "id": "c9c8cc1d4c80f95c6",
+          "type": "fixture",
+          "competition": "SJRU Minis U6 Tri Time Sunday",
+          "compId": "k4rCbcW4BBmPg5qbM",
+          "round": "Round 2",
+          "roundLabel": "Round 2",
+          "dateTime": "2026-05-09T22:00:00+00:00",
+          "venue": "Tunks Park TT6 (U6/U7)",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": "G-6-14",
+          "home": {
+            "id": "wjBCCDfvXpx8QivYu",
+            "name": "Lane Cove Gold 6",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "Ku2vor6ak4pXw7FA9",
+            "name": "Norths Pirates Gold 6",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
           }
         },
         {
@@ -1612,32 +1638,6 @@
           }
         },
         {
-          "id": "b597c38c7fdc2ae9c",
-          "type": "fixture",
-          "competition": "SJRU Minis U8 Sunday",
-          "compId": "hvxK25gJJt24GLGPp",
-          "round": "Round 4",
-          "roundLabel": "Round 4",
-          "dateTime": "2026-05-23T22:40:00+00:00",
-          "venue": "Bantry Bay Oval TT1 (U6/U7)",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": "G-8-26",
-          "home": {
-            "id": "5SyzYzsjmbeaPZsXT",
-            "name": "Lane Cove Blue 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          },
-          "away": {
-            "id": "ohBqYch2RBPg4rKdQ",
-            "name": "Wakehurst Kings 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
-          }
-        },
-        {
           "id": "0408067ab7b83599b",
           "type": "fixture",
           "competition": "SJRU Minis U8 Sunday",
@@ -1661,6 +1661,32 @@
             "name": "St Ives 8",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53546.png?v=1712622712123"
+          }
+        },
+        {
+          "id": "b597c38c7fdc2ae9c",
+          "type": "fixture",
+          "competition": "SJRU Minis U8 Sunday",
+          "compId": "hvxK25gJJt24GLGPp",
+          "round": "Round 4",
+          "roundLabel": "Round 4",
+          "dateTime": "2026-05-23T22:40:00+00:00",
+          "venue": "Bantry Bay Oval TT1 (U6/U7)",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": "G-8-26",
+          "home": {
+            "id": "5SyzYzsjmbeaPZsXT",
+            "name": "Lane Cove Blue 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "ohBqYch2RBPg4rKdQ",
+            "name": "Wakehurst Kings 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
           }
         }
       ]
@@ -1748,27 +1774,27 @@
         },
         {
           "id": "39a5df2fb853c13ba",
-          "type": "fixture",
+          "type": "result",
           "competition": "SJRU Minis U9 Sunday",
           "compId": "PiZpEgvHfG2suQqzp",
           "round": "Round 2",
           "roundLabel": "Round 2",
           "dateTime": "2026-05-10T01:00:00+00:00",
           "venue": "Tunks Park M2 (U9)",
-          "status": "Fixture",
+          "status": "Result",
           "isLive": false,
           "isBye": false,
           "matchLabel": "G-9-9",
           "home": {
             "id": "PyQredZ4NJS2JafcM",
             "name": "Lane Cove Gold 9",
-            "score": null,
+            "score": "70",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           },
           "away": {
             "id": "9ogDjvrkGZeL6fxn6",
             "name": "Lindfield 9",
-            "score": null,
+            "score": "25",
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48060.png?v=1712741642942"
           }
         },
@@ -2713,6 +2739,32 @@
       }
     },
     {
+      "id": "a8b67a32ce48b23da",
+      "type": "result",
+      "competition": "SJRU XVs Under 14C",
+      "compId": "nzDecpJLNCpZo3SPy",
+      "round": "Round 2",
+      "roundLabel": "Round 2",
+      "dateTime": "2026-05-03T01:00:00+00:00",
+      "venue": "Lofberg Oval",
+      "status": "Result",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": null,
+      "home": {
+        "id": "9S8N3tpXSYPD585Ap",
+        "name": "Killara-West Pymble 14",
+        "score": "33",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
+      },
+      "away": {
+        "id": "42ZRPX8ej8P9co4Ws",
+        "name": "Lane Cove Gold 14",
+        "score": "10",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
       "id": "66e3dfc89fdc1326c",
       "type": "fixture",
       "competition": "SJRU Minis U9 Sunday",
@@ -2761,32 +2813,6 @@
         "id": "BPR2bFQZAuLK4CzLD",
         "name": "Lane Cove/St Ives 12",
         "score": "12",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      }
-    },
-    {
-      "id": "a8b67a32ce48b23da",
-      "type": "result",
-      "competition": "SJRU XVs Under 14C",
-      "compId": "nzDecpJLNCpZo3SPy",
-      "round": "Round 2",
-      "roundLabel": "Round 2",
-      "dateTime": "2026-05-03T01:00:00+00:00",
-      "venue": "Lofberg Oval",
-      "status": "Result",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": null,
-      "home": {
-        "id": "9S8N3tpXSYPD585Ap",
-        "name": "Killara-West Pymble 14",
-        "score": "33",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30900.png?v=1712740003301"
-      },
-      "away": {
-        "id": "42ZRPX8ej8P9co4Ws",
-        "name": "Lane Cove Gold 14",
-        "score": "10",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
     },
@@ -2895,32 +2921,6 @@
       }
     },
     {
-      "id": "c9c8cc1d4c80f95c6",
-      "type": "fixture",
-      "competition": "SJRU Minis U6 Tri Time Sunday",
-      "compId": "k4rCbcW4BBmPg5qbM",
-      "round": "Round 2",
-      "roundLabel": "Round 2",
-      "dateTime": "2026-05-09T22:00:00+00:00",
-      "venue": "Tunks Park TT6 (U6/U7)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "G-6-14",
-      "home": {
-        "id": "wjBCCDfvXpx8QivYu",
-        "name": "Lane Cove Gold 6",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "Ku2vor6ak4pXw7FA9",
-        "name": "Norths Pirates Gold 6",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-      }
-    },
-    {
       "id": "22e3b63feb13081ee",
       "type": "fixture",
       "competition": "SJRU Minis U6 Tri Time Sunday",
@@ -2944,6 +2944,32 @@
         "name": "Lane Cove Blue 6",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "c9c8cc1d4c80f95c6",
+      "type": "fixture",
+      "competition": "SJRU Minis U6 Tri Time Sunday",
+      "compId": "k4rCbcW4BBmPg5qbM",
+      "round": "Round 2",
+      "roundLabel": "Round 2",
+      "dateTime": "2026-05-09T22:00:00+00:00",
+      "venue": "Tunks Park TT6 (U6/U7)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "G-6-14",
+      "home": {
+        "id": "wjBCCDfvXpx8QivYu",
+        "name": "Lane Cove Gold 6",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "Ku2vor6ak4pXw7FA9",
+        "name": "Norths Pirates Gold 6",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
       }
     },
     {
@@ -2973,29 +2999,29 @@
       }
     },
     {
-      "id": "92ebdcf55a6b98f1d",
-      "type": "fixture",
-      "competition": "SJRU Minis U9 Sunday",
-      "compId": "PiZpEgvHfG2suQqzp",
-      "round": "Round 2",
-      "roundLabel": "Round 2",
-      "dateTime": "2026-05-09T23:20:00+00:00",
-      "venue": "Tunks Park M2 (U9)",
-      "status": "Fixture",
+      "id": "91965622f91da0853",
+      "type": "result",
+      "competition": "SJRU XVs Under 10B",
+      "compId": "P2LopKkh4dpG836Pv",
+      "round": "Round 3",
+      "roundLabel": "Round 3",
+      "dateTime": "2026-05-09T23:00:00+00:00",
+      "venue": "Tantallon Oval",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
-      "matchLabel": "G-9-15",
+      "matchLabel": null,
       "home": {
-        "id": "Ygbs8PhhZbvAo7sYz",
-        "name": "Dee Why White 9",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53286.png?v=1712798529153"
+        "id": "ga3nagC9irHRNJXWn",
+        "name": "Lane Cove 10",
+        "score": "12",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
-        "id": "BAczTuGAgyjokt4pJ",
-        "name": "Lane Cove Blue 9",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+        "id": "EZpiqmNZ7Bk6enSQB",
+        "name": "Wahroonga Black 10",
+        "score": "27",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53596.png?v=1712789407331"
       }
     },
     {
@@ -3025,28 +3051,54 @@
       }
     },
     {
-      "id": "a07ffa61757bcec48",
+      "id": "92ebdcf55a6b98f1d",
       "type": "fixture",
+      "competition": "SJRU Minis U9 Sunday",
+      "compId": "PiZpEgvHfG2suQqzp",
+      "round": "Round 2",
+      "roundLabel": "Round 2",
+      "dateTime": "2026-05-09T23:20:00+00:00",
+      "venue": "Tunks Park M2 (U9)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "G-9-15",
+      "home": {
+        "id": "Ygbs8PhhZbvAo7sYz",
+        "name": "Dee Why White 9",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53286.png?v=1712798529153"
+      },
+      "away": {
+        "id": "BAczTuGAgyjokt4pJ",
+        "name": "Lane Cove Blue 9",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "a07ffa61757bcec48",
+      "type": "result",
       "competition": "SJRU XVs Under 11B",
       "compId": "8sAwB257vb8vWAF8q",
       "round": "Round 3",
       "roundLabel": "Round 3",
       "dateTime": "2026-05-09T23:50:00+00:00",
       "venue": "Tantallon Oval",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": null,
       "home": {
         "id": "4nA7pxpFZt6gbj347",
         "name": "Lane Cove 11",
-        "score": "5",
+        "score": "24",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
         "id": "8HuRd9baLcQdpqxcN",
         "name": "Newport Breakers 11",
-        "score": "5",
+        "score": "20",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48063.png?v=1712658712730"
       }
     },
@@ -3104,105 +3156,105 @@
     },
     {
       "id": "8fd92789765eae306",
-      "type": "fixture",
+      "type": "result",
       "competition": "SJRU XVs Under 12E",
       "compId": "kcmjnQaevmq5BKraX",
       "round": "Round 3",
       "roundLabel": "Round 3",
       "dateTime": "2026-05-10T00:40:00+00:00",
       "venue": "Tantallon Oval",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": null,
       "home": {
         "id": "BPR2bFQZAuLK4CzLD",
         "name": "Lane Cove/St Ives 12",
-        "score": null,
+        "score": "26",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
         "id": "FqwwWfiyNSzrDqZu6",
         "name": "Dural Sky 12",
-        "score": null,
+        "score": "26",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53301.png?v=1770942562762"
       }
     },
     {
       "id": "39a5df2fb853c13ba",
-      "type": "fixture",
+      "type": "result",
       "competition": "SJRU Minis U9 Sunday",
       "compId": "PiZpEgvHfG2suQqzp",
       "round": "Round 2",
       "roundLabel": "Round 2",
       "dateTime": "2026-05-10T01:00:00+00:00",
       "venue": "Tunks Park M2 (U9)",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": "G-9-9",
       "home": {
         "id": "PyQredZ4NJS2JafcM",
         "name": "Lane Cove Gold 9",
-        "score": null,
+        "score": "70",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
         "id": "9ogDjvrkGZeL6fxn6",
         "name": "Lindfield 9",
-        "score": null,
+        "score": "25",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48060.png?v=1712741642942"
       }
     },
     {
       "id": "dbeab38b90ffd0030",
-      "type": "fixture",
+      "type": "result",
       "competition": "SJRU XVs Under 13F",
       "compId": "fg98mBAXTHsnGv5XK",
       "round": "Round 3",
       "roundLabel": "Round 3",
       "dateTime": "2026-05-10T01:00:00+00:00",
       "venue": "Boronia Park Field 1",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": null,
       "home": {
         "id": "oGBEFzT5A4puuzi4H",
         "name": "Hunters Hill Cerise 13",
-        "score": null,
+        "score": "19",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team-full-size/30899.jpg?v=1712807282139"
       },
       "away": {
         "id": "SafHgsHsRWsZmAHbq",
         "name": "Lane Cove Blue 13",
-        "score": null,
+        "score": "21",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
     },
     {
       "id": "f6121916d22435d96",
-      "type": "fixture",
+      "type": "result",
       "competition": "SJRU XVs Under 14D",
       "compId": "Z7Et6YCcRfeSAqyHM",
       "round": "Round 3",
       "roundLabel": "Round 3",
       "dateTime": "2026-05-10T01:40:00+00:00",
       "venue": "Tantallon Oval",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": null,
       "home": {
         "id": "mtDoyNMX26Bm94nuk",
         "name": "Lane Cove/Lindfield 14",
-        "score": null,
+        "score": "40",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
         "id": "L99WJfPkdkpT5wYqG",
         "name": "Mosman Dolphins 14",
-        "score": null,
+        "score": "22",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/41064.png?v=1712801577389"
       }
     },
@@ -3234,27 +3286,27 @@
     },
     {
       "id": "434236a5964c39608",
-      "type": "fixture",
+      "type": "result",
       "competition": "SJRU XVs Under 15B",
       "compId": "dLonQE28B4YTayhQb",
       "round": "Round 3",
       "roundLabel": "Round 3",
       "dateTime": "2026-05-10T02:40:00+00:00",
       "venue": "Tantallon Oval",
-      "status": "Fixture",
+      "status": "Result",
       "isLive": false,
       "isBye": false,
       "matchLabel": null,
       "home": {
         "id": "LmZzP4t9h9bdYr9Pt",
         "name": "Lane Cove 15",
-        "score": null,
+        "score": "41",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       },
       "away": {
         "id": "sRhSDCGyurAo54jWf",
         "name": "Wahroonga Black 15",
-        "score": null,
+        "score": "19",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53596.png?v=1712789407331"
       }
     },
@@ -3311,58 +3363,6 @@
       }
     },
     {
-      "id": "5a1a57e2ba70ce563",
-      "type": "fixture",
-      "competition": "SJRU Minis U8 Sunday",
-      "compId": "hvxK25gJJt24GLGPp",
-      "round": "Round 3",
-      "roundLabel": "Round 3",
-      "dateTime": "2026-05-16T22:40:00+00:00",
-      "venue": "Melwood Oval TT2 (U6s/U7s)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "G-8-20",
-      "home": {
-        "id": "5SyzYzsjmbeaPZsXT",
-        "name": "Lane Cove Blue 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "rxY89HyQFHSSc56D6",
-        "name": "Norths Pirates Red 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-      }
-    },
-    {
-      "id": "ab4a497bfe6427057",
-      "type": "fixture",
-      "competition": "SJRU Minis U8 Sunday",
-      "compId": "hvxK25gJJt24GLGPp",
-      "round": "Round 3",
-      "roundLabel": "Round 3",
-      "dateTime": "2026-05-16T22:40:00+00:00",
-      "venue": "Melwood Oval TT3 (U6s/U7s)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "G-8-21",
-      "home": {
-        "id": "azWv34qmnBYrN7atm",
-        "name": "Lane Cove Gold 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "7bGNHP8djsGgvYMZY",
-        "name": "Norths Pirates Black 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-      }
-    },
-    {
       "id": "a07d465f1865a1658",
       "type": "fixture",
       "competition": "SJRU Minis U6 Tri Time Sunday",
@@ -3412,6 +3412,58 @@
         "name": "St Ives Yellow 6",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53546.png?v=1712622712123"
+      }
+    },
+    {
+      "id": "5a1a57e2ba70ce563",
+      "type": "fixture",
+      "competition": "SJRU Minis U8 Sunday",
+      "compId": "hvxK25gJJt24GLGPp",
+      "round": "Round 3",
+      "roundLabel": "Round 3",
+      "dateTime": "2026-05-16T22:40:00+00:00",
+      "venue": "Melwood Oval TT2 (U6s/U7s)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "G-8-20",
+      "home": {
+        "id": "5SyzYzsjmbeaPZsXT",
+        "name": "Lane Cove Blue 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "rxY89HyQFHSSc56D6",
+        "name": "Norths Pirates Red 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
+      }
+    },
+    {
+      "id": "ab4a497bfe6427057",
+      "type": "fixture",
+      "competition": "SJRU Minis U8 Sunday",
+      "compId": "hvxK25gJJt24GLGPp",
+      "round": "Round 3",
+      "roundLabel": "Round 3",
+      "dateTime": "2026-05-16T22:40:00+00:00",
+      "venue": "Melwood Oval TT3 (U6s/U7s)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "G-8-21",
+      "home": {
+        "id": "azWv34qmnBYrN7atm",
+        "name": "Lane Cove Gold 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "7bGNHP8djsGgvYMZY",
+        "name": "Norths Pirates Black 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
       }
     },
     {
@@ -3519,6 +3571,32 @@
       }
     },
     {
+      "id": "0408067ab7b83599b",
+      "type": "fixture",
+      "competition": "SJRU Minis U8 Sunday",
+      "compId": "hvxK25gJJt24GLGPp",
+      "round": "Round 4",
+      "roundLabel": "Round 4",
+      "dateTime": "2026-05-23T22:40:00+00:00",
+      "venue": "Bantry Bay Oval TT2 (U6/U7)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "G-8-27",
+      "home": {
+        "id": "azWv34qmnBYrN7atm",
+        "name": "Lane Cove Gold 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "mmBoZi7hZRiEknpBh",
+        "name": "St Ives 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53546.png?v=1712622712123"
+      }
+    },
+    {
       "id": "b597c38c7fdc2ae9c",
       "type": "fixture",
       "competition": "SJRU Minis U8 Sunday",
@@ -3568,32 +3646,6 @@
         "name": "Wakehurst Wallabies 6",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
-      }
-    },
-    {
-      "id": "0408067ab7b83599b",
-      "type": "fixture",
-      "competition": "SJRU Minis U8 Sunday",
-      "compId": "hvxK25gJJt24GLGPp",
-      "round": "Round 4",
-      "roundLabel": "Round 4",
-      "dateTime": "2026-05-23T22:40:00+00:00",
-      "venue": "Bantry Bay Oval TT2 (U6/U7)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "G-8-27",
-      "home": {
-        "id": "azWv34qmnBYrN7atm",
-        "name": "Lane Cove Gold 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "mmBoZi7hZRiEknpBh",
-        "name": "St Ives 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53546.png?v=1712622712123"
       }
     },
     {
