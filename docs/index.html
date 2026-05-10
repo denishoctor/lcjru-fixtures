@@ -413,6 +413,11 @@
   .home-row-result.win  { color: var(--green); }
   .home-row-result.loss { color: #b71c1c; }
   .home-row-result.draw { color: var(--muted); }
+  .home-row-result.live { color: #B91C1C; }
+  .home-row-result.live .home-row-result-letter {
+    color: #DC2626;
+    animation: live-pulse 1.2s ease-in-out infinite;
+  }
   .home-row-result-letter { font-weight: 800; margin-right: 4px; }
   .home-row .team-pill { flex-shrink: 0; }
   .team-pill-event {
@@ -537,6 +542,7 @@
   .score-pill.win  { color: var(--green); }
   .score-pill.loss { color: #b71c1c; }
   .score-pill.draw { color: var(--muted); }
+  .score-pill.live { color: var(--ink); }
   .result-badge {
     font-size: 9px; font-weight: 800; text-transform: uppercase;
     letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
@@ -544,6 +550,26 @@
   .result-badge.win  { background: #E8F5E9; color: var(--green); }
   .result-badge.loss { background: #FFEBEE; color: #b71c1c; }
   .result-badge.draw { background: #F5F5F5; color: var(--muted); }
+  .result-badge.live {
+    background: #FEE2E2; color: #B91C1C;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .result-badge.live::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: #DC2626;
+    box-shadow: 0 0 0 2.5px rgba(220,38,38,.22);
+    animation: live-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .55; }
+  }
+  /* Brief flash when a score updates so the change is noticeable. */
+  .score-pill.score-updated { animation: score-flash 1.4s ease-out; }
+  @keyframes score-flash {
+    0%   { background: rgba(255, 200, 0, .55); border-radius: 3px; }
+    100% { background: transparent; border-radius: 3px; }
+  }
 
   .empty { padding: 40px 28px; text-align: center; color: var(--muted); font-size: 14px; }
 
@@ -1018,12 +1044,17 @@ function renderHomeMatchRow(match, { isNextUp = false, mode = 'fixture' } = {}) 
   const href     = slug ? `#${slug}/${rowId(match)}` : '#';
   const { display: loc } = parseVenue(match.venue ?? '', VENUES);
 
-  // Left column: result+score for completed games, day+time for upcoming
+  // Left column: result+score for completed games, day+time for upcoming.
+  // When a fixture is live (Xplorer flag flips on at kick-off for U10+), show
+  // the running score so the home view stays useful during a game.
   let leftCol;
+  const homeHasScore = match.home.score !== null && match.away.score !== null;
   if (mode === 'result') {
     const sc = scoreClass(match);
     const letter = { win: 'W', loss: 'L', draw: 'D' }[sc] || '·';
     leftCol = `<span class="home-row-result ${sc}"><span class="home-row-result-letter">${letter}</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
+  } else if (match.isLive && homeHasScore) {
+    leftCol = `<span class="home-row-result live"><span class="home-row-result-letter">·</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
   } else {
     const dow = fmtDow(match.dateTime);
     const time = fmtTime(match.dateTime);
@@ -1359,23 +1390,165 @@ function switchTab(row, tabName) {
   venuePanel?.classList.toggle('open', tabName === 'venue');
 }
 
-function attachExpandHandlers() {
-  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
-    row.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
-      if (row.classList.contains('expanded')) {
-        collapseAll();
-        const slug = currentTeam ? SLUG_BY_ID[currentTeam] : '';
-        history.replaceState(null, '', slug ? '#' + slug : location.pathname + location.search);
-      } else {
-        expandRow(row);
-        trackRowExpand(row);
-        // Reflect the open state in the URL so refresh / share preserves it.
-        history.replaceState(null, '', '#' + rowHash(row.id));
-      }
-    });
+function attachExpandHandlerToRow(row) {
+  if (!row.classList.contains('has-lineup') && !row.classList.contains('has-venue-details')) return;
+  row.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    if (row.classList.contains('expanded')) {
+      collapseAll();
+      const slug = currentTeam ? SLUG_BY_ID[currentTeam] : '';
+      history.replaceState(null, '', slug ? '#' + slug : location.pathname + location.search);
+    } else {
+      expandRow(row);
+      trackRowExpand(row);
+      // Reflect the open state in the URL so refresh / share preserves it.
+      history.replaceState(null, '', '#' + rowHash(row.id));
+    }
   });
 }
+
+function attachExpandHandlers() {
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(attachExpandHandlerToRow);
+}
+
+// ── live score auto-refresh ───────────────────────────────────────────────────
+//
+// While the tab is visible AND a match is in a live window, refetch
+// fixtures.json every minute and patch in any score changes. Rows are
+// replaced in place (siblings — venue / lineup panels — keep their state),
+// so an expanded team-sheet stays open while scores tick.
+//
+// Freshness floor is whatever CI has committed: refresh-live.yml runs every
+// 5 min during weekend match windows (GitHub Actions cron minimum). The
+// browser can't call the GraphQL endpoint directly because Xplorer's API
+// requires an `origin: xplorer.rugby` header that browsers won't send.
+
+const LIVE_TICK_MS         = 60_000;       // poll cadence while visible
+const LIVE_WINDOW_PRE_MIN  = 5;            // start polling 5 min before kick-off
+const LIVE_WINDOW_POST_MIN = 150;          // stop 2.5 h after kick-off if not yet final
+
+let liveTickTimer    = null;
+let liveFetchInflight = null;
+
+function isLiveCandidate(match) {
+  if (!match || match.isBye) return false;
+  if (match.type === 'result') return false;
+  if (match.isLive) return true;
+  // Backstop: kickoff is recent. Catches the gap before Xplorer flips
+  // isLive on, and the gap between full time and the status flip to Result.
+  const dt = new Date(match.dateTime).getTime();
+  if (!Number.isFinite(dt)) return false;
+  const ageMin = (Date.now() - dt) / 60_000;
+  return ageMin >= -LIVE_WINDOW_PRE_MIN && ageMin <= LIVE_WINDOW_POST_MIN;
+}
+
+function anyLiveCandidate(data) {
+  return Array.isArray(data?.matches) && data.matches.some(isLiveCandidate);
+}
+
+function matchScoreKey(m) {
+  return `${m.type}|${m.isLive ? 1 : 0}|${m.home.score ?? ''}|${m.away.score ?? ''}`;
+}
+
+function cssEscape(s) {
+  return (window.CSS?.escape ?? (x => String(x).replace(/[^a-zA-Z0-9_-]/g, '\\$&')))(s);
+}
+
+function refreshUpdatedStamp(data) {
+  const stamp = document.getElementById('updated-stamp');
+  if (!stamp || !data?.updated) return;
+  const updated = new Date(data.updated);
+  stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
+  })} AEST`;
+  stamp.style.color = '';
+}
+
+function patchMatchRow(match) {
+  const row = document.querySelector(`.row[data-match-id="${cssEscape(match.id)}"]`);
+  if (!row) return false;
+  const wasExpanded = row.classList.contains('expanded');
+  const activeTab   = row.dataset.activeTab;
+  const isNextUp    = row.classList.contains('next-up');
+  const wrap = document.createElement('div');
+  wrap.innerHTML = renderMatch(match, isNextUp);
+  const newRow = wrap.firstElementChild;
+  if (!newRow) return false;
+  if (wasExpanded) newRow.classList.add('expanded');
+  if (activeTab) newRow.dataset.activeTab = activeTab;
+  row.replaceWith(newRow);
+  attachExpandHandlerToRow(newRow);
+  // Brief flash so the score change catches the eye.
+  const scoreEl = newRow.querySelector('[data-score]');
+  if (scoreEl) {
+    scoreEl.classList.add('score-updated');
+    setTimeout(() => scoreEl.classList.remove('score-updated'), 1500);
+  }
+  return true;
+}
+
+function applyLiveUpdate(newData) {
+  if (!newData?.matches || !fixturesData?.matches) return;
+  const oldById = new Map(fixturesData.matches.map(m => [m.id, m]));
+  let mutated = false;
+  let homeNeedsRerender = false;
+  for (const newM of newData.matches) {
+    const oldM = oldById.get(newM.id);
+    if (!oldM || matchScoreKey(oldM) === matchScoreKey(newM)) continue;
+    mutated = true;
+    if (currentTeam) {
+      const patched = patchMatchRow(newM);
+      // If the row isn't on screen for the current team, no DOM change needed.
+      void patched;
+    } else {
+      // Home view: the result/fixture split or the "this weekend" set may shift
+      // when a match transitions, so re-render the whole home view rather than
+      // chasing every structural case.
+      homeNeedsRerender = true;
+    }
+  }
+  if (!mutated) return;
+  fixturesData = newData;
+  refreshUpdatedStamp(newData);
+  if (homeNeedsRerender) render(newData, null);
+}
+
+async function fetchLiveFixtures() {
+  if (liveFetchInflight) return liveFetchInflight;
+  // Bucket the cache-buster to the minute so concurrent tabs share a CDN hit
+  // and the SW stale-while-revalidate gets a fresh fetch each minute.
+  const bucket = Math.floor(Date.now() / 60_000);
+  const url = `${FIXTURES_URL}?live=${bucket}`;
+  liveFetchInflight = fetch(url, { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .then(applyLiveUpdate)
+    .catch(err => { console.warn('[live] poll failed:', err.message); })
+    .finally(() => { liveFetchInflight = null; });
+  return liveFetchInflight;
+}
+
+function liveTick() {
+  if (document.visibilityState !== 'visible') return;
+  if (!fixturesData) return;
+  if (!anyLiveCandidate(fixturesData)) return;
+  fetchLiveFixtures();
+}
+
+function startLiveTicker() {
+  if (liveTickTimer) return;
+  liveTickTimer = setInterval(liveTick, LIVE_TICK_MS);
+  // Fire once on resume so the first refresh doesn't wait a full interval.
+  liveTick();
+}
+
+function stopLiveTicker() {
+  if (liveTickTimer) { clearInterval(liveTickTimer); liveTickTimer = null; }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') startLiveTicker();
+  else stopLiveTicker();
+});
 
 // ── events ────────────────────────────────────────────────────────────────────
 
@@ -1502,8 +1675,13 @@ function renderMatch(match, isNextUp) {
 
   const sc = scoreClass(match);
   const resultLabel = { win: 'Win', loss: 'Loss', draw: 'Draw' }[sc] || '';
-  const scoreHtml = isResult && match.home.score !== null
-    ? `<span class="score-pill ${sc}">${esc(match.home.score)} – ${esc(match.away.score)}</span>${resultLabel ? `<span class="result-badge ${sc}">${resultLabel}</span>` : ''}`
+  const hasScore = match.home.score !== null && match.away.score !== null;
+  const showRunningScore = !isResult && match.isLive && hasScore;
+  const showFinalScore   = isResult && hasScore;
+  const scoreHtml = showFinalScore
+    ? `<span class="score-pill ${sc}" data-score>${esc(match.home.score)} – ${esc(match.away.score)}</span>${resultLabel ? `<span class="result-badge ${sc}" data-result-badge>${resultLabel}</span>` : ''}`
+    : showRunningScore
+    ? `<span class="score-pill live" data-score>${esc(match.home.score)} – ${esc(match.away.score)}</span><span class="result-badge live" data-result-badge>Live</span>`
     : '';
 
   const timeStr = fmtTime(match.dateTime);
@@ -2092,6 +2270,10 @@ async function init() {
   }
 
   requestAnimationFrame(() => focusRow(readHashAnchor()));
+
+  // Kick off the live-score ticker. It self-throttles via visibility and the
+  // anyLiveCandidate gate, so it's a no-op outside match windows.
+  startLiveTicker();
 }
 
 setupInstallHint();

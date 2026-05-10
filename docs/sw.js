@@ -113,6 +113,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (isDataRequest(url)) {
+    // Live-score polling appends `?live=<minute-bucket>` to fixtures.json so a
+    // fresh score doesn't get served from cache. Let those go straight to the
+    // network — caching them would accumulate minute-keyed entries and the
+    // user already has the un-suffixed URL cached as a fallback.
+    if (url.search) return;
     event.respondWith(staleWhileRevalidate(request, DATA_CACHE));
     return;
   }

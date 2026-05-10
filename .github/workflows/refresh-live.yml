@@ -1,0 +1,65 @@
+name: Refresh Live Scores
+
+# Tight cadence during the weekend match windows so live scores don't lag the
+# main 30-minute Refresh Fixtures workflow. GitHub Actions cron has a hard
+# floor of 5 minutes — anything tighter is quantised back to 5.
+#
+# Cron is UTC. Australian DST shifts the offset between AEST (UTC+10) and AEDT
+# (UTC+11), so the windows below are sized to cover both with a small buffer.
+# The rugby season runs autumn–winter (mostly AEST), with AEDT only at the
+# very edges. Skip lineups + events build for speed and to avoid contending
+# with the main workflow's commits.
+
+on:
+  schedule:
+    # Sat AEST 08:00–10:00  ≈  Fri 21:00–23:55 UTC   (covers AEDT case too)
+    # Sun AEST 08:00–10:00  ≈  Sat 21:00–23:55 UTC
+    - cron: '*/5 21-23 * * 5,6'
+    # Sat AEST 10:00–17:55  ≈  Sat 00:00–07:55 UTC
+    - cron: '*/5 0-7 * * 6'
+    # Sun AEST 10:00–14:55  ≈  Sun 00:00–04:55 UTC
+    - cron: '*/5 0-4 * * 0'
+  workflow_dispatch:
+
+# Don't pile up runs if a previous one is still pushing.
+concurrency:
+  group: refresh-live
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch fixtures
+        run: node scripts/fetch-fixtures.mjs
+
+      - name: Commit if scores changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Only fixtures.json and the per-team .ics feeds get refreshed in this
+          # tight loop — config.js, lineups.json, events.json don't change.
+          git add docs/fixtures.json docs/*.ics
+          if git diff --cached --quiet; then
+            echo "No score changes."
+            exit 0
+          fi
+          git commit -m "chore: live score refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Race with the main workflow is rare but possible — rebase + retry.
+          for i in 1 2 3 4; do
+            if git push; then exit 0; fi
+            echo "push failed, rebase + retry ($i)"
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            sleep $((i * 2))
+          done
+          echo "push failed after retries" >&2
+          exit 1
