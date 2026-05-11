@@ -246,6 +246,57 @@ desc     → buildDescription() → icsEscape() → icsFold() → 75-octet folde
 
 ---
 
+## 4b. Live Score Path
+
+Separate, tighter-cadence path that runs alongside the main 30-min refresh during weekend match windows. Same data source (`fixtures.json`), different cadence and DOM update strategy.
+
+### Why two workflows
+
+The browser can't call Xplorer's GraphQL endpoint directly — the endpoint requires an `origin: https://xplorer.rugby` header (see `scripts/fetch-fixtures.mjs:64-76`) that browsers won't let JS set, so CORS blocks the call. CI is the only path to fresh data, and **GitHub Actions cron has a hard floor of 5 minutes**, so that's the freshness floor on the CI side regardless of what the client does. The main 30-min job covers everything (fixtures + lineups + events); the live job runs every 5 min in a tight weekend window and only refreshes `fixtures.json` + `*.ics`.
+
+### Cron windows (UTC)
+
+| Cron | When in AEST | What it catches |
+|---|---|---|
+| `*/5 21-23 * * 5,6` | Fri/Sat 21–23 UTC ≈ Sat/Sun **07–10 AEST** | Pre-game + early kick-offs |
+| `*/5 0-7 * * 6`     | Sat 00–07 UTC ≈ Sat **10–18 AEST**          | Saturday game day bulk |
+| `*/5 0-4 * * 0`     | Sun 00–04 UTC ≈ Sun **10–14 AEST**          | Sunday Minis morning |
+
+Windows are sized to cover both AEST (UTC+10) and AEDT (UTC+11) with buffer. Outside these windows the live job is silent and the main 30-min job is the only refresh.
+
+### Client-side polling
+
+`docs/index.html` runs a live ticker once initial data loads:
+
+- Every 60 s, **if** `document.visibilityState === 'visible'` AND `anyLiveCandidate(fixturesData)`, fetch `fixtures.json?live=<minute-bucket>` with `cache: 'no-store'`.
+- `isLiveCandidate(match)`: `match.isLive === true`, OR kickoff is within −5 / +150 min (backstop for the Xplorer flag-flip gap before kick-off and after full-time).
+- `matchScoreKey(m) = 'type|isLive|home.score|away.score'` — diff in-memory data against the fetch; only matches whose key changed get patched.
+- `patchMatchRow(match)`: builds a fresh `<div class="row">` via `renderMatch()`, copies the `expanded` class + `data-active-tab` from the old row, replaces in place, re-attaches the click handler. **Sibling lineup/venue panels keep their `.open` state** because they're not part of the replacement.
+- Score nodes are tagged `data-score` so they can flash via `@keyframes score-flash` on update.
+- Home view (`currentTeam === null`) re-renders fully on a score change so the upcoming↔result split shifts cleanly.
+
+### Service worker bypass
+
+`docs/sw.js` returns early (no `respondWith`) for any same-origin data request that has a query string. Live-poll URLs carry `?live=<bucket>` so they hit the network directly — the SW's `staleWhileRevalidate` neither serves them stale nor accumulates minute-keyed cache entries. The un-suffixed `fixtures.json` keeps SWR for the initial load.
+
+### End-to-end latency during a live game
+
+```
+score change at Xplorer
+   ↓ (their internal cadence — unknown, assumed ≤1 min)
+Xplorer GraphQL
+   ↓ CI cron: ≤5 min
+docs/fixtures.json committed to main
+   ↓ GitHub Pages CDN propagation: ~1 min
+client poll (60 s tick)
+   ↓ ≤60 s
+DOM patch + score flash
+```
+
+≈ **6–7 min worst case**, vs ~30 min on the main workflow alone.
+
+---
+
 ## 5. SDLC — Current State
 
 ### Development loop
@@ -382,7 +433,8 @@ Zero new dependencies. Makes the full rendering pipeline refactorable with confi
 | `scripts/fetch-lineups.mjs` | Scrape lineup data from xplorer.rugby match pages | `fixtures.json`, `lineups.json` | `lineups.json` | `lineup.test.mjs` |
 | `scripts/check.mjs` | Pre-flight: all required files present | `docs/*` (existence only) | — | Run by pre-push hook |
 | `scripts/smoke.mjs` | Local HTTP server smoke test | `docs/*` (via HTTP) | — | Run by pre-push hook |
-| `.github/workflows/refresh-fixtures.yml` | Cron CI: fetch → notify → commit → push | — | Triggers script; commits `docs/` | CI logs |
+| `.github/workflows/refresh-fixtures.yml` | Cron CI: fetch → notify → commit → push (every 30 min, 24/7) | — | Triggers script; commits `docs/` | CI logs |
+| `.github/workflows/refresh-live.yml` | Cron CI: fixtures-only refresh every 5 min during weekend match windows; rebases on push collision with the main job | — | Commits `docs/fixtures.json`, `docs/*.ics` if changed | CI logs |
 | `.github/workflows/resync-lineups.yml` | Cron CI: fetch lineups → commit if changed | — | Commits `docs/lineups.json` | CI logs |
 | `docs/config.js` | Browser-loadable config (generated, do not edit) | Generated from `config.mjs` | — | `smoke.mjs` |
 | `docs/fixtures.json` | All match data (generated, committed) | Written by fetch script | — | `fixtures-json.test.mjs`, `smoke.mjs` |

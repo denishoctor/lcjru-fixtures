@@ -28,14 +28,32 @@ Club entity ID: `30901` (Lane Cove JRU) · Season: 2026
 
 ## Refresh schedule
 
-The workflow runs every 30 minutes, 24/7:
+Two cron workflows feed `docs/fixtures.json`:
 
 ```
-0  * * * *   # every hour on the hour
-30 * * * *   # every hour on the half-hour
+# refresh-fixtures.yml — full refresh (fixtures + lineups + events) 24/7
+0  * * * *
+30 * * * *
+
+# refresh-live.yml — fixtures only, weekend match windows in AEST/AEDT
+*/5 21-23 * * 5,6   # Fri/Sat 21–23 UTC ≈ Sat/Sun 07–10 AEST
+*/5 0-7 * * 6       # Sat 00–07 UTC ≈ Sat 10–18 AEST
+*/5 0-4 * * 0       # Sun 00–04 UTC ≈ Sun 10–14 AEST
 ```
 
-If venue, time, new, or removed fixtures are detected, a push notification is sent via [ntfy.sh](https://ntfy.sh) using the `NTFY_TOPIC` repository secret. A failure notification is also sent if the workflow errors.
+The live workflow exists so U10+ scores tick during games. GitHub Actions cron has a hard floor of 5 minutes, so that's the freshness floor on the CI side. The live job skips the lineup + events build (those don't change during a game) and rebases on push collisions with the main job.
+
+If venue, time, new, or removed fixtures are detected (on the main job only — the live job stays quiet during games), a push notification is sent via [ntfy.sh](https://ntfy.sh) using the `NTFY_TOPIC` repository secret. A failure notification is also sent if the main workflow errors.
+
+---
+
+## Live score auto-refresh
+
+While the tab is visible AND a match is in a live window, `docs/index.html` re-fetches `fixtures.json?live=<minute-bucket>` every 60 s and patches the affected rows in place. Expanded lineup / venue panels keep their state — only the score / live pill is replaced. The Service Worker bypasses cache for the cache-busted URL so stale data never wins.
+
+A match qualifies as "live" if `isLive: true`, or as a backstop the kickoff is within −5 / +150 min (catches the gap before Xplorer flips the flag at kick-off and after full-time before status moves to `Result`). Outside any live window the ticker is a no-op.
+
+End-to-end latency during a live game: ≤5 min (CI cron) + ~1 min (Pages CDN) + ≤60 s (client poll) ≈ 6–7 min worst case.
 
 ---
 
@@ -69,6 +87,7 @@ Useful when communicating a known release to existing subscribers. Don't bake a 
 - Shareable URL hash deep-links: `#u11`, `#u13-blue`, etc.
 - Per-match anchor links (`#match-<id>`)
 - **Upcoming fixtures** — next match highlighted; past unfinalised fixtures shown with muted styling
+- **Live scores (U10+)** — in-progress matches show a red pulsing "Live" badge with the running score; the home view swaps kick-off time for the running score. Updates tick every 60 s while the tab is visible (see [Live score auto-refresh](#live-score-auto-refresh))
 - **Completed games** — scored Junior results show Win / Loss / Draw pill; Minis show no score (not recorded)
 - **HOME** badge appears only at Tantallon Oval
 - Venue names cleaned of pitch allocation noise ("Tryon Oval TT1 (U6/U7)" → "Tryon Oval, Ryde") via a lookup table in `docs/config.js`
