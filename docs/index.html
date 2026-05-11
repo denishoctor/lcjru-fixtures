@@ -2048,38 +2048,54 @@ function registerServiceWorker() {
 
 // ── init ──────────────────────────────────────────────────────────────────────
 
+async function loadData() {
+  const [fixturesRes, lineupsRes, eventsRes] = await Promise.allSettled([
+    fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+    fetch('lineups.json').then(r => r.ok ? r.json() : {}),
+    fetch('./events.json').then(r => r.ok ? r.json() : []),
+  ]);
+  if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
+  return {
+    fixtures: fixturesRes.value,
+    lineups:  lineupsRes.status === 'fulfilled' ? lineupsRes.value : {},
+    events:   eventsRes.status  === 'fulfilled' ? eventsRes.value  : [],
+  };
+}
+
+function setUpdatedStamp(updatedIso) {
+  const stamp = document.getElementById('updated-stamp');
+  if (!stamp) return;
+  const updated = new Date(updatedIso);
+  const staleHours = (Date.now() - updated.getTime()) / 3600000;
+  let text = `Updated ${updated.toLocaleDateString('en-AU', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
+  })} AEST`;
+  if (staleHours > 4) {
+    text += ' · sync may be delayed';
+    stamp.style.color = '#F0A030';
+  } else {
+    stamp.style.color = '';
+  }
+  stamp.textContent = text;
+}
+
 async function init() {
   const calendar = document.getElementById('calendar');
   calendar.innerHTML = '<div class="empty">Loading fixtures…</div>';
 
-  let data;
+  let payload;
   try {
-    const [fixturesRes, lineupsRes, eventsRes] = await Promise.allSettled([
-      fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
-      fetch('lineups.json').then(r => r.ok ? r.json() : {}),
-      fetch('./events.json').then(r => r.ok ? r.json() : []),
-    ]);
-    if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
-    data        = fixturesRes.value;
-    lineupsData = lineupsRes.status === 'fulfilled' ? lineupsRes.value : {};
-    eventsData  = eventsRes.status  === 'fulfilled' ? eventsRes.value  : [];
+    payload = await loadData();
   } catch (err) {
     calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;
   }
 
-  fixturesData = data;
+  fixturesData = payload.fixtures;
+  lineupsData  = payload.lineups;
+  eventsData   = payload.events;
 
-  const stamp = document.getElementById('updated-stamp');
-  const updated = new Date(data.updated);
-  const staleHours = (Date.now() - updated.getTime()) / 3600000;
-  stamp.textContent = `Updated ${updated.toLocaleDateString('en-AU', {
-    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Sydney'
-  })} AEST`;
-  if (staleHours > 4) {
-    stamp.textContent += ' · sync may be delayed';
-    stamp.style.color = '#F0A030';
-  }
+  setUpdatedStamp(fixturesData.updated);
 
   // Hash wins (deep links beat preferences); otherwise fall back to the
   // previously selected team from localStorage. The first paint shouldn't
@@ -2088,11 +2104,56 @@ async function init() {
   if (initialTeam) {
     selectTeam(initialTeam, false, { animate: false });
   } else {
-    render(data, null);
+    render(fixturesData, null);
   }
 
   requestAnimationFrame(() => focusRow(readHashAnchor()));
 }
+
+// Silent background refetch so the page reflects upstream changes the moment
+// the user returns to it. Triggered by visibilitychange (tab switch, Android
+// PWA resume) and pageshow.persisted (iOS bfcache restore). Skips re-render
+// when data is byte-identical to avoid flicker; preserves the currently
+// expanded row so the user's context survives the swap.
+let _lastRefresh = 0;
+const REFRESH_THROTTLE_MS = 30_000;
+async function refresh() {
+  if (!fixturesData) return; // initial init() hasn't completed yet
+  const now = Date.now();
+  if (now - _lastRefresh < REFRESH_THROTTLE_MS) return;
+  _lastRefresh = now;
+
+  let payload;
+  try {
+    payload = await loadData();
+  } catch {
+    return; // keep showing whatever we have
+  }
+
+  const sameFixtures = JSON.stringify(payload.fixtures) === JSON.stringify(fixturesData);
+  const sameLineups  = JSON.stringify(payload.lineups)  === JSON.stringify(lineupsData);
+  const sameEvents   = JSON.stringify(payload.events)   === JSON.stringify(eventsData);
+  if (sameFixtures && sameLineups && sameEvents) return;
+
+  const openMatchId = document.querySelector('.row.expanded')?.dataset.matchId ?? null;
+
+  fixturesData = payload.fixtures;
+  lineupsData  = payload.lineups;
+  eventsData   = payload.events;
+
+  setUpdatedStamp(fixturesData.updated);
+  render(fixturesData, currentTeam);
+
+  if (openMatchId) {
+    const row = document.querySelector(`.row[data-match-id="${openMatchId}"]`);
+    if (row) expandRow(row);
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') refresh();
+});
+window.addEventListener('pageshow', (e) => { if (e.persisted) refresh(); });
 
 setupInstallHint();
 registerServiceWorker();

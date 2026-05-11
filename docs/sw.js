@@ -5,6 +5,10 @@
  *   - HTML navigations         → network-first with cache fallback
  *     (so a fresh deploy lands without a manual SHELL_CACHE bump; cache
  *     only wins when the user is offline)
+ *   - fixtures/lineups/events  → network-first with cache fallback
+ *     (data must feel live — the GH Action commits a fresh JSON every
+ *     ~30 min and the page must reflect it on the next load, not the one
+ *     after. Cache is purely an offline fallback.)
  *   - other same-origin assets → stale-while-revalidate
  *     (instant render from cache, refreshed in the background — keeps
  *     render.mjs / config.js / manifest / icons updates one reload away)
@@ -77,6 +81,19 @@ async function networkFirstNavigation(request) {
   }
 }
 
+async function networkFirstData(request) {
+  const cache = await caches.open(DATA_CACHE);
+  try {
+    const res = await fetch(request);
+    if (res.ok) cache.put(request, res.clone());
+    return res;
+  } catch (err) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw err;
+  }
+}
+
 async function networkFirstCrossOrigin(request) {
   const cache = await caches.open(DATA_CACHE);
   try {
@@ -113,7 +130,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (isDataRequest(url)) {
-    event.respondWith(staleWhileRevalidate(request, DATA_CACHE));
+    event.respondWith(networkFirstData(request));
     return;
   }
 
