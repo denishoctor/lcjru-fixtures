@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -58,6 +58,34 @@ test('shortTeamName: joint venture format → JV prefix', () => {
 
 test('shortTeamName: non-LC team returned unchanged', () => {
   assert.equal(shortTeamName('Ryde Eastwood'), 'Ryde Eastwood');
+});
+
+// ── teamColour ────────────────────────────────────────────────────────────────
+
+test('teamColour: gold for "Gold" teams', () => {
+  assert.equal(teamColour('Lane Cove Gold 9'), 'gold');
+  assert.equal(teamColour('lane cove gold 7'), 'gold');
+});
+
+test('teamColour: blue for "Blue" teams', () => {
+  assert.equal(teamColour('Lane Cove Blue 8'), 'blue');
+  assert.equal(teamColour('Lane Cove Blue U7'), 'blue');
+});
+
+test('teamColour: neutral for un-coloured grades', () => {
+  assert.equal(teamColour('Lane Cove 10'), 'neutral');
+  assert.equal(teamColour('Lane Cove 11'), 'neutral');
+  assert.equal(teamColour('Lane Cove 12'), 'neutral');
+});
+
+test('teamColour: neutral for joint ventures (no colour assigned)', () => {
+  assert.equal(teamColour('Lane Cove/Lindfield 14'), 'neutral');
+  assert.equal(teamColour('Lane Cove/St Ives 12'), 'neutral');
+});
+
+test('teamColour: handles null/undefined', () => {
+  assert.equal(teamColour(null), 'neutral');
+  assert.equal(teamColour(undefined), 'neutral');
 });
 
 // ── fmtDow / fmtDate / fmtTime ───────────────────────────────────────────────

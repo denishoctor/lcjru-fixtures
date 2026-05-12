@@ -22,6 +22,15 @@ export function shortTeamName(name) {
   return name.replace('Lane Cove ', '').replace(' 2026', '').trim() || name;
 }
 
+// 'gold' / 'blue' for squad-coloured teams; 'neutral' for everything else
+// (older grades with single teams, joint ventures, opposition).
+export function teamColour(name) {
+  const lower = String(name ?? '').toLowerCase();
+  if (/\bgold\b/.test(lower)) return 'gold';
+  if (/\bblue\b/.test(lower)) return 'blue';
+  return 'neutral';
+}
+
 export function fmtDow(iso) {
   return new Date(iso).toLocaleDateString('en-AU', { weekday: 'short', timeZone: 'Australia/Sydney' });
 }
