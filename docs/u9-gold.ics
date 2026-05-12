@@ -28,8 +28,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-66e3dfc89fdc1326c-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T120000
 SUMMARY:U9 Gold vs Wakehurst Wizards 9 | RND 1
@@ -47,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-39a5df2fb853c13ba-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260510T110000
 DTEND;TZID=Australia/Sydney:20260510T120000
 SUMMARY:U9 Gold vs Lindfield 9 | RND 2
@@ -64,66 +64,67 @@ DESCRIPTION:🏉 Lane Cove Gold 9 vs Lindfield 9\n📍 Tunks Park M2\, Camm
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-385d2e64df72f9cc6-u9-gold@lcjru.github.io
+UID:lcjru-99b468afccc6dfadf-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
-DTSTART;TZID=Australia/Sydney:20260516T083000
-DTEND;TZID=Australia/Sydney:20260516T093000
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
+DTSTART;TZID=Australia/Sydney:20260517T080000
+DTEND;TZID=Australia/Sydney:20260517T090000
 SUMMARY:U9 Gold vs St Ives 9 | RND 3
-LOCATION:Mark Taylor Oval M1\, Waitara\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs St Ives 9\n📍 Mark Taylor Oval M1\, 
- Waitara\n📅 Round 3 · Sat\, 16 May · 8:30am AEST\n🏆 SJRU Minis U9 S
+LOCATION:Melwood Oval M1\, Forestville\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 9 vs St Ives 9\n📍 Melwood Oval M1\, Fore
+ stville\n📅 Round 3 · Sun\, 17 May · 8:00am AEST\n🏆 SJRU Minis U9 S
  unday\n\nℹ️ Venues and times may change. This calendar updates automat
  ically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs afte
  r a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold\
- n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Mark Taylor Oval M2
- \, Waitara  ⏰ 10:10am  vs Forest White 9\n(Their separate game — come 
- cheer them on!)
+ n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Melwood Oval M1\, F
+ orestville  ⏰ 9:40am  vs Forest White 9\n(Their separate game — come c
+ heer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-b407d9c96c2142719-u9-gold@lcjru.github.io
+UID:lcjru-284b83bb15a135f37-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
-DTSTART;TZID=Australia/Sydney:20260523T083000
-DTEND;TZID=Australia/Sydney:20260523T093000
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
+DTSTART;TZID=Australia/Sydney:20260524T080000
+DTEND;TZID=Australia/Sydney:20260524T090000
 SUMMARY:U9 Gold vs Wakehurst Warriors 9 | RND 4
-LOCATION:Tantallon Oval M1\, Lane Cove North\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Warriors 9\n📍 Tantallon O
- val M1\, Lane Cove North\n📅 Round 4 · Sat\, 23 May · 8:30am AEST\n
- 🏆 SJRU Minis U9 Sunday\n\nℹ️ Venues and times may change. This cale
- ndar updates automatically\n(Apple Calendar: ~every hour · Google Calenda
- r: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjr
- u-fixtures/#u9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍
-  Tantallon Oval M1\, Lane Cove North  ⏰ 10:10am  vs Chatswood Green 9\n(
- Their separate game — come cheer them on!)
+LOCATION:Hassall Park M2\, St Ives\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 9 vs Wakehurst Warriors 9\n📍 Hassall Par
+ k M2\, St Ives\n📅 Round 4 · Sun\, 24 May · 8:00am AEST\n🏆 SJRU Min
+ is U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates 
+ automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
+ rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
+ 9-gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Hassall Park
+  M4\, St Ives  ⏰ 8:00am  vs Chatswood Green 9\n(Their separate game — 
+ come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-ad1da83cc092f8388-u9-gold@lcjru.github.io
+UID:lcjru-9e7518a45814d5d67-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
-DTSTART;TZID=Australia/Sydney:20260530T080000
-DTEND;TZID=Australia/Sydney:20260530T090000
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
+DTSTART;TZID=Australia/Sydney:20260531T080000
+DTEND;TZID=Australia/Sydney:20260531T090000
 SUMMARY:U9 Gold vs Forest Green 9 | RND 5
-LOCATION:Balmoral Oval M1\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 9 vs Forest Green 9\n📍 Balmoral Oval M1\
- n📅 Round 5 · Sat\, 30 May · 8:00am AEST\n🏆 SJRU Minis U9 Sunday\n\
- nℹ️ Venues and times may change. This calendar updates automatically\n
- (Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a chan
- ge)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-gold\n\n---\n
- Also playing today — Lane Cove Blue 9:\n📍 Balmoral Oval M1  ⏰ 8:50a
- m  vs Lindfield 9\n(Their separate game — come cheer them on!)
+LOCATION:Beauchamp Park M1\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 9 vs Forest Green 9\n📍 Beauchamp Park M1
+ \, Chatswood\n📅 Round 5 · Sun\, 31 May · 8:00am AEST\n🏆 SJRU Minis
+  U9 Sunday\n\nℹ️ Venues and times may change. This calendar updates au
+ tomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs
+  after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u9-
+ gold\n\n---\nAlso playing today — Lane Cove Blue 9:\n📍 Beauchamp Park
+  M2\, Chatswood  ⏰ 8:00am  vs Wakehurst Warriors 9\n(Their separate game
+  — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u9-gold
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-6-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260614T090000
 DTEND;TZID=Australia/Sydney:20260614T100000
 SUMMARY:Round 6
@@ -139,8 +140,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-gala-rnd-7-2026-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260620T083000
 DTEND;TZID=Australia/Sydney:20260620T123000
 SUMMARY:Inter-District Gala Day — Round 7
@@ -157,8 +158,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-koth-k1-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260628T090000
 DTEND;TZID=Australia/Sydney:20260628T130000
 SUMMARY:King of the Hills — K1 Gala
@@ -174,8 +175,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-8-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260726T090000
 DTEND;TZID=Australia/Sydney:20260726T100000
 SUMMARY:Round 8
@@ -191,8 +192,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-9-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260802T090000
 DTEND;TZID=Australia/Sydney:20260802T100000
 SUMMARY:Round 9
@@ -208,8 +209,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-10-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260809T090000
 DTEND;TZID=Australia/Sydney:20260809T100000
 SUMMARY:Round 10
@@ -225,8 +226,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-11-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260816T090000
 DTEND;TZID=Australia/Sydney:20260816T100000
 SUMMARY:Round 11
@@ -242,8 +243,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-12-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260823T090000
 DTEND;TZID=Australia/Sydney:20260823T100000
 SUMMARY:Round 12
@@ -259,8 +260,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-13-u89-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;TZID=Australia/Sydney:20260830T090000
 DTEND;TZID=Australia/Sydney:20260830T100000
 SUMMARY:Round 13 — Final Round
@@ -276,8 +277,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-challenge-cup-2026-u9-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260512T094503Z
-LAST-MODIFIED:20260512T094503Z
+DTSTAMP:20260512T105820Z
+LAST-MODIFIED:20260512T105820Z
 DTSTART;VALUE=DATE:20260913
 DTEND;VALUE=DATE:20260914
 SUMMARY:Chatswood Challenge Cup
