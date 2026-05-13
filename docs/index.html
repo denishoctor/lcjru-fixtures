@@ -500,6 +500,8 @@
     padding: 2px 8px; border-radius: 3px; letter-spacing: .5px;
     flex-shrink: 0; white-space: nowrap;
   }
+  .team-pill--gold { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .team-pill--blue { background: #1E5DD4; border-color: #1E5DD4; color: #fff; }
   .venue-link {
     color: var(--ink); text-decoration: none;
     display: inline-flex; align-items: center; gap: 3px;
@@ -926,7 +928,7 @@
 </div>
 <script src="./config.js"></script>
 <script type="module">
-import { esc, isLaneCove, shortTeamName, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
 
 const FIXTURES_URL = './fixtures.json';
 
@@ -1040,7 +1042,7 @@ function renderHomeMatchRow(match, { isNextUp = false, mode = 'fixture' } = {}) 
 
   return `<a class="${classes.join(' ')}" href="${esc(href)}">
     ${leftCol}
-    <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
+    <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
     <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}</span>
     <span class="home-row-extra">${badges.join('')}</span>
   </a>`;
@@ -1547,7 +1549,7 @@ function renderMatch(match, isNextUp) {
       </div>
       <div class="venues">
         <div class="venue">
-          <span class="team-pill">${esc(shortTeamName(lcTeam.name))}</span>
+          <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
           <a class="venue-link" href="${mapsUrl}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>
           ${pitch ? `<span class="pitch-on">on <span class="pitch-tag">${esc(pitch)}</span></span>` : ''}
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
