@@ -9,12 +9,7 @@ export const ENTITY_TYPE = 'club';
 export const SITE_URL    = 'https://denishoctor.github.io/lcjru-fixtures';
 export const FINAL_ROUND = 13;
 
-export const EVENT_STATUS = {
-  confirmed: { label: 'Confirmed', badgeClass: 'status-confirmed' },
-  tentative: { label: 'Tentative', badgeClass: 'status-tentative' },
-  cancelled: { label: 'Cancelled', badgeClass: 'status-cancelled' },
-  completed: { label: 'Completed', badgeClass: 'status-completed' },
-};
+export const EVENT_STATUSES = ['confirmed', 'tentative', 'cancelled', 'completed'];
 
 export const TEAM_SLUGS = {
   'u6-gold':  'wjBCCDfvXpx8QivYu',

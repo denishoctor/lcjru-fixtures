@@ -15,6 +15,15 @@ export function isLaneCove(team) {
   return team.name.toLowerCase().includes('lane cove') || team.crest?.includes(LC_CREST_PATTERN);
 }
 
+// True for event entries that mirror real games (rounds, friendlies, galas) — these travel
+// through the per-team ICS feed. Special events (Mother's Day, Waratahs etc.) return false
+// and ship as standalone per-event ICS downloads instead.
+export function isGameEvent(event) {
+  return event?.variant === 'round'
+      || event?.variant === 'friendly'
+      || event?.variant === 'gala';
+}
+
 export function shortTeamName(name) {
   if (name.includes('Lane Cove/')) {
     return 'JV · ' + name.replace('Lane Cove/', '').replace(/\s*\d+$/, '').trim();
@@ -114,9 +123,8 @@ export function venueSlug(baseName) {
 
 // Renders the venue details block. Order: notes/parking/coffee on top (each row's title
 // inline with its text), then the map image with only the layout caption beneath. Returns
-// '' if the venue has no details. assetPrefix is prepended to map.src so pages can pass
-// a relative prefix to resolve assets/venues/... correctly.
-export function renderVenueDetails(baseName, venues, { assetPrefix = '' } = {}) {
+// '' if the venue has no details.
+export function renderVenueDetails(baseName, venues) {
   const v = venues?.[baseName];
   const d = v?.details;
   if (!d) return '';
@@ -141,7 +149,7 @@ export function renderVenueDetails(baseName, venues, { assetPrefix = '' } = {}) 
   }
 
   if (d.map) {
-    const src = `${assetPrefix}${d.map.src}`;
+    const src = d.map.src;
     const asOf = d.map.asOf
       ? new Date(d.map.asOf + '-01').toLocaleDateString('en-AU', { month: 'short', year: 'numeric', timeZone: 'Australia/Sydney' })
       : '';

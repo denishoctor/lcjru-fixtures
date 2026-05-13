@@ -3,12 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TEAM_SLUGS } from './config.mjs';
 import { EVENTS } from './events.mjs';
+import { isGameEvent } from '../docs/render.mjs';
 
 const DOCS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'docs');
 
 // Mirror specialEventsForExport() in fetch-fixtures.mjs — every active special
 // event must have a per-event ICS download published.
-const isGameEvent = e => e.variant === 'round' || e.variant === 'friendly' || e.variant === 'gala';
 const specialEventIds = EVENTS
   .filter(e => e.type === 'event' && !isGameEvent(e) && e.status !== 'cancelled' && e.status !== 'completed')
   .map(e => e.id);

@@ -17,7 +17,7 @@ import {
   TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
 } from './config.mjs';
 import { EVENTS } from './events.mjs';
-import { parseVenue } from '../docs/render.mjs';
+import { parseVenue, isGameEvent } from '../docs/render.mjs';
 
 const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
@@ -321,12 +321,6 @@ function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
 //     day, holiday notes, etc.) get a per-event ICS file at docs/events/<id>.ics
 //     so users can opt in to the ones they care about — avoids the 16×
 //     duplication that would happen if a parent subscribed to multiple teams.
-
-function isGameEvent(event) {
-  return event.variant === 'round'
-      || event.variant === 'friendly'
-      || event.variant === 'gala';
-}
 
 function gameEventsForTeam(slug, teamId, fixtureMatches) {
   return EVENTS.filter(e => {

@@ -147,12 +147,11 @@
 <script type="module">
 import { esc, renderVenueDetails, venueSlug } from './render.mjs';
 
-const VENUE_ASSET_PREFIX = '';
 const { VENUES } = window.LCJRU_CONFIG;
 
 function renderCard(name, v) {
   const slug = venueSlug(name);
-  const details = renderVenueDetails(name, VENUES, { assetPrefix: VENUE_ASSET_PREFIX });
+  const details = renderVenueDetails(name, VENUES);
   const stub = details ? '' : '<div class="venue-card-stub">Local intel for this ground hasn\'t been shared yet — got something to add? Drop us a note.</div>';
   return `
     <section class="venue-card" id="venue-${esc(slug)}">

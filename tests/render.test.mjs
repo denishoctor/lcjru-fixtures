@@ -295,11 +295,6 @@ test('renderVenueDetails: includes map src and asOf caption', () => {
   assert.ok(html.includes('venue-map-link'),                 'wraps img in link to fullsize');
 });
 
-test('renderVenueDetails: assetPrefix prepended to map src', () => {
-  const html = renderVenueDetails('Keirle Park', VENUES_WITH_DETAILS, { assetPrefix: '../' });
-  assert.ok(html.includes('../assets/venues/keirle-park.jpg'));
-});
-
 test('renderVenueDetails: includes parking, coffee onsite + nearby, notes', () => {
   const html = renderVenueDetails('Tryon Oval', VENUES_WITH_DETAILS);
   assert.ok(html.includes('Tight on game day.'));
