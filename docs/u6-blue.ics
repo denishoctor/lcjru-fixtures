@@ -28,8 +28,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-24418d8361c029d49-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260503T080000
 DTEND;TZID=Australia/Sydney:20260503T090000
 SUMMARY:U6 Blue vs Hornsby 6 | RND 1
@@ -47,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-22e3b63feb13081ee-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260510T080000
 DTEND;TZID=Australia/Sydney:20260510T090000
 SUMMARY:U6 Blue vs Norths Pirates Red 6 | RND 2
@@ -66,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-54ffc1748fe04286c-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
 SUMMARY:U6 Blue vs Norths Pirates White 6 | RND 3
@@ -85,46 +85,46 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-d3b62c5dfbaaf4bdc-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260524T080000
 DTEND;TZID=Australia/Sydney:20260524T090000
 SUMMARY:U6 Blue vs Killara-West Pymble Gold 6 | RND 4
-LOCATION:Lofberg Oval TT2\, West Pymble\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 6 vs Killara-West Pymble Gold 6\n📍 Lofbe
- rg Oval TT2\, West Pymble\n📅 Round 4 · Sun\, 24 May · 8:00am AEST\n
- 🏆 SJRU Minis U6 Tri Time Sunday\n\nℹ️ Venues and times may change. 
- This calendar updates automatically\n(Apple Calendar: ~every hour · Googl
- e Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.githu
- b.io/lcjru-fixtures/#u6-blue\n\n---\nAlso playing today — Lane Cove Gold
-  6:\n📍 Lofberg Oval TT1\, West Pymble  ⏰ 8:40am  vs Wakehurst Wallabi
- es 6\n(Their separate game — come cheer them on!)
+LOCATION:Tantallon Oval TT2\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Blue 6 vs Killara-West Pymble Gold 6\n📍 Tanta
+ llon Oval TT2\, Lane Cove North\n📅 Round 4 · Sun\, 24 May · 8:00am AE
+ ST\n🏆 SJRU Minis U6 Tri Time Sunday\n\nℹ️ Venues and times may chan
+ ge. This calendar updates automatically\n(Apple Calendar: ~every hour · G
+ oogle Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.g
+ ithub.io/lcjru-fixtures/#u6-blue\n\n---\nAlso playing today — Lane Cove 
+ Gold 6:\n📍 Tantallon Oval TT1\, Lane Cove North  ⏰ 8:40am  vs Wakehur
+ st Wallabies 6\n(Their separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-c70b0a2c1971a1f71-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260531T080000
 DTEND;TZID=Australia/Sydney:20260531T090000
 SUMMARY:U6 Blue vs Wakehurst Wombats 6 | RND 5
-LOCATION:Wakehurst Rugby Park TT3\, Belrose\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Blue 6 vs Wakehurst Wombats 6\n📍 Wakehurst Ru
- gby Park TT3\, Belrose\n📅 Round 5 · Sun\, 31 May · 8:00am AEST\n🏆 
- SJRU Minis U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This 
- calendar updates automatically\n(Apple Calendar: ~every hour · Google Cal
- endar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/
- lcjru-fixtures/#u6-blue\n\n---\nAlso playing today — Lane Cove Gold 6:\n
- 📍 Wakehurst Rugby Park TT3\, Belrose  ⏰ 8:40am  vs Chatswood Black 6\
- n(Their separate game — come cheer them on!)
+LOCATION:Beauchamp Park TT3\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Blue 6 vs Wakehurst Wombats 6\n📍 Beauchamp Pa
+ rk TT3\, Chatswood\n📅 Round 5 · Sun\, 31 May · 8:00am AEST\n🏆 SJRU
+  Minis U6 Tri Time Sunday\n\nℹ️ Venues and times may change. This cale
+ ndar updates automatically\n(Apple Calendar: ~every hour · Google Calenda
+ r: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjr
+ u-fixtures/#u6-blue\n\n---\nAlso playing today — Lane Cove Gold 6:\n📍
+  Beauchamp Park TT3\, Chatswood  ⏰ 8:40am  vs Chatswood Black 6\n(Their 
+ separate game — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u6-blue
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-6-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260614T090000
 DTEND;TZID=Australia/Sydney:20260614T100000
 SUMMARY:Round 6
@@ -140,8 +140,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-gala-rnd-7-2026-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260620T083000
 DTEND;TZID=Australia/Sydney:20260620T123000
 SUMMARY:Inter-District Gala Day — Round 7
@@ -158,8 +158,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-koth-k1-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;VALUE=DATE:20260628
 DTEND;VALUE=DATE:20260629
 SUMMARY:U6/U7 friendly fixtures
@@ -174,8 +174,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-koth-k2-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260705T090000
 DTEND;TZID=Australia/Sydney:20260705T130000
 SUMMARY:King of the Hills — K2 Gala
@@ -191,8 +191,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-8-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260726T090000
 DTEND;TZID=Australia/Sydney:20260726T100000
 SUMMARY:Round 8
@@ -208,8 +208,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-9-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260802T090000
 DTEND;TZID=Australia/Sydney:20260802T100000
 SUMMARY:Round 9
@@ -225,8 +225,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-10-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260809T090000
 DTEND;TZID=Australia/Sydney:20260809T100000
 SUMMARY:Round 10
@@ -242,8 +242,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-11-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260816T090000
 DTEND;TZID=Australia/Sydney:20260816T100000
 SUMMARY:Round 11
@@ -259,8 +259,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-12-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260823T090000
 DTEND;TZID=Australia/Sydney:20260823T100000
 SUMMARY:Round 12
@@ -276,8 +276,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-rnd-13-u67-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;TZID=Australia/Sydney:20260830T090000
 DTEND;TZID=Australia/Sydney:20260830T100000
 SUMMARY:Round 13 — Final Round
@@ -293,8 +293,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-tiger-cup-2026-u6-blue@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260513T000621Z
-LAST-MODIFIED:20260513T000621Z
+DTSTAMP:20260513T042917Z
+LAST-MODIFIED:20260513T042917Z
 DTSTART;VALUE=DATE:20260912
 DTEND;VALUE=DATE:20260913
 SUMMARY:Tiger Cup
