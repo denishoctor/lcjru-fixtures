@@ -308,28 +308,6 @@
   .cal-option-label { font-size: 12px; font-weight: 700; }
   .cal-option-sub { font-size: 10.5px; color: var(--muted); font-weight: 500; line-height: 1.35; white-space: normal; }
 
-
-  /* WELCOME SCREEN */
-  .welcome {
-    padding: 36px 28px 44px;
-    text-align: center;
-    border-bottom: 1px solid var(--rule);
-  }
-  .welcome h2 {
-    font-size: 21px; font-weight: 800; color: var(--navy);
-    margin: 0 0 6px; letter-spacing: -.3px;
-  }
-  .welcome-sub {
-    font-size: 14px; color: var(--muted);
-    margin: 0 0 24px; line-height: 1.5;
-  }
-  .welcome-cta {
-    display: inline-block;
-    background: var(--gold); color: var(--navy);
-    font-size: 13px; font-weight: 800;
-    padding: 10px 22px; border-radius: 24px;
-    margin-bottom: 36px; letter-spacing: .2px;
-  }
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -753,10 +731,8 @@
     letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; flex-shrink: 0;
     margin-left: auto;
   }
-  .status-confirmed { background: #E8F5E9; color: #2E7D4F; }
   .status-tentative { background: #FFF3E0; color: #E65100; }
   .status-cancelled { background: #FFEBEE; color: #b71c1c; }
-  .status-completed { background: #F5F5F5; color: var(--muted); }
   .note-row { min-height: 40px; padding-top: 7px; padding-bottom: 7px; background: #FFFDF5; }
   .note-text { font-size: 12px; color: var(--muted); font-style: italic; flex: 1; margin: 0; }
 
@@ -786,7 +762,6 @@
     .header-team-chevron { width: 11px; height: 11px; }
     .action-popover { right: 0; left: auto; min-width: 240px; max-width: calc(100vw - 28px); }
     .section-header, .footer-note { padding-left: 16px; padding-right: 16px; }
-    .welcome { padding: 28px 16px 36px; }
     .home-intro { padding: 18px 16px 14px; }
     .home-outro { padding: 22px 16px 26px; }
     .home-empty { padding: 14px 16px; }
@@ -928,12 +903,18 @@
 </div>
 <script src="./config.js"></script>
 <script type="module">
-import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
+import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
 
 const FIXTURES_URL = './fixtures.json';
 
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
+
+// Only tentative + cancelled get a visible badge; confirmed and completed are implied by context.
+const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
+const statusBadgeHtml = (status) => STATUS_LABELS[status]
+  ? `<span class="status-badge status-${esc(status)}">${STATUS_LABELS[status]}</span>`
+  : '';
 
 let currentTeam  = null;
 let fixturesData = null;
@@ -975,12 +956,6 @@ const CAL_PLUS_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y=
 // Game-variant events (round/friendly/gala) belong in the team's subscription
 // feed; everything else (Mother's Day, Waratahs, holidays, presentation day)
 // gets a per-event .ics download so multi-team subscribers don't see duplicates.
-function isGameEvent(event) {
-  return event?.variant === 'round'
-      || event?.variant === 'friendly'
-      || event?.variant === 'gala';
-}
-
 // Returns [Sat 00:00, Mon 00:00) for the weekend offset relative to now.
 // offset 0 = current/upcoming weekend (Sun is treated as part of the current weekend);
 // offset -1 = the previous weekend.
@@ -1055,9 +1030,7 @@ function renderHomeEventRow(event) {
   const dowDate = dt ? `${fmtDow(dt.toISOString())} ${fmtDate(dt.toISOString())}` : '';
   const tail = [event.venue, event.description].filter(Boolean).map(esc).join(' · ');
 
-  const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
-  const statusBadge = STATUS_LABELS[event.status]
-    ? `<span class="status-badge status-${esc(event.status)}">${STATUS_LABELS[event.status]}</span>` : '';
+  const statusBadge = statusBadgeHtml(event.status);
 
   let slug = '';
   if (event.teams?.length) {
@@ -1280,8 +1253,6 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
   return html;
 }
 
-const VENUE_ASSET_PREFIX = '';
-
 // Builds the URL hash for a row's # anchor: '<team-slug>/<row-id>' so deep links keep the
 // team selected. Falls back to bare row-id if no team is active (welcome screen).
 function rowHash(rowId) {
@@ -1312,7 +1283,7 @@ function expandRow(row) {
     const event = eventId ? eventsData?.find(e => e.id === eventId) : null;
     const eventHtml = event ? renderEventDetails(event) : '';
     const venueHtml = row.dataset.venueBase
-      ? renderVenueDetails(row.dataset.venueBase, VENUES, { assetPrefix: VENUE_ASSET_PREFIX })
+      ? renderVenueDetails(row.dataset.venueBase, VENUES)
       : '';
     venuePanel.innerHTML = eventHtml + venueHtml;
   }
@@ -1392,11 +1363,7 @@ function renderEvent(event) {
   const isPast = event.status === 'completed' || event.status === 'cancelled' ||
     (dt && dt < new Date());
 
-  // Only show tentative / cancelled badges; confirmed and completed are implied by context.
-  const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
-  const badgeHtml = STATUS_LABELS[event.status]
-    ? `<span class="status-badge status-${esc(event.status)}">${STATUS_LABELS[event.status]}</span>`
-    : '';
+  const badgeHtml = statusBadgeHtml(event.status);
 
   // Round-variant events render with the same RND badge as real Xplorer matches (greyed out).
   // Gala-variant events use a distinct purple circle to set them apart from regular rounds.
@@ -1443,7 +1410,7 @@ function renderEvent(event) {
     ? `<a class="event-cal-link" href="./events/${esc(event.id)}.ics" download>${CAL_PLUS_SVG}<span>Add to calendar</span></a>`
     : '';
 
-  const description = event.description ?? event.note ?? '';
+  const description = event.description ?? '';
 
   const anchor = `event-${event.id}`;
   const rowDataId = `event-${event.id}`;
@@ -1473,7 +1440,7 @@ function renderNote(event) {
   const dt = eventDt(event);
   const isoStr = dt ? dt.toISOString() : '';
   const datePrefix = isoStr ? `<strong>${fmtDow(isoStr)} ${fmtDate(isoStr)}</strong>` : '';
-  const title = event.title ?? event.text ?? '';
+  const title = event.title ?? '';
   const description = event.description ?? '';
   const noteHtml = [datePrefix, esc(title), description ? esc(description) : '']
     .filter(Boolean)
