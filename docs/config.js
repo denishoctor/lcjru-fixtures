@@ -145,7 +145,19 @@ window.LCJRU_CONFIG = {
     },
     "Wakehurst Rugby Park": {
       "suburb": "Belrose",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Wakehurst+Rugby+Park+Forest+Way+%26+Waldon+Rd%2C+Belrose+NSW+2085%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Wakehurst+Rugby+Park+Forest+Way+%26+Waldon+Rd%2C+Belrose+NSW+2085%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/wakehurst-rugby-park.jpg",
+          "caption": "Pitch layout — TT1 (SW), TT2 (NW), TT3 (NE), TT4 (SE)",
+          "asOf": "2026-05"
+        },
+        "parking": "Free car park on site (open access) off Waldon Rd, plus an overflow car park. Dell St overflow available on the west side. Drop-off / pick-up zone on Waldon Rd — no parking there.",
+        "coffee": {
+          "onsite": "Canteen opens 7:30am."
+        },
+        "notes": "Entry from Waldon Rd (south). Clubhouse & Bar on the first floor with function room, deck overlooking the oval. Home and Visitors change rooms, plus male / female / accessible WCs at ground level."
+      }
     },
     "Woollahra Oval": {
       "suburb": "Rose Bay",
