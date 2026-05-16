@@ -28,8 +28,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-ba3a6af645d1243bd-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260515T232759Z
-LAST-MODIFIED:20260515T232759Z
+DTSTAMP:20260516T011744Z
+LAST-MODIFIED:20260516T011744Z
 DTSTART;TZID=Australia/Sydney:20260426T100000
 DTEND;TZID=Australia/Sydney:20260426T113000
 SUMMARY:U14 Gold vs Randwick Warriors Myrtle 14 | RND 1
@@ -45,8 +45,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-a8b67a32ce48b23da-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260515T232759Z
-LAST-MODIFIED:20260515T232759Z
+DTSTAMP:20260516T011744Z
+LAST-MODIFIED:20260516T011744Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T123000
 SUMMARY:U14 Gold vs Killara-West Pymble 14 | RND 2
@@ -62,8 +62,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-ab1330b1d2192ec74-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260515T232759Z
-LAST-MODIFIED:20260515T232759Z
+DTSTAMP:20260516T011744Z
+LAST-MODIFIED:20260516T011744Z
 DTSTART;TZID=Australia/Sydney:20260510T123000
 DTEND;TZID=Australia/Sydney:20260510T140000
 SUMMARY:U14 Gold vs Drummoyne 14 | RND 3
@@ -78,17 +78,18 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-e47c24c7c3cbe1734-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260515T232759Z
-LAST-MODIFIED:20260515T232759Z
-DTSTART;TZID=Australia/Sydney:20260517T110000
-DTEND;TZID=Australia/Sydney:20260517T123000
+DTSTAMP:20260516T011744Z
+LAST-MODIFIED:20260516T011744Z
+DTSTART;TZID=Australia/Sydney:20260517T121000
+DTEND;TZID=Australia/Sydney:20260517T134000
 SUMMARY:U14 Gold vs Ryde 14 | RND 4
-LOCATION:Ryde Park\, Ryde\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 14 vs Ryde 14\n📍 Ryde Park\, Ryde\n📅 
- Round 4 · Sun\, 17 May · 11:00am AEST\n🏆 SJRU XVs Under 14C\n\nℹ️
-  Venues and times may change. This calendar updates automatically\n(Apple 
- Calendar: ~every hour · Google Calendar: up to 24 hrs after a change)\n\n
- 🔗 https://denishoctor.github.io/lcjru-fixtures/#u14-gold
+LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 14 vs Ryde 14\n📍 Tantallon Oval\, Lane C
+ ove North\n📅 Round 4 · Sun\, 17 May · 12:10pm AEST\n🏆 SJRU XVs Und
+ er 14C\n\nℹ️ Venues and times may change. This calendar updates automa
+ tically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs aft
+ er a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14-gol
+ d
 URL:https://denishoctor.github.io/lcjru-fixtures/#u14-gold
 END:VEVENT
 END:VCALENDAR
