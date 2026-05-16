@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-16T17:05:35.053Z",
+  "updated": "2026-05-16T17:29:53.825Z",
   "season": "2026",
   "entityId": 30901,
   "totalMatches": 90,
@@ -633,115 +633,6 @@
       ]
     },
     {
-      "name": "SJRU XVs Under 13B",
-      "matches": [
-        {
-          "id": "318772014727a15a2",
-          "type": "result",
-          "competition": "SJRU XVs Under 13B",
-          "compId": "L2f2cNaPwtXr4vCh2",
-          "round": "Round 1",
-          "roundLabel": "Round 1",
-          "dateTime": "2026-04-26T00:00:00+00:00",
-          "venue": "Peakhurst Oval No 3",
-          "status": "Result",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": null,
-          "home": {
-            "id": "JoX8qpHL6nrYWFKjf",
-            "name": "Oatley 13",
-            "score": "50",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53470.png?v=1712790470274"
-          },
-          "away": {
-            "id": "AX6MBpn8Xva2AmC8N",
-            "name": "Lane Cove Gold 13",
-            "score": "19",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          }
-        },
-        {
-          "id": "30b25bdb20e4a0d28",
-          "type": "result",
-          "competition": "SJRU XVs Under 13B",
-          "compId": "L2f2cNaPwtXr4vCh2",
-          "round": "Round 2",
-          "roundLabel": "Round 2",
-          "dateTime": "2026-05-03T04:30:00+00:00",
-          "venue": "Tantallon Oval",
-          "status": "Result",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": null,
-          "home": {
-            "id": "AX6MBpn8Xva2AmC8N",
-            "name": "Lane Cove Gold 13",
-            "score": "67",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          },
-          "away": {
-            "id": "2YGhc3aNHZB7ohYeM",
-            "name": "Ryde/Hills 13",
-            "score": "17",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53514.png?v=1712727903538"
-          }
-        },
-        {
-          "id": "948fc97bd95a9e40b",
-          "type": "result",
-          "competition": "SJRU XVs Under 13B",
-          "compId": "L2f2cNaPwtXr4vCh2",
-          "round": "Round 3",
-          "roundLabel": "Round 3",
-          "dateTime": "2026-05-10T02:40:00+00:00",
-          "venue": "Rawson Oval",
-          "status": "Result",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": null,
-          "home": {
-            "id": "PSosWdcfsjmTC7sCB",
-            "name": "Mosman Whales 13",
-            "score": "39",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/41064.png?v=1712801577389"
-          },
-          "away": {
-            "id": "AX6MBpn8Xva2AmC8N",
-            "name": "Lane Cove Gold 13",
-            "score": "10",
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          }
-        },
-        {
-          "id": "e91e250ef3628a5be",
-          "type": "fixture",
-          "competition": "SJRU XVs Under 13B",
-          "compId": "L2f2cNaPwtXr4vCh2",
-          "round": "Round 4",
-          "roundLabel": "Round 4",
-          "dateTime": "2026-05-16T14:00:00+00:00",
-          "venue": "",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": true,
-          "matchLabel": null,
-          "home": {
-            "id": "AX6MBpn8Xva2AmC8N",
-            "name": "Lane Cove Gold 13",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          },
-          "away": {
-            "id": "",
-            "name": "",
-            "score": null,
-            "crest": "https://d26phqdbpt0w91.cloudfront.net/NonVideo/d89f330c-59ec-44cb-b7c1-f23052bfa9ee.png"
-          }
-        }
-      ]
-    },
-    {
       "name": "SJRU XVs Under 14C",
       "matches": [
         {
@@ -846,6 +737,115 @@
             "name": "Ryde 14",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53514.png?v=1712727903538"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SJRU XVs Under 13B",
+      "matches": [
+        {
+          "id": "318772014727a15a2",
+          "type": "result",
+          "competition": "SJRU XVs Under 13B",
+          "compId": "L2f2cNaPwtXr4vCh2",
+          "round": "Round 1",
+          "roundLabel": "Round 1",
+          "dateTime": "2026-04-26T00:00:00+00:00",
+          "venue": "Peakhurst Oval No 3",
+          "status": "Result",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": null,
+          "home": {
+            "id": "JoX8qpHL6nrYWFKjf",
+            "name": "Oatley 13",
+            "score": "50",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53470.png?v=1712790470274"
+          },
+          "away": {
+            "id": "AX6MBpn8Xva2AmC8N",
+            "name": "Lane Cove Gold 13",
+            "score": "19",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          }
+        },
+        {
+          "id": "30b25bdb20e4a0d28",
+          "type": "result",
+          "competition": "SJRU XVs Under 13B",
+          "compId": "L2f2cNaPwtXr4vCh2",
+          "round": "Round 2",
+          "roundLabel": "Round 2",
+          "dateTime": "2026-05-03T04:30:00+00:00",
+          "venue": "Tantallon Oval",
+          "status": "Result",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": null,
+          "home": {
+            "id": "AX6MBpn8Xva2AmC8N",
+            "name": "Lane Cove Gold 13",
+            "score": "67",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "2YGhc3aNHZB7ohYeM",
+            "name": "Ryde/Hills 13",
+            "score": "17",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53514.png?v=1712727903538"
+          }
+        },
+        {
+          "id": "948fc97bd95a9e40b",
+          "type": "result",
+          "competition": "SJRU XVs Under 13B",
+          "compId": "L2f2cNaPwtXr4vCh2",
+          "round": "Round 3",
+          "roundLabel": "Round 3",
+          "dateTime": "2026-05-10T02:40:00+00:00",
+          "venue": "Rawson Oval",
+          "status": "Result",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": null,
+          "home": {
+            "id": "PSosWdcfsjmTC7sCB",
+            "name": "Mosman Whales 13",
+            "score": "39",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/41064.png?v=1712801577389"
+          },
+          "away": {
+            "id": "AX6MBpn8Xva2AmC8N",
+            "name": "Lane Cove Gold 13",
+            "score": "10",
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          }
+        },
+        {
+          "id": "e91e250ef3628a5be",
+          "type": "fixture",
+          "competition": "SJRU XVs Under 13B",
+          "compId": "L2f2cNaPwtXr4vCh2",
+          "round": "Round 4",
+          "roundLabel": "Round 4",
+          "dateTime": "2026-05-16T14:00:00+00:00",
+          "venue": "",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": true,
+          "matchLabel": null,
+          "home": {
+            "id": "AX6MBpn8Xva2AmC8N",
+            "name": "Lane Cove Gold 13",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "",
+            "name": "",
+            "score": null,
+            "crest": "https://d26phqdbpt0w91.cloudfront.net/NonVideo/d89f330c-59ec-44cb-b7c1-f23052bfa9ee.png"
           }
         }
       ]
@@ -2666,32 +2666,6 @@
       }
     },
     {
-      "id": "6e1f00b4270e2bd39",
-      "type": "result",
-      "competition": "SJRU Grading Gala U11s",
-      "compId": "grfHpTs45XWgLCZiT",
-      "round": "Round 1",
-      "roundLabel": "Game1",
-      "dateTime": "2026-03-29T03:40:00+00:00",
-      "venue": "Eric Tweedale Field 5",
-      "status": "Result",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": null,
-      "home": {
-        "id": "HmRxJzMz8D2L8trjP",
-        "name": "Dee Why Lions 11",
-        "score": "0",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53286.png?v=1712798529153"
-      },
-      "away": {
-        "id": "4nA7pxpFZt6gbj347",
-        "name": "Lane Cove 11",
-        "score": "5",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      }
-    },
-    {
       "id": "535c98b32936cc8ac",
       "type": "fixture",
       "competition": "SJRU Grading Gala U13s",
@@ -2714,6 +2688,32 @@
         "id": "AX6MBpn8Xva2AmC8N",
         "name": "Lane Cove Gold 13",
         "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "6e1f00b4270e2bd39",
+      "type": "result",
+      "competition": "SJRU Grading Gala U11s",
+      "compId": "grfHpTs45XWgLCZiT",
+      "round": "Round 1",
+      "roundLabel": "Game1",
+      "dateTime": "2026-03-29T03:40:00+00:00",
+      "venue": "Eric Tweedale Field 5",
+      "status": "Result",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": null,
+      "home": {
+        "id": "HmRxJzMz8D2L8trjP",
+        "name": "Dee Why Lions 11",
+        "score": "0",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53286.png?v=1712798529153"
+      },
+      "away": {
+        "id": "4nA7pxpFZt6gbj347",
+        "name": "Lane Cove 11",
+        "score": "5",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
     },
@@ -2874,32 +2874,6 @@
       }
     },
     {
-      "id": "318772014727a15a2",
-      "type": "result",
-      "competition": "SJRU XVs Under 13B",
-      "compId": "L2f2cNaPwtXr4vCh2",
-      "round": "Round 1",
-      "roundLabel": "Round 1",
-      "dateTime": "2026-04-26T00:00:00+00:00",
-      "venue": "Peakhurst Oval No 3",
-      "status": "Result",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": null,
-      "home": {
-        "id": "JoX8qpHL6nrYWFKjf",
-        "name": "Oatley 13",
-        "score": "50",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53470.png?v=1712790470274"
-      },
-      "away": {
-        "id": "AX6MBpn8Xva2AmC8N",
-        "name": "Lane Cove Gold 13",
-        "score": "19",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      }
-    },
-    {
       "id": "ba3a6af645d1243bd",
       "type": "result",
       "competition": "SJRU XVs Under 14C",
@@ -2921,6 +2895,32 @@
       "away": {
         "id": "42ZRPX8ej8P9co4Ws",
         "name": "Lane Cove Gold 14",
+        "score": "19",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "318772014727a15a2",
+      "type": "result",
+      "competition": "SJRU XVs Under 13B",
+      "compId": "L2f2cNaPwtXr4vCh2",
+      "round": "Round 1",
+      "roundLabel": "Round 1",
+      "dateTime": "2026-04-26T00:00:00+00:00",
+      "venue": "Peakhurst Oval No 3",
+      "status": "Result",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": null,
+      "home": {
+        "id": "JoX8qpHL6nrYWFKjf",
+        "name": "Oatley 13",
+        "score": "50",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53470.png?v=1712790470274"
+      },
+      "away": {
+        "id": "AX6MBpn8Xva2AmC8N",
+        "name": "Lane Cove Gold 13",
         "score": "19",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
@@ -3238,32 +3238,6 @@
       }
     },
     {
-      "id": "ccef95a05c3f75a09",
-      "type": "result",
-      "competition": "SJRU XVs Under 12E",
-      "compId": "kcmjnQaevmq5BKraX",
-      "round": "Round 2",
-      "roundLabel": "Round 2",
-      "dateTime": "2026-05-03T01:00:00+00:00",
-      "venue": "North Narrabeen Reserve No 4 (behind Pittwater Rugby Park)",
-      "status": "Result",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": null,
-      "home": {
-        "id": "vaFgQGjDB8dvTbaYw",
-        "name": "Narrabeen Tigers Gold 12",
-        "score": "22",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53445.png?v=1712724465491"
-      },
-      "away": {
-        "id": "BPR2bFQZAuLK4CzLD",
-        "name": "Lane Cove/St Ives 12",
-        "score": "12",
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      }
-    },
-    {
       "id": "a8b67a32ce48b23da",
       "type": "result",
       "competition": "SJRU XVs Under 14C",
@@ -3312,6 +3286,32 @@
         "id": "BAczTuGAgyjokt4pJ",
         "name": "Lane Cove Blue 9",
         "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "ccef95a05c3f75a09",
+      "type": "result",
+      "competition": "SJRU XVs Under 12E",
+      "compId": "kcmjnQaevmq5BKraX",
+      "round": "Round 2",
+      "roundLabel": "Round 2",
+      "dateTime": "2026-05-03T01:00:00+00:00",
+      "venue": "North Narrabeen Reserve No 4 (behind Pittwater Rugby Park)",
+      "status": "Result",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": null,
+      "home": {
+        "id": "vaFgQGjDB8dvTbaYw",
+        "name": "Narrabeen Tigers Gold 12",
+        "score": "22",
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53445.png?v=1712724465491"
+      },
+      "away": {
+        "id": "BPR2bFQZAuLK4CzLD",
+        "name": "Lane Cove/St Ives 12",
+        "score": "12",
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
     },
@@ -4668,32 +4668,6 @@
       }
     },
     {
-      "id": "f2f3697f819eb2890",
-      "type": "fixture",
-      "competition": "SJRU Minis U9 Sunday",
-      "compId": "PiZpEgvHfG2suQqzp",
-      "round": "Round 5",
-      "roundLabel": "Round 5",
-      "dateTime": "2026-05-30T23:20:00+00:00",
-      "venue": "Lofberg Oval M2 (U8/U9)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "9-G-22",
-      "home": {
-        "id": "PyQredZ4NJS2JafcM",
-        "name": "Lane Cove Gold 9",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "9ogDjvrkGZeL6fxn6",
-        "name": "Lindfield 9",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48060.png?v=1712741642942"
-      }
-    },
-    {
       "id": "042cc85ed7137ab67",
       "type": "fixture",
       "competition": "SJRU Minis U7 Tri Time Sunday",
@@ -4717,6 +4691,32 @@
         "name": "Chatswood Green 7",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+      }
+    },
+    {
+      "id": "f2f3697f819eb2890",
+      "type": "fixture",
+      "competition": "SJRU Minis U9 Sunday",
+      "compId": "PiZpEgvHfG2suQqzp",
+      "round": "Round 5",
+      "roundLabel": "Round 5",
+      "dateTime": "2026-05-30T23:20:00+00:00",
+      "venue": "Lofberg Oval M2 (U8/U9)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "9-G-22",
+      "home": {
+        "id": "PyQredZ4NJS2JafcM",
+        "name": "Lane Cove Gold 9",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "9ogDjvrkGZeL6fxn6",
+        "name": "Lindfield 9",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/48060.png?v=1712741642942"
       }
     },
     {
