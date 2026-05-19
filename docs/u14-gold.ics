@@ -28,8 +28,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-ba3a6af645d1243bd-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260519T162708Z
-LAST-MODIFIED:20260519T162708Z
+DTSTAMP:20260519T172508Z
+LAST-MODIFIED:20260519T172508Z
 DTSTART;TZID=Australia/Sydney:20260426T100000
 DTEND;TZID=Australia/Sydney:20260426T113000
 SUMMARY:U14 Gold vs Randwick Warriors Myrtle 14 | RND 1
@@ -45,8 +45,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-a8b67a32ce48b23da-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260519T162708Z
-LAST-MODIFIED:20260519T162708Z
+DTSTAMP:20260519T172508Z
+LAST-MODIFIED:20260519T172508Z
 DTSTART;TZID=Australia/Sydney:20260503T110000
 DTEND;TZID=Australia/Sydney:20260503T123000
 SUMMARY:U14 Gold vs Killara-West Pymble 14 | RND 2
@@ -62,8 +62,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-ab1330b1d2192ec74-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260519T162708Z
-LAST-MODIFIED:20260519T162708Z
+DTSTAMP:20260519T172508Z
+LAST-MODIFIED:20260519T172508Z
 DTSTART;TZID=Australia/Sydney:20260510T123000
 DTEND;TZID=Australia/Sydney:20260510T140000
 SUMMARY:U14 Gold vs Drummoyne 14 | RND 3
@@ -78,8 +78,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-e47c24c7c3cbe1734-u14-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260519T162708Z
-LAST-MODIFIED:20260519T162708Z
+DTSTAMP:20260519T172508Z
+LAST-MODIFIED:20260519T172508Z
 DTSTART;TZID=Australia/Sydney:20260517T121000
 DTEND;TZID=Australia/Sydney:20260517T134000
 SUMMARY:U14 Gold vs Ryde 14 | RND 4
@@ -90,22 +90,6 @@ DESCRIPTION:🏉 Lane Cove Gold 14 vs Ryde 14\n📍 Tantallon Oval\, Lane C
  tically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs aft
  er a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14-gol
  d
-URL:https://denishoctor.github.io/lcjru-fixtures/#u14-gold
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-9e00230f135fdebb6-u14-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260519T162708Z
-LAST-MODIFIED:20260519T162708Z
-DTSTART;TZID=Australia/Sydney:20260524T095000
-DTEND;TZID=Australia/Sydney:20260524T112000
-SUMMARY:U14 Gold vs Balmain 14 | RND 5
-LOCATION:Leichhardt Oval No 2\, Sydney NSW
-DESCRIPTION:🏉 Lane Cove Gold 14 vs Balmain 14\n📍 Leichhardt Oval No 2
- \n📅 Round 5 · Sun\, 24 May · 9:50am AEST\n🏆 SJRU XVs Under 14C\n\n
- ℹ️ Venues and times may change. This calendar updates automatically\n(
- Apple Calendar: ~every hour · Google Calendar: up to 24 hrs after a chang
- e)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u14-gold
 URL:https://denishoctor.github.io/lcjru-fixtures/#u14-gold
 END:VEVENT
 END:VCALENDAR
