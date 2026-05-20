@@ -28,8 +28,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:lcjru-a64050181839884a0-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260503T092000
 DTEND;TZID=Australia/Sydney:20260503T102000
 SUMMARY:U8 Gold vs Hornsby Red 8 | RND 1
@@ -47,8 +47,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-5084cf18e3531c0fa-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260510T100000
 DTEND;TZID=Australia/Sydney:20260510T110000
 SUMMARY:U8 Gold vs Chatswood Black 8 | RND 2
@@ -66,8 +66,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-44d3b735df662b2c3-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260517T084000
 DTEND;TZID=Australia/Sydney:20260517T094000
 SUMMARY:U8 Gold vs Norths Pirates Black 8 | RND 3
@@ -85,8 +85,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-ec9b4827a367e0ae3-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260524T084000
 DTEND;TZID=Australia/Sydney:20260524T094000
 SUMMARY:U8 Gold vs Wakehurst Krakens 8 | RND 4
@@ -104,8 +104,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-f5affa17b1f786f86-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260531T084000
 DTEND;TZID=Australia/Sydney:20260531T094000
 SUMMARY:U8 Gold vs Lane Cove Gold 8 | RND 5
@@ -121,27 +121,143 @@ DESCRIPTION:🏉 Lane Cove Blue 8 vs Lane Cove Gold 8\n📍 Lofberg Oval TT
 URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-event-rnd-6-u89-u8-gold@lcjru.github.io
+UID:lcjru-09fca372a0a29933e-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260614T090000
-DTEND;TZID=Australia/Sydney:20260614T100000
-SUMMARY:Round 6
-LOCATION:James Morgan Reserve\, Cromer\, Sydney NSW
-DESCRIPTION:🏉 Round 6\n📍 James Morgan Reserve\, Cromer\n📅 Sun\, 14
-  June · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar 
- updates automatically\n(Apple Calendar: ~every hour · Google Calendar: up
-  to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fix
- tures/#u8-gold
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260614T084000
+DTEND;TZID=Australia/Sydney:20260614T094000
+SUMMARY:U8 Gold vs Dee Why 8 | RND 6
+LOCATION:James Morgan Reserve TT1\, Cromer\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs Dee Why 8\n📍 James Morgan Reserve T
+ T1\, Cromer\n📅 Round 6 · Sun\, 14 June · 8:40am AEST\n🏆 SJRU Minis
+  U8 Sunday\n\nℹ️ Venues and times may change. This calendar updates au
+ tomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs
+  after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u8-
+ gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 James Morgan R
+ eserve TT2\, Cromer  ⏰ 8:40am  vs Hornsby Red 8\n(Their separate game 
+ — come cheer them on!)
 URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-834d5c5dff14a39b2-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260726T084000
+DTEND;TZID=Australia/Sydney:20260726T094000
+SUMMARY:U8 Gold vs Hornsby Black 8 | RND 8
+LOCATION:Beauchamp Park TT2\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs Hornsby Black 8\n📍 Beauchamp Park T
+ T2\, Chatswood\n📅 Round 8 · Sun\, 26 July · 8:40am AEST\n🏆 SJRU Mi
+ nis U8 Sunday\n\nℹ️ Venues and times may change. This calendar updates
+  automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 
+ hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#
+ u8-gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Beauchamp P
+ ark TT3\, Chatswood  ⏰ 8:40am  vs Killara-West Pymble/Lindfield 8\n(Thei
+ r separate game — come cheer them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-ea02ec9ab3c184afb-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260802T084000
+DTEND;TZID=Australia/Sydney:20260802T094000
+SUMMARY:U8 Gold vs Norths Pirates Red 8 | RND 9
+LOCATION:Tantallon Oval TT2\, Lane Cove North\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs Norths Pirates Red 8\n📍 Tantallon O
+ val TT2\, Lane Cove North\n📅 Round 9 · Sun\, 2 Aug · 8:40am AEST\n
+ 🏆 SJRU Minis U8 Sunday\n\nℹ️ Venues and times may change. This cale
+ ndar updates automatically\n(Apple Calendar: ~every hour · Google Calenda
+ r: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjr
+ u-fixtures/#u8-gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍
+  Tantallon Oval TT1\, Lane Cove North  ⏰ 8:40am  vs Norths Pirates Black
+  8\n(Their separate game — come cheer them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-3d26abedb68edfb05-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260809T080000
+DTEND;TZID=Australia/Sydney:20260809T090000
+SUMMARY:U8 Gold vs St Ives 8 | RND 10
+LOCATION:Wakehurst Rugby Park TT1\, Belrose\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs St Ives 8\n📍 Wakehurst Rugby Park T
+ T1\, Belrose\n📅 Round 10 · Sun\, 9 Aug · 8:00am AEST\n🏆 SJRU Minis
+  U8 Sunday\n\nℹ️ Venues and times may change. This calendar updates au
+ tomatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs
+  after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u8-
+ gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Wakehurst Rugb
+ y Park TT2\, Belrose  ⏰ 8:00am  vs Wakehurst Kings 8\n(Their separate ga
+ me — come cheer them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-7bc5ccfbd02d8f384-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260816T080000
+DTEND;TZID=Australia/Sydney:20260816T090000
+SUMMARY:U8 Gold vs St Ives 8 | RND 11
+LOCATION:Mark Taylor Oval TT1\, Waitara\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs St Ives 8\n📍 Mark Taylor Oval TT1\,
+  Waitara\n📅 Round 11 · Sun\, 16 Aug · 8:00am AEST\n🏆 SJRU Minis U8
+  Sunday\n\nℹ️ Venues and times may change. This calendar updates autom
+ atically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 hrs af
+ ter a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u8-gol
+ d\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Mark Taylor Oval 
+ TT2\, Waitara  ⏰ 8:00am  vs Dee Why 8\n(Their separate game — come che
+ er them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-d5328da5858b5a90c-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260823T084000
+DTEND;TZID=Australia/Sydney:20260823T094000
+SUMMARY:U8 Gold vs Wakehurst Kings 8 | RND 12
+LOCATION:Beauchamp Park TT3\, Chatswood\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs Wakehurst Kings 8\n📍 Beauchamp Park
+  TT3\, Chatswood\n📅 Round 12 · Sun\, 23 Aug · 8:40am AEST\n🏆 SJRU 
+ Minis U8 Sunday\n\nℹ️ Venues and times may change. This calendar updat
+ es automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 2
+ 4 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures
+ /#u8-gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Beauchamp
+  Park TT2\, Chatswood  ⏰ 8:40am  vs Wakehurst Krakens 8\n(Their separate
+  game — come cheer them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
+END:VEVENT
+BEGIN:VEVENT
+UID:lcjru-81db80dfa76238b78-u8-gold@lcjru.github.io
+SEQUENCE:0
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
+DTSTART;TZID=Australia/Sydney:20260830T100000
+DTEND;TZID=Australia/Sydney:20260830T110000
+SUMMARY:U8 Gold vs Chatswood Green 8 | RND 13
+LOCATION:Hassall Park TT4\, St Ives\, Sydney NSW
+DESCRIPTION:🏉 Lane Cove Gold 8 vs Chatswood Green 8\n📍 Hassall Park T
+ T4\, St Ives\n📅 Round 13 · Sun\, 30 Aug · 10:00am AEST\n🏆 SJRU Min
+ is U8 Sunday\n\nℹ️ Venues and times may change. This calendar updates 
+ automatically\n(Apple Calendar: ~every hour · Google Calendar: up to 24 h
+ rs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtures/#u
+ 8-gold\n\n---\nAlso playing today — Lane Cove Blue 8:\n📍 Hassall Park
+  TT5\, St Ives  ⏰ 10:00am  vs Chatswood Black 8\n(Their separate game 
+ — come cheer them on!)
+URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
 END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-gala-rnd-7-2026-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260620T083000
 DTEND;TZID=Australia/Sydney:20260620T123000
 SUMMARY:Inter-District Gala Day — Round 7
@@ -158,8 +274,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:lcjru-event-koth-k1-u89-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;TZID=Australia/Sydney:20260628T090000
 DTEND;TZID=Australia/Sydney:20260628T130000
 SUMMARY:King of the Hills — K1 Gala
@@ -173,112 +289,10 @@ URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:lcjru-event-rnd-8-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260726T090000
-DTEND;TZID=Australia/Sydney:20260726T100000
-SUMMARY:Round 8
-LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
-DESCRIPTION:🏉 Round 8\n📍 Beauchamp Park\, Chatswood\n📅 Sun\, 26 Ju
- ly · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
- ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
-  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
- es/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-event-rnd-9-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260802T090000
-DTEND;TZID=Australia/Sydney:20260802T100000
-SUMMARY:Round 9
-LOCATION:Wakehurst Rugby Park\, Belrose\, Sydney NSW
-DESCRIPTION:🏉 Round 9\n📍 Wakehurst Rugby Park\, Belrose\n📅 Sun\, 2
-  Aug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar u
- pdates automatically\n(Apple Calendar: ~every hour · Google Calendar: up 
- to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixt
- ures/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-event-rnd-10-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260809T090000
-DTEND;TZID=Australia/Sydney:20260809T100000
-SUMMARY:Round 10
-LOCATION:Tantallon Oval\, Lane Cove North\, Sydney NSW
-DESCRIPTION:🏉 Round 10\n📍 Tantallon Oval\, Lane Cove North\n📅 Sun\
- , 9 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. This calenda
- r updates automatically\n(Apple Calendar: ~every hour · Google Calendar: 
- up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-f
- ixtures/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-event-rnd-11-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260816T090000
-DTEND;TZID=Australia/Sydney:20260816T100000
-SUMMARY:Round 11
-LOCATION:Mark Taylor Oval\, Waitara\, Sydney NSW
-DESCRIPTION:🏉 Round 11\n📍 Mark Taylor Oval\, Waitara\n📅 Sun\, 16 A
- ug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
- ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
-  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
- es/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-event-rnd-12-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260823T090000
-DTEND;TZID=Australia/Sydney:20260823T100000
-SUMMARY:Round 12
-LOCATION:Beauchamp Park\, Chatswood\, Sydney NSW
-DESCRIPTION:🏉 Round 12\n📍 Beauchamp Park\, Chatswood\n📅 Sun\, 23 A
- ug · 9:00am AEST\n\nℹ️ Venues and times may change. This calendar upd
- ates automatically\n(Apple Calendar: ~every hour · Google Calendar: up to
-  24 hrs after a change)\n\n🔗 https://denishoctor.github.io/lcjru-fixtur
- es/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
-UID:lcjru-event-rnd-13-u89-u8-gold@lcjru.github.io
-SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
-DTSTART;TZID=Australia/Sydney:20260830T090000
-DTEND;TZID=Australia/Sydney:20260830T100000
-SUMMARY:Round 13 — Final Round
-LOCATION:Hassall Park\, St Ives\, Sydney NSW
-DESCRIPTION:🏉 Round 13 — Final Round\n📍 Hassall Park\, St Ives\n
- 📅 Sun\, 30 Aug · 9:00am AEST\n\nℹ️ Venues and times may change. Th
- is calendar updates automatically\n(Apple Calendar: ~every hour · Google 
- Calendar: up to 24 hrs after a change)\n\n🔗 https://denishoctor.github.
- io/lcjru-fixtures/#u8-gold
-URL:https://denishoctor.github.io/lcjru-fixtures/#u8-gold
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
 UID:lcjru-event-challenge-cup-2026-u8-gold@lcjru.github.io
 SEQUENCE:0
-DTSTAMP:20260520T013020Z
-LAST-MODIFIED:20260520T013020Z
+DTSTAMP:20260520T040031Z
+LAST-MODIFIED:20260520T040030Z
 DTSTART;VALUE=DATE:20260913
 DTEND;VALUE=DATE:20260914
 SUMMARY:Chatswood Challenge Cup
