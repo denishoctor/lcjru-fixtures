@@ -61,7 +61,7 @@ window.LCJRU_CONFIG = {
       "details": {
         "map": {
           "src": "assets/venues/hassall-park.jpeg",
-          "caption": "Two fields — Field 2 (TT1–TT4, M1–M2) off Mona Vale Rd, Field 1 (M3–M4) near the clubhouse",
+          "caption": "Satellite view with Field 2 layouts — TT1–TT4 (minis, gold) and M1–M2 (mods, red) overlaid on the main field",
           "asOf": "2026-05"
         },
         "coffee": {
@@ -103,7 +103,7 @@ window.LCJRU_CONFIG = {
       "details": {
         "map": {
           "src": "assets/venues/melwood-oval.jpeg",
-          "caption": "Same pitch, two layouts depending on grade — TT1–TT4 (minis) on top, M1–M2 (mods) on the bottom. Clubhouse + carpark on the east side.",
+          "caption": "Satellite view — same pitch shown with both layouts: TT1–TT4 (minis, gold) and M1–M2 (mods, red). Clubhouse + carpark on the east side.",
           "asOf": "2026-05"
         }
       }
