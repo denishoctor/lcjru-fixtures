@@ -57,7 +57,18 @@ window.LCJRU_CONFIG = {
     },
     "Hassall Park": {
       "suburb": "St Ives",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/hassall-park.jpeg",
+          "caption": "Two fields — Field 2 (TT1–TT4, M1–M2) off Mona Vale Rd, Field 1 (M3–M4) near the clubhouse",
+          "asOf": "2026-05"
+        },
+        "coffee": {
+          "onsite": "Coffee van on site + BBQ on game days."
+        },
+        "notes": "Hosted by St Ives JRU. Two fields in action — Field 2 sits along Mona Vale Rd with a playground on the west side; Field 1 is down by the clubhouse."
+      }
     },
     "James Morgan Reserve": {
       "suburb": "Cromer",
@@ -88,7 +99,14 @@ window.LCJRU_CONFIG = {
     },
     "Melwood Oval": {
       "suburb": "Forestville",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/melwood-oval.jpeg",
+          "caption": "Pitch layout — TT1–TT4 (upper field) and M1–M2 (lower field), clubhouse + carpark beside each",
+          "asOf": "2026-05"
+        }
+      }
     },
     "Nagle Park": {
       "suburb": "Maroubra",
