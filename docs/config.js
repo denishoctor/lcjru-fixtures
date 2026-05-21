@@ -33,7 +33,19 @@ window.LCJRU_CONFIG = {
     },
     "Beauchamp Park": {
       "suburb": "Chatswood",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/beauchamp-park.jpg",
+          "caption": "Pitch layout — TT3/TT4 North, TT1/TT2 South. Spectators on east & west sides only",
+          "asOf": "2026-05"
+        },
+        "parking": "Best on the street — try Beauchamp Ave / Rose St (north) or Nicholson St (south, but watch the No Parking zone).",
+        "coffee": {
+          "onsite": "Coffee van, canteen, and BBQ all operating on game day."
+        },
+        "notes": "Hosted by Chatswood Junior Rugby Club. No spectators in the middle of the oval or on the cricket pitch — officials only (GM table + first aid in the centre). Toilets and change rooms in and adjacent to the main pavilion."
+      }
     },
     "Boronia Park": {
       "suburb": "Hunters Hill",
