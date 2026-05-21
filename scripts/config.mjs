@@ -46,7 +46,13 @@ export const VENUES = {
   },
   'Boronia Park':                    { suburb: 'Hunters Hill',    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boronia+Park%2C+Park+Rd%2C+Hunters+Hill+NSW+2110%2C+Australia' },
   'Eric Tweedale Field':             { suburb: 'Merrylands',      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia' },
-  'Hassall Park':                    { suburb: 'St Ives',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia' },
+  'Hassall Park':                    { suburb: 'St Ives',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia',
+    details: {
+      map:     { src: 'assets/venues/hassall-park.jpeg', caption: 'Two fields — Field 2 (TT1–TT4, M1–M2) off Mona Vale Rd, Field 1 (M3–M4) near the clubhouse', asOf: '2026-05' },
+      coffee:  { onsite: 'Coffee van on site + BBQ on game days.' },
+      notes:   'Hosted by St Ives JRU. Two fields in action — Field 2 sits along Mona Vale Rd with a playground on the west side; Field 1 is down by the clubhouse.',
+    },
+  },
   'James Morgan Reserve':            { suburb: 'Cromer',          mapsUrl: 'https://www.google.com/maps/search/?api=1&query=James+Morgan+Reserve+Fisher+Rd+N+%26+Carawa+Rd%2C+Cromer+NSW+2099%2C+Australia' },
   'Keirle Park':                     { suburb: 'Manly',           mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia',
     details: {
@@ -56,7 +62,11 @@ export const VENUES = {
   'Lofberg Oval':                    { suburb: 'West Pymble',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia' },
   'Mark Taylor Oval':                { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
   'Mark Taylor Oval (Waitara Oval)': { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
-  'Melwood Oval':                    { suburb: 'Forestville',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia' },
+  'Melwood Oval':                    { suburb: 'Forestville',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia',
+    details: {
+      map: { src: 'assets/venues/melwood-oval.jpeg', caption: 'Pitch layout — TT1–TT4 (upper field) and M1–M2 (lower field), clubhouse + carpark beside each', asOf: '2026-05' },
+    },
+  },
   'Nagle Park':                      { suburb: 'Maroubra',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Nagle+Park%2C+Maroubra+NSW+2035%2C+Australia' },
   'North Narrabeen Reserve':         { suburb: 'Narrabeen',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=North+Narrabeen+Reserve%2C+Pittwater+Rd%2C+Warriewood+NSW+2102%2C+Australia' },
   'Peakhurst Oval':                  { suburb: 'Peakhurst',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Peakhurst+Park%2C+Peakhurst+NSW+2210%2C+Australia' },
