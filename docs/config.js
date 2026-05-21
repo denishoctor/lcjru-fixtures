@@ -103,7 +103,7 @@ window.LCJRU_CONFIG = {
       "details": {
         "map": {
           "src": "assets/venues/melwood-oval.jpeg",
-          "caption": "Pitch layout — TT1–TT4 (upper field) and M1–M2 (lower field), clubhouse + carpark beside each",
+          "caption": "Same pitch, two layouts depending on grade — TT1–TT4 (minis) on top, M1–M2 (mods) on the bottom. Clubhouse + carpark on the east side.",
           "asOf": "2026-05"
         }
       }

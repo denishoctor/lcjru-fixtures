@@ -64,7 +64,7 @@ export const VENUES = {
   'Mark Taylor Oval (Waitara Oval)': { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
   'Melwood Oval':                    { suburb: 'Forestville',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia',
     details: {
-      map: { src: 'assets/venues/melwood-oval.jpeg', caption: 'Pitch layout — TT1–TT4 (upper field) and M1–M2 (lower field), clubhouse + carpark beside each', asOf: '2026-05' },
+      map: { src: 'assets/venues/melwood-oval.jpeg', caption: 'Same pitch, two layouts depending on grade — TT1–TT4 (minis) on top, M1–M2 (mods) on the bottom. Clubhouse + carpark on the east side.', asOf: '2026-05' },
     },
   },
   'Nagle Park':                      { suburb: 'Maroubra',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Nagle+Park%2C+Maroubra+NSW+2035%2C+Australia' },
