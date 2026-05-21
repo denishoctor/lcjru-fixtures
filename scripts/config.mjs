@@ -36,7 +36,14 @@ export const TEAM_SLUGS = {
 export const VENUES = {
   'AR Hurst Reserve':                { suburb: 'Sylvania',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=AR+Hurst+Reserve%2C+The+Esplanade%2C+Sylvania+NSW+2224%2C+Australia' },
   'Bantry Bay Oval':                 { suburb: 'Seaforth',        mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Bantry+Bay+Oval+Reserve+St%2C+Seaforth+NSW+2092%2C+Australia' },
-  'Beauchamp Park':                  { suburb: 'Chatswood',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia' },
+  'Beauchamp Park':                  { suburb: 'Chatswood',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia',
+    details: {
+      map:     { src: 'assets/venues/beauchamp-park.jpg', caption: 'Pitch layout — TT3/TT4 North, TT1/TT2 South. Spectators on east & west sides only', asOf: '2026-05' },
+      parking: 'Best on the street — try Beauchamp Ave / Rose St (north) or Nicholson St (south, but watch the No Parking zone).',
+      coffee:  { onsite: 'Coffee van, canteen, and BBQ all operating on game day.' },
+      notes:   'Hosted by Chatswood Junior Rugby Club. No spectators in the middle of the oval or on the cricket pitch — officials only (GM table + first aid in the centre). Toilets and change rooms in and adjacent to the main pavilion.',
+    },
+  },
   'Boronia Park':                    { suburb: 'Hunters Hill',    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boronia+Park%2C+Park+Rd%2C+Hunters+Hill+NSW+2110%2C+Australia' },
   'Eric Tweedale Field':             { suburb: 'Merrylands',      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia' },
   'Hassall Park':                    { suburb: 'St Ives',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia' },
