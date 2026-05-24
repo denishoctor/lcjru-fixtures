@@ -1057,11 +1057,12 @@ function renderHomePage() {
     ).map(e => ({ kind: 'event', dt: eventDt(e), item: e })),
   ].sort((a, b) => a.dt - b.dt);
 
-  // Last results weekend: walk back until we find a weekend with scored games in the chosen
-  // group. Skips school-holiday / bye weekends so the section doesn't render empty. After
-  // the Sunday cutover the walk-back starts at this weekend (offset 0) so today's results
-  // show here. With "Minis" selected this finds nothing (Minis aren't scored) → section hidden.
-  const lastResults = findLastResultsWeekend(now, allMatches, { startOffset: concluded ? 0 : -1, inGroup });
+  // Reference weekend for results: the most recent weekend that had *any* scored game,
+  // chosen independent of the group filter so switching All/Minis/Juniors never changes which
+  // weekend is shown — the filter only narrows the list (applied at render time below). Skips
+  // school-holiday / bye weekends so the section doesn't render empty. After the Sunday cutover
+  // the walk-back starts at this weekend (offset 0) so today's results show here.
+  const lastResults = findLastResultsWeekend(now, allMatches, { startOffset: concluded ? 0 : -1 });
 
   // Coming up: special events after this weekend, ~12 week horizon
   const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
@@ -1112,15 +1113,16 @@ function renderHomePage() {
     }
   }
 
-  // Last weekend's results — only games with scores (Minis aren't scored). Walk-back
-  // means the section can show e.g. "Sat 19 – Sun 20 Apr" when the last weekend was a
-  // school-holiday bye.
-  if (lastResults) {
+  // Last weekend's results — narrow the reference weekend to the active group, then order by
+  // age grade youngest → oldest (kickoff time breaks ties). The section is hidden when the
+  // group had no scored games that weekend — so Minis (never scored) shows nothing rather than
+  // dragging in a stale older result.
+  const lastResultsByAge = (lastResults?.matches ?? [])
+    .filter(inGroup)
+    .sort((a, b) => teamAge(a, SLUG_BY_ID) - teamAge(b, SLUG_BY_ID) || new Date(a.dateTime) - new Date(b.dateTime));
+  if (lastResultsByAge.length) {
     html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastResults.sat));
-    // Ordered by age grade, youngest → oldest (kickoff time breaks ties within a grade).
-    const byAge = [...lastResults.matches].sort((a, b) =>
-      teamAge(a, SLUG_BY_ID) - teamAge(b, SLUG_BY_ID) || new Date(a.dateTime) - new Date(b.dateTime));
-    for (const m of byAge) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
+    for (const m of lastResultsByAge) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
   }
 
   // Coming up
