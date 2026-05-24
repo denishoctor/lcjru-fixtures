@@ -112,14 +112,20 @@
     background: #FFFDF5;
     border-bottom: 1px solid var(--rule);
   }
-  .token-grid {
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 5px;
+  /* Selection band — group pills, then (when a group is engaged) that group's team
+     tokens flow inline in the same wrapping row. */
+  .select-band {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
   }
-  @media (min-width: 720px) {
-    .token-grid { grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 6px; }
+  .select-band[hidden] { display: none; }
+  .select-sep {
+    flex: 0 0 auto; align-self: stretch; width: 1px; min-height: 22px;
+    background: var(--cream-edge); margin: 0 3px;
   }
+  /* display:contents promotes the token buttons to flex items of .select-band so they
+     flow inline after the pills. .rest (no group engaged) / .collapsed (team selected)
+     hide them entirely. */
+  .token-grid { display: contents; }
   .token {
     font-size: 11px; font-weight: 700;
     padding: 5px 4px; border-radius: 18px;
@@ -147,7 +153,9 @@
      supported) animates the active token flying from its grid cell up to
      the header pill; otherwise the swap is instant. */
   .token.active { view-transition-name: active-team-token; }
-  .token-grid.collapsed { display: none; }
+  /* Tokens hidden either at rest (no group engaged) or when a team is selected
+     (collapsed → morphs to the header pill). The two are mutually exclusive. */
+  .token-grid.collapsed, .token-grid.rest { display: none; }
   /* Suppress the duplicate name when the token is hidden inside a collapsed
      grid — the header pill below claims the same name to drive the morph. */
   .token-grid.collapsed .token.active { view-transition-name: none; }
@@ -217,9 +225,9 @@
     border-top: 1px dashed var(--cream-edge);
   }
   .action-bar[hidden] { display: none; }
-  /* Grid hidden? Drop the dashed separator + extra spacing — the action-bar
-     would otherwise appear with a stray rule above it. */
-  .token-grid.collapsed + .action-bar {
+  /* Selection band hidden (team selected)? Drop the dashed separator + extra spacing —
+     the action-bar would otherwise appear with a stray rule above it. */
+  .select-band[hidden] + .action-bar {
     border-top: none; margin-top: 0; padding-top: 0;
   }
 
@@ -367,16 +375,7 @@
     border-bottom: 1px solid var(--rule);
   }
 
-  /* Minis | Juniors group filter — one slim segmented control on the home page */
-  .home-filter {
-    display: flex; align-items: center; justify-content: center; gap: 9px;
-    padding: 8px 28px;
-    background: #FFFDF5; border-bottom: 1px solid var(--rule);
-  }
-  .home-filter-label {
-    font-size: 10px; font-weight: 800; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
+  /* Minis | Juniors group pills — the segmented control in the toolbar selection band */
   .home-seg {
     display: inline-flex; gap: 3px;
     background: var(--cream); border: 1.5px solid var(--cream-edge);
@@ -773,7 +772,7 @@
     .updated-stamp { font-size: 10.5px; margin-top: 2px; }
     .row { padding: 10px 16px; gap: 10px; }
     .toolbar { padding: 9px 14px; }
-    .token-grid { gap: 5px; }
+    .select-band { gap: 5px; }
     .token { padding: 5px 4px; font-size: 10.5px; letter-spacing: .2px; }
     .action-bar { gap: 6px; margin-top: 8px; padding-top: 8px; }
     .filter-row { gap: 4px; }
@@ -791,7 +790,6 @@
     .home-intro { padding: 18px 16px 14px; }
     .home-outro { padding: 22px 16px 26px; }
     .home-empty { padding: 14px 16px; }
-    .home-filter { padding: 7px 16px; gap: 7px; }
     .home-seg-btn { padding: 4px 12px; }
     .home-row { padding: 7px 16px; gap: 8px; font-size: 12.5px; }
     .home-row-when, .home-row-result { min-width: 64px; font-size: 11px; }
@@ -843,7 +841,14 @@
   </div>
 
   <div class="toolbar">
-    <div class="token-grid" id="team-tokens">
+    <div class="select-band" id="select-band">
+    <div class="home-seg" id="group-seg" role="group" aria-label="Filter teams by age group">
+      <button class="home-seg-btn" type="button" data-group="all" aria-pressed="false">All</button>
+      <button class="home-seg-btn" type="button" data-group="minis" aria-pressed="false">Minis</button>
+      <button class="home-seg-btn" type="button" data-group="juniors" aria-pressed="false">Juniors</button>
+    </div>
+    <span class="select-sep" aria-hidden="true" hidden></span>
+    <div class="token-grid rest" id="team-tokens">
       <button class="token" data-team="wjBCCDfvXpx8QivYu" aria-label="U6 Gold">U6<span class="squad squad-g" aria-hidden="true">G</span></button>
       <button class="token" data-team="nXtZPbg5Pb9xgh6Rd" aria-label="U6 Blue">U6<span class="squad squad-b" aria-hidden="true">B</span></button>
       <button class="token" data-team="84q7BEamwEAGPZgc2" aria-label="U7 Gold">U7<span class="squad squad-g" aria-hidden="true">G</span></button>
@@ -860,6 +865,7 @@
       <button class="token" data-team="42ZRPX8ej8P9co4Ws" aria-label="U14 Gold">U14<span class="squad squad-g" aria-hidden="true">G</span></button>
       <button class="token" data-team="mtDoyNMX26Bm94nuk">U14</button>
       <button class="token" data-team="LmZzP4t9h9bdYr9Pt">U15</button>
+    </div>
     </div>
     <div class="action-bar" id="action-bar" hidden>
       <div class="filter-row" id="filter-group" role="group" aria-label="Show or hide event types">
@@ -972,6 +978,11 @@ try {
   if (g === 'minis' || g === 'juniors') homeGroup = g;
 } catch { /* private mode */ }
 
+// Whether a group pill has been engaged (team tokens revealed). false = rest (pills only).
+// Distinct from homeGroup so "All engaged" (show 16) and "rest" (show none) are separable
+// even though both leave the home lists unfiltered (homeGroup === 'all').
+let groupEngaged = false;
+
 // Last-selected team, persisted across reloads so a user landing on the
 // bare URL goes straight back to their team. URL hash still wins on initial
 // load — explicit deep links override the stored preference.
@@ -1081,15 +1092,7 @@ function renderHomePage() {
     <div class="home-intro">
       <h2>Lane Cove Junior Rugby — what's on</h2>
       <p class="home-intro-sub">This weekend's games, last results and club events for all ${teamCount} LCJRU teams. Tantallon Oval is our home ground — most weekends we travel across Sydney for the SJRU draw.</p>
-      <div class="home-cta">Pick a team above for the full schedule, calendar sync &amp; team sheets</div>
-    </div>`;
-
-  // Minis | Juniors group filter — applies to the two match sections below
-  const segBtn = (val, label) =>
-    `<button class="home-seg-btn${homeGroup === val ? ' active' : ''}" type="button" data-group="${val}" aria-pressed="${homeGroup === val}">${label}</button>`;
-  html += `<div class="home-filter" role="group" aria-label="Filter games by age group">
-      <span class="home-filter-label">Show</span>
-      <div class="home-seg">${segBtn('all', 'All')}${segBtn('minis', 'Minis')}${segBtn('juniors', 'Juniors')}</div>
+      <div class="home-cta">Pick Minis, Juniors or a team above for the full schedule, calendar sync &amp; team sheets</div>
     </div>`;
 
   // This weekend
@@ -1720,32 +1723,44 @@ function syncTeamPill(teamId, collapsed) {
   }
 }
 
-// Toggle the token-grid collapsed state. The pill takes over when collapsed,
-// so any caller of this function also wants the pill to follow suit.
-function setTokensCollapsed(collapsed, { animate = true } = {}) {
-  const grid = document.getElementById('team-tokens');
-  if (!grid) return;
-  const apply = () => {
-    grid.classList.toggle('collapsed', collapsed);
-    syncTeamPill(currentTeam, collapsed);
-  };
-  if (animate) withTokenAnimation(apply);
-  else apply();
+// Reveals/hides the team tokens for the current group. Engaged ⇒ tokens for `homeGroup`
+// show inline (the matching pill is active); rest ⇒ pills only, no tokens. Only meaningful
+// with no team selected. Drives the `.rest` class, the inline separator, and the pills.
+function setGroupEngaged(engaged) {
+  groupEngaged = engaged && !currentTeam;
+  const tokens = document.getElementById('team-tokens');
+  const sep = document.querySelector('.select-sep');
+  if (tokens) tokens.classList.toggle('rest', !groupEngaged);
+  if (sep) sep.hidden = !groupEngaged;
+  document.querySelectorAll('#group-seg .home-seg-btn').forEach(btn => {
+    const on = groupEngaged && btn.dataset.group === homeGroup;
+    btn.classList.toggle('active', on);
+    btn.setAttribute('aria-pressed', String(on));
+  });
 }
 
 function selectTeam(teamId, pushState = true, { animate = true } = {}) {
   const previousTeam = currentTeam;
   currentTeam = teamId;
 
-  // The active class swap + collapsed toggle + pill swap drive the View
+  // The active class swap + collapse + band hide + pill swap drive the View
   // Transitions animation, so they must all happen inside the same callback —
   // otherwise the browser captures snapshots that don't reflect the user's
-  // intent (e.g. label crossfade between teams won't fire).
+  // intent (e.g. the active token flying up to the header pill).
   const applyTokenState = () => {
     document.querySelectorAll('.token').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.team === teamId);
     });
-    document.getElementById('team-tokens').classList.toggle('collapsed', !!teamId);
+    const tokens = document.getElementById('team-tokens');
+    document.getElementById('select-band').hidden = !!teamId;
+    if (teamId) {
+      tokens.classList.add('collapsed');
+      tokens.classList.remove('rest');
+    } else {
+      tokens.classList.remove('collapsed');
+      // Returning home: restore the saved group (revealed) or rest.
+      setGroupEngaged(homeGroup !== 'all');
+    }
     syncTeamPill(teamId, !!teamId);
   };
   if (animate && previousTeam !== teamId) withTokenAnimation(applyTokenState);
@@ -1841,6 +1856,24 @@ document.querySelectorAll('.token').forEach(btn => {
   });
 });
 
+// Group pills (All / Minis / Juniors) — engage a group (reveal its tokens + filter the home
+// lists), or tap the active pill again to collapse back to rest. Static markup, bound once.
+document.getElementById('group-seg').addEventListener('click', (e) => {
+  const btn = e.target.closest('.home-seg-btn');
+  if (!btn) return;
+  const g = btn.dataset.group;
+  if (groupEngaged && g === homeGroup) {
+    setHomeGroup('all');        // clear stored group + hash + token filter
+    setGroupEngaged(false);     // back to rest (pills only)
+    trackEvent('group-rest');
+  } else {
+    setHomeGroup(g);            // persist + hash + token filter
+    setGroupEngaged(true);      // reveal this group's tokens
+    trackEvent('home-group-' + g);
+  }
+  if (!currentTeam && fixturesData) render(fixturesData, null);
+});
+
 // Fires a GoatCounter custom event. Safe no-op if the script is blocked or still loading.
 function trackEvent(name) {
   window.goatcounter?.count?.({ path: name, event: true });
@@ -1864,12 +1897,12 @@ document.getElementById('copy-link-btn').addEventListener('click', () => { track
 document.getElementById('cal-copy-ics').addEventListener('click', () => { trackEvent('cal-copy-ics'); copyIcsUrl(); });
 document.getElementById('clear-btn').addEventListener('click', () => selectTeam(null));
 
-// The header pill is the visible signpost for the collapsed selection;
-// tapping it brings the full grid back so the user can switch teams without
-// first going home. The pill itself disappears (the morph plays in reverse).
+// The header pill is the visible signpost for the selected team; tapping it returns to the
+// home selector (saved group revealed, or rest) so the user can pick another team. The pill
+// disappears as the morph plays in reverse.
 document.getElementById('team-pill').addEventListener('click', () => {
-  trackEvent('team-pill-expand');
-  setTokensCollapsed(false);
+  trackEvent('team-pill-home');
+  selectTeam(null);
 });
 
 // Filter toggles — flip the bit, persist, re-render the active team's view.
@@ -1912,18 +1945,6 @@ document.addEventListener('keydown', (e) => {
 // Delegated calendar click handler: covers row '#' anchors and panel tabs. Survives every
 // render() rebuild because it's bound once on the calendar container.
 document.getElementById('calendar').addEventListener('click', (e) => {
-  // Home-page Minis | Juniors segment — flip the group (updates URL hash + storage), re-render.
-  const seg = e.target.closest('.home-seg-btn');
-  if (seg) {
-    const g = seg.dataset.group;
-    if (g && g !== homeGroup) {
-      setHomeGroup(g);
-      trackEvent('home-group-' + g);
-      render(fixturesData, null);
-    }
-    return;
-  }
-
   // Tab click — switch which panel is shown, no scroll, no URL change.
   const tabBtn = e.target.closest('.panel-tab');
   if (tabBtn) {
@@ -2095,11 +2116,16 @@ async function init() {
     selectTeam(hashTeam, false, { animate: false });
   } else if (hashGroup) {
     setHomeGroup(hashGroup, { updateHash: false });
+    setGroupEngaged(true);              // deep link → open with that group revealed
     render(data, null);
   } else {
     const savedTeam = loadSavedTeam();
-    if (savedTeam) selectTeam(savedTeam, false, { animate: false });
-    else render(data, null);
+    if (savedTeam) {
+      selectTeam(savedTeam, false, { animate: false });
+    } else {
+      setGroupEngaged(homeGroup !== 'all');  // saved group revealed, else rest (pills only)
+      render(data, null);
+    }
   }
 
   // Reflect the stored/hash group in the token grid on first paint (paths above that don't
