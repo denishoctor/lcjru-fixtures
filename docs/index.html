@@ -131,6 +131,7 @@
     white-space: nowrap; line-height: 1.3; text-align: center;
     min-width: 0;
   }
+  .token[hidden] { display: none; }
   .token:hover { border-color: var(--navy); }
   .token.active { background: var(--navy); color: #fff; border-color: var(--navy); }
   .token .squad { font-weight: 800; margin-left: 2px; }
@@ -1789,9 +1790,18 @@ function readGroupHash() {
   return (seg === 'minis' || seg === 'juniors') ? seg : null;
 }
 
-// Sets the home-page group, persists it, and (optionally) reflects it in the URL hash so the
-// view is shareable. 'all' clears both the stored preference and the hash. updateHash is
-// false when we're reacting to an existing URL (init / hashchange) so we don't fight the bar.
+// Shows only the team tokens belonging to the current group (Minis = U6–U9, Juniors = the
+// rest). 'all' shows everything. Keeps the team picker in step with the home-page filter.
+function applyTokenFilter() {
+  document.querySelectorAll('#team-tokens .token').forEach(btn => {
+    const grp = MINIS_SLUGS.has(SLUG_BY_ID[btn.dataset.team]) ? 'minis' : 'juniors';
+    btn.hidden = homeGroup !== 'all' && grp !== homeGroup;
+  });
+}
+
+// Sets the home-page group, persists it, reflects it in the team token grid, and (optionally)
+// in the URL hash so the view is shareable. 'all' clears both the stored preference and the
+// hash. updateHash is false when we're reacting to an existing URL (init / hashchange).
 function setHomeGroup(g, { updateHash = true } = {}) {
   homeGroup = (g === 'minis' || g === 'juniors') ? g : 'all';
   try {
@@ -1802,6 +1812,7 @@ function setHomeGroup(g, { updateHash = true } = {}) {
     const base = location.href.split('#')[0];
     history.replaceState(null, '', homeGroup === 'all' ? base : base + '#' + homeGroup);
   }
+  applyTokenFilter();
 }
 
 // Scrolls the row with id=rowId into view and opens its panel(s) if expandable.
@@ -2088,6 +2099,10 @@ async function init() {
     if (savedTeam) selectTeam(savedTeam, false, { animate: false });
     else render(data, null);
   }
+
+  // Reflect the stored/hash group in the token grid on first paint (paths above that don't
+  // route through setHomeGroup still need the tokens filtered to match homeGroup).
+  applyTokenFilter();
 
   requestAnimationFrame(() => focusRow(readHashAnchor()));
 }
