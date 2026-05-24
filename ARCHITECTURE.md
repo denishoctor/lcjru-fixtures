@@ -160,10 +160,28 @@ sequenceDiagram
 | `fmtDow/fmtDate/fmtTime(iso)` | render.mjs | Format ISO timestamps in AEST/AEDT using `Intl.DateTimeFormat` |
 | `renderMatch(match, isNextUp)` | index.html | Produces HTML card for one match (uses imported helpers from render.mjs) |
 | `renderLineupPanel(...)` | index.html | Builds the expandable team-sheet grid for a match |
+| `weekendRange(now, offset)` | index.html | `[Sat 00:00, Mon 00:00)` for the weekend `offset` weeks from now (Sun counts as the current weekend) |
+| `weekendConcluded(now)` | index.html | True once it is Sunday in Sydney **and** past `RESULTS_CUTOVER_HOUR` — drives the home-page weekend rollover |
+| `findLastResultsWeekend(now, matches, startOffset)` | index.html | Walks back from `startOffset` until a weekend has scored games (skips byes/holidays) |
+| `renderHomePage()` | index.html | Builds the no-team home view: This weekend / Last weekend's results / Coming up |
 
 **Minis sibling feature:** For U6–U9 ICS feeds, `generateICS()` looks up the sibling team
 (e.g. U7 Gold's sibling is U7 Blue) and appends their same-day fixture to the ICS event
 description — so parents see both teams' games in one calendar event.
+
+**Home-page weekend lifecycle:** The no-team home view has two weekend sections whose contents
+shift on a fixed schedule, driven by `weekendConcluded(now)`:
+
+| Moment (Sydney time) | *This weekend* shows | *Last weekend's results* shows |
+|---|---|---|
+| Sat & Sun **before** 5:00pm | The current weekend — finished games show their **score + W/L/D inline**, games still to play show their kickoff time | The previous weekend |
+| Sun **5:00pm onward**, and Mon–Fri | The **next** round (looks ahead) | The weekend just played |
+
+`RESULTS_CUTOVER_HOUR` (= `17`, defined at the top of the home-page script in `docs/index.html`)
+is the single knob for when the rollover happens. The cutover is evaluated in `Australia/Sydney`
+via `Intl.DateTimeFormat`, so it fires at 5:00pm AEST for every viewer regardless of their device
+timezone. Minis (U6–U9) carry no score, so they only ever appear in *This weekend* (as a time)
+and never in *Last weekend's results*.
 
 ---
 

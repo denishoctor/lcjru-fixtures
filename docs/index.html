@@ -970,6 +970,24 @@ function weekendRange(now, offset = 0) {
   return [sat, monAfter];
 }
 
+// After this hour (Sydney time) on a Sunday, the just-played weekend is treated as
+// finished: its games roll out of "This weekend" and down into "Last weekend's results".
+// Junior and Minis games wrap up by early afternoon, so 5pm clears the whole round with margin.
+const RESULTS_CUTOVER_HOUR = 17;
+
+// True once the current weekend's games are done — i.e. it is Sunday in Sydney and the clock
+// has passed RESULTS_CUTOVER_HOUR. Monday–Saturday this is always false (by Monday the
+// weekendRange() window has already rolled forward on its own). Evaluated in Sydney time so the
+// 5pm cutover fires at the same wall-clock moment for every viewer, wherever their device is.
+function weekendConcluded(now) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Australia/Sydney', weekday: 'short', hour: '2-digit', hourCycle: 'h23',
+  }).formatToParts(now);
+  const weekday = parts.find(p => p.type === 'weekday')?.value;
+  const hour    = Number(parts.find(p => p.type === 'hour')?.value);
+  return weekday === 'Sun' && hour >= RESULTS_CUTOVER_HOUR;
+}
+
 function fmtWeekendLabel(sat) {
   const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
   const f = (d, opts) => d.toLocaleDateString('en-AU', { ...opts, timeZone: 'Australia/Sydney' });
@@ -1048,11 +1066,12 @@ function renderHomeEventRow(event) {
   </a>`;
 }
 
-// Walks back week by week from `now` until we find a weekend with at least one scored
-// match. Cap stops the loop early in pre-season / extended breaks. Returns null if
-// nothing scored in the window.
-function findLastResultsWeekend(now, allMatches, maxWeeks = 6) {
-  for (let i = -1; i >= -maxWeeks; i--) {
+// Walks back week by week from `startOffset` until we find a weekend with at least one
+// scored match. `startOffset` is -1 (the previous weekend) during a live weekend, or 0 (the
+// weekend just gone) once weekendConcluded() flips after the Sunday cutover. Cap stops the
+// loop early in pre-season / extended breaks. Returns null if nothing scored in the window.
+function findLastResultsWeekend(now, allMatches, startOffset = -1, maxWeeks = 6) {
+  for (let i = startOffset; i > startOffset - maxWeeks; i--) {
     const [s, e] = weekendRange(now, i);
     const matches = allMatches.filter(m => {
       const dt = new Date(m.dateTime);
@@ -1065,7 +1084,10 @@ function findLastResultsWeekend(now, allMatches, maxWeeks = 6) {
 
 function renderHomePage() {
   const now = new Date();
-  const [thisSat, thisEnd] = weekendRange(now, 0);
+  // Once the Sunday cutover passes, "This weekend" looks ahead to the next round and the
+  // weekend just gone (offset 0) becomes the start of the results walk-back below.
+  const concluded = weekendConcluded(now);
+  const [thisSat, thisEnd] = weekendRange(now, concluded ? 1 : 0);
 
   const allMatches = fixturesData?.matches ?? [];
   const allEvents  = eventsData ?? [];
@@ -1089,8 +1111,9 @@ function renderHomePage() {
   ].sort((a, b) => a.dt - b.dt);
 
   // Last results weekend: walk back until we find a weekend with scored games. Skips
-  // school-holiday / bye weekends so the section doesn't render empty.
-  const lastResults = findLastResultsWeekend(now, allMatches);
+  // school-holiday / bye weekends so the section doesn't render empty. After the Sunday
+  // cutover the walk-back starts at this weekend (offset 0) so today's results show here.
+  const lastResults = findLastResultsWeekend(now, allMatches, concluded ? 0 : -1);
 
   // Coming up: special events after this weekend, ~12 week horizon
   const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
@@ -1120,9 +1143,12 @@ function renderHomePage() {
     let markedNext = false;
     for (const { kind, item } of thisWeekend) {
       if (kind === 'match') {
-        const isNextUp = !markedNext && new Date(item.dateTime) >= now;
+        // Finished games (both scores in) show the result inline; the rest show kickoff time.
+        // Minis (U6–U9) are never scored, so they always render as time-only fixtures.
+        const played   = item.home.score !== null && item.away.score !== null;
+        const isNextUp = !played && !markedNext && new Date(item.dateTime) >= now;
         if (isNextUp) markedNext = true;
-        html += renderHomeMatchRow(item, { isNextUp, mode: 'fixture' });
+        html += renderHomeMatchRow(item, { isNextUp, mode: played ? 'result' : 'fixture' });
       } else {
         html += renderHomeEventRow(item);
       }
