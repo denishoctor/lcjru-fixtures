@@ -164,6 +164,7 @@ sequenceDiagram
 | `weekendConcluded(now, cutoverHour?)` | render.mjs | True once it is Sunday in Sydney **and** past `RESULTS_CUTOVER_HOUR` — drives the home-page weekend rollover |
 | `fmtWeekendLabel(sat)` | render.mjs | `"Sat 23 – Sun 24 May"` for a weekend's Saturday (Sydney-formatted) |
 | `matchGroup(match, minisSlugs, slugById)` | render.mjs | `'minis'` / `'juniors'` for the match's Lane Cove side — powers the home-page age filter |
+| `teamAge(match, slugById)` | render.mjs | Numeric grade of the match's Lane Cove side (6–15) parsed from its slug — orders results youngest → oldest |
 | `findLastResultsWeekend(now, matches, {startOffset, inGroup})` | render.mjs | Walks back from `startOffset` until a weekend has scored games passing `inGroup` (skips byes/holidays) |
 | `renderHomeMatchRow(match, ctx)` | render.mjs | Compact home-page match row — `ctx = { venues, slugById, isNextUp, mode }`; `mode` `'result'` shows score, `'fixture'` shows time |
 | `renderHomePage()` | index.html | Builds the no-team home view (orchestration): This weekend / Last weekend's results / Coming up, applying the Minis\|Juniors filter |
