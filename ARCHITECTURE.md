@@ -160,10 +160,13 @@ sequenceDiagram
 | `fmtDow/fmtDate/fmtTime(iso)` | render.mjs | Format ISO timestamps in AEST/AEDT using `Intl.DateTimeFormat` |
 | `renderMatch(match, isNextUp)` | index.html | Produces HTML card for one match (uses imported helpers from render.mjs) |
 | `renderLineupPanel(...)` | index.html | Builds the expandable team-sheet grid for a match |
-| `weekendRange(now, offset)` | index.html | `[Sat 00:00, Mon 00:00)` for the weekend `offset` weeks from now (Sun counts as the current weekend) |
-| `weekendConcluded(now)` | index.html | True once it is Sunday in Sydney **and** past `RESULTS_CUTOVER_HOUR` — drives the home-page weekend rollover |
-| `findLastResultsWeekend(now, matches, startOffset)` | index.html | Walks back from `startOffset` until a weekend has scored games (skips byes/holidays) |
-| `renderHomePage()` | index.html | Builds the no-team home view: This weekend / Last weekend's results / Coming up |
+| `weekendRange(now, offset)` | render.mjs | `[Sat 00:00, Mon 00:00)` for the weekend `offset` weeks from now (Sun counts as the current weekend) |
+| `weekendConcluded(now, cutoverHour?)` | render.mjs | True once it is Sunday in Sydney **and** past `RESULTS_CUTOVER_HOUR` — drives the home-page weekend rollover |
+| `fmtWeekendLabel(sat)` | render.mjs | `"Sat 23 – Sun 24 May"` for a weekend's Saturday (Sydney-formatted) |
+| `matchGroup(match, minisSlugs, slugById)` | render.mjs | `'minis'` / `'juniors'` for the match's Lane Cove side — powers the home-page age filter |
+| `findLastResultsWeekend(now, matches, {startOffset, inGroup})` | render.mjs | Walks back from `startOffset` until a weekend has scored games passing `inGroup` (skips byes/holidays) |
+| `renderHomeMatchRow(match, ctx)` | render.mjs | Compact home-page match row — `ctx = { venues, slugById, isNextUp, mode }`; `mode` `'result'` shows score, `'fixture'` shows time |
+| `renderHomePage()` | index.html | Builds the no-team home view (orchestration): This weekend / Last weekend's results / Coming up, applying the Minis\|Juniors filter |
 
 **Minis sibling feature:** For U6–U9 ICS feeds, `generateICS()` looks up the sibling team
 (e.g. U7 Gold's sibling is U7 Blue) and appends their same-day fixture to the ICS event
@@ -316,7 +319,7 @@ runs `npm run check && npm run smoke` automatically before every push.
 | ICS existence & format | `npm run test:ics` | All 16 files present, valid iCalendar wrapper, VEVENT fields |
 | Normalise logic | `npm run test:normalise` | Score null/zero handling, type mapping, field passthrough |
 | Lineup parse logic | `npm run test:lineup` | Player sorting, shirt vs position number, coaches, officials, empty states |
-| Render helpers | `npm run test:render` | `esc` XSS encoding, `shortTeamName`, `isLaneCove`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` with pitch/mini patterns |
+| Render helpers | `npm run test:render` | `esc` XSS encoding, `shortTeamName`, `isLaneCove`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` with pitch/mini patterns; home-page logic — `weekendRange`, `weekendConcluded` (5pm AEST cutover), `fmtWeekendLabel`, `matchGroup`, `findLastResultsWeekend`, `renderHomeMatchRow` |
 
 ### What is NOT tested
 
@@ -328,9 +331,11 @@ runs `npm run check && npm run smoke` automatically before every push.
 | `fetchPage()` + pagination | Requires live API |
 
 **Remaining agentic gap:** `smoke.mjs` fetches the raw HTML *source file* — before any
-JavaScript executes. `renderMatch()` and `renderLineupPanel()` live in inline `<script>` tags
-and run only in a browser. The pure helpers (`esc`, `scoreClass`, `parseVenue` etc.) are
-now in `render.mjs` and fully testable; the HTML-generating functions are the remaining gap.
+JavaScript executes. `renderMatch()`, `renderLineupPanel()`, `renderEvent()` and the
+`renderHomePage()` orchestrator still live in inline `<script>` tags and run only in a browser.
+The pure helpers (`esc`, `scoreClass`, `parseVenue` etc.) and the home-page logic + row renderer
+(`weekendRange`, `weekendConcluded`, `matchGroup`, `findLastResultsWeekend`, `renderHomeMatchRow`)
+are now in `render.mjs` and fully testable; the remaining inline HTML-generating functions are the gap.
 
 ---
 
@@ -405,7 +410,7 @@ Zero new dependencies. Makes the full rendering pipeline refactorable with confi
 | `docs/config.js` | Browser-loadable config (generated, do not edit) | Generated from `config.mjs` | — | `smoke.mjs` |
 | `docs/fixtures.json` | All match data (generated, committed) | Written by fetch script | — | `fixtures-json.test.mjs`, `smoke.mjs` |
 | `docs/lineups.json` | Per-match lineup data (generated, committed) | Written by lineups script | — | `smoke.mjs` |
-| `docs/render.mjs` | Production render helpers (ES module) — `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue` | — | — | `render.test.mjs`, `smoke.mjs` |
+| `docs/render.mjs` | Production render helpers (ES module) — `esc`, `isLaneCove`, `shortTeamName`, `scoreClass`, `fmtDow/Date/Time`, `parseVenue`, plus home-page logic (`weekendRange`, `weekendConcluded`, `fmtWeekendLabel`, `matchGroup`, `findLastResultsWeekend`, `renderHomeMatchRow`) | — | — | `render.test.mjs`, `smoke.mjs` |
 | `docs/index.html` | Production UI — `<script type="module">` importing `./render.mjs` | `./config.js`, `./render.mjs`, `./fixtures.json`, `./lineups.json` at runtime | — | `smoke.mjs` (static only) |
 | `docs/*.ics` | Per-team calendar feeds (16 files, generated) | Written by fetch script | — | `ics.test.mjs` |
 | `tests/api.test.mjs` | Live API contract tests (requires network) | Rugby Xplorer API | — | Run manually / periodically |

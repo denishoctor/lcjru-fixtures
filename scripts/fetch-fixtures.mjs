@@ -777,6 +777,7 @@ async function main() {
     `  SITE_URL: ${JSON.stringify(SITE_URL)},`,
     `  FINAL_ROUND: ${FINAL_ROUND},`,
     `  TEAM_SLUGS: ${JSON.stringify(TEAM_SLUGS, null, 2).replace(/\n/g, '\n  ')},`,
+    `  MINIS_SLUGS: ${JSON.stringify([...MINIS_SLUGS])},`,
     `  VENUES: ${JSON.stringify(VENUES, null, 2).replace(/\n/g, '\n  ')},`,
     '};',
     '',
