@@ -251,6 +251,15 @@ export function matchGroup(match, minisSlugs, slugById) {
   return minisSlugs.has(slugById[lc.id]) ? 'minis' : 'juniors';
 }
 
+// Numeric age grade of a match's Lane Cove side (e.g. 6, 11, 13), parsed from its slug
+// ('u6-gold' → 6, 'u13-blue' → 13, 'u15' → 15). Unmapped teams sort last (Infinity).
+// Used to order the results list youngest → oldest.
+export function teamAge(match, slugById) {
+  const lc = isLaneCove(match.home) ? match.home : match.away;
+  const m = /^u(\d+)/.exec(slugById?.[lc.id] ?? '');
+  return m ? Number(m[1]) : Infinity;
+}
+
 // Walks back week by week from `startOffset` until a weekend has at least one scored match
 // passing `inGroup`. Skips bye/holiday weekends. `startOffset` is -1 (previous weekend) during
 // a live weekend, or 0 (the weekend just gone) once weekendConcluded() flips after the Sunday

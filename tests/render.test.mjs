@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, findLastResultsWeekend, renderHomeMatchRow } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -476,6 +476,43 @@ test('matchGroup: Juniors slug → juniors (LC may be the away side)', () => {
 test('matchGroup: JV/composite Lane Cove team classified by its slug', () => {
   const m = { home: { name: 'Allambie/Forest 12', id: 'x' }, away: { name: 'Lane Cove/St Ives 12', id: 'jv', crest: '' } };
   assert.equal(matchGroup(m, MINIS, SLUGS), 'juniors');
+});
+
+// ── teamAge ─────────────────────────────────────────────────────────────────────
+
+test('teamAge: parses the grade number from the LC slug', () => {
+  const slugs = { a: 'u6-gold', b: 'u11', c: 'u13-blue', d: 'u15' };
+  const mk = (id) => ({ home: { name: 'Lane Cove X', id, crest: '' }, away: { name: 'Opp', id: 'z' } });
+  assert.equal(teamAge(mk('a'), slugs), 6);
+  assert.equal(teamAge(mk('b'), slugs), 11);
+  assert.equal(teamAge(mk('c'), slugs), 13);
+  assert.equal(teamAge(mk('d'), slugs), 15);
+});
+
+test('teamAge: reads the LC side even when it is the away team', () => {
+  const slugs = { lc: 'u10' };
+  const m = { home: { name: 'Newport 10', id: 'x' }, away: { name: 'Lane Cove 10', id: 'lc', crest: '' } };
+  assert.equal(teamAge(m, slugs), 10);
+});
+
+test('teamAge: unmapped team sorts last (Infinity)', () => {
+  const m = { home: { name: 'Lane Cove ?', id: 'nope', crest: '' }, away: { name: 'Opp', id: 'z' } };
+  assert.equal(teamAge(m, {}), Infinity);
+});
+
+test('teamAge: sorts a results list youngest → oldest, time breaking grade ties', () => {
+  const slugs = { t10: 'u10', t12: 'u12', t14a: 'u14', t14b: 'u14-gold', t15: 'u15' };
+  const mk = (id, dateTime) => ({ dateTime, home: { name: 'Lane Cove', id, crest: '' }, away: { name: 'Opp', id: 'z' } });
+  const matches = [
+    mk('t12', '2026-05-16T23:00:00Z'),
+    mk('t15', '2026-05-17T01:20:00Z'),
+    mk('t14b', '2026-05-17T02:10:00Z'),
+    mk('t10', '2026-05-16T23:30:00Z'),
+    mk('t14a', '2026-05-17T01:50:00Z'),
+  ];
+  const ordered = [...matches].sort((a, b) =>
+    teamAge(a, slugs) - teamAge(b, slugs) || new Date(a.dateTime) - new Date(b.dateTime));
+  assert.deepEqual(ordered.map(m => slugs[m.home.id]), ['u10', 'u12', 'u14', 'u14-gold', 'u15']);
 });
 
 // ── findLastResultsWeekend ──────────────────────────────────────────────────────

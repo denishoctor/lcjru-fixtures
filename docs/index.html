@@ -930,7 +930,7 @@
 </div>
 <script src="./config.js"></script>
 <script type="module">
-import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, findLastResultsWeekend, renderHomeMatchRow } from './render.mjs';
+import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow } from './render.mjs';
 
 const FIXTURES_URL = './fixtures.json';
 
@@ -1116,7 +1116,10 @@ function renderHomePage() {
   // school-holiday bye.
   if (lastResults) {
     html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastResults.sat));
-    for (const m of lastResults.matches) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
+    // Ordered by age grade, youngest → oldest (kickoff time breaks ties within a grade).
+    const byAge = [...lastResults.matches].sort((a, b) =>
+      teamAge(a, SLUG_BY_ID) - teamAge(b, SLUG_BY_ID) || new Date(a.dateTime) - new Date(b.dateTime));
+    for (const m of byAge) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
   }
 
   // Coming up
