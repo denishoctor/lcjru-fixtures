@@ -366,6 +366,31 @@
     border-bottom: 1px solid var(--rule);
   }
 
+  /* Minis | Juniors group filter — one slim segmented control on the home page */
+  .home-filter {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    padding: 8px 28px;
+    background: #FFFDF5; border-bottom: 1px solid var(--rule);
+  }
+  .home-filter-label {
+    font-size: 10px; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .home-seg {
+    display: inline-flex; gap: 3px;
+    background: var(--cream); border: 1.5px solid var(--cream-edge);
+    border-radius: 999px; padding: 2px;
+  }
+  .home-seg-btn {
+    appearance: none; border: none; background: transparent; cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 700; color: var(--muted);
+    padding: 4px 14px; border-radius: 999px; line-height: 1; white-space: nowrap;
+    transition: background .12s, color .12s;
+  }
+  .home-seg-btn:hover { color: var(--navy); }
+  .home-seg-btn.active { background: var(--navy); color: #fff; }
+  .home-seg-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
   /* Compact rows used on the home page — denser than .row, single-line, link-styled */
   .home-row {
     display: flex; align-items: center; gap: 10px;
@@ -765,6 +790,8 @@
     .home-intro { padding: 18px 16px 14px; }
     .home-outro { padding: 22px 16px 26px; }
     .home-empty { padding: 14px 16px; }
+    .home-filter { padding: 7px 16px; gap: 7px; }
+    .home-seg-btn { padding: 4px 12px; }
     .home-row { padding: 7px 16px; gap: 8px; font-size: 12.5px; }
     .home-row-when, .home-row-result { min-width: 64px; font-size: 11px; }
     .home-row-result { font-size: 11.5px; }
@@ -909,6 +936,9 @@ const FIXTURES_URL = './fixtures.json';
 
 const { TEAM_SLUGS, VENUES, FINAL_ROUND } = window.LCJRU_CONFIG;
 const SLUG_BY_ID = Object.fromEntries(Object.entries(TEAM_SLUGS).map(([s,id]) => [id,s]));
+// Slugs for the Minis grades (U6–U9). Everything else is Juniors. Sourced from config so
+// the grade boundary stays defined in one place (scripts/config.mjs → docs/config.js).
+const MINIS_SLUGS = new Set(window.LCJRU_CONFIG.MINIS_SLUGS ?? []);
 
 // Only tentative + cancelled get a visible badge; confirmed and completed are implied by context.
 const STATUS_LABELS = { tentative: 'TBC', cancelled: 'Cancelled' };
@@ -930,6 +960,16 @@ try {
   const saved = JSON.parse(localStorage.getItem(FILTER_KEY) ?? 'null');
   if (saved && typeof saved === 'object') activeFilters = { ...DEFAULT_FILTERS, ...saved };
 } catch { /* private mode / corrupt — fall back to defaults */ }
+
+// Home-page age-group filter: 'all' | 'minis' | 'juniors'. Narrows the This weekend and
+// Last weekend's results lists; club events ("Coming up") stay visible. Persisted so a
+// returning Minis or Juniors parent lands on their grades.
+const HOME_GROUP_KEY = 'lcjru-home-group';
+let homeGroup = 'all';
+try {
+  const g = localStorage.getItem(HOME_GROUP_KEY);
+  if (g === 'minis' || g === 'juniors') homeGroup = g;
+} catch { /* private mode */ }
 
 // Last-selected team, persisted across reloads so a user landing on the
 // bare URL goes straight back to their team. URL hash still wins on initial
@@ -1067,15 +1107,17 @@ function renderHomeEventRow(event) {
 }
 
 // Walks back week by week from `startOffset` until we find a weekend with at least one
-// scored match. `startOffset` is -1 (the previous weekend) during a live weekend, or 0 (the
-// weekend just gone) once weekendConcluded() flips after the Sunday cutover. Cap stops the
-// loop early in pre-season / extended breaks. Returns null if nothing scored in the window.
-function findLastResultsWeekend(now, allMatches, startOffset = -1, maxWeeks = 6) {
+// scored match passing `inGroup`. `startOffset` is -1 (the previous weekend) during a live
+// weekend, or 0 (the weekend just gone) once weekendConcluded() flips after the Sunday
+// cutover. `inGroup` applies the Minis/Juniors filter so the walk-back skips weekends with
+// no scored games in the chosen grade (Minis are never scored, so 'minis' finds none). Cap
+// stops the loop early in pre-season / extended breaks. Returns null if nothing matches.
+function findLastResultsWeekend(now, allMatches, startOffset = -1, inGroup = () => true, maxWeeks = 6) {
   for (let i = startOffset; i > startOffset - maxWeeks; i--) {
     const [s, e] = weekendRange(now, i);
     const matches = allMatches.filter(m => {
       const dt = new Date(m.dateTime);
-      return dt >= s && dt < e && m.home.score !== null && m.away.score !== null;
+      return dt >= s && dt < e && m.home.score !== null && m.away.score !== null && inGroup(m);
     }).sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
     if (matches.length > 0) return { sat: s, end: e, matches };
   }
@@ -1100,9 +1142,18 @@ function renderHomePage() {
     return dt && dt >= s && dt < e;
   };
 
-  // This weekend: real fixtures + special events (skip "round" placeholders + notes)
+  // Age-group filter (All / Minis / Juniors). The Lane Cove side of each match decides the
+  // grade; a match passes when "All" is selected or its grade matches the chosen group.
+  const matchGroupOf = (m) => {
+    const lc = isLaneCove(m.home) ? m.home : m.away;
+    return MINIS_SLUGS.has(SLUG_BY_ID[lc.id]) ? 'minis' : 'juniors';
+  };
+  const inGroup = (m) => homeGroup === 'all' || matchGroupOf(m) === homeGroup;
+
+  // This weekend: real fixtures (filtered by group) + special events (events stay visible
+  // for every group — galas and club days are cross-grade)
   const thisWeekend = [
-    ...allMatches.filter(m => matchInRange(m, [thisSat, thisEnd]))
+    ...allMatches.filter(m => matchInRange(m, [thisSat, thisEnd]) && inGroup(m))
       .map(m => ({ kind: 'match', dt: new Date(m.dateTime), item: m })),
     ...allEvents.filter(e =>
       e.type === 'event' && e.variant !== 'round' &&
@@ -1110,10 +1161,11 @@ function renderHomePage() {
     ).map(e => ({ kind: 'event', dt: eventDt(e), item: e })),
   ].sort((a, b) => a.dt - b.dt);
 
-  // Last results weekend: walk back until we find a weekend with scored games. Skips
-  // school-holiday / bye weekends so the section doesn't render empty. After the Sunday
-  // cutover the walk-back starts at this weekend (offset 0) so today's results show here.
-  const lastResults = findLastResultsWeekend(now, allMatches, concluded ? 0 : -1);
+  // Last results weekend: walk back until we find a weekend with scored games in the chosen
+  // group. Skips school-holiday / bye weekends so the section doesn't render empty. After
+  // the Sunday cutover the walk-back starts at this weekend (offset 0) so today's results
+  // show here. With "Minis" selected this finds nothing (Minis aren't scored) → section hidden.
+  const lastResults = findLastResultsWeekend(now, allMatches, concluded ? 0 : -1, inGroup);
 
   // Coming up: special events after this weekend, ~12 week horizon
   const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
@@ -1135,10 +1187,19 @@ function renderHomePage() {
       <div class="home-cta">Pick a team above for the full schedule, calendar sync &amp; team sheets</div>
     </div>`;
 
+  // Minis | Juniors group filter — applies to the two match sections below
+  const segBtn = (val, label) =>
+    `<button class="home-seg-btn${homeGroup === val ? ' active' : ''}" type="button" data-group="${val}" aria-pressed="${homeGroup === val}">${label}</button>`;
+  html += `<div class="home-filter" role="group" aria-label="Filter games by age group">
+      <span class="home-filter-label">Show</span>
+      <div class="home-seg">${segBtn('all', 'All')}${segBtn('minis', 'Minis')}${segBtn('juniors', 'Juniors')}</div>
+    </div>`;
+
   // This weekend
   html += sectionHeader('This weekend', fmtWeekendLabel(thisSat));
   if (thisWeekend.length === 0) {
-    html += `<div class="home-empty">No games scheduled this weekend.</div>`;
+    const noun = homeGroup === 'minis' ? 'Minis ' : homeGroup === 'juniors' ? 'Juniors ' : '';
+    html += `<div class="home-empty">No ${noun}games scheduled this weekend.</div>`;
   } else {
     let markedNext = false;
     for (const { kind, item } of thisWeekend) {
@@ -1918,6 +1979,22 @@ document.addEventListener('keydown', (e) => {
 // Delegated calendar click handler: covers row '#' anchors and panel tabs. Survives every
 // render() rebuild because it's bound once on the calendar container.
 document.getElementById('calendar').addEventListener('click', (e) => {
+  // Home-page Minis | Juniors segment — flip the group, persist, re-render the home view.
+  const seg = e.target.closest('.home-seg-btn');
+  if (seg) {
+    const g = seg.dataset.group;
+    if (g && g !== homeGroup) {
+      homeGroup = g;
+      try {
+        if (g === 'all') localStorage.removeItem(HOME_GROUP_KEY);
+        else localStorage.setItem(HOME_GROUP_KEY, g);
+      } catch { /* private mode */ }
+      trackEvent('home-group-' + g);
+      render(fixturesData, null);
+    }
+    return;
+  }
+
   // Tab click — switch which panel is shown, no scroll, no URL change.
   const tabBtn = e.target.closest('.panel-tab');
   if (tabBtn) {
