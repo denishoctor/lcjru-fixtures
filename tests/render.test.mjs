@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, findLastResultsWeekend, renderHomeMatchRow } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -386,4 +386,188 @@ test('renderEventDetails: order is body → highlights → steps → cta', () =>
   const iSt   = html.indexOf('event-steps');
   const iCta  = html.indexOf('event-cta-btn');
   assert.ok(iBody < iHi && iHi < iSt && iSt < iCta);
+});
+
+// ── weekendRange ────────────────────────────────────────────────────────────────
+// Asserts structural contracts that hold in any runner timezone (avoids brittle absolute
+// dates): the window is always a Saturday→Monday 2-day span and offsets step by 7 days.
+
+test('weekendRange: returns a Sat 00:00 → Mon 00:00 window', () => {
+  const [sat, mon] = weekendRange(new Date('2026-05-20T03:00:00Z'), 0); // a Wednesday
+  assert.equal(sat.getDay(), 6); // Saturday (local)
+  assert.equal(mon.getDay(), 1); // Monday (local)
+  assert.equal(sat.getHours(), 0);
+  assert.equal(sat.getMinutes(), 0);
+  const spanHours = (mon - sat) / 3600000;
+  assert.ok(spanHours >= 47 && spanHours <= 49, `span ${spanHours}h ~= 48`); // DST-tolerant
+});
+
+test('weekendRange: Sunday counts as the current weekend (offset 0)', () => {
+  const sun = new Date('2026-05-24T02:00:00Z'); // Sun midday AEST
+  const [sat, mon] = weekendRange(sun, 0);
+  assert.equal(sat.getDay(), 6);
+  assert.ok(sat <= sun && sun < mon, 'Sunday falls inside its own weekend window');
+});
+
+test('weekendRange: offset steps the window by whole weeks', () => {
+  const now = new Date('2026-05-20T03:00:00Z');
+  const days = (a, b) => Math.round((a - b) / 86400000);
+  assert.equal(days(weekendRange(now, 1)[0],  weekendRange(now, 0)[0]),  7);
+  assert.equal(days(weekendRange(now, 0)[0],  weekendRange(now, -1)[0]), 7);
+});
+
+// ── weekendConcluded ──────────────────────────────────────────────────────────
+// Fully deterministic — decided in Australia/Sydney regardless of the runner's timezone.
+
+test('weekendConcluded: false before 5pm Sunday AEST', () => {
+  assert.equal(weekendConcluded(new Date('2026-05-24T06:59:00Z')), false); // Sun 4:59pm AEST
+});
+
+test('weekendConcluded: true at/after 5pm Sunday AEST', () => {
+  assert.equal(weekendConcluded(new Date('2026-05-24T07:00:00Z')), true);  // Sun 5:00pm AEST
+  assert.equal(weekendConcluded(new Date('2026-05-24T10:00:00Z')), true);  // Sun 8:00pm AEST
+});
+
+test('weekendConcluded: false on Saturday and Monday', () => {
+  assert.equal(weekendConcluded(new Date('2026-05-23T10:00:00Z')), false); // Sat 8pm AEST
+  assert.equal(weekendConcluded(new Date('2026-05-24T23:00:00Z')), false); // Mon 9am AEST
+});
+
+test('weekendConcluded: honours a custom cutover hour', () => {
+  const sunNoon = new Date('2026-05-24T02:00:00Z'); // Sun 12pm AEST
+  assert.equal(weekendConcluded(sunNoon, 17), false);
+  assert.equal(weekendConcluded(sunNoon, 12), true);
+});
+
+test('RESULTS_CUTOVER_HOUR default is 5pm', () => {
+  assert.equal(RESULTS_CUTOVER_HOUR, 17);
+});
+
+// ── fmtWeekendLabel ─────────────────────────────────────────────────────────────
+// Formatted in Australia/Sydney; pass unambiguous instants so it's runner-tz independent.
+
+// Derive `sat` from weekendRange (local midnight Saturday) so getDate() and the Sydney-
+// formatted parts agree on any UTC/AEST runner — mirroring how renderHomePage calls it.
+test('fmtWeekendLabel: same-month range collapses the month', () => {
+  const [sat] = weekendRange(new Date('2026-05-20T03:00:00Z'), 0); // → Sat 23 May
+  assert.equal(fmtWeekendLabel(sat), 'Sat 23 – Sun 24 May');
+});
+
+test('fmtWeekendLabel: cross-month range shows both months', () => {
+  const [sat] = weekendRange(new Date('2026-10-28T03:00:00Z'), 0); // → Sat 31 Oct / Sun 1 Nov
+  assert.equal(fmtWeekendLabel(sat), 'Sat, 31 Oct – Sun, 1 Nov');
+});
+
+// ── matchGroup ──────────────────────────────────────────────────────────────────
+
+const MINIS = new Set(['u7-gold', 'u9-blue']);
+const SLUGS = { home1: 'u7-gold', away1: 'u11', jv: 'u12' };
+
+test('matchGroup: Minis slug on the Lane Cove side → minis', () => {
+  const m = { home: { name: 'Lane Cove Gold 7', id: 'home1', crest: '' }, away: { name: 'Ryde 7', id: 'x' } };
+  assert.equal(matchGroup(m, MINIS, SLUGS), 'minis');
+});
+
+test('matchGroup: Juniors slug → juniors (LC may be the away side)', () => {
+  const m = { home: { name: 'Wahroonga 11', id: 'x' }, away: { name: 'Lane Cove 11', id: 'away1', crest: '' } };
+  assert.equal(matchGroup(m, MINIS, SLUGS), 'juniors');
+});
+
+test('matchGroup: JV/composite Lane Cove team classified by its slug', () => {
+  const m = { home: { name: 'Allambie/Forest 12', id: 'x' }, away: { name: 'Lane Cove/St Ives 12', id: 'jv', crest: '' } };
+  assert.equal(matchGroup(m, MINIS, SLUGS), 'juniors');
+});
+
+// ── findLastResultsWeekend ──────────────────────────────────────────────────────
+// Build match times relative to weekendRange's own output so membership is exact regardless
+// of the runner timezone (a stray ±hours at the local-midnight edge can't flip the result).
+
+function matchOn(sat, { hScore = '20', aScore = '10', name = 'Lane Cove 11', id = 'lc' } = {}) {
+  const dateTime = new Date(sat.getTime() + 10 * 3600000).toISOString(); // ~10h into Saturday
+  return { dateTime, home: { name, id, crest: '', score: hScore }, away: { name: 'Opp', id: 'o', score: aScore } };
+}
+
+test('findLastResultsWeekend: finds the previous weekend during a live weekend', () => {
+  const now = new Date('2026-05-24T02:00:00Z'); // Sunday
+  const [satPrev] = weekendRange(now, -1);
+  const res = findLastResultsWeekend(now, [matchOn(satPrev)], { startOffset: -1 });
+  assert.ok(res);
+  assert.equal(res.matches.length, 1);
+  assert.equal(res.sat.getTime(), satPrev.getTime());
+});
+
+test('findLastResultsWeekend: startOffset 0 picks up the weekend just gone', () => {
+  const now = new Date('2026-05-24T10:00:00Z'); // post-cutover Sunday night
+  const [satThis] = weekendRange(now, 0);
+  const res = findLastResultsWeekend(now, [matchOn(satThis)], { startOffset: 0 });
+  assert.ok(res);
+  assert.equal(res.sat.getTime(), satThis.getTime());
+});
+
+test('findLastResultsWeekend: skips unscored games and respects inGroup', () => {
+  const now = new Date('2026-05-24T02:00:00Z');
+  const [satPrev] = weekendRange(now, -1);
+  const scored   = matchOn(satPrev, { id: 'jr' });               // a Juniors result
+  const unscored = matchOn(satPrev, { hScore: null, aScore: null, id: 'mini' });
+  const slugs = { jr: 'u11', mini: 'u8-gold' };
+  const minis = new Set(['u8-gold']);
+  // Minis filter finds nothing scored (Minis aren't scored) → null
+  const minisRes = findLastResultsWeekend(now, [scored, unscored], {
+    startOffset: -1, inGroup: (m) => matchGroup(m, minis, slugs) === 'minis',
+  });
+  assert.equal(minisRes, null);
+  // Juniors filter finds the one scored result
+  const jrRes = findLastResultsWeekend(now, [scored, unscored], {
+    startOffset: -1, inGroup: (m) => matchGroup(m, minis, slugs) === 'juniors',
+  });
+  assert.equal(jrRes.matches.length, 1);
+});
+
+test('findLastResultsWeekend: returns null when nothing scored within maxWeeks', () => {
+  const now = new Date('2026-05-24T02:00:00Z');
+  assert.equal(findLastResultsWeekend(now, [], { startOffset: -1 }), null);
+});
+
+// ── renderHomeMatchRow ──────────────────────────────────────────────────────────
+
+const HOME_CTX = { venues: {}, slugById: { lc: 'u11' } };
+const fixtureMatch = {
+  id: 'm1', dateTime: '2026-05-23T22:00:00Z', venue: 'Ryde Park',
+  home: { name: 'Lane Cove 11', id: 'lc', crest: '', score: null },
+  away: { name: 'Wahroonga 11', id: 'o', crest: '', score: null },
+};
+const resultMatch = {
+  ...fixtureMatch,
+  home: { ...fixtureMatch.home, score: '12' },
+  away: { ...fixtureMatch.away, score: '31' },
+};
+
+test('renderHomeMatchRow: result mode shows score + loss letter from LC view', () => {
+  const html = renderHomeMatchRow(resultMatch, { ...HOME_CTX, mode: 'result' });
+  assert.ok(html.includes('12–31'));
+  assert.ok(html.includes('home-row-result loss'));
+  assert.ok(html.includes('>L<'));
+  assert.ok(!html.includes('home-row-when')); // no time column in result mode
+});
+
+test('renderHomeMatchRow: fixture mode shows the kickoff time, no score', () => {
+  const html = renderHomeMatchRow(fixtureMatch, { ...HOME_CTX, mode: 'fixture' });
+  assert.ok(html.includes('home-row-when'));
+  assert.ok(!html.includes('home-row-result'));
+});
+
+test('renderHomeMatchRow: deep-links to the LC team slug + row id', () => {
+  const html = renderHomeMatchRow(fixtureMatch, HOME_CTX);
+  assert.ok(html.includes('href="#u11/match-m1"'));
+});
+
+test('renderHomeMatchRow: next-up adds the highlight class', () => {
+  const html = renderHomeMatchRow(fixtureMatch, { ...HOME_CTX, isNextUp: true });
+  assert.ok(html.includes('home-row next-up'));
+});
+
+test('renderHomeMatchRow: shows the short LC team name and opponent', () => {
+  const html = renderHomeMatchRow(fixtureMatch, HOME_CTX);
+  assert.ok(html.includes('>11<') || html.includes('team-pill'));
+  assert.ok(html.includes('v Wahroonga 11'));
 });

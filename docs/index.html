@@ -930,7 +930,7 @@
 </div>
 <script src="./config.js"></script>
 <script type="module">
-import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails } from './render.mjs';
+import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, findLastResultsWeekend, renderHomeMatchRow } from './render.mjs';
 
 const FIXTURES_URL = './fixtures.json';
 
@@ -993,92 +993,9 @@ const CHEVRON_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline point
 const CAL_SVG     = '<svg class="event-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
 const CAL_PLUS_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
 
-// Game-variant events (round/friendly/gala) belong in the team's subscription
-// feed; everything else (Mother's Day, Waratahs, holidays, presentation day)
-// gets a per-event .ics download so multi-team subscribers don't see duplicates.
-// Returns [Sat 00:00, Mon 00:00) for the weekend offset relative to now.
-// offset 0 = current/upcoming weekend (Sun is treated as part of the current weekend);
-// offset -1 = the previous weekend.
-function weekendRange(now, offset = 0) {
-  const d = new Date(now);
-  const dow = d.getDay(); // 0=Sun, 6=Sat
-  const daysToSat = dow === 0 ? -1 : (dow === 6 ? 0 : 6 - dow);
-  const sat = new Date(d.getFullYear(), d.getMonth(), d.getDate() + daysToSat + offset * 7);
-  sat.setHours(0, 0, 0, 0);
-  const monAfter = new Date(sat);
-  monAfter.setDate(sat.getDate() + 2);
-  return [sat, monAfter];
-}
-
-// After this hour (Sydney time) on a Sunday, the just-played weekend is treated as
-// finished: its games roll out of "This weekend" and down into "Last weekend's results".
-// Junior and Minis games wrap up by early afternoon, so 5pm clears the whole round with margin.
-const RESULTS_CUTOVER_HOUR = 17;
-
-// True once the current weekend's games are done — i.e. it is Sunday in Sydney and the clock
-// has passed RESULTS_CUTOVER_HOUR. Monday–Saturday this is always false (by Monday the
-// weekendRange() window has already rolled forward on its own). Evaluated in Sydney time so the
-// 5pm cutover fires at the same wall-clock moment for every viewer, wherever their device is.
-function weekendConcluded(now) {
-  const parts = new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Australia/Sydney', weekday: 'short', hour: '2-digit', hourCycle: 'h23',
-  }).formatToParts(now);
-  const weekday = parts.find(p => p.type === 'weekday')?.value;
-  const hour    = Number(parts.find(p => p.type === 'hour')?.value);
-  return weekday === 'Sun' && hour >= RESULTS_CUTOVER_HOUR;
-}
-
-function fmtWeekendLabel(sat) {
-  const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
-  const f = (d, opts) => d.toLocaleDateString('en-AU', { ...opts, timeZone: 'Australia/Sydney' });
-  if (sat.getMonth() === sun.getMonth()) {
-    return `${f(sat, { weekday: 'short' })} ${sat.getDate()} – ${f(sun, { weekday: 'short' })} ${f(sun, { day: 'numeric', month: 'short' })}`;
-  }
-  return `${f(sat, { weekday: 'short', day: 'numeric', month: 'short' })} – ${f(sun, { weekday: 'short', day: 'numeric', month: 'short' })}`;
-}
-
 function sectionHeader(title, meta = '') {
   const metaHtml = meta ? `<span class="section-meta">${esc(meta)}</span>` : '';
   return `<div class="section-header"><span>${esc(title)}</span>${metaHtml}</div>`;
-}
-
-// Renders one match as a compact, single-line home-page row. Each row is a deep link to
-// the LC team's full schedule, with the match expanded.
-function renderHomeMatchRow(match, { isNextUp = false, mode = 'fixture' } = {}) {
-  const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
-  const opponent = isLaneCove(match.home) ? match.away : match.home;
-  const isHome   = (match.venue || '').toLowerCase().includes('tantallon');
-  const isDerby  = isLaneCove(match.home) && isLaneCove(match.away);
-  const slug     = SLUG_BY_ID[lcTeam.id];
-  const href     = slug ? `#${slug}/${rowId(match)}` : '#';
-  const { display: loc } = parseVenue(match.venue ?? '', VENUES);
-
-  // Left column: result+score for completed games, day+time for upcoming
-  let leftCol;
-  if (mode === 'result') {
-    const sc = scoreClass(match);
-    const letter = { win: 'W', loss: 'L', draw: 'D' }[sc] || '·';
-    leftCol = `<span class="home-row-result ${sc}"><span class="home-row-result-letter">${letter}</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
-  } else {
-    const dow = fmtDow(match.dateTime);
-    const time = fmtTime(match.dateTime);
-    const showTime = time !== '12:00am';
-    leftCol = `<span class="home-row-when">${esc(dow)}${showTime ? ' ' + esc(time) : ''}</span>`;
-  }
-
-  const badges = [];
-  if (isHome)  badges.push('<span class="home-pill">Home</span>');
-  if (isDerby) badges.push('<span class="derby-pill">Derby</span>');
-
-  const classes = ['home-row'];
-  if (isNextUp) classes.push('next-up');
-
-  return `<a class="${classes.join(' ')}" href="${esc(href)}">
-    ${leftCol}
-    <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
-    <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}</span>
-    <span class="home-row-extra">${badges.join('')}</span>
-  </a>`;
 }
 
 // Renders an event as a compact home-page row. Deep-links to the first applicable team's
@@ -1106,24 +1023,6 @@ function renderHomeEventRow(event) {
   </a>`;
 }
 
-// Walks back week by week from `startOffset` until we find a weekend with at least one
-// scored match passing `inGroup`. `startOffset` is -1 (the previous weekend) during a live
-// weekend, or 0 (the weekend just gone) once weekendConcluded() flips after the Sunday
-// cutover. `inGroup` applies the Minis/Juniors filter so the walk-back skips weekends with
-// no scored games in the chosen grade (Minis are never scored, so 'minis' finds none). Cap
-// stops the loop early in pre-season / extended breaks. Returns null if nothing matches.
-function findLastResultsWeekend(now, allMatches, startOffset = -1, inGroup = () => true, maxWeeks = 6) {
-  for (let i = startOffset; i > startOffset - maxWeeks; i--) {
-    const [s, e] = weekendRange(now, i);
-    const matches = allMatches.filter(m => {
-      const dt = new Date(m.dateTime);
-      return dt >= s && dt < e && m.home.score !== null && m.away.score !== null && inGroup(m);
-    }).sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
-    if (matches.length > 0) return { sat: s, end: e, matches };
-  }
-  return null;
-}
-
 function renderHomePage() {
   const now = new Date();
   // Once the Sunday cutover passes, "This weekend" looks ahead to the next round and the
@@ -1144,11 +1043,7 @@ function renderHomePage() {
 
   // Age-group filter (All / Minis / Juniors). The Lane Cove side of each match decides the
   // grade; a match passes when "All" is selected or its grade matches the chosen group.
-  const matchGroupOf = (m) => {
-    const lc = isLaneCove(m.home) ? m.home : m.away;
-    return MINIS_SLUGS.has(SLUG_BY_ID[lc.id]) ? 'minis' : 'juniors';
-  };
-  const inGroup = (m) => homeGroup === 'all' || matchGroupOf(m) === homeGroup;
+  const inGroup = (m) => homeGroup === 'all' || matchGroup(m, MINIS_SLUGS, SLUG_BY_ID) === homeGroup;
 
   // This weekend: real fixtures (filtered by group) + special events (events stay visible
   // for every group — galas and club days are cross-grade)
@@ -1165,7 +1060,7 @@ function renderHomePage() {
   // group. Skips school-holiday / bye weekends so the section doesn't render empty. After
   // the Sunday cutover the walk-back starts at this weekend (offset 0) so today's results
   // show here. With "Minis" selected this finds nothing (Minis aren't scored) → section hidden.
-  const lastResults = findLastResultsWeekend(now, allMatches, concluded ? 0 : -1, inGroup);
+  const lastResults = findLastResultsWeekend(now, allMatches, { startOffset: concluded ? 0 : -1, inGroup });
 
   // Coming up: special events after this weekend, ~12 week horizon
   const horizon = new Date(thisEnd); horizon.setDate(thisEnd.getDate() + 84);
@@ -1209,7 +1104,7 @@ function renderHomePage() {
         const played   = item.home.score !== null && item.away.score !== null;
         const isNextUp = !played && !markedNext && new Date(item.dateTime) >= now;
         if (isNextUp) markedNext = true;
-        html += renderHomeMatchRow(item, { isNextUp, mode: played ? 'result' : 'fixture' });
+        html += renderHomeMatchRow(item, { venues: VENUES, slugById: SLUG_BY_ID, isNextUp, mode: played ? 'result' : 'fixture' });
       } else {
         html += renderHomeEventRow(item);
       }
@@ -1221,7 +1116,7 @@ function renderHomePage() {
   // school-holiday bye.
   if (lastResults) {
     html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastResults.sat));
-    for (const m of lastResults.matches) html += renderHomeMatchRow(m, { mode: 'result' });
+    for (const m of lastResults.matches) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
   }
 
   // Coming up
@@ -1884,6 +1779,28 @@ function readHashAnchor() {
   return parts.length > 1 ? parts.slice(1).join('/') : '';
 }
 
+// '#minis' / '#juniors' select the home-page age group (shareable + bookmarkable). Any other
+// first segment (a team slug, or nothing) returns null and leaves the group untouched here.
+function readGroupHash() {
+  const seg = location.hash.replace('#', '').split('/')[0];
+  return (seg === 'minis' || seg === 'juniors') ? seg : null;
+}
+
+// Sets the home-page group, persists it, and (optionally) reflects it in the URL hash so the
+// view is shareable. 'all' clears both the stored preference and the hash. updateHash is
+// false when we're reacting to an existing URL (init / hashchange) so we don't fight the bar.
+function setHomeGroup(g, { updateHash = true } = {}) {
+  homeGroup = (g === 'minis' || g === 'juniors') ? g : 'all';
+  try {
+    if (homeGroup === 'all') localStorage.removeItem(HOME_GROUP_KEY);
+    else localStorage.setItem(HOME_GROUP_KEY, homeGroup);
+  } catch { /* private mode */ }
+  if (updateHash) {
+    const base = location.href.split('#')[0];
+    history.replaceState(null, '', homeGroup === 'all' ? base : base + '#' + homeGroup);
+  }
+}
+
 // Scrolls the row with id=rowId into view and opens its panel(s) if expandable.
 // Used on initial load and on hashchange so deep links always land on the open state.
 // expandRow handles its own scroll; only non-expandable rows need a manual scroll here.
@@ -1979,16 +1896,12 @@ document.addEventListener('keydown', (e) => {
 // Delegated calendar click handler: covers row '#' anchors and panel tabs. Survives every
 // render() rebuild because it's bound once on the calendar container.
 document.getElementById('calendar').addEventListener('click', (e) => {
-  // Home-page Minis | Juniors segment — flip the group, persist, re-render the home view.
+  // Home-page Minis | Juniors segment — flip the group (updates URL hash + storage), re-render.
   const seg = e.target.closest('.home-seg-btn');
   if (seg) {
     const g = seg.dataset.group;
     if (g && g !== homeGroup) {
-      homeGroup = g;
-      try {
-        if (g === 'all') localStorage.removeItem(HOME_GROUP_KEY);
-        else localStorage.setItem(HOME_GROUP_KEY, g);
-      } catch { /* private mode */ }
+      setHomeGroup(g);
       trackEvent('home-group-' + g);
       render(fixturesData, null);
     }
@@ -2040,6 +1953,9 @@ document.getElementById('calendar').addEventListener('click', (e) => {
 
 window.addEventListener('hashchange', () => {
   const teamId = readHash();
+  // No team in the hash → home view; sync the group from the hash ('#minis'/'#juniors',
+  // else 'all'). The URL is authoritative here, so don't write it back.
+  if (!teamId) setHomeGroup(readGroupHash(), { updateHash: false });
   selectTeam(teamId, false);
   requestAnimationFrame(() => focusRow(readHashAnchor()));
 });
@@ -2153,14 +2069,21 @@ async function init() {
     stamp.style.color = '#F0A030';
   }
 
-  // Hash wins (deep links beat preferences); otherwise fall back to the
-  // previously selected team from localStorage. The first paint shouldn't
-  // animate — the grid jumps straight to its collapsed state.
-  const initialTeam = readHash() ?? loadSavedTeam();
-  if (initialTeam) {
-    selectTeam(initialTeam, false, { animate: false });
-  } else {
+  // Precedence: an explicit hash beats stored preferences (deep links win). A team hash
+  // selects that team; a group hash ('#minis'/'#juniors') opens the filtered home view;
+  // otherwise fall back to the last team, then the bare home view (which already reflects the
+  // stored group). First paint shouldn't animate — the grid jumps straight to collapsed.
+  const hashTeam  = readHash();
+  const hashGroup = readGroupHash();
+  if (hashTeam) {
+    selectTeam(hashTeam, false, { animate: false });
+  } else if (hashGroup) {
+    setHomeGroup(hashGroup, { updateHash: false });
     render(data, null);
+  } else {
+    const savedTeam = loadSavedTeam();
+    if (savedTeam) selectTeam(savedTeam, false, { animate: false });
+    else render(data, null);
   }
 
   requestAnimationFrame(() => focusRow(readHashAnchor()));

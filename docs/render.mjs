@@ -200,3 +200,110 @@ export function renderEventDetails(event) {
 
   return parts.join('');
 }
+
+// ── home-page weekend logic ─────────────────────────────────────────────────────
+// Pure helpers powering the no-team home view. Kept here (not inline in index.html) so
+// they're covered by tests/render.test.mjs.
+
+// After this hour (Sydney time) on a Sunday, the just-played weekend is treated as finished:
+// its games roll out of "This weekend" and down into "Last weekend's results".
+export const RESULTS_CUTOVER_HOUR = 17;
+
+// [Sat 00:00, Mon 00:00) for the weekend `offset` weeks from `now`, in the viewer's local
+// time. offset 0 = current weekend (Sunday still counts as the current weekend); -1 = previous.
+export function weekendRange(now, offset = 0) {
+  const d = new Date(now);
+  const dow = d.getDay(); // 0=Sun, 6=Sat
+  const daysToSat = dow === 0 ? -1 : (dow === 6 ? 0 : 6 - dow);
+  const sat = new Date(d.getFullYear(), d.getMonth(), d.getDate() + daysToSat + offset * 7);
+  sat.setHours(0, 0, 0, 0);
+  const monAfter = new Date(sat);
+  monAfter.setDate(sat.getDate() + 2);
+  return [sat, monAfter];
+}
+
+// True once the current weekend's games are done — Sunday in Sydney past `cutoverHour`.
+// Mon–Sat it's always false (by Monday weekendRange has rolled forward on its own). Evaluated
+// in Sydney time so the cutover fires at the same wall-clock moment for every viewer.
+export function weekendConcluded(now, cutoverHour = RESULTS_CUTOVER_HOUR) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Australia/Sydney', weekday: 'short', hour: '2-digit', hourCycle: 'h23',
+  }).formatToParts(now);
+  const weekday = parts.find(p => p.type === 'weekday')?.value;
+  const hour    = Number(parts.find(p => p.type === 'hour')?.value);
+  return weekday === 'Sun' && hour >= cutoverHour;
+}
+
+// "Sat 23 – Sun 24 May" for a weekend whose Saturday is `sat`. Formatted in Sydney time.
+export function fmtWeekendLabel(sat) {
+  const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
+  const f = (d, opts) => d.toLocaleDateString('en-AU', { ...opts, timeZone: 'Australia/Sydney' });
+  if (sat.getMonth() === sun.getMonth()) {
+    return `${f(sat, { weekday: 'short' })} ${sat.getDate()} – ${f(sun, { weekday: 'short' })} ${f(sun, { day: 'numeric', month: 'short' })}`;
+  }
+  return `${f(sat, { weekday: 'short', day: 'numeric', month: 'short' })} – ${f(sun, { weekday: 'short', day: 'numeric', month: 'short' })}`;
+}
+
+// Age group of a match's Lane Cove side: 'minis' (U6–U9, per minisSlugs) or 'juniors'.
+// slugById maps a team id → slug; minisSlugs is a Set of the Minis slugs.
+export function matchGroup(match, minisSlugs, slugById) {
+  const lc = isLaneCove(match.home) ? match.home : match.away;
+  return minisSlugs.has(slugById[lc.id]) ? 'minis' : 'juniors';
+}
+
+// Walks back week by week from `startOffset` until a weekend has at least one scored match
+// passing `inGroup`. Skips bye/holiday weekends. `startOffset` is -1 (previous weekend) during
+// a live weekend, or 0 (the weekend just gone) once weekendConcluded() flips after the Sunday
+// cutover. With a Minis-only `inGroup` this finds nothing (Minis aren't scored). Returns
+// { sat, end, matches } for the closest qualifying weekend, or null.
+export function findLastResultsWeekend(now, allMatches, { startOffset = -1, inGroup = () => true, maxWeeks = 6 } = {}) {
+  for (let i = startOffset; i > startOffset - maxWeeks; i--) {
+    const [s, e] = weekendRange(now, i);
+    const matches = allMatches.filter(m => {
+      const dt = new Date(m.dateTime);
+      return dt >= s && dt < e && m.home.score !== null && m.away.score !== null && inGroup(m);
+    }).sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+    if (matches.length > 0) return { sat: s, end: e, matches };
+  }
+  return null;
+}
+
+// Compact single-line home-page row for one match. ctx = { venues, slugById }. mode 'result'
+// shows score + W/L/D from the Lane Cove perspective; 'fixture' shows day + kickoff time.
+// Each row deep-links to the LC team's full schedule with the match expanded.
+export function renderHomeMatchRow(match, { venues, slugById, isNextUp = false, mode = 'fixture' } = {}) {
+  const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
+  const opponent = isLaneCove(match.home) ? match.away : match.home;
+  const isHome   = (match.venue || '').toLowerCase().includes('tantallon');
+  const isDerby  = isLaneCove(match.home) && isLaneCove(match.away);
+  const slug     = slugById?.[lcTeam.id];
+  const href     = slug ? `#${slug}/${rowId(match)}` : '#';
+  const { display: loc } = parseVenue(match.venue ?? '', venues ?? {});
+
+  // Left column: result+score for completed games, day+time for upcoming
+  let leftCol;
+  if (mode === 'result') {
+    const sc = scoreClass(match);
+    const letter = { win: 'W', loss: 'L', draw: 'D' }[sc] || '·';
+    leftCol = `<span class="home-row-result ${sc}"><span class="home-row-result-letter">${letter}</span>${esc(match.home.score)}–${esc(match.away.score)}</span>`;
+  } else {
+    const dow = fmtDow(match.dateTime);
+    const time = fmtTime(match.dateTime);
+    const showTime = time !== '12:00am';
+    leftCol = `<span class="home-row-when">${esc(dow)}${showTime ? ' ' + esc(time) : ''}</span>`;
+  }
+
+  const badges = [];
+  if (isHome)  badges.push('<span class="home-pill">Home</span>');
+  if (isDerby) badges.push('<span class="derby-pill">Derby</span>');
+
+  const classes = ['home-row'];
+  if (isNextUp) classes.push('next-up');
+
+  return `<a class="${classes.join(' ')}" href="${esc(href)}">
+    ${leftCol}
+    <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
+    <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}</span>
+    <span class="home-row-extra">${badges.join('')}</span>
+  </a>`;
+}
