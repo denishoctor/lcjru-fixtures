@@ -23,14 +23,18 @@ function restUrl(path) {
   return `${String(supabaseUrl).replace(/\/$/, '')}/rest/v1/${path}`;
 }
 
-// Fetch all POTM rows → map keyed by match_id. Resolves to {} on any failure or when
-// Supabase isn't configured, so a read error never blanks the fixtures listing.
-export async function loadPotm() {
+// Fetch all POTM rows → map keyed by match_id. Resolves to {} on any failure, timeout, or
+// when Supabase isn't configured, so a slow or broken backend can never blank or hang the
+// fixtures listing. Bounded by a 4s timeout because this shares the page's initial load.
+export async function loadPotm({ timeoutMs = 4000 } = {}) {
   if (!isPotmConfigured()) return {};
   const { supabaseAnonKey } = cfg();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(restUrl(`${TABLE}?select=*`), {
       headers: { apikey: supabaseAnonKey, Authorization: `Bearer ${supabaseAnonKey}` },
+      signal: ctrl.signal,
     });
     if (!res.ok) return {};
     const rows = await res.json();
@@ -39,6 +43,25 @@ export async function loadPotm() {
     return byMatch;
   } catch {
     return {};
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// Recent audit-log entries (most recent first), for the admin page. Requires a signed-in
+// admin's access token — audit reads are restricted to authenticated users by RLS. Resolves
+// to [] on any failure.
+export async function loadAudit(token, limit = 20) {
+  if (!isPotmConfigured() || !token) return [];
+  const { supabaseAnonKey } = cfg();
+  try {
+    const res = await fetch(restUrl(`potm_audit?select=*&order=created_at.desc&limit=${Number(limit)}`), {
+      headers: { apikey: supabaseAnonKey, Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
   }
 }
 

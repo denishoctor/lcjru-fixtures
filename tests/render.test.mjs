@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow, POTM_DEFAULT_EMOJI, potmEmoji, isPotmPlayer, potmChipHtml, potmPanelBlock } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow, POTM_DEFAULT_EMOJI, potmEmoji, isPotmPlayer, potmChipHtml, potmPanelBlock, isCompletedGame, lcSidePlayers, potmCandidates } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -659,4 +659,44 @@ test('renderHomeMatchRow: result mode includes the POTM chip', () => {
 test('renderHomeMatchRow: fixture mode never shows POTM', () => {
   const html = renderHomeMatchRow(fixtureMatch, { ...HOME_CTX, mode: 'fixture', potm: { player_name: 'Jordan Smith' } });
   assert.ok(!html.includes('home-row-potm'));
+});
+
+// ── POTM admin picker logic ───────────────────────────────────────────────────
+
+test('isCompletedGame: result type or past kickoff is completed', () => {
+  const now = new Date('2026-05-26T00:00:00Z');
+  assert.ok(isCompletedGame({ type: 'result', dateTime: '2099-01-01T00:00:00Z' }, now));
+  assert.ok(isCompletedGame({ type: 'fixture', dateTime: '2026-05-01T00:00:00Z' }, now));
+  assert.ok(!isCompletedGame({ type: 'fixture', dateTime: '2026-06-01T00:00:00Z' }, now));
+  assert.ok(!isCompletedGame(null, now));
+});
+
+const lcHome = { name: 'Lane Cove 11', id: 'lc', crest: '' };
+const oppAway = { name: 'Wahroonga 11', id: 'o', crest: '' };
+
+test('lcSidePlayers: returns the Lane Cove side, home or away', () => {
+  const entry = { home: [{ name: 'A', number: '1' }], away: [{ name: 'B', number: '2' }] };
+  assert.deepEqual(lcSidePlayers({ home: lcHome, away: oppAway }, entry).map(p => p.name), ['A']);
+  assert.deepEqual(lcSidePlayers({ home: oppAway, away: lcHome }, entry).map(p => p.name), ['B']);
+  assert.deepEqual(lcSidePlayers({ home: lcHome, away: oppAway }, null), []);
+});
+
+test('potmCandidates: prefers the published lineup', () => {
+  const entry = { home: [{ name: 'Jordan Smith', number: '7' }], away: [] };
+  const res = potmCandidates({ home: lcHome, away: oppAway }, entry, {}, { lc: 'u11' });
+  assert.equal(res.source, 'lineup');
+  assert.deepEqual(res.players, [{ name: 'Jordan Smith', number: '7' }]);
+});
+
+test('potmCandidates: falls back to the config squad when no lineup', () => {
+  const res = potmCandidates({ home: lcHome, away: oppAway }, null, { u11: ['Sam Lee', 'Alex Ng'] }, { lc: 'u11' });
+  assert.equal(res.source, 'squad');
+  assert.deepEqual(res.players.map(p => p.name), ['Sam Lee', 'Alex Ng']);
+  assert.equal(res.players[0].number, null);
+});
+
+test('potmCandidates: source none when neither lineup nor squad exists', () => {
+  const res = potmCandidates({ home: lcHome, away: oppAway }, null, {}, { lc: 'u11' });
+  assert.equal(res.source, 'none');
+  assert.deepEqual(res.players, []);
 });

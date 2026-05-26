@@ -358,3 +358,41 @@ export function potmPanelBlock(potm) {
     + `<span class="potm-name">${num}${esc(potm.player_name)}</span>`
     + `</div>`;
 }
+
+// ── POTM admin picker logic (used by docs/admin.html; kept here so it's unit-tested) ──
+
+// True when a match is a completed game — the API already marked it a result, or kickoff
+// has passed. POTM is only ever set for completed games.
+export function isCompletedGame(match, now = new Date()) {
+  if (!match) return false;
+  if (match.type === 'result') return true;
+  return new Date(match.dateTime) < now;
+}
+
+// The Lane Cove side's players from a lineup entry. The entry's home/away arrays mirror
+// match.home/away, so the LC side is whichever of those is Lane Cove. Returns [] when there
+// is no entry or no players on that side.
+export function lcSidePlayers(match, entry) {
+  if (!match || !entry) return [];
+  const players = isLaneCove(match.home) ? entry.home : entry.away;
+  return Array.isArray(players) ? players : [];
+}
+
+// Candidate players for the POTM picker, in priority order:
+//   1. published team sheet (LC side)        → source 'lineup', players have { name, number }
+//   2. else static club squad for the team   → source 'squad',  players have number: null
+//   3. else nothing                          → source 'none'
+// The admin UI always offers a free-text entry on top of whatever this returns.
+export function potmCandidates(match, entry, squads = {}, slugById = {}) {
+  const lc = lcSidePlayers(match, entry);
+  if (lc.length) {
+    return { source: 'lineup', players: lc.map(p => ({ name: p.name, number: p.number ?? null })) };
+  }
+  const lcTeam = match && (isLaneCove(match.home) ? match.home : match.away);
+  const slug = lcTeam ? slugById[lcTeam.id] : null;
+  const squad = slug ? squads[slug] : null;
+  if (Array.isArray(squad) && squad.length) {
+    return { source: 'squad', players: squad.map((name) => ({ name, number: null })) };
+  }
+  return { source: 'none', players: [] };
+}

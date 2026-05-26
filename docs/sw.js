@@ -27,6 +27,7 @@ const SHELL_FILES = [
   './',
   'index.html',
   'venues.html',
+  'admin.html',
   'render.mjs',
   'potm.js',
   'config.js',
