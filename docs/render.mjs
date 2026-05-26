@@ -71,25 +71,39 @@ export function scoreClass(match) {
 // venues: the VENUES object from config — passed explicitly so this function is testable
 // without a browser or config.js loaded.
 export function parseVenue(rawVenue, venues) {
-  if (!rawVenue) return { display: '', pitch: null, mapsUrl: '#', base: null, hasDetails: false };
+  if (!rawVenue) return { display: '', pitch: null, pitchNote: null, mapsUrl: '#', base: null, hasDetails: false };
 
-  // Minis: "Tryon Oval TT1 (U6/U7)" → base="Tryon Oval", pitch="TT1"
+  // Minis: "Tryon Oval TT1 (U6/U7)" → base="Tryon Oval", pitch="TT1". The "(U6/U7)" bracket is a
+  // grade marker, not a field note, so it's discarded rather than surfaced as pitchNote.
   const miniMatch = rawVenue.match(/^(.+?) ((TT|M)\d+)\s*\([^)]+\)$/);
   if (miniMatch) {
     const base = miniMatch[1].trim();
     const pitch = miniMatch[2];
     const v = venues[base];
     const display = v?.suburb ? `${base}, ${v.suburb}` : base;
-    return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display), base: v ? base : null, hasDetails: !!v?.details };
+    return { display, pitch, pitchNote: null, mapsUrl: v?.mapsUrl || _genericMapsUrl(display), base: v ? base : null, hasDetails: !!v?.details };
+  }
+
+  // Pull a trailing "(...)" off as a field note — the bracketed aside that belongs as
+  // team-page subtext, never on the homepage. Covers both field notes
+  // ("No 2 (Front)" → note "Front") and alternate venue names
+  // ("Mark Taylor Oval (Waitara Oval)" → note "Waitara Oval").
+  let working = rawVenue.trim();
+  let pitchNote = null;
+  const noteMatch = working.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
+  if (noteMatch) {
+    working   = noteMatch[1].trim();
+    pitchNote = noteMatch[2].trim() || null;
   }
 
   // Exact lookup first; then walk word-prefixes from longest to shortest until we find a
   // venue key. The remainder becomes the pitch label. Handles all of:
-  //   "Keirle Park Field 2"                  → base "Keirle Park",            pitch "Field 2"
-  //   "Eric Tweedale Field 5"                → base "Eric Tweedale Field",    pitch "Field 5"
-  //   "Tantallon Oval 2"                     → base "Tantallon Oval",         pitch "Field 2"
-  //   "North Narrabeen Reserve No 2 (Front)" → base "North Narrabeen Reserve", pitch "No 2 (Front)"
-  let base = rawVenue.trim();
+  //   "Keirle Park Field 2"                  → base "Keirle Park",             pitch "Field 2"
+  //   "Eric Tweedale Field 5"                → base "Eric Tweedale Field",     pitch "Field 5"
+  //   "Tantallon Oval 2"                     → base "Tantallon Oval",          pitch "Field 2"
+  //   "North Narrabeen Reserve No 2 (Front)" → base "North Narrabeen Reserve", pitch "No 2", note "Front"
+  //   "Forestville War Memorial Playing Field No 6" → pitch "Field No 6" ("Playing" dropped)
+  let base = working;
   let pitch = null;
   let v = venues[base];
   if (!v) {
@@ -99,17 +113,18 @@ export function parseVenue(rawVenue, venues) {
       if (venues[prefix]) {
         base  = prefix;
         v     = venues[prefix];
-        const suffix = words.slice(i).join(' ').trim();
+        // "Playing" is superfluous descriptive text in front of the field number — drop it.
+        const suffix = words.slice(i).join(' ').replace(/^playing\s+/i, '').trim();
         // Bare digits get the friendly "Field N" label; everything else passes through verbatim
-        // (so "Field 5", "No 2 (Front)" etc. render as the council names them).
-        pitch = /^\d+$/.test(suffix) ? `Field ${suffix}` : suffix;
+        // (so "Field 5", "No 2", "#1" render as the council names them).
+        pitch = /^\d+$/.test(suffix) ? `Field ${suffix}` : (suffix || null);
         break;
       }
     }
   }
 
   const display = v?.suburb ? `${base}, ${v.suburb}` : base;
-  return { display, pitch, mapsUrl: v?.mapsUrl || _genericMapsUrl(display), base: v ? base : null, hasDetails: !!v?.details };
+  return { display, pitch, pitchNote, mapsUrl: v?.mapsUrl || _genericMapsUrl(display), base: v ? base : null, hasDetails: !!v?.details };
 }
 
 // kebab-case slug for venue anchors and panel ids. Strips parens, apostrophes, slashes.

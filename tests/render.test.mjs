@@ -162,8 +162,8 @@ test('parseVenue: unknown venue falls back to generic maps URL', () => {
 });
 
 test('parseVenue: empty/falsy returns sentinel', () => {
-  assert.deepEqual(parseVenue('',   VENUES), { display: '', pitch: null, mapsUrl: '#', base: null, hasDetails: false });
-  assert.deepEqual(parseVenue(null, VENUES), { display: '', pitch: null, mapsUrl: '#', base: null, hasDetails: false });
+  assert.deepEqual(parseVenue('',   VENUES), { display: '', pitch: null, pitchNote: null, mapsUrl: '#', base: null, hasDetails: false });
+  assert.deepEqual(parseVenue(null, VENUES), { display: '', pitch: null, pitchNote: null, mapsUrl: '#', base: null, hasDetails: false });
 });
 
 test('parseVenue: field number suffix stripped and returned as pitch', () => {
@@ -190,13 +190,36 @@ test('parseVenue: prefers the longest matching venue prefix', () => {
   assert.equal(r.display, 'Eric Tweedale Field, Merrylands');
 });
 
-test('parseVenue: keeps free-form suffix verbatim ("No 2 (Front)" etc.)', () => {
+test('parseVenue: keeps council field label verbatim, splits bracket note out as pitchNote', () => {
   const venues = {
     'North Narrabeen Reserve': { suburb: 'Narrabeen', mapsUrl: 'https://maps.example.com/nnr' },
   };
   const r = parseVenue('North Narrabeen Reserve No 2 (Front)', venues);
-  assert.equal(r.base,  'North Narrabeen Reserve');
-  assert.equal(r.pitch, 'No 2 (Front)');
+  assert.equal(r.base,      'North Narrabeen Reserve');
+  assert.equal(r.pitch,     'No 2');
+  assert.equal(r.pitchNote, 'Front');
+});
+
+test('parseVenue: drops superfluous "Playing" and lifts bracket note to pitchNote', () => {
+  const venues = {
+    'Forestville War Memorial': { suburb: 'Forestville', mapsUrl: 'https://maps.example.com/fwm' },
+  };
+  const r = parseVenue('Forestville War Memorial Playing Field No 6 (Rugby field upper level)', venues);
+  assert.equal(r.base,      'Forestville War Memorial');
+  assert.equal(r.display,   'Forestville War Memorial, Forestville');
+  assert.equal(r.pitch,     'Field No 6');
+  assert.equal(r.pitchNote, 'Rugby field upper level');
+});
+
+test('parseVenue: alternate-name bracket becomes pitchNote, base resolves without it', () => {
+  const venues = {
+    'Mark Taylor Oval': { suburb: 'Waitara', mapsUrl: 'https://maps.example.com/mto' },
+  };
+  const r = parseVenue('Mark Taylor Oval (Waitara Oval)', venues);
+  assert.equal(r.base,      'Mark Taylor Oval');
+  assert.equal(r.display,   'Mark Taylor Oval, Waitara');
+  assert.equal(r.pitch,     null);
+  assert.equal(r.pitchNote, 'Waitara Oval');
 });
 
 test('parseVenue: minis pitch format "Tryon Oval TT1 (U6/U7)"', () => {
