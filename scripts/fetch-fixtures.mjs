@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 import {
   SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
-  TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
+  TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS, SQUADS,
 } from './config.mjs';
 import { EVENTS } from './events.mjs';
 import { parseVenue, isGameEvent } from '../docs/render.mjs';
@@ -778,6 +778,7 @@ async function main() {
     `  FINAL_ROUND: ${FINAL_ROUND},`,
     `  TEAM_SLUGS: ${JSON.stringify(TEAM_SLUGS, null, 2).replace(/\n/g, '\n  ')},`,
     `  MINIS_SLUGS: ${JSON.stringify([...MINIS_SLUGS])},`,
+    `  SQUADS: ${JSON.stringify(SQUADS, null, 2).replace(/\n/g, '\n  ')},`,
     `  VENUES: ${JSON.stringify(VENUES, null, 2).replace(/\n/g, '\n  ')},`,
     '};',
     '',

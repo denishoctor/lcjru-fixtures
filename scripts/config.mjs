@@ -115,3 +115,15 @@ export const MINIS_SIBLINGS = {
   'u8-gold': 'u8-blue', 'u8-blue': 'u8-gold',
   'u9-gold': 'u9-blue', 'u9-blue': 'u9-gold',
 };
+
+// Club squad rosters per team slug — hand-authored. The POTM admin picker (docs/admin.html)
+// uses these as its candidate list when Rugby Xplorer published no team sheet for a match;
+// where a sheet exists, that lineup is preferred. A free-text entry is always available, so
+// these can be filled in incrementally (and a team may be omitted entirely). Names only.
+export const SQUADS = {
+  // Example — replace with the real roster; add the other teams the same way.
+  'u11': [
+    // 'Jordan Smith',
+    // 'Alex Nguyen',
+  ],
+};

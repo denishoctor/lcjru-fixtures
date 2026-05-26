@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow } from '../docs/render.mjs';
+import { esc, isLaneCove, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, RESULTS_CUTOVER_HOUR, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow, POTM_DEFAULT_EMOJI, potmEmoji, isPotmPlayer, potmChipHtml, potmPanelBlock } from '../docs/render.mjs';
 
 // ── esc ───────────────────────────────────────────────────────────────────────
 
@@ -607,4 +607,56 @@ test('renderHomeMatchRow: shows the short LC team name and opponent', () => {
   const html = renderHomeMatchRow(fixtureMatch, HOME_CTX);
   assert.ok(html.includes('>11<') || html.includes('team-pill'));
   assert.ok(html.includes('v Wahroonga 11'));
+});
+
+// ── POTM helpers ────────────────────────────────────────────────────────────────
+
+test('potmEmoji: falls back to the default medal when none set', () => {
+  assert.equal(potmEmoji(null), POTM_DEFAULT_EMOJI);
+  assert.equal(potmEmoji({ player_name: 'A' }), POTM_DEFAULT_EMOJI);
+  assert.equal(potmEmoji({ player_name: 'A', emoji: '⭐' }), '⭐');
+});
+
+test('isPotmPlayer: matches on trimmed, case-insensitive name', () => {
+  const potm = { player_name: 'Jordan Smith' };
+  assert.ok(isPotmPlayer({ name: 'Jordan Smith' }, potm));
+  assert.ok(isPotmPlayer({ name: '  jordan smith ' }, potm));
+  assert.ok(!isPotmPlayer({ name: 'Jordan Smyth' }, potm));
+});
+
+test('isPotmPlayer: false for missing player or POTM', () => {
+  assert.ok(!isPotmPlayer(null, { player_name: 'A' }));
+  assert.ok(!isPotmPlayer({ name: 'A' }, null));
+  assert.ok(!isPotmPlayer({ name: 'A' }, {}));
+});
+
+test('potmChipHtml: renders escaped name + emoji, empty when no POTM', () => {
+  assert.equal(potmChipHtml(null), '');
+  assert.equal(potmChipHtml({ player_name: '' }), '');
+  const html = potmChipHtml({ player_name: 'A & B', emoji: '⭐' });
+  assert.ok(html.includes('home-row-potm'));
+  assert.ok(html.includes('⭐'));
+  assert.ok(html.includes('A &amp; B'));
+});
+
+test('potmPanelBlock: shows label + name + optional number, empty when no POTM', () => {
+  assert.equal(potmPanelBlock(null), '');
+  const noNum = potmPanelBlock({ player_name: 'Sam Lee' });
+  assert.ok(noNum.includes('Player of the Match'));
+  assert.ok(noNum.includes('Sam Lee'));
+  assert.ok(!noNum.includes('lineup-num'));
+  const withNum = potmPanelBlock({ player_name: 'Sam Lee', player_number: '7' });
+  assert.ok(withNum.includes('lineup-num'));
+  assert.ok(withNum.includes('>7<'));
+});
+
+test('renderHomeMatchRow: result mode includes the POTM chip', () => {
+  const html = renderHomeMatchRow(resultMatch, { ...HOME_CTX, mode: 'result', potm: { player_name: 'Jordan Smith', emoji: '🏅' } });
+  assert.ok(html.includes('home-row-potm'));
+  assert.ok(html.includes('Jordan Smith'));
+});
+
+test('renderHomeMatchRow: fixture mode never shows POTM', () => {
+  const html = renderHomeMatchRow(fixtureMatch, { ...HOME_CTX, mode: 'fixture', potm: { player_name: 'Jordan Smith' } });
+  assert.ok(!html.includes('home-row-potm'));
 });

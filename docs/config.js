@@ -23,6 +23,9 @@ window.LCJRU_CONFIG = {
     "u15": "LmZzP4t9h9bdYr9Pt"
   },
   MINIS_SLUGS: ["u6-gold","u6-blue","u7-gold","u7-blue","u8-gold","u8-blue","u9-gold","u9-blue"],
+  SQUADS: {
+    "u11": []
+  },
   VENUES: {
     "AR Hurst Reserve": {
       "suburb": "Sylvania",

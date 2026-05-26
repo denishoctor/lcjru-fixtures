@@ -277,10 +277,11 @@ export function findLastResultsWeekend(now, allMatches, { startOffset = -1, inGr
   return null;
 }
 
-// Compact single-line home-page row for one match. ctx = { venues, slugById }. mode 'result'
-// shows score + W/L/D from the Lane Cove perspective; 'fixture' shows day + kickoff time.
+// Compact single-line home-page row for one match. ctx = { venues, slugById, potm }. mode
+// 'result' shows score + W/L/D from the Lane Cove perspective; 'fixture' shows day + kickoff
+// time. A POTM (passed in ctx) surfaces as an inline chip in result mode only.
 // Each row deep-links to the LC team's full schedule with the match expanded.
-export function renderHomeMatchRow(match, { venues, slugById, isNextUp = false, mode = 'fixture' } = {}) {
+export function renderHomeMatchRow(match, { venues, slugById, isNextUp = false, mode = 'fixture', potm = null } = {}) {
   const lcTeam   = isLaneCove(match.home) ? match.home : match.away;
   const opponent = isLaneCove(match.home) ? match.away : match.home;
   const isHome   = (match.venue || '').toLowerCase().includes('tantallon');
@@ -309,10 +310,51 @@ export function renderHomeMatchRow(match, { venues, slugById, isNextUp = false, 
   const classes = ['home-row'];
   if (isNextUp) classes.push('next-up');
 
+  const potmHtml = mode === 'result' ? potmChipHtml(potm) : '';
+
   return `<a class="${classes.join(' ')}" href="${esc(href)}">
     ${leftCol}
     <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
-    <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}</span>
+    <span class="home-row-text">v ${esc(opponent.name)}${loc ? ' <span class="home-row-venue">· ' + esc(loc) + '</span>' : ''}${potmHtml ? ' ' + potmHtml : ''}</span>
     <span class="home-row-extra">${badges.join('')}</span>
   </a>`;
+}
+
+// ── Player of the Match (POTM) ──────────────────────────────────────────────────
+// POTM entries are admin-set and read at runtime from Supabase (see docs/potm.js). An
+// entry's shape is { player_name, player_number?, emoji?, ... }. These render helpers are
+// pure so the display is covered by tests; the data source and admin write path live
+// elsewhere. POTM applies to the Lane Cove side of completed games only.
+
+export const POTM_DEFAULT_EMOJI = '🏅';
+
+export function potmEmoji(potm) {
+  return potm && potm.emoji ? potm.emoji : POTM_DEFAULT_EMOJI;
+}
+
+// True when a published-lineup player is the match's POTM — matched on name (trimmed,
+// case-insensitive). Used to bold and tag the player inside the team-sheet panel.
+export function isPotmPlayer(player, potm) {
+  if (!player || !potm || !potm.player_name) return false;
+  const norm = (s) => String(s ?? '').trim().toLowerCase();
+  return norm(player.name) === norm(potm.player_name);
+}
+
+// Inline POTM chip for the home-page "Last weekend's results" row. '' when no POTM.
+export function potmChipHtml(potm) {
+  if (!potm || !potm.player_name) return '';
+  return `<span class="home-row-potm">${esc(potmEmoji(potm))} ${esc(potm.player_name)}</span>`;
+}
+
+// POTM block shown at the top of a match's expandable panel. Used when no lineup was
+// published so the admin-entered POTM still surfaces above the venue info. '' when no POTM.
+export function potmPanelBlock(potm) {
+  if (!potm || !potm.player_name) return '';
+  const num = potm.player_number
+    ? `<span class="lineup-num">${esc(String(potm.player_number))}</span>`
+    : '';
+  return `<div class="potm-block">`
+    + `<span class="potm-label">${esc(potmEmoji(potm))} Player of the Match</span>`
+    + `<span class="potm-name">${num}${esc(potm.player_name)}</span>`
+    + `</div>`;
 }

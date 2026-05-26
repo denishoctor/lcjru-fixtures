@@ -647,6 +647,30 @@
   .lineup-referee { font-size: 11px; color: var(--muted); }
   .lineup-referee strong { color: var(--navy); font-weight: 600; }
 
+  /* PLAYER OF THE MATCH */
+  .lineup-player.is-potm strong { color: var(--navy); }
+  .potm-tag {
+    font-size: 9px; font-weight: 800; letter-spacing: .5px;
+    color: var(--navy); white-space: nowrap;
+  }
+  /* No-lineup POTM block — sits at the top of the expandable panel, above venue info */
+  .potm-block {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 8px 10px; margin-bottom: 12px;
+    background: var(--gold-soft); border: 1px solid var(--gold);
+    border-radius: 6px;
+  }
+  .potm-label {
+    font-size: 9px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--navy);
+  }
+  .potm-name {
+    display: flex; align-items: baseline; gap: 6px;
+    font-size: 14px; font-weight: 700; color: var(--navy);
+  }
+  /* Inline POTM chip on the home-page "Last weekend's results" rows */
+  .home-row-potm { font-weight: 600; color: var(--navy); white-space: nowrap; }
+
   /* PANEL TABS — shown when a row has both lineup + venue details */
   .panel-tabs {
     display: none;
@@ -936,8 +960,10 @@
 
 </div>
 <script src="./config.js"></script>
+<script src="./auth-config.js"></script>
 <script type="module">
-import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow } from './render.mjs';
+import { esc, isLaneCove, isGameEvent, shortTeamName, teamColour, fmtDow, fmtDate, fmtTime, rowId, scoreClass, parseVenue, venueSlug, renderVenueDetails, renderEventDetails, weekendRange, weekendConcluded, fmtWeekendLabel, matchGroup, teamAge, findLastResultsWeekend, renderHomeMatchRow, isPotmPlayer, potmEmoji, potmPanelBlock } from './render.mjs';
+import { loadPotm } from './potm.js';
 
 const FIXTURES_URL = './fixtures.json';
 
@@ -957,6 +983,7 @@ let currentTeam  = null;
 let fixturesData = null;
 let lineupsData  = null;
 let eventsData   = null;
+let potmData     = {};   // match id → POTM row ({ player_name, player_number, emoji, … })
 
 // Per-team filters: which row kinds to show. Persisted to localStorage so the user's choice
 // survives reload. Notes always render — they're contextual (school holidays etc.).
@@ -1125,7 +1152,7 @@ function renderHomePage() {
     .sort((a, b) => teamAge(a, SLUG_BY_ID) - teamAge(b, SLUG_BY_ID) || new Date(a.dateTime) - new Date(b.dateTime));
   if (lastResultsByAge.length) {
     html += sectionHeader("Last weekend's results", fmtWeekendLabel(lastResults.sat));
-    for (const m of lastResultsByAge) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result' });
+    for (const m of lastResultsByAge) html += renderHomeMatchRow(m, { venues: VENUES, slugById: SLUG_BY_ID, mode: 'result', potm: potmData[m.id] });
   }
 
   // Coming up
@@ -1166,7 +1193,7 @@ function renderHomePage() {
 
 // ── lineups ───────────────────────────────────────────────────────────────────
 
-function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest) {
+function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCrest, potm = null) {
   const xplorerUrl = `https://xplorer.rugby/lcjru-/match-centre/${matchId}?tab=Player-Lineup`;
 
   const pad = (arr, len) => [...arr, ...Array(Math.max(0, len - arr.length)).fill(null)];
@@ -1183,6 +1210,9 @@ function renderLineupPanel(matchId, entry, homeName, awaName, homeCrest, awayCre
       ? `<div class="lineup-player"><span class="lineup-none">${noneLabel}</span></div>`
       : `<div class="lineup-player lineup-empty" aria-hidden="true"></div>`;
     const cap = p.captain ? ' <span class="lineup-captain">C</span>' : '';
+    if (isPotmPlayer(p, potm)) {
+      return `<div class="lineup-player is-potm"><span class="lineup-num">${esc(String(p.number))}</span><span><strong>${esc(p.name)}</strong>${cap} <span class="potm-tag">${esc(potmEmoji(potm))} (POTM)</span></span></div>`;
+    }
     return `<div class="lineup-player"><span class="lineup-num">${esc(String(p.number))}</span><span>${esc(p.name)}${cap}</span></div>`;
   };
 
@@ -1267,16 +1297,20 @@ function expandRow(row) {
   const tabsBar     = document.getElementById(`tabs-${matchId}`);
   const hasLineup = row.classList.contains('has-lineup');
   const hasVenue  = row.classList.contains('has-venue-details');
+  const hasPotm   = row.classList.contains('has-potm');
 
-  // Populate panel content (always — cheap, and lineupsData may have arrived since last open)
-  if (venuePanel && hasVenue) {
+  // Populate panel content (always — cheap, and lineupsData may have arrived since last open).
+  // The venue panel doubles as the host for a no-lineup POTM block, which sits above the venue
+  // info (rule 3). When a lineup exists, the POTM is bolded inside the lineup panel instead.
+  if (venuePanel && (hasVenue || hasPotm)) {
     const eventId = row.dataset.eventId;
     const event = eventId ? eventsData?.find(e => e.id === eventId) : null;
     const eventHtml = event ? renderEventDetails(event) : '';
-    const venueHtml = row.dataset.venueBase
+    const venueHtml = hasVenue && row.dataset.venueBase
       ? renderVenueDetails(row.dataset.venueBase, VENUES)
       : '';
-    venuePanel.innerHTML = eventHtml + venueHtml;
+    const potmHtml = hasPotm ? potmPanelBlock(potmData?.[matchId]) : '';
+    venuePanel.innerHTML = potmHtml + eventHtml + venueHtml;
   }
   if (lineupPanel && hasLineup) {
     const entry = lineupsData?.[matchId];
@@ -1284,6 +1318,7 @@ function expandRow(row) {
       matchId, entry,
       row.dataset.homeName  ?? '', row.dataset.awayName  ?? '',
       row.dataset.homeCrest ?? '', row.dataset.awayCrest ?? '',
+      potmData?.[matchId],
     );
   }
 
@@ -1295,7 +1330,7 @@ function expandRow(row) {
     (activeTab === 'lineup' ? lineupPanel : venuePanel)?.classList.add('open');
   } else if (hasLineup) {
     lineupPanel?.classList.add('open');
-  } else if (hasVenue) {
+  } else if (hasVenue || hasPotm) {
     venuePanel?.classList.add('open');
   }
   row.classList.add('expanded');
@@ -1324,7 +1359,7 @@ function switchTab(row, tabName) {
 }
 
 function attachExpandHandlers() {
-  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details, .row.has-potm').forEach(row => {
     row.addEventListener('click', e => {
       if (e.target.closest('a')) return;
       if (row.classList.contains('expanded')) {
@@ -1474,12 +1509,19 @@ function renderMatch(match, isNextUp) {
 
   const entry     = lineupsData?.[match.id];
   const hasLineup = !match.isBye && entry && (entry.home.length > 0 || entry.away.length > 0);
-  const expandable = hasLineup || hasDetails;
+  const potm      = potmData?.[match.id];
+  const hasPotm   = Boolean(potm && potm.player_name);
+  // Rule 3: when no team sheet was published, the admin-set POTM still needs a home — it
+  // surfaces at the top of the expandable panel (above any venue info). When a lineup exists,
+  // the POTM is bolded inline there instead (rule 2), so no separate block.
+  const showPotmBlock = hasPotm && !hasLineup;
+  const expandable = hasLineup || hasDetails || showPotmBlock;
 
   const classes = ['row'];
-  if (isNextUp)    classes.push('next-up');
-  if (hasLineup)   classes.push('has-lineup');
-  if (hasDetails)  classes.push('has-venue-details');
+  if (isNextUp)       classes.push('next-up');
+  if (hasLineup)      classes.push('has-lineup');
+  if (hasDetails)     classes.push('has-venue-details');
+  if (showPotmBlock)  classes.push('has-potm');
 
   const attrs = [`id="${esc(anchor)}"`, `data-match-id="${esc(match.id)}"`];
   if (hasLineup) {
@@ -1525,10 +1567,12 @@ function renderMatch(match, isNextUp) {
 function injectPanelsAndHandlers() {
   // Inject panels in reverse desired order (afterend always inserts directly after the row,
   // so the latest insertion ends up first). Final DOM: row → tabs? → lineup? → venue?.
-  document.querySelectorAll('.row.has-lineup, .row.has-venue-details').forEach(row => {
+  document.querySelectorAll('.row.has-lineup, .row.has-venue-details, .row.has-potm').forEach(row => {
     const hasLineup = row.classList.contains('has-lineup');
     const hasVenue  = row.classList.contains('has-venue-details');
-    if (hasVenue) {
+    const hasPotm   = row.classList.contains('has-potm');
+    // The venue panel also hosts a no-lineup POTM block, so create it when either applies.
+    if (hasVenue || hasPotm) {
       const venuePanel = document.createElement('div');
       venuePanel.className = 'venue-panel';
       venuePanel.id = `venue-${row.dataset.matchId}`;
@@ -2079,15 +2123,17 @@ async function init() {
 
   let data;
   try {
-    const [fixturesRes, lineupsRes, eventsRes] = await Promise.allSettled([
+    const [fixturesRes, lineupsRes, eventsRes, potmRes] = await Promise.allSettled([
       fetch(FIXTURES_URL).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
       fetch('lineups.json').then(r => r.ok ? r.json() : {}),
       fetch('./events.json').then(r => r.ok ? r.json() : []),
+      loadPotm(),
     ]);
     if (fixturesRes.status === 'rejected') throw fixturesRes.reason;
     data        = fixturesRes.value;
     lineupsData = lineupsRes.status === 'fulfilled' ? lineupsRes.value : {};
     eventsData  = eventsRes.status  === 'fulfilled' ? eventsRes.value  : [];
+    potmData    = potmRes.status    === 'fulfilled' ? potmRes.value    : {};
   } catch (err) {
     calendar.innerHTML = `<div class="empty">Could not load fixtures. ${esc(err.message)}</div>`;
     return;

@@ -28,7 +28,9 @@ const SHELL_FILES = [
   'index.html',
   'venues.html',
   'render.mjs',
+  'potm.js',
   'config.js',
+  'auth-config.js',
   'manifest.webmanifest',
   'assets/icon-192.png',
   'assets/icon-512.png',
@@ -60,9 +62,10 @@ function isDataRequest(url) {
 
 // JS that the HTML imports/loads. Must refresh in lockstep with the (network-first) HTML,
 // otherwise a fresh page can import a stale module whose exports have changed → blank page.
+// Covers .mjs modules plus same-origin .js (config.js, auth-config.js, potm.js).
 function isShellScript(url) {
   return url.origin === self.location.origin
-      && (url.pathname.endsWith('.mjs') || url.pathname.endsWith('/config.js'));
+      && (url.pathname.endsWith('.mjs') || url.pathname.endsWith('.js'));
 }
 
 async function staleWhileRevalidate(request, cacheName) {
@@ -126,6 +129,9 @@ self.addEventListener('fetch', (event) => {
     // GoatCounter loader + count beacon: let the browser handle directly so
     // analytics aren't served from cache (would suppress every repeat event).
     if (url.host === 'gc.zgo.at' || url.host.endsWith('.goatcounter.com')) return;
+    // Clerk (auth) + Supabase (POTM data): never cache. Auth tokens and POTM reads must
+    // always hit the network, and admin writes must not be intercepted.
+    if (url.host.endsWith('.supabase.co') || url.host.includes('clerk.')) return;
     // CDN crests etc. — keep the page resilient when offline.
     event.respondWith(networkFirstCrossOrigin(request));
     return;
