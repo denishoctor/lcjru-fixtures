@@ -52,9 +52,17 @@ window.LCJRU_CONFIG = {
       "suburb": "Hunters Hill",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Boronia+Park%2C+Park+Rd%2C+Hunters+Hill+NSW+2110%2C+Australia"
     },
+    "Cliff Oval": {
+      "suburb": "North Wahroonga",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cliff+Oval+Cliff+Ave%2C+North+Wahroonga+NSW+2076%2C+Australia"
+    },
     "Eric Tweedale Field": {
       "suburb": "Merrylands",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Eric+Tweedale+Stadium%2C+Merrylands+NSW+2160%2C+Australia"
+    },
+    "Forestville War Memorial": {
+      "suburb": "Forestville",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Forestville+War+Memorial+Playing+Fields%2C+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia"
     },
     "Hassall Park": {
       "suburb": "St Ives",
@@ -86,15 +94,15 @@ window.LCJRU_CONFIG = {
         }
       }
     },
+    "Leichhardt Oval": {
+      "suburb": "Lilyfield",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Leichhardt+Oval%2C+Mary+St%2C+Lilyfield+NSW+2040%2C+Australia"
+    },
     "Lofberg Oval": {
       "suburb": "West Pymble",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia"
     },
     "Mark Taylor Oval": {
-      "suburb": "Waitara",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia"
-    },
-    "Mark Taylor Oval (Waitara Oval)": {
       "suburb": "Waitara",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia"
     },
@@ -113,6 +121,10 @@ window.LCJRU_CONFIG = {
       "suburb": "Maroubra",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nagle+Park%2C+Maroubra+NSW+2035%2C+Australia"
     },
+    "Nepean Rugby Park": {
+      "suburb": "Penrith",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nepean+Rugby+Park%2C+78A+Andrews+Rd%2C+Penrith+NSW+2750%2C+Australia"
+    },
     "North Narrabeen Reserve": {
       "suburb": "Narrabeen",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=North+Narrabeen+Reserve%2C+Pittwater+Rd%2C+Warriewood+NSW+2102%2C+Australia"
@@ -120,6 +132,10 @@ window.LCJRU_CONFIG = {
     "Peakhurst Oval": {
       "suburb": "Peakhurst",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Peakhurst+Park%2C+Peakhurst+NSW+2210%2C+Australia"
+    },
+    "Pennant Hills": {
+      "suburb": "Pennant Hills",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pennant+Hills+Park%2C+Pennant+Hills+NSW+2120%2C+Australia"
     },
     "Porter Reserve": {
       "suburb": "Newport",
@@ -132,6 +148,10 @@ window.LCJRU_CONFIG = {
     "Ryde Park": {
       "suburb": "Ryde",
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ryde+Park%2C+Argyle+Ave%2C+Ryde+NSW+2112%2C+Australia"
+    },
+    "Soldiers Memorial Park": {
+      "suburb": "East Lindfield",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Soldiers+Memorial+Park%2C+Tryon+Rd%2C+East+Lindfield+NSW+2070%2C+Australia"
     },
     "Tantallon Oval": {
       "suburb": "Lane Cove North",

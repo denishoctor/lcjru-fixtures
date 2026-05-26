@@ -212,12 +212,14 @@ function formatChanges(changes) {
 
 function displayLocation(rawVenue) {
   if (!rawVenue) return rawVenue;
-  const { display, pitch, base } = parseVenue(rawVenue, VENUES);
-  if (!pitch) return display;
+  const { display, pitch, pitchNote, base } = parseVenue(rawVenue, VENUES);
+  const note = pitchNote ? ` (${pitchNote})` : '';
+  if (!pitch) return display + note;
   // Sandwich the pitch (TT6, M2, Field 1, …) between the venue name and suburb so
   // calendar events still show "which field" — geocoders fall back to the base name.
+  // The bracketed note (e.g. "(Front)") rides along after the pitch.
   const suburb = base ? VENUES[base]?.suburb : null;
-  return suburb && base ? `${base} ${pitch}, ${suburb}` : `${display} ${pitch}`;
+  return suburb && base ? `${base} ${pitch}${note}, ${suburb}` : `${display} ${pitch}${note}`;
 }
 
 // ── ICS calendar generation ────────────────────────────────────────────────────
