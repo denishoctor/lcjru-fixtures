@@ -10338,7 +10338,7 @@
   },
   "8fdbf03100e88030f": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:02.637Z",
+    "fetchedAt": "2026-05-28T21:11:24.121Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10347,7 +10347,7 @@
   },
   "44d3b735df662b2c3": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:02.911Z",
+    "fetchedAt": "2026-05-28T21:11:24.781Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10356,7 +10356,7 @@
   },
   "3d8fc87ca9c8201b1": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:02.090Z",
+    "fetchedAt": "2026-05-28T21:11:24.632Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10365,7 +10365,7 @@
   },
   "54ffc1748fe04286c": {
     "gameDateTime": "2026-05-16T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:02.363Z",
+    "fetchedAt": "2026-05-28T21:11:24.355Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10374,7 +10374,7 @@
   },
   "a4d81a360ca1fb99f": {
     "gameDateTime": "2026-05-16T23:30:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:03.731Z",
+    "fetchedAt": "2026-05-28T21:11:25.602Z",
     "home": [
       {
         "number": "1",
@@ -10624,7 +10624,7 @@
   },
   "3354f738bbb8abf92": {
     "gameDateTime": "2026-05-16T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:03.560Z",
+    "fetchedAt": "2026-05-28T21:11:25.391Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10633,7 +10633,7 @@
   },
   "671af33e2ce058f96": {
     "gameDateTime": "2026-05-16T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:03.361Z",
+    "fetchedAt": "2026-05-28T21:11:25.185Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10651,7 +10651,7 @@
   },
   "60b18bb1e94002427": {
     "gameDateTime": "2026-05-17T00:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:03.957Z",
+    "fetchedAt": "2026-05-28T21:11:25.830Z",
     "home": [
       {
         "number": "24",
@@ -10915,7 +10915,7 @@
   },
   "d3b62c5dfbaaf4bdc": {
     "gameDateTime": "2026-05-23T22:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:05.736Z",
+    "fetchedAt": "2026-05-28T21:11:27.512Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10951,7 +10951,7 @@
   },
   "aaa9e3cf9d2a66386": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:06.129Z",
+    "fetchedAt": "2026-05-28T21:11:27.670Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10960,7 +10960,7 @@
   },
   "0d908aa8319b19396": {
     "gameDateTime": "2026-05-24T00:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:08.401Z",
+    "fetchedAt": "2026-05-28T21:11:30.068Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10969,7 +10969,7 @@
   },
   "731b8141c020f957a": {
     "gameDateTime": "2026-05-24T01:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:08.982Z",
+    "fetchedAt": "2026-05-28T21:11:30.555Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -10978,7 +10978,7 @@
   },
   "6fb7c659c96bd847d": {
     "gameDateTime": "2026-05-24T00:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:08.216Z",
+    "fetchedAt": "2026-05-28T21:11:29.888Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -11014,7 +11014,7 @@
   },
   "c70b0a2c1971a1f71": {
     "gameDateTime": "2026-05-30T22:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:09.635Z",
+    "fetchedAt": "2026-05-28T21:11:31.154Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -11032,7 +11032,7 @@
   },
   "86933b3e18f2cb807": {
     "gameDateTime": "2026-05-30T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:10.044Z",
+    "fetchedAt": "2026-05-28T21:11:31.322Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -11041,7 +11041,7 @@
   },
   "09a706f5a5775be51": {
     "gameDateTime": "2026-05-30T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:10.729Z",
+    "fetchedAt": "2026-05-28T21:11:31.939Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -11050,7 +11050,7 @@
   },
   "042cc85ed7137ab67": {
     "gameDateTime": "2026-05-30T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:10.213Z",
+    "fetchedAt": "2026-05-28T21:11:32.115Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -11068,7 +11068,7 @@
   },
   "243ecde50ae17028a": {
     "gameDateTime": "2026-05-16T23:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:03.115Z",
+    "fetchedAt": "2026-05-28T21:11:24.951Z",
     "home": [
       {
         "number": "1",
@@ -11388,7 +11388,7 @@
   },
   "950d58ff3116d9235": {
     "gameDateTime": "2026-05-17T01:10:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:04.187Z",
+    "fetchedAt": "2026-05-28T21:11:26.208Z",
     "home": [
       {
         "number": "23",
@@ -11710,7 +11710,7 @@
   },
   "e47c24c7c3cbe1734": {
     "gameDateTime": "2026-05-17T02:10:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:05.554Z",
+    "fetchedAt": "2026-05-28T21:11:27.054Z",
     "home": [
       {
         "number": "1",
@@ -12038,7 +12038,7 @@
   },
   "552c14e8c3ca80e86": {
     "gameDateTime": "2026-05-17T01:50:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:04.925Z",
+    "fetchedAt": "2026-05-28T21:11:26.628Z",
     "home": [
       {
         "number": "1",
@@ -12295,7 +12295,7 @@
   },
   "0e472bfc75668c88b": {
     "gameDateTime": "2026-05-17T01:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:04.645Z",
+    "fetchedAt": "2026-05-28T21:11:26.397Z",
     "home": [
       {
         "number": "1",
@@ -12589,7 +12589,7 @@
   },
   "c2e99a92b92a3e0c0": {
     "gameDateTime": "2026-05-17T01:10:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:04.428Z",
+    "fetchedAt": "2026-05-28T21:11:26.020Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12598,7 +12598,7 @@
   },
   "d9e511479ba8d793d": {
     "gameDateTime": "2026-05-17T02:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:05.328Z",
+    "fetchedAt": "2026-05-28T21:11:26.820Z",
     "home": [
       {
         "number": "2",
@@ -12675,7 +12675,7 @@
   },
   "ccd65d0d971208a11": {
     "gameDateTime": "2026-05-23T23:10:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:06.958Z",
+    "fetchedAt": "2026-05-28T21:11:28.619Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12684,7 +12684,7 @@
   },
   "cce590dc605352178": {
     "gameDateTime": "2026-05-23T23:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:07.379Z",
+    "fetchedAt": "2026-05-28T21:11:29.085Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12693,7 +12693,7 @@
   },
   "a0c645a2a6586e034": {
     "gameDateTime": "2026-05-23T23:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:07.597Z",
+    "fetchedAt": "2026-05-28T21:11:29.269Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12702,7 +12702,7 @@
   },
   "438a35fff596266e5": {
     "gameDateTime": "2026-05-30T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:10.463Z",
+    "fetchedAt": "2026-05-28T21:11:32.331Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12711,7 +12711,7 @@
   },
   "f2f3697f819eb2890": {
     "gameDateTime": "2026-05-30T23:20:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:11.024Z",
+    "fetchedAt": "2026-05-28T21:11:31.744Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12720,7 +12720,7 @@
   },
   "7fda57ae268597442": {
     "gameDateTime": "2026-05-30T23:50:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:11.435Z",
+    "fetchedAt": "2026-05-28T21:11:32.726Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12729,7 +12729,7 @@
   },
   "34e751b6e328c9d5d": {
     "gameDateTime": "2026-05-23T22:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:05.929Z",
+    "fetchedAt": "2026-05-28T21:11:27.346Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12738,7 +12738,7 @@
   },
   "ec9b4827a367e0ae3": {
     "gameDateTime": "2026-05-23T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:06.353Z",
+    "fetchedAt": "2026-05-28T21:11:27.890Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12747,7 +12747,7 @@
   },
   "f5affa17b1f786f86": {
     "gameDateTime": "2026-05-30T22:40:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:09.809Z",
+    "fetchedAt": "2026-05-28T21:11:31.569Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -12756,7 +12756,7 @@
   },
   "694aa68e802bd09f2": {
     "gameDateTime": "2026-05-23T23:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:06.774Z",
+    "fetchedAt": "2026-05-28T21:11:28.090Z",
     "home": [
       {
         "number": "1",
@@ -13022,7 +13022,7 @@
   },
   "0c352f0622b44ad8e": {
     "gameDateTime": "2026-05-23T23:50:00Z",
-    "fetchedAt": "2026-05-28T20:43:07.790Z",
+    "fetchedAt": "2026-05-28T21:11:29.496Z",
     "home": [
       {
         "number": "1",
@@ -13246,7 +13246,7 @@
   },
   "6fff2de6eb6b6a7c6": {
     "gameDateTime": "2026-05-23T23:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:06.566Z",
+    "fetchedAt": "2026-05-28T21:11:28.355Z",
     "home": [
       {
         "number": "76",
@@ -13504,7 +13504,7 @@
   },
   "9f1d7a0a2c5249df1": {
     "gameDateTime": "2026-05-23T23:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:07.132Z",
+    "fetchedAt": "2026-05-28T21:11:28.873Z",
     "home": [
       {
         "number": "13",
@@ -13796,7 +13796,7 @@
   },
   "9e00230f135fdebb6": {
     "gameDateTime": "2026-05-23T23:50:00Z",
-    "fetchedAt": "2026-05-28T20:43:07.967Z",
+    "fetchedAt": "2026-05-28T21:11:29.707Z",
     "home": [
       {
         "number": "1",
@@ -14109,7 +14109,7 @@
   },
   "1a6e4a5ddde429404": {
     "gameDateTime": "2026-05-24T00:50:00Z",
-    "fetchedAt": "2026-05-28T20:43:08.626Z",
+    "fetchedAt": "2026-05-28T21:11:30.278Z",
     "home": [
       {
         "number": "24",
@@ -14420,7 +14420,7 @@
   },
   "372d1914eeb489131": {
     "gameDateTime": "2026-05-24T01:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:09.431Z",
+    "fetchedAt": "2026-05-28T21:11:30.933Z",
     "home": [
       {
         "number": "1",
@@ -14698,7 +14698,7 @@
   },
   "d12219d7a3c27cec9": {
     "gameDateTime": "2026-05-24T01:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:09.222Z",
+    "fetchedAt": "2026-05-28T21:11:30.732Z",
     "home": [
       {
         "number": "1",
@@ -15009,7 +15009,7 @@
   },
   "e12b40381944afc87": {
     "gameDateTime": "2026-06-13T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:13.245Z",
+    "fetchedAt": "2026-05-28T21:11:34.639Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15018,7 +15018,7 @@
   },
   "e43cd72e0dd9e092b": {
     "gameDateTime": "2026-06-13T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:13.418Z",
+    "fetchedAt": "2026-05-28T21:11:34.802Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15027,7 +15027,7 @@
   },
   "82756aae21ac7f1b9": {
     "gameDateTime": "2026-07-25T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:14.975Z",
+    "fetchedAt": "2026-05-28T21:11:36.436Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15036,7 +15036,7 @@
   },
   "01dbc924b7cb1034f": {
     "gameDateTime": "2026-07-25T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:15.557Z",
+    "fetchedAt": "2026-05-28T21:11:36.599Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15045,7 +15045,7 @@
   },
   "a785b438690f8117f": {
     "gameDateTime": "2026-08-01T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:16.965Z",
+    "fetchedAt": "2026-05-28T21:11:38.305Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15054,7 +15054,7 @@
   },
   "02e0465816c752f27": {
     "gameDateTime": "2026-08-01T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:16.728Z",
+    "fetchedAt": "2026-05-28T21:11:38.137Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15063,7 +15063,7 @@
   },
   "0373d86199412e24d": {
     "gameDateTime": "2026-08-08T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:19.005Z",
+    "fetchedAt": "2026-05-28T21:11:40.301Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15072,7 +15072,7 @@
   },
   "1a09ef68ad0053937": {
     "gameDateTime": "2026-08-08T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:18.791Z",
+    "fetchedAt": "2026-05-28T21:11:40.099Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15081,7 +15081,7 @@
   },
   "33ea7405380746408": {
     "gameDateTime": "2026-08-15T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:20.573Z",
+    "fetchedAt": "2026-05-28T21:11:42.166Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15090,7 +15090,7 @@
   },
   "fdd9a984d0968bd7a": {
     "gameDateTime": "2026-08-15T22:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:21.012Z",
+    "fetchedAt": "2026-05-28T21:11:42.524Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15099,7 +15099,7 @@
   },
   "8090954402474c7a4": {
     "gameDateTime": "2026-08-15T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:21.267Z",
+    "fetchedAt": "2026-05-28T21:11:42.751Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15108,7 +15108,7 @@
   },
   "9ee4a3696ff3167bb": {
     "gameDateTime": "2026-08-22T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:22.447Z",
+    "fetchedAt": "2026-05-28T21:11:44.412Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15117,7 +15117,7 @@
   },
   "26f70023b76798fd5": {
     "gameDateTime": "2026-08-29T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:23.887Z",
+    "fetchedAt": "2026-05-28T21:11:45.665Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15126,7 +15126,7 @@
   },
   "4988e373ec6a1adb3": {
     "gameDateTime": "2026-08-29T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:24.069Z",
+    "fetchedAt": "2026-05-28T21:11:45.471Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15144,7 +15144,7 @@
   },
   "a292912e72dd99fec": {
     "gameDateTime": "2026-06-13T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:13.612Z",
+    "fetchedAt": "2026-05-28T21:11:35.224Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15153,7 +15153,7 @@
   },
   "82fca6f7fb47ef3af": {
     "gameDateTime": "2026-06-13T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:13.853Z",
+    "fetchedAt": "2026-05-28T21:11:34.990Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15189,7 +15189,7 @@
   },
   "ab16cb600700dae30": {
     "gameDateTime": "2026-07-25T23:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:15.768Z",
+    "fetchedAt": "2026-05-28T21:11:37.268Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15198,7 +15198,7 @@
   },
   "d2424bf66d395d6c9": {
     "gameDateTime": "2026-07-26T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:16.299Z",
+    "fetchedAt": "2026-05-28T21:11:37.738Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15225,7 +15225,7 @@
   },
   "831e70ca48ba8d9f0": {
     "gameDateTime": "2026-08-02T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:18.027Z",
+    "fetchedAt": "2026-05-28T21:11:39.710Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15234,7 +15234,7 @@
   },
   "1c22189da7d05b9a8": {
     "gameDateTime": "2026-08-02T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:18.210Z",
+    "fetchedAt": "2026-05-28T21:11:39.462Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15261,7 +15261,7 @@
   },
   "53448d8a4088eb96b": {
     "gameDateTime": "2026-08-08T23:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:19.390Z",
+    "fetchedAt": "2026-05-28T21:11:41.094Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15270,7 +15270,7 @@
   },
   "119d5116d10f35e63": {
     "gameDateTime": "2026-08-09T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:19.611Z",
+    "fetchedAt": "2026-05-28T21:11:41.276Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15297,7 +15297,7 @@
   },
   "a7190500d71a4321e": {
     "gameDateTime": "2026-08-15T23:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:21.563Z",
+    "fetchedAt": "2026-05-28T21:11:43.009Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15306,7 +15306,7 @@
   },
   "96aec2327df84b3b6": {
     "gameDateTime": "2026-08-16T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:21.738Z",
+    "fetchedAt": "2026-05-28T21:11:43.326Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15333,7 +15333,7 @@
   },
   "8f7cec89cd49a3ce7": {
     "gameDateTime": "2026-08-23T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:23.503Z",
+    "fetchedAt": "2026-05-28T21:11:44.831Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15342,7 +15342,7 @@
   },
   "2662fe5d96fbe61d1": {
     "gameDateTime": "2026-08-23T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:23.321Z",
+    "fetchedAt": "2026-05-28T21:11:45.118Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15351,7 +15351,7 @@
   },
   "ecbfde3310869dde2": {
     "gameDateTime": "2026-08-29T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:24.571Z",
+    "fetchedAt": "2026-05-28T21:11:45.893Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15360,7 +15360,7 @@
   },
   "002fdc3b24a90cdb0": {
     "gameDateTime": "2026-08-29T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:24.337Z",
+    "fetchedAt": "2026-05-28T21:11:46.146Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15387,7 +15387,7 @@
   },
   "de084e86a486f6ad3": {
     "gameDateTime": "2026-06-14T00:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:14.065Z",
+    "fetchedAt": "2026-05-28T21:11:35.688Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15396,7 +15396,7 @@
   },
   "65ad2db8fbaec31f9": {
     "gameDateTime": "2026-06-14T00:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:14.259Z",
+    "fetchedAt": "2026-05-28T21:11:35.441Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15405,7 +15405,7 @@
   },
   "3ebe2e6419a33ad61": {
     "gameDateTime": "2026-06-14T02:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:14.440Z",
+    "fetchedAt": "2026-05-28T21:11:35.856Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15414,7 +15414,7 @@
   },
   "13eb87e15a9cfdbb7": {
     "gameDateTime": "2026-06-14T03:10:00Z",
-    "fetchedAt": "2026-05-28T20:43:14.680Z",
+    "fetchedAt": "2026-05-28T21:11:36.172Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15423,7 +15423,7 @@
   },
   "553f6e6565fe828db": {
     "gameDateTime": "2026-07-25T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:15.371Z",
+    "fetchedAt": "2026-05-28T21:11:36.827Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15432,7 +15432,7 @@
   },
   "7121a4c5ccccb9b25": {
     "gameDateTime": "2026-07-25T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:15.173Z",
+    "fetchedAt": "2026-05-28T21:11:37.071Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15441,7 +15441,7 @@
   },
   "7ab6e42a3f8922bf3": {
     "gameDateTime": "2026-07-25T23:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:16.106Z",
+    "fetchedAt": "2026-05-28T21:11:37.554Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15450,7 +15450,7 @@
   },
   "f7505e09e2bad10ec": {
     "gameDateTime": "2026-07-26T01:35:00Z",
-    "fetchedAt": "2026-05-28T20:43:16.532Z",
+    "fetchedAt": "2026-05-28T21:11:37.929Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15459,7 +15459,7 @@
   },
   "aaf7349956611066f": {
     "gameDateTime": "2026-08-01T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:17.421Z",
+    "fetchedAt": "2026-05-28T21:11:38.616Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15468,7 +15468,7 @@
   },
   "4ce7251536e9f8789": {
     "gameDateTime": "2026-08-01T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:17.144Z",
+    "fetchedAt": "2026-05-28T21:11:38.783Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15477,7 +15477,7 @@
   },
   "32c1d9f243ef1e398": {
     "gameDateTime": "2026-08-01T23:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:17.620Z",
+    "fetchedAt": "2026-05-28T21:11:39.071Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15486,7 +15486,7 @@
   },
   "e1760beac5fd8f6e0": {
     "gameDateTime": "2026-08-01T23:55:00Z",
-    "fetchedAt": "2026-05-28T20:43:17.836Z",
+    "fetchedAt": "2026-05-28T21:11:39.221Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15495,7 +15495,7 @@
   },
   "3730d2d3bf3e7a9ff": {
     "gameDateTime": "2026-08-02T01:10:00Z",
-    "fetchedAt": "2026-05-28T20:43:18.390Z",
+    "fetchedAt": "2026-05-28T21:11:39.897Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15504,7 +15504,7 @@
   },
   "f1a3913e4df2d9dd4": {
     "gameDateTime": "2026-08-08T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:19.211Z",
+    "fetchedAt": "2026-05-28T21:11:40.524Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15513,7 +15513,7 @@
   },
   "98d75257ba3ff21c6": {
     "gameDateTime": "2026-08-08T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:18.623Z",
+    "fetchedAt": "2026-05-28T21:11:40.884Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15522,7 +15522,7 @@
   },
   "cfba57dc479541236": {
     "gameDateTime": "2026-08-09T01:10:00Z",
-    "fetchedAt": "2026-05-28T20:43:19.813Z",
+    "fetchedAt": "2026-05-28T21:11:41.493Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15531,7 +15531,7 @@
   },
   "bf45e3555d9fb0a71": {
     "gameDateTime": "2026-08-09T02:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:20.093Z",
+    "fetchedAt": "2026-05-28T21:11:41.764Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15540,7 +15540,7 @@
   },
   "2d67015b91159a669": {
     "gameDateTime": "2026-08-15T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:20.298Z",
+    "fetchedAt": "2026-05-28T21:11:42.348Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15549,7 +15549,7 @@
   },
   "73cd96c984e88bb55": {
     "gameDateTime": "2026-08-15T22:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:20.795Z",
+    "fetchedAt": "2026-05-28T21:11:41.999Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15558,7 +15558,7 @@
   },
   "5ed18935dd8ec2d43": {
     "gameDateTime": "2026-08-16T00:20:00Z",
-    "fetchedAt": "2026-05-28T20:43:21.949Z",
+    "fetchedAt": "2026-05-28T21:11:43.524Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15567,7 +15567,7 @@
   },
   "7cced654c599e688e": {
     "gameDateTime": "2026-08-16T01:10:00Z",
-    "fetchedAt": "2026-05-28T20:43:22.196Z",
+    "fetchedAt": "2026-05-28T21:11:43.760Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15576,7 +15576,7 @@
   },
   "485aefb75073cb40f": {
     "gameDateTime": "2026-08-22T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:22.613Z",
+    "fetchedAt": "2026-05-28T21:11:43.982Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15585,7 +15585,7 @@
   },
   "ea81596c5b43851c9": {
     "gameDateTime": "2026-08-22T22:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:22.845Z",
+    "fetchedAt": "2026-05-28T21:11:44.213Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15594,7 +15594,7 @@
   },
   "8086406e3783900c5": {
     "gameDateTime": "2026-08-22T23:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:23.084Z",
+    "fetchedAt": "2026-05-28T21:11:44.650Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15603,7 +15603,7 @@
   },
   "3d6e51f8e6a414254": {
     "gameDateTime": "2026-08-23T01:35:00Z",
-    "fetchedAt": "2026-05-28T20:43:23.704Z",
+    "fetchedAt": "2026-05-28T21:11:45.283Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15612,7 +15612,7 @@
   },
   "3d9185cbe757a6195": {
     "gameDateTime": "2026-08-30T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:25.070Z",
+    "fetchedAt": "2026-05-28T21:11:46.363Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15621,7 +15621,7 @@
   },
   "4dca4ea855eebc8e8": {
     "gameDateTime": "2026-08-30T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:24.782Z",
+    "fetchedAt": "2026-05-28T21:11:46.580Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15630,7 +15630,7 @@
   },
   "343d58a301b482d37": {
     "gameDateTime": "2026-08-30T00:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:25.270Z",
+    "fetchedAt": "2026-05-28T21:11:46.793Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15639,7 +15639,7 @@
   },
   "c2c91129770bd28fa": {
     "gameDateTime": "2026-08-30T01:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:25.553Z",
+    "fetchedAt": "2026-05-28T21:11:47.024Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15648,7 +15648,7 @@
   },
   "d4e021466ef150b24": {
     "gameDateTime": "2026-05-30T23:30:00Z",
-    "fetchedAt": "2026-05-28T20:43:11.228Z",
+    "fetchedAt": "2026-05-28T21:11:32.536Z",
     "home": [],
     "away": [
       {
@@ -15793,7 +15793,7 @@
   },
   "07b6c6e3d8c3ce942": {
     "gameDateTime": "2026-05-31T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:11.655Z",
+    "fetchedAt": "2026-05-28T21:11:33.186Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15807,7 +15807,7 @@
   },
   "95fe3765b6b38de3b": {
     "gameDateTime": "2026-05-31T02:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:12.578Z",
+    "fetchedAt": "2026-05-28T21:11:33.743Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15821,7 +15821,7 @@
   },
   "890e1919b2bd25b0c": {
     "gameDateTime": "2026-05-31T03:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:12.886Z",
+    "fetchedAt": "2026-05-28T21:11:34.007Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15835,7 +15835,7 @@
   },
   "622719877a2b60b7a": {
     "gameDateTime": "2026-05-31T00:40:00Z",
-    "fetchedAt": "2026-05-28T20:43:12.061Z",
+    "fetchedAt": "2026-05-28T21:11:33.368Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
@@ -15849,7 +15849,7 @@
   },
   "9634ddc38010dcf3f": {
     "gameDateTime": "2026-05-31T00:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:11.882Z",
+    "fetchedAt": "2026-05-28T21:11:32.959Z",
     "home": [
       {
         "number": "1",
@@ -16017,7 +16017,7 @@
   },
   "07d38498af74cb53c": {
     "gameDateTime": "2026-05-31T01:00:00Z",
-    "fetchedAt": "2026-05-28T20:43:12.315Z",
+    "fetchedAt": "2026-05-28T21:11:33.507Z",
     "home": [
       {
         "number": "1",
@@ -16183,7 +16183,7 @@
   },
   "33ea5efe87fa7aa73": {
     "gameDateTime": "2026-05-31T04:00:00+00:00",
-    "fetchedAt": "2026-05-28T20:43:13.063Z",
+    "fetchedAt": "2026-05-28T21:11:34.168Z",
     "home": [],
     "away": [],
     "homeCoaches": [],
