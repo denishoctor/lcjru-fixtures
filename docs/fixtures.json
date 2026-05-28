@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-27T22:56:07.342Z",
+  "updated": "2026-05-28T00:04:33.669Z",
   "season": "2026",
   "entityId": 30901,
   "totalMatches": 162,
@@ -3224,32 +3224,6 @@
           }
         },
         {
-          "id": "aaf7349956611066f",
-          "type": "fixture",
-          "competition": "SJRU Minis U8 Sunday",
-          "compId": "hvxK25gJJt24GLGPp",
-          "round": "Round 9",
-          "roundLabel": "Round 9",
-          "dateTime": "2026-08-01T22:40:00Z",
-          "venue": "Tantallon Oval TT1 (U6/U7)",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": "8-G-40",
-          "home": {
-            "id": "5SyzYzsjmbeaPZsXT",
-            "name": "Lane Cove Blue 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          },
-          "away": {
-            "id": "7bGNHP8djsGgvYMZY",
-            "name": "Norths Pirates Black 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-          }
-        },
-        {
           "id": "4ce7251536e9f8789",
           "type": "fixture",
           "competition": "SJRU Minis U8 Sunday",
@@ -3271,6 +3245,32 @@
           "away": {
             "id": "rxY89HyQFHSSc56D6",
             "name": "Norths Pirates Red 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
+          }
+        },
+        {
+          "id": "aaf7349956611066f",
+          "type": "fixture",
+          "competition": "SJRU Minis U8 Sunday",
+          "compId": "hvxK25gJJt24GLGPp",
+          "round": "Round 9",
+          "roundLabel": "Round 9",
+          "dateTime": "2026-08-01T22:40:00Z",
+          "venue": "Tantallon Oval TT1 (U6/U7)",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": "8-G-40",
+          "home": {
+            "id": "5SyzYzsjmbeaPZsXT",
+            "name": "Lane Cove Blue 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "away": {
+            "id": "7bGNHP8djsGgvYMZY",
+            "name": "Norths Pirates Black 8",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
           }
@@ -3432,32 +3432,6 @@
           }
         },
         {
-          "id": "3d9185cbe757a6195",
-          "type": "fixture",
-          "competition": "SJRU Minis U8 Sunday",
-          "compId": "hvxK25gJJt24GLGPp",
-          "round": "Round 13",
-          "roundLabel": "Round 13",
-          "dateTime": "2026-08-30T00:00:00Z",
-          "venue": "Hassall Park TT5 (U6/U7)",
-          "status": "Fixture",
-          "isLive": false,
-          "isBye": false,
-          "matchLabel": "8-G-68",
-          "home": {
-            "id": "SgMo5P2wrBkSsiA75",
-            "name": "Chatswood Black 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
-          },
-          "away": {
-            "id": "5SyzYzsjmbeaPZsXT",
-            "name": "Lane Cove Blue 8",
-            "score": null,
-            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-          }
-        },
-        {
           "id": "4dca4ea855eebc8e8",
           "type": "fixture",
           "competition": "SJRU Minis U8 Sunday",
@@ -3479,6 +3453,32 @@
           "away": {
             "id": "azWv34qmnBYrN7atm",
             "name": "Lane Cove Gold 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          }
+        },
+        {
+          "id": "3d9185cbe757a6195",
+          "type": "fixture",
+          "competition": "SJRU Minis U8 Sunday",
+          "compId": "hvxK25gJJt24GLGPp",
+          "round": "Round 13",
+          "roundLabel": "Round 13",
+          "dateTime": "2026-08-30T00:00:00Z",
+          "venue": "Hassall Park TT5 (U6/U7)",
+          "status": "Fixture",
+          "isLive": false,
+          "isBye": false,
+          "matchLabel": "8-G-68",
+          "home": {
+            "id": "SgMo5P2wrBkSsiA75",
+            "name": "Chatswood Black 8",
+            "score": null,
+            "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+          },
+          "away": {
+            "id": "5SyzYzsjmbeaPZsXT",
+            "name": "Lane Cove Blue 8",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
           }
@@ -7507,32 +7507,6 @@
       }
     },
     {
-      "id": "aaf7349956611066f",
-      "type": "fixture",
-      "competition": "SJRU Minis U8 Sunday",
-      "compId": "hvxK25gJJt24GLGPp",
-      "round": "Round 9",
-      "roundLabel": "Round 9",
-      "dateTime": "2026-08-01T22:40:00Z",
-      "venue": "Tantallon Oval TT1 (U6/U7)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "8-G-40",
-      "home": {
-        "id": "5SyzYzsjmbeaPZsXT",
-        "name": "Lane Cove Blue 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      },
-      "away": {
-        "id": "7bGNHP8djsGgvYMZY",
-        "name": "Norths Pirates Black 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
-      }
-    },
-    {
       "id": "4ce7251536e9f8789",
       "type": "fixture",
       "competition": "SJRU Minis U8 Sunday",
@@ -7554,6 +7528,32 @@
       "away": {
         "id": "rxY89HyQFHSSc56D6",
         "name": "Norths Pirates Red 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
+      }
+    },
+    {
+      "id": "aaf7349956611066f",
+      "type": "fixture",
+      "competition": "SJRU Minis U8 Sunday",
+      "compId": "hvxK25gJJt24GLGPp",
+      "round": "Round 9",
+      "roundLabel": "Round 9",
+      "dateTime": "2026-08-01T22:40:00Z",
+      "venue": "Tantallon Oval TT1 (U6/U7)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "8-G-40",
+      "home": {
+        "id": "5SyzYzsjmbeaPZsXT",
+        "name": "Lane Cove Blue 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "away": {
+        "id": "7bGNHP8djsGgvYMZY",
+        "name": "Norths Pirates Black 8",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/50135.png?v=1712803884182"
       }
@@ -8417,32 +8417,6 @@
       }
     },
     {
-      "id": "3d9185cbe757a6195",
-      "type": "fixture",
-      "competition": "SJRU Minis U8 Sunday",
-      "compId": "hvxK25gJJt24GLGPp",
-      "round": "Round 13",
-      "roundLabel": "Round 13",
-      "dateTime": "2026-08-30T00:00:00Z",
-      "venue": "Hassall Park TT5 (U6/U7)",
-      "status": "Fixture",
-      "isLive": false,
-      "isBye": false,
-      "matchLabel": "8-G-68",
-      "home": {
-        "id": "SgMo5P2wrBkSsiA75",
-        "name": "Chatswood Black 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
-      },
-      "away": {
-        "id": "5SyzYzsjmbeaPZsXT",
-        "name": "Lane Cove Blue 8",
-        "score": null,
-        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
-      }
-    },
-    {
       "id": "4dca4ea855eebc8e8",
       "type": "fixture",
       "competition": "SJRU Minis U8 Sunday",
@@ -8464,6 +8438,32 @@
       "away": {
         "id": "azWv34qmnBYrN7atm",
         "name": "Lane Cove Gold 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      }
+    },
+    {
+      "id": "3d9185cbe757a6195",
+      "type": "fixture",
+      "competition": "SJRU Minis U8 Sunday",
+      "compId": "hvxK25gJJt24GLGPp",
+      "round": "Round 13",
+      "roundLabel": "Round 13",
+      "dateTime": "2026-08-30T00:00:00Z",
+      "venue": "Hassall Park TT5 (U6/U7)",
+      "status": "Fixture",
+      "isLive": false,
+      "isBye": false,
+      "matchLabel": "8-G-68",
+      "home": {
+        "id": "SgMo5P2wrBkSsiA75",
+        "name": "Chatswood Black 8",
+        "score": null,
+        "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+      },
+      "away": {
+        "id": "5SyzYzsjmbeaPZsXT",
+        "name": "Lane Cove Blue 8",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
       }
