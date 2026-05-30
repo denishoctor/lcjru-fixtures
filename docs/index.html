@@ -430,6 +430,7 @@
   .home-row-extra { flex-shrink: 0; display: flex; gap: 5px; align-items: center; }
   .home-row-extra .home-pill,
   .home-row-extra .derby-pill,
+  .home-row-extra .venue-moved,
   .home-row-extra .status-badge { margin: 0; }
 
   /* SECTION HEADER */
@@ -538,6 +539,13 @@
     padding: 2px 7px; border-radius: 3px;
     letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
   }
+  .venue-moved {
+    background: #FFEBEE; color: #b71c1c;
+    font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 3px;
+    letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
+  }
+  .moved-note { color: #b71c1c; font-weight: 600; font-style: normal; }
   .opponent { color: var(--muted); font-size: 12px; }
   .score-pill { font-weight: 800; font-size: 13px; color: var(--ink); white-space: nowrap; }
   .score-pill.win  { color: var(--green); }
@@ -1511,9 +1519,11 @@ function renderMatch(match, isNextUp) {
           <span class="team-pill team-pill--${teamColour(lcTeam.name)}">${esc(shortTeamName(lcTeam.name))}</span>
           <a class="venue-link" href="${mapsUrl}" target="_blank" rel="noopener">${PIN_SVG}<span>${esc(loc)}</span></a>
           ${pitch ? `<span class="pitch-on">on <span class="pitch-tag">${esc(pitch)}</span></span>` : ''}
+          ${match.venueChange ? '<span class="venue-moved">Moved</span>' : ''}
           ${isHome ? '<span class="home-pill">Home</span>' : ''}
           ${isDerby ? '<span class="derby-pill">Local Derby</span>' : ''}
         </div>
+        ${match.venueChange ? `<div class="field-note moved-note">⚠ ${esc(match.venueChange.note)}</div>` : ''}
         ${pitchNote ? `<div class="field-note">${esc(pitchNote)}</div>` : ''}
         <div class="venue">
           <span class="opponent">vs ${esc(opponent.name)}</span>

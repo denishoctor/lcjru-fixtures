@@ -260,6 +260,17 @@ image keeps its URL and its cache hit. The hash is derived from the file bytes,
 so no manual version bumps are needed. Cross-origin crests already carry their
 own `?v=` from the CDN.
 
+**Venue overrides (last-minute ground changes).** When a fixture is relocated at
+short notice and the SJRU feed hasn't caught up, add a rule to `VENUE_OVERRIDES`
+in `scripts/config.mjs` (predicates: `venueIncludes` / `teamIds` / `compIncludes`
+/ `dateFrom`–`dateTo`; action: `setVenue` + `note` + `expires`). On every fetch,
+`applyVenueOverrides()` (in `fetch-fixtures.mjs`) rewrites the venue of matching
+matches and tags them `venueChange = { from, note }`, which the UI surfaces as a
+red **Moved** badge plus a "⚠ Moved from …" line. A rule self-deactivates once
+the feed catches up (`venueIncludes` stops matching the new venue) or once
+`expires` passes — so it never silently rewrites a future fixture. **Delete the
+rule once the game has been played.**
+
 **Date/time formatting (DST-safe)**
 ```
 JSON: "2026-05-02T00:00:00.000Z"   (UTC)

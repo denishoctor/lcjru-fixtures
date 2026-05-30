@@ -16,6 +16,7 @@ import { join, dirname } from 'path';
 import {
   SEASON, ENTITY_ID, ENTITY_TYPE, SITE_URL, FINAL_ROUND,
   TEAM_SLUGS, VENUES, LCJRU_TEAM_IDS, MINIS_SLUGS, MINIS_SIBLINGS,
+  VENUE_OVERRIDES,
 } from './config.mjs';
 import { EVENTS } from './events.mjs';
 import { parseVenue, isGameEvent } from '../docs/render.mjs';
@@ -113,6 +114,33 @@ export function normalise(item) {
     home: { id: item.homeTeam.teamId, name: item.homeTeam.name, score: item.homeTeam.score !== '' ? item.homeTeam.score : null, crest: item.homeTeam.crest },
     away: { id: item.awayTeam.teamId, name: item.awayTeam.name, score: item.awayTeam.score !== '' ? item.awayTeam.score : null, crest: item.awayTeam.crest },
   };
+}
+
+// ── venue overrides ───────────────────────────────────────────────────────────
+
+// Applies the VENUE_OVERRIDES rules (config.mjs) for last-minute ground changes
+// the SJRU feed may not yet reflect. For each match a rule matches, rewrites
+// `venue` to the corrected ground and tags it with `venueChange = { from, note }`
+// so the UI can flag the move. Mutates and returns the same array. A rule is
+// skipped once its `expires` has passed; and a match whose venue already equals
+// the target is left untouched — so a feed that has caught up, or a re-run over
+// already-overridden data, is a no-op (no spurious change notification, no
+// double-tagging).
+export function applyVenueOverrides(matches, overrides = VENUE_OVERRIDES, now = new Date()) {
+  for (const rule of overrides) {
+    if (rule.expires && now >= new Date(rule.expires)) continue;
+    for (const m of matches) {
+      if (m.venue === rule.setVenue) continue;
+      if (rule.venueIncludes && !(m.venue || '').includes(rule.venueIncludes)) continue;
+      if (rule.compIncludes && !rule.compIncludes.some(s => (m.competition || '').includes(s))) continue;
+      if (rule.teamIds && !rule.teamIds.includes(m.home.id) && !rule.teamIds.includes(m.away.id)) continue;
+      if (rule.dateFrom && !(m.dateTime >= rule.dateFrom)) continue;
+      if (rule.dateTo && !(m.dateTime < rule.dateTo)) continue;
+      m.venueChange = { from: m.venue, note: rule.note };
+      m.venue = rule.setVenue;
+    }
+  }
+  return matches;
 }
 
 // ── diff ──────────────────────────────────────────────────────────────────────
@@ -761,6 +789,9 @@ async function main() {
     }
   }
   combined.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+
+  // Last-minute ground changes the feed may not reflect yet (config.mjs).
+  applyVenueOverrides(combined);
 
   const byComp = {};
   for (const match of combined) {

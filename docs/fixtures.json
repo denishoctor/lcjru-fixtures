@@ -1791,7 +1791,7 @@
           "round": "Round 5",
           "roundLabel": "Round 5",
           "dateTime": "2026-05-30T22:00:00+00:00",
-          "venue": "Tantallon Oval TT3 (U6/U7)",
+          "venue": "Hassall Park",
           "status": "Fixture",
           "isLive": false,
           "isBye": false,
@@ -1807,6 +1807,10 @@
             "name": "Wakehurst Wombats 6",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
+          },
+          "venueChange": {
+            "from": "Tantallon Oval TT3 (U6/U7)",
+            "note": "Moved from Tantallon Oval"
           }
         },
         {
@@ -1817,7 +1821,7 @@
           "round": "Round 5",
           "roundLabel": "Round 5",
           "dateTime": "2026-05-30T22:40:00+00:00",
-          "venue": "Tantallon Oval TT3 (U6/U7)",
+          "venue": "Hassall Park",
           "status": "Fixture",
           "isLive": false,
           "isBye": false,
@@ -1833,6 +1837,10 @@
             "name": "Chatswood Black 6",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+          },
+          "venueChange": {
+            "from": "Tantallon Oval TT3 (U6/U7)",
+            "note": "Moved from Tantallon Oval"
           }
         },
         {
@@ -2446,7 +2454,7 @@
           "round": "Round 5",
           "roundLabel": "Round 5",
           "dateTime": "2026-05-30T23:20:00+00:00",
-          "venue": "Tantallon Oval TT1 (U6/U7)",
+          "venue": "Hassall Park",
           "status": "Fixture",
           "isLive": false,
           "isBye": false,
@@ -2462,6 +2470,10 @@
             "name": "Chatswood Green 7",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+          },
+          "venueChange": {
+            "from": "Tantallon Oval TT1 (U6/U7)",
+            "note": "Moved from Tantallon Oval"
           }
         },
         {
@@ -2472,7 +2484,7 @@
           "round": "Round 5",
           "roundLabel": "Round 5",
           "dateTime": "2026-05-30T23:20:00+00:00",
-          "venue": "Tantallon Oval TT4 (U6/U7)",
+          "venue": "Hassall Park",
           "status": "Fixture",
           "isLive": false,
           "isBye": false,
@@ -2488,6 +2500,10 @@
             "name": "Lane Cove Blue 7",
             "score": null,
             "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+          },
+          "venueChange": {
+            "from": "Tantallon Oval TT4 (U6/U7)",
+            "note": "Moved from Tantallon Oval"
           }
         },
         {
@@ -6604,7 +6620,7 @@
       "round": "Round 5",
       "roundLabel": "Round 5",
       "dateTime": "2026-05-30T22:00:00+00:00",
-      "venue": "Tantallon Oval TT3 (U6/U7)",
+      "venue": "Hassall Park",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
@@ -6620,6 +6636,10 @@
         "name": "Wakehurst Wombats 6",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/53597.png?v=1712285508850"
+      },
+      "venueChange": {
+        "from": "Tantallon Oval TT3 (U6/U7)",
+        "note": "Moved from Tantallon Oval"
       }
     },
     {
@@ -6656,7 +6676,7 @@
       "round": "Round 5",
       "roundLabel": "Round 5",
       "dateTime": "2026-05-30T22:40:00+00:00",
-      "venue": "Tantallon Oval TT3 (U6/U7)",
+      "venue": "Hassall Park",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
@@ -6672,6 +6692,10 @@
         "name": "Chatswood Black 6",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+      },
+      "venueChange": {
+        "from": "Tantallon Oval TT3 (U6/U7)",
+        "note": "Moved from Tantallon Oval"
       }
     },
     {
@@ -6708,7 +6732,7 @@
       "round": "Round 5",
       "roundLabel": "Round 5",
       "dateTime": "2026-05-30T23:20:00+00:00",
-      "venue": "Tantallon Oval TT1 (U6/U7)",
+      "venue": "Hassall Park",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
@@ -6724,6 +6748,10 @@
         "name": "Chatswood Green 7",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30878.png?v=1712622597350"
+      },
+      "venueChange": {
+        "from": "Tantallon Oval TT1 (U6/U7)",
+        "note": "Moved from Tantallon Oval"
       }
     },
     {
@@ -6760,7 +6788,7 @@
       "round": "Round 5",
       "roundLabel": "Round 5",
       "dateTime": "2026-05-30T23:20:00+00:00",
-      "venue": "Tantallon Oval TT4 (U6/U7)",
+      "venue": "Hassall Park",
       "status": "Fixture",
       "isLive": false,
       "isBye": false,
@@ -6776,6 +6804,10 @@
         "name": "Lane Cove Blue 7",
         "score": null,
         "crest": "https://dpf0m541u9zk8.cloudfront.net/ru/team/30901.png?v=1712622586154"
+      },
+      "venueChange": {
+        "from": "Tantallon Oval TT4 (U6/U7)",
+        "note": "Moved from Tantallon Oval"
       }
     },
     {
