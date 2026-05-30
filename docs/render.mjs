@@ -318,6 +318,7 @@ export function renderHomeMatchRow(match, { venues, slugById, isNextUp = false, 
   }
 
   const badges = [];
+  if (match.venueChange) badges.push('<span class="venue-moved">Moved</span>');
   if (isHome)  badges.push('<span class="home-pill">Home</span>');
   if (isDerby) badges.push('<span class="derby-pill">Derby</span>');
 

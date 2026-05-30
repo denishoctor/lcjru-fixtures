@@ -120,3 +120,34 @@ export const MINIS_SIBLINGS = {
   'u8-gold': 'u8-blue', 'u8-blue': 'u8-gold',
   'u9-gold': 'u9-blue', 'u9-blue': 'u9-gold',
 };
+
+// Temporary venue overrides — for last-minute ground changes that may not yet
+// be reflected in the SJRU Xplorer feed. Each rule rewrites the venue of any
+// match satisfying ALL of its predicates and records the original so the UI can
+// flag the move to parents. A rule self-deactivates the moment the feed catches
+// up (the `venueIncludes` predicate stops matching the new venue) or once
+// `expires` passes — so a forgotten rule never silently rewrites a later
+// fixture. Delete entries here once the game has been played.
+//
+// Predicates (all optional; a rule applies only when every present one passes):
+//   venueIncludes   substring the raw API venue must contain (also the "from")
+//   teamIds         array of team IDs; matches if home OR away is one of them
+//   compIncludes    array of substrings; matches if competition contains any
+//   dateFrom/dateTo ISO date bounds; matches when dateFrom <= dateTime < dateTo
+// Action:
+//   setVenue        corrected venue string written to the match
+//   note            short message shown to parents (e.g. "Moved from …")
+//   expires         ISO timestamp after which the rule is ignored
+export const VENUE_OVERRIDES = [
+  {
+    // U6/U7 Round 5 (Sun 31 May 2026) relocated from Tantallon Oval to Hassall
+    // Park at short notice — may or may not land in the Xplorer feed in time.
+    venueIncludes: 'Tantallon Oval',
+    teamIds: [TEAM_SLUGS['u6-gold'], TEAM_SLUGS['u6-blue'], TEAM_SLUGS['u7-gold'], TEAM_SLUGS['u7-blue']],
+    dateFrom: '2026-05-30',
+    dateTo:   '2026-06-01',
+    setVenue: 'Hassall Park',
+    note:     'Moved from Tantallon Oval',
+    expires:  '2026-06-01T12:00:00Z',
+  },
+];
