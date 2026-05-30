@@ -62,7 +62,11 @@ export const VENUES = {
     },
   },
   'Leichhardt Oval':                 { suburb: 'Lilyfield',       mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Leichhardt+Oval%2C+Mary+St%2C+Lilyfield+NSW+2040%2C+Australia' },
-  'Lofberg Oval':                    { suburb: 'West Pymble',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia' },
+  'Lofberg Oval':                    { suburb: 'West Pymble',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia',
+    details: {
+      map: { src: 'assets/venues/lofberg-oval.jpeg', caption: 'Same pitch, two layouts — quarter pitch TT1–TT4, half pitch M1 (south) / M2 (north). Clubhouse and parking off Lofberg Rd & Yanko Rd.', asOf: '2026-05' },
+    },
+  },
   'Mark Taylor Oval':                { suburb: 'Waitara',         mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mark+Taylor+Oval+Waitara+Ave%2C+Waitara+NSW+2077%2C+Australia' },
   'Melwood Oval':                    { suburb: 'Forestville',     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia',
     details: {
