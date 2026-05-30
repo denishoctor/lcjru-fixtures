@@ -37,7 +37,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Beauchamp+Park+Nicholson+St%2C+Chatswood+NSW+2067%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/beauchamp-park.jpg",
+          "src": "assets/venues/beauchamp-park.jpg?v=817650ae",
           "caption": "Pitch layout — TT3/TT4 North, TT1/TT2 South. Spectators on east & west sides only",
           "asOf": "2026-05"
         },
@@ -69,7 +69,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hassall+Park+Hassell+St%2C+St.+Ives+NSW+2075%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/hassall-park.jpeg",
+          "src": "assets/venues/hassall-park.jpeg?v=67a70119",
           "caption": "Two fields — Field 2 (TT1–TT4, M1–M2) off Mona Vale Rd, Field 1 (M3–M4) near the clubhouse",
           "asOf": "2026-05"
         },
@@ -88,7 +88,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Keirle+Park%2C+Carlton+St%2C+Manly+NSW+2095%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/keirle-park.jpg",
+          "src": "assets/venues/keirle-park.jpg?v=8ee5d7d7",
           "caption": "Pitch layout — TT1–TT8 plus MOD1, MOD2",
           "asOf": "2026-03"
         }
@@ -111,7 +111,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Melwood+Oval+Melwood+Ave%2C+Forestville+NSW+2087%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/melwood-oval.jpeg",
+          "src": "assets/venues/melwood-oval.jpeg?v=64e064f4",
           "caption": "Same pitch, two layouts depending on grade — TT1–TT4 (minis) on top, M1–M2 (mods) on the bottom. Clubhouse + carpark on the east side.",
           "asOf": "2026-05"
         }
@@ -158,7 +158,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tantallon+Oval+Lane+Cove+North+NSW+2066%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/tantallon-oval.jpg",
+          "src": "assets/venues/tantallon-oval.jpg?v=e2ec2af6",
           "caption": "Pitch layout — TT1–TT4 (A, B, C, D in the draw)",
           "asOf": "2026-05"
         },
@@ -182,7 +182,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tunks+Park+Brothers+Ave%2C+Cammeray+NSW+2062%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/tunks-park.jpg",
+          "src": "assets/venues/tunks-park.jpg?v=f5277554",
           "caption": "Pitch layout — TT1–TT6, M1–M2, plus Sports Field 5",
           "asOf": "2026-03"
         },
@@ -199,7 +199,7 @@ window.LCJRU_CONFIG = {
       "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Wakehurst+Rugby+Park+Forest+Way+%26+Waldon+Rd%2C+Belrose+NSW+2085%2C+Australia",
       "details": {
         "map": {
-          "src": "assets/venues/wakehurst-rugby-park.jpg",
+          "src": "assets/venues/wakehurst-rugby-park.jpg?v=b2490af2",
           "caption": "Pitch layout — TT1 (SW), TT2 (NW), TT3 (NE), TT4 (SE)",
           "asOf": "2026-05"
         },
