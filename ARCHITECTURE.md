@@ -250,6 +250,16 @@ HTML:  parseVenue() → {
 `VENUES` in `scripts/config.mjs` is the source for both suburb names and Maps URLs.
 `docs/config.js` (generated) carries `VENUES` to the browser.
 
+**Venue-image cache-busting.** Venue map images keep stable filenames (e.g.
+`assets/venues/hassall-park.jpeg`) even when the picture is replaced, so the
+browser cache and the URL-keyed service worker would keep serving the old one.
+When generating `config.js`, `versionVenueImages()` (in `fetch-fixtures.mjs`)
+appends a short content hash to each local map `src` — `…/hassall-park.jpeg?v=67a70119`.
+A changed image gets a fresh URL (cache miss → fetched fresh); an unchanged
+image keeps its URL and its cache hit. The hash is derived from the file bytes,
+so no manual version bumps are needed. Cross-origin crests already carry their
+own `?v=` from the CDN.
+
 **Date/time formatting (DST-safe)**
 ```
 JSON: "2026-05-02T00:00:00.000Z"   (UTC)
