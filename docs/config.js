@@ -100,7 +100,14 @@ window.LCJRU_CONFIG = {
     },
     "Lofberg Oval": {
       "suburb": "West Pymble",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia"
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lofberg+Oval+Lofberg+Rd%2C+West+Pymble+NSW+2073%2C+Australia",
+      "details": {
+        "map": {
+          "src": "assets/venues/lofberg-oval.jpeg?v=92b318ae",
+          "caption": "Same pitch, two layouts — quarter pitch TT1–TT4, half pitch M1 (south) / M2 (north). Clubhouse and parking off Lofberg Rd & Yanko Rd.",
+          "asOf": "2026-05"
+        }
+      }
     },
     "Mark Taylor Oval": {
       "suburb": "Waitara",
