@@ -263,13 +263,17 @@ own `?v=` from the CDN.
 **Venue overrides (last-minute ground changes).** When a fixture is relocated at
 short notice and the SJRU feed hasn't caught up, add a rule to `VENUE_OVERRIDES`
 in `scripts/config.mjs` (predicates: `venueIncludes` / `teamIds` / `compIncludes`
-/ `dateFrom`–`dateTo`; action: `setVenue` + `note` + `expires`). On every fetch,
-`applyVenueOverrides()` (in `fetch-fixtures.mjs`) rewrites the venue of matching
-matches and tags them `venueChange = { from, note }`, which the UI surfaces as a
-red **Moved** badge plus a "⚠ Moved from …" line. A rule self-deactivates once
-the feed catches up (`venueIncludes` stops matching the new venue) or once
-`expires` passes — so it never silently rewrites a future fixture. **Delete the
-rule once the game has been played.**
+/ `dateFrom`–`dateTo`; action: `setBase` *or* `setVenue`, plus `note` + `expires`).
+Prefer **`setBase`** — it swaps only the ground name and keeps the pitch suffix
+(`Tantallon Oval TT3 (U6/U7)` → `Hassall Park TT3 (U6/U7)`), so parents still see
+which TT field on the page and in the `.ics`; `setVenue` replaces the whole
+string. On every fetch, `applyVenueOverrides()` (in `fetch-fixtures.mjs`) rewrites
+the venue of matching matches and tags them `venueChange = { from, note }`, which
+the UI surfaces as a red **Moved** badge plus a "⚠ Moved from …" line. A rule
+self-deactivates once the feed catches up (the `setBase` rewrite removes the
+`venueIncludes` substring, so it stops matching) or once `expires` passes — so it
+never silently rewrites a future fixture. **Delete the rule once the game has
+been played.**
 
 **Date/time formatting (DST-safe)**
 ```

@@ -138,8 +138,11 @@ export const MINIS_SIBLINGS = {
 //   teamIds         array of team IDs; matches if home OR away is one of them
 //   compIncludes    array of substrings; matches if competition contains any
 //   dateFrom/dateTo ISO date bounds; matches when dateFrom <= dateTime < dateTo
-// Action:
-//   setVenue        corrected venue string written to the match
+// Action (use exactly one of setBase / setVenue):
+//   setBase         replace only the ground name, keeping the pitch suffix
+//                   ("Tantallon Oval TT3 (U6/U7)" → "Hassall Park TT3 (U6/U7)")
+//                   so parents still see which TT field — prefer this.
+//   setVenue        replace the whole venue string (drops the pitch suffix)
 //   note            short message shown to parents (e.g. "Moved from …")
 //   expires         ISO timestamp after which the rule is ignored
 export const VENUE_OVERRIDES = [
@@ -150,7 +153,7 @@ export const VENUE_OVERRIDES = [
     teamIds: [TEAM_SLUGS['u6-gold'], TEAM_SLUGS['u6-blue'], TEAM_SLUGS['u7-gold'], TEAM_SLUGS['u7-blue']],
     dateFrom: '2026-05-30',
     dateTo:   '2026-06-01',
-    setVenue: 'Hassall Park',
+    setBase:  'Hassall Park',
     note:     'Moved from Tantallon Oval',
     expires:  '2026-06-01T12:00:00Z',
   },

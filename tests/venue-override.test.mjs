@@ -1,17 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { applyVenueOverrides } from '../scripts/fetch-fixtures.mjs';
-import { VENUE_OVERRIDES, TEAM_SLUGS } from '../scripts/config.mjs';
-import { renderHomeMatchRow } from '../docs/render.mjs';
+import { VENUE_OVERRIDES, TEAM_SLUGS, VENUES } from '../scripts/config.mjs';
+import { renderHomeMatchRow, parseVenue } from '../docs/render.mjs';
 
 // A rule mirroring the real U6/U7 → Hassall Park move, but pinned to fixed dates
-// so these tests don't depend on wall-clock time.
+// so these tests don't depend on wall-clock time. setBase swaps only the ground
+// name and keeps the TT pitch suffix.
 const RULE = {
   venueIncludes: 'Tantallon Oval',
   teamIds: [TEAM_SLUGS['u6-gold'], TEAM_SLUGS['u6-blue'], TEAM_SLUGS['u7-gold'], TEAM_SLUGS['u7-blue']],
   dateFrom: '2026-05-30',
   dateTo:   '2026-06-01',
-  setVenue: 'Hassall Park',
+  setBase:  'Hassall Park',
   note:     'Moved from Tantallon Oval',
   expires:  '2026-06-01T12:00:00Z',
 };
@@ -27,15 +28,29 @@ function makeMatch(over = {}) {
   };
 }
 
-test('rewrites venue + tags venueChange for a matching U6/U7 fixture', () => {
+test('swaps the ground but keeps the TT pitch suffix + tags venueChange', () => {
   const [m] = applyVenueOverrides([makeMatch()], [RULE], BEFORE_EXPIRY);
-  assert.equal(m.venue, 'Hassall Park');
+  assert.equal(m.venue, 'Hassall Park TT3 (U6/U7)');
   assert.deepEqual(m.venueChange, { from: 'Tantallon Oval TT3 (U6/U7)', note: 'Moved from Tantallon Oval' });
+});
+
+test('preserves whichever TT field the original venue carried', () => {
+  const m1 = makeMatch({ venue: 'Tantallon Oval TT1 (U6/U7)' });
+  const m4 = makeMatch({ venue: 'Tantallon Oval TT4 (U6/U7)' });
+  assert.equal(applyVenueOverrides([m1], [RULE], BEFORE_EXPIRY)[0].venue, 'Hassall Park TT1 (U6/U7)');
+  assert.equal(applyVenueOverrides([m4], [RULE], BEFORE_EXPIRY)[0].venue, 'Hassall Park TT4 (U6/U7)');
+});
+
+test('the rewritten venue parses to the Hassall Park ground + TT3 pitch', () => {
+  const [m] = applyVenueOverrides([makeMatch()], [RULE], BEFORE_EXPIRY);
+  const v = parseVenue(m.venue, VENUES);
+  assert.equal(v.base, 'Hassall Park');
+  assert.equal(v.pitch, 'TT3');
 });
 
 test('matches on the away team id too', () => {
   const m = makeMatch({ home: { id: 'opp', name: 'St Ives 7' }, away: { id: TEAM_SLUGS['u7-blue'], name: 'Lane Cove Blue 7' } });
-  assert.equal(applyVenueOverrides([m], [RULE], BEFORE_EXPIRY)[0].venue, 'Hassall Park');
+  assert.equal(applyVenueOverrides([m], [RULE], BEFORE_EXPIRY)[0].venue, 'Hassall Park TT3 (U6/U7)');
 });
 
 test('leaves a non-U6/U7 team at Tantallon untouched', () => {
@@ -67,14 +82,15 @@ test('does nothing once the rule has expired', () => {
 test('is idempotent — re-applying does not re-tag or re-trigger', () => {
   const once = applyVenueOverrides([makeMatch()], [RULE], BEFORE_EXPIRY);
   const twice = applyVenueOverrides(structuredClone(once), [RULE], BEFORE_EXPIRY);
-  assert.equal(twice[0].venue, 'Hassall Park');
-  // Already at the target venue → skipped, so `from` is never overwritten with 'Hassall Park'.
+  assert.equal(twice[0].venue, 'Hassall Park TT3 (U6/U7)');
+  // Second pass no longer contains "Tantallon Oval", so the rule doesn't match —
+  // `from` keeps the original ground rather than being overwritten.
   assert.equal(twice[0].venueChange.from, 'Tantallon Oval TT3 (U6/U7)');
 });
 
-test('real VENUE_OVERRIDES config moves the live U6/U7 Tantallon fixture', () => {
+test('real VENUE_OVERRIDES config moves the live U6/U7 Tantallon fixture, TT kept', () => {
   const [out] = applyVenueOverrides([makeMatch()], VENUE_OVERRIDES, BEFORE_EXPIRY);
-  assert.equal(out.venue, 'Hassall Park');
+  assert.equal(out.venue, 'Hassall Park TT3 (U6/U7)');
   assert.equal(out.venueChange.note, 'Moved from Tantallon Oval');
 });
 
