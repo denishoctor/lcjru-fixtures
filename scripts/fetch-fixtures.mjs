@@ -25,6 +25,7 @@ const ROOT      = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_PATH  = join(ROOT, 'docs', 'fixtures.json');
 const DIFF_PATH = join(ROOT, 'changes.txt');
 const CFG_PATH  = join(ROOT, 'docs', 'config.js');
+const SEQ_PATH  = join(ROOT, '.ics-sequence.json');
 
 const GRAPHQL_URL = 'https://rugby-au-cms.graphcdn.app/';
 const PAGE_SIZE   = 100;
@@ -319,6 +320,32 @@ function icsLine(key, value) {
   return icsFold(`${key}:${value}`);
 }
 
+// ── ICS SEQUENCE tracking ───────────────────────────────────────────────────
+// Calendar clients (Google in particular) decide whether to overwrite a cached
+// event by comparing iCal SEQUENCE — a per-UID revision counter that must only
+// ever increase, and only when the event's content actually changes. A fixed
+// SEQUENCE:0 means a re-poll can keep showing a stale venue/time. We persist a
+// {uid: {seq, hash}} map (.ics-sequence.json) across runs: when an event's
+// content hash changes, its SEQUENCE bumps; otherwise it holds. DTSTAMP /
+// LAST-MODIFIED are deliberately excluded from the hash so per-run timestamp
+// churn never inflates SEQUENCE.
+
+function icsContentHash(parts) {
+  return createHash('sha1').update(parts.join(' ')).digest('hex').slice(0, 16);
+}
+
+// Returns the SEQUENCE for `uid` given its current content `hash`, updating the
+// shared `state` map in place. New UID → 0; unchanged content → prior seq;
+// changed content → prior seq + 1.
+export function icsSequence(state, uid, hash) {
+  const prev = state[uid];
+  if (!prev) { state[uid] = { seq: 0, hash }; return 0; }
+  if (prev.hash === hash) return prev.seq;
+  prev.seq += 1;
+  prev.hash = hash;
+  return prev.seq;
+}
+
 function buildDescription(match, slug, lcTeam, opponent, loc, sibMatch) {
   const roundNum  = (match.round || '').replace('Round ', '');
   const date      = fmtDateSydney(match.dateTime);
@@ -490,7 +517,7 @@ function fmtEventTimeRange(event) {
     : fmtEventTime(event.time);
 }
 
-export function generateICS(slug, teamId, allMatches, updatedISO) {
+export function generateICS(slug, teamId, allMatches, updatedISO, seqState = {}) {
   const label      = slugToLabel(slug);
   const isMinis    = MINIS_SLUGS.has(slug);
   const durMin     = isMinis ? 60 : 90;
@@ -558,23 +585,28 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
     const description = icsEscape(buildDescription(match, slug, lcTeam, opponent, loc, sibMatch));
     const location    = icsEscape(`${loc}, Sydney NSW`);
 
-    lines.push('BEGIN:VEVENT');
-    lines.push(icsLine('UID',           `lcjru-${match.id}-${slug}@lcjru.github.io`));
-    lines.push('SEQUENCE:0');
-    lines.push(`DTSTAMP:${dtstamp}`);
-    lines.push(`LAST-MODIFIED:${lastMod}`);
-
+    let dtStartLine, dtEndLine;
     if (hasTime) {
       const localDt = icsLocalDate(match.dateTime);
       const endDt   = icsLocalDate(new Date(new Date(match.dateTime).getTime() + durMin * 60000).toISOString());
-      lines.push(`DTSTART;TZID=Australia/Sydney:${localDt}`);
-      lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
+      dtStartLine = `DTSTART;TZID=Australia/Sydney:${localDt}`;
+      dtEndLine   = `DTEND;TZID=Australia/Sydney:${endDt}`;
     } else {
       const nextDay = icsDateOnly(new Date(new Date(match.dateTime).getTime() + 86400000).toISOString());
-      lines.push(`DTSTART;VALUE=DATE:${dateKey}`);
-      lines.push(`DTEND;VALUE=DATE:${nextDay}`);
+      dtStartLine = `DTSTART;VALUE=DATE:${dateKey}`;
+      dtEndLine   = `DTEND;VALUE=DATE:${nextDay}`;
     }
 
+    const uid = `lcjru-${match.id}-${slug}@lcjru.github.io`;
+    const seq = icsSequence(seqState, uid, icsContentHash([dtStartLine, dtEndLine, summary, location, description]));
+
+    lines.push('BEGIN:VEVENT');
+    lines.push(icsLine('UID',           uid));
+    lines.push(`SEQUENCE:${seq}`);
+    lines.push(`DTSTAMP:${dtstamp}`);
+    lines.push(`LAST-MODIFIED:${lastMod}`);
+    lines.push(dtStartLine);
+    lines.push(dtEndLine);
     lines.push(icsLine('SUMMARY',     summary));
     lines.push(icsLine('LOCATION',    location));
     lines.push(icsLine('DESCRIPTION', description));
@@ -593,23 +625,29 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
                       : null;
 
     lines.push('BEGIN:VEVENT');
-    lines.push(icsLine('UID', `lcjru-event-${event.id}-${slug}@lcjru.github.io`));
-    lines.push('SEQUENCE:0');
-    lines.push(`DTSTAMP:${dtstamp}`);
-    lines.push(`LAST-MODIFIED:${lastMod}`);
+    const evUid = `lcjru-event-${event.id}-${slug}@lcjru.github.io`;
+    lines.push(icsLine('UID', evUid));
 
+    let startLine, endLine;
     if (event.time) {
       const startDt = eventStartLocal(event.date, event.time);
       const endDt   = event.endTime
         ? eventStartLocal(event.date, event.endTime)
         : eventEndLocal(event.date, event.time, eventDurationMinutes(event));
-      lines.push(`DTSTART;TZID=Australia/Sydney:${startDt}`);
-      lines.push(`DTEND;TZID=Australia/Sydney:${endDt}`);
+      startLine = `DTSTART;TZID=Australia/Sydney:${startDt}`;
+      endLine   = `DTEND;TZID=Australia/Sydney:${endDt}`;
     } else {
-      lines.push(`DTSTART;VALUE=DATE:${eventDateOnly(event.date)}`);
-      lines.push(`DTEND;VALUE=DATE:${eventNextDate(event.date)}`);
+      startLine = `DTSTART;VALUE=DATE:${eventDateOnly(event.date)}`;
+      endLine   = `DTEND;VALUE=DATE:${eventNextDate(event.date)}`;
     }
 
+    const evSeq = icsSequence(seqState, evUid, icsContentHash([startLine, endLine, summary, location, description, status || '']));
+
+    lines.push(`SEQUENCE:${evSeq}`);
+    lines.push(`DTSTAMP:${dtstamp}`);
+    lines.push(`LAST-MODIFIED:${lastMod}`);
+    lines.push(startLine);
+    lines.push(endLine);
     lines.push(icsLine('SUMMARY',     summary));
     lines.push(icsLine('LOCATION',    location));
     lines.push(icsLine('DESCRIPTION', description));
@@ -624,7 +662,7 @@ export function generateICS(slug, teamId, allMatches, updatedISO) {
 
 // Per-event single-VEVENT calendar download. UID is stable and slug-free so
 // users can re-import without duplicate entries piling up.
-export function generateEventICS(event, updatedISO) {
+export function generateEventICS(event, updatedISO, seqState = {}) {
   const dtstamp = icsNow();
   const lastMod = updatedISO.replace(/[-:.]/g, '').slice(0, 15) + 'Z';
 

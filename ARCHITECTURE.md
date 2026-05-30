@@ -275,6 +275,19 @@ self-deactivates once the feed catches up (the `setBase` rewrite removes the
 never silently rewrites a future fixture. **Delete the rule once the game has
 been played.**
 
+**ICS `SEQUENCE` revisions.** Calendar clients (Google especially) decide
+whether to overwrite a cached event by comparing iCal `SEQUENCE` — a per-UID
+counter that must only increase, and only on a real content change. A fixed
+`SEQUENCE:0` means a re-poll can keep a stale venue/time. `icsSequence()` (in
+`fetch-fixtures.mjs`) maintains `{uid: {seq, hash}}` persisted in
+`.ics-sequence.json` (committed by the refresh workflow): when an event's content
+hash — `DTSTART`/`DTEND`/`SUMMARY`/`LOCATION`/`DESCRIPTION`/`STATUS` — changes,
+its `SEQUENCE` bumps; otherwise it holds. `DTSTAMP`/`LAST-MODIFIED` are excluded
+from the hash, so per-run timestamp churn never inflates `SEQUENCE`. The state
+file is written with sorted keys so it only changes when a revision actually
+bumps. (This governs *whether* clients accept an update — it does not change how
+often Google re-polls a subscribed URL, which is on Google's own ~24h schedule.)
+
 **Date/time formatting (DST-safe)**
 ```
 JSON: "2026-05-02T00:00:00.000Z"   (UTC)
