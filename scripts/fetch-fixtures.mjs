@@ -119,25 +119,35 @@ export function normalise(item) {
 // ── venue overrides ───────────────────────────────────────────────────────────
 
 // Applies the VENUE_OVERRIDES rules (config.mjs) for last-minute ground changes
-// the SJRU feed may not yet reflect. For each match a rule matches, rewrites
+// the SJRU feed may not yet reflect. For each match a rule matches, rewrites the
 // `venue` to the corrected ground and tags it with `venueChange = { from, note }`
-// so the UI can flag the move. Mutates and returns the same array. A rule is
-// skipped once its `expires` has passed; and a match whose venue already equals
-// the target is left untouched — so a feed that has caught up, or a re-run over
-// already-overridden data, is a no-op (no spurious change notification, no
-// double-tagging).
+// so the UI can flag the move. Mutates and returns the same array.
+//
+// `setBase` swaps only the ground name and keeps the pitch suffix
+// ("Tantallon Oval TT3 (U6/U7)" → "Hassall Park TT3 (U6/U7)") so the TT field
+// — which parents rely on to find their game — survives; `setVenue` replaces
+// the whole string for the rare case where the suffix shouldn't carry over.
+//
+// Idempotent and self-deactivating: a `setBase` rewrite removes the
+// `venueIncludes` substring, so re-running (or a feed that has caught up) no
+// longer matches; the `newVenue === m.venue` guard covers `setVenue`. Either
+// way there's no spurious change notification and no double-tagging. A rule is
+// skipped once its `expires` has passed.
 export function applyVenueOverrides(matches, overrides = VENUE_OVERRIDES, now = new Date()) {
   for (const rule of overrides) {
     if (rule.expires && now >= new Date(rule.expires)) continue;
     for (const m of matches) {
-      if (m.venue === rule.setVenue) continue;
       if (rule.venueIncludes && !(m.venue || '').includes(rule.venueIncludes)) continue;
       if (rule.compIncludes && !rule.compIncludes.some(s => (m.competition || '').includes(s))) continue;
       if (rule.teamIds && !rule.teamIds.includes(m.home.id) && !rule.teamIds.includes(m.away.id)) continue;
       if (rule.dateFrom && !(m.dateTime >= rule.dateFrom)) continue;
       if (rule.dateTo && !(m.dateTime < rule.dateTo)) continue;
+      const newVenue = rule.setBase
+        ? (m.venue || '').replace(rule.venueIncludes, rule.setBase)
+        : rule.setVenue;
+      if (newVenue === m.venue) continue; // already corrected — don't re-tag
       m.venueChange = { from: m.venue, note: rule.note };
-      m.venue = rule.setVenue;
+      m.venue = newVenue;
     }
   }
   return matches;
