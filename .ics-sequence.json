@@ -1,0 +1,782 @@
+{
+  "lcjru-0012f3371c821ce0b-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8d965e68514549b0"
+  },
+  "lcjru-002fdc3b24a90cdb0-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b47cb8d1d15e4dd8"
+  },
+  "lcjru-00df56a528c5b64c6-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "813cf24d3f97c2c6"
+  },
+  "lcjru-01dbc924b7cb1034f-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9172273089922df4"
+  },
+  "lcjru-02e0465816c752f27-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e5a5a106571c931c"
+  },
+  "lcjru-0373d86199412e24d-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "345abdd22856e404"
+  },
+  "lcjru-042cc85ed7137ab67-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "af7375249f2c67d6"
+  },
+  "lcjru-07b6c6e3d8c3ce942-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0f25f59139e1859b"
+  },
+  "lcjru-07d38498af74cb53c-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9e786c9d454ba480"
+  },
+  "lcjru-09a706f5a5775be51-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c0ae49b08b20bfa9"
+  },
+  "lcjru-0c352f0622b44ad8e-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "4f2b9f139a2354f0"
+  },
+  "lcjru-0d908aa8319b19396-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e5b94a82e0ad28e6"
+  },
+  "lcjru-0e472bfc75668c88b-u15@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b53ad63d358b50ca"
+  },
+  "lcjru-0f6feda396f56dac5-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "093c786b2999a15a"
+  },
+  "lcjru-115ca120b0ff150a2-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "69bf7943e325566f"
+  },
+  "lcjru-119d5116d10f35e63-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "2b655b2373fd4876"
+  },
+  "lcjru-13eb87e15a9cfdbb7-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c01681002f3de733"
+  },
+  "lcjru-141ff75aa50708f11-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b38b64ed99e3a5ce"
+  },
+  "lcjru-1878b66db5814a3af-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ae402e310729021a"
+  },
+  "lcjru-1a09ef68ad0053937-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "22fde50d54ba86cb"
+  },
+  "lcjru-1a6e4a5ddde429404-u15@lcjru.github.io": {
+    "seq": 0,
+    "hash": "33102ca334fe7d81"
+  },
+  "lcjru-1a8a08e146eb00e60-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "aaca17a7f499e8e9"
+  },
+  "lcjru-1c22189da7d05b9a8-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "cac244fbb693b73f"
+  },
+  "lcjru-1d1e9d6d3598f42ff-u15@lcjru.github.io": {
+    "seq": 0,
+    "hash": "25de35eba7e009a2"
+  },
+  "lcjru-20da0bd9dd3e133fb-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "54073da8c01346d9"
+  },
+  "lcjru-22e3b63feb13081ee-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7823a0b1dc266a35"
+  },
+  "lcjru-243ecde50ae17028a-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9f06281cce7d4e31"
+  },
+  "lcjru-24418d8361c029d49-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ab54bf3a59aae657"
+  },
+  "lcjru-2662fe5d96fbe61d1-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "465ecd6b18b25131"
+  },
+  "lcjru-26f70023b76798fd5-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "70ff314a33a88082"
+  },
+  "lcjru-2d67015b91159a669-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9ad1e6b6959a6981"
+  },
+  "lcjru-30b25bdb20e4a0d28-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "69c5b4c21d446019"
+  },
+  "lcjru-318772014727a15a2-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ee82cf86e3bc56ce"
+  },
+  "lcjru-32c1d9f243ef1e398-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ed9e224202ade878"
+  },
+  "lcjru-3354f738bbb8abf92-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "badaabd2798dcccf"
+  },
+  "lcjru-33ea7405380746408-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "948c025af7c2f4ac"
+  },
+  "lcjru-343d58a301b482d37-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c57c22cd0b960db5"
+  },
+  "lcjru-34e751b6e328c9d5d-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "d629260035e66992"
+  },
+  "lcjru-372d1914eeb489131-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b7fe396b3747b160"
+  },
+  "lcjru-3730d2d3bf3e7a9ff-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b3722db4db09b741"
+  },
+  "lcjru-39a5df2fb853c13ba-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "4058d72f042bbcb8"
+  },
+  "lcjru-3d6e51f8e6a414254-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "db928ffd439def5c"
+  },
+  "lcjru-3d8fc87ca9c8201b1-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6642afa25178c1b6"
+  },
+  "lcjru-3d9185cbe757a6195-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7650dbaeb7c26290"
+  },
+  "lcjru-3ebe2e6419a33ad61-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "d0e6bdb288d1e205"
+  },
+  "lcjru-434236a5964c39608-u15@lcjru.github.io": {
+    "seq": 0,
+    "hash": "dad899d01dd846e4"
+  },
+  "lcjru-438a35fff596266e5-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "55dcfa2a7e5df491"
+  },
+  "lcjru-44d3b735df662b2c3-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f4b46972b4c45039"
+  },
+  "lcjru-485aefb75073cb40f-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "35e6162d353d6ed3"
+  },
+  "lcjru-4988e373ec6a1adb3-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "2650e5558b08c2db"
+  },
+  "lcjru-4b15e5772f5f71d4a-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "380ecda8b314da9b"
+  },
+  "lcjru-4ce7251536e9f8789-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "110406896790284d"
+  },
+  "lcjru-4dca4ea855eebc8e8-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "dae6e5c87bf8c64d"
+  },
+  "lcjru-5084cf18e3531c0fa-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "45d6cecebaf0f995"
+  },
+  "lcjru-52b4cc992aab2179f-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "1409408bc79b0625"
+  },
+  "lcjru-53448d8a4088eb96b-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "681ecf54b54875af"
+  },
+  "lcjru-535c98b32936cc8ac-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f30bf6747731187f"
+  },
+  "lcjru-54ffc1748fe04286c-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "15d1dea12b4c5c9e"
+  },
+  "lcjru-552c14e8c3ca80e86-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3899714de8655f7b"
+  },
+  "lcjru-553f6e6565fe828db-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ce6ffbb9735d4e96"
+  },
+  "lcjru-5d90ea6e29b6142fd-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ea4d8fd4130bec87"
+  },
+  "lcjru-5e5cf8ed88a07ca1e-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "caf4c2bd78426cdb"
+  },
+  "lcjru-5ed18935dd8ec2d43-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "04b680a43770df50"
+  },
+  "lcjru-5f4d456da4c0fb5ad-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7415146cfe72ead4"
+  },
+  "lcjru-60b18bb1e94002427-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "4b9e62268d11f63f"
+  },
+  "lcjru-622719877a2b60b7a-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5b67d85df3c87f03"
+  },
+  "lcjru-65ad2db8fbaec31f9-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5f123f4a38a78afb"
+  },
+  "lcjru-66e3dfc89fdc1326c-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "fbe4072c1bac507d"
+  },
+  "lcjru-671af33e2ce058f96-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "736c2764a85ec6cc"
+  },
+  "lcjru-694aa68e802bd09f2-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a8ddc94fe1af365e"
+  },
+  "lcjru-6952a340ff362209b-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3d965211f0a481ed"
+  },
+  "lcjru-6e1f00b4270e2bd39-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b7afd55e0ea34f6a"
+  },
+  "lcjru-6fb7c659c96bd847d-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "87dadbc6a5dd2636"
+  },
+  "lcjru-6fff2de6eb6b6a7c6-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9c341f66d596d79e"
+  },
+  "lcjru-7121a4c5ccccb9b25-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5a3f2a2b4eb561a6"
+  },
+  "lcjru-731b8141c020f957a-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "017fce9b78fc86dc"
+  },
+  "lcjru-73cd96c984e88bb55-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a41a2e1fa34d02b0"
+  },
+  "lcjru-74537e4b47736fac6-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c6f54def1302d51e"
+  },
+  "lcjru-79a2565ac09bdb51f-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e297233251461074"
+  },
+  "lcjru-7ab6e42a3f8922bf3-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c6b5b73cebf9f7e9"
+  },
+  "lcjru-7cced654c599e688e-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8e19dabfc4b4125c"
+  },
+  "lcjru-7fda57ae268597442-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "15c6941bcc3b66f4"
+  },
+  "lcjru-8086406e3783900c5-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "1c859ee238445ebc"
+  },
+  "lcjru-8090954402474c7a4-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "93c35b94a1a783c3"
+  },
+  "lcjru-811791f65a7375fed-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "114721ac399934c0"
+  },
+  "lcjru-82756aae21ac7f1b9-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ee98b640931e5d1d"
+  },
+  "lcjru-82fca6f7fb47ef3af-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "14061e0216714b8b"
+  },
+  "lcjru-831e70ca48ba8d9f0-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "aa9aa5c6bb24e982"
+  },
+  "lcjru-86933b3e18f2cb807-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "fdae2dc9b56bfd71"
+  },
+  "lcjru-898845d0afeebd9d7-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "bba505662f3dad79"
+  },
+  "lcjru-8f7cec89cd49a3ce7-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "166added11368a4f"
+  },
+  "lcjru-8f88f1231bf0b65f3-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c7cd7ef9f4434186"
+  },
+  "lcjru-8fd92789765eae306-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6cc9f9a89612897b"
+  },
+  "lcjru-8fdbf03100e88030f-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a9e3ae3282186957"
+  },
+  "lcjru-91965622f91da0853-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9d023f1b90727940"
+  },
+  "lcjru-9241bff1b902ea45a-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6a16be92b150fd1a"
+  },
+  "lcjru-92ebdcf55a6b98f1d-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5cb7b28af090206b"
+  },
+  "lcjru-93402959f62d91030-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "63b323c2839827db"
+  },
+  "lcjru-948fc97bd95a9e40b-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3be0059c3d571e0a"
+  },
+  "lcjru-950d58ff3116d9235-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6eaf5e8183b444c3"
+  },
+  "lcjru-95fe3765b6b38de3b-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "67f4f8c9691a57c1"
+  },
+  "lcjru-9634ddc38010dcf3f-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9e5ab16568b455cf"
+  },
+  "lcjru-96aec2327df84b3b6-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5a8663dda9705d62"
+  },
+  "lcjru-98d75257ba3ff21c6-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "61da3a760597722b"
+  },
+  "lcjru-9e00230f135fdebb6-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "4124761006b2245f"
+  },
+  "lcjru-9ee4a3696ff3167bb-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7717bf9eee9bae1f"
+  },
+  "lcjru-9ee4a3696ff3167bb-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "d4fc363028cf2e49"
+  },
+  "lcjru-9f1d7a0a2c5249df1-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8f1a39d88d8feb5c"
+  },
+  "lcjru-a07ffa61757bcec48-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "46c04db140b5d6a8"
+  },
+  "lcjru-a0c645a2a6586e034-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8d47551b0cd02041"
+  },
+  "lcjru-a13d32240ed67103d-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3e233f88291cc4aa"
+  },
+  "lcjru-a292912e72dd99fec-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e089c412cdf70299"
+  },
+  "lcjru-a4d81a360ca1fb99f-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "606747f7099b1c0f"
+  },
+  "lcjru-a5892d4037ff288c8-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b8437845aad20cc2"
+  },
+  "lcjru-a64050181839884a0-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e9c6e6931098c995"
+  },
+  "lcjru-a7190500d71a4321e-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c03108a76c0f7194"
+  },
+  "lcjru-a785b438690f8117f-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "1432430ec2eaf7c0"
+  },
+  "lcjru-a8b67a32ce48b23da-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e4a2a7bf30c3d3c2"
+  },
+  "lcjru-a9324f6d8ef78b5fb-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "dec49968e8ecd40d"
+  },
+  "lcjru-aaa9e3cf9d2a66386-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "118fd04998ef1452"
+  },
+  "lcjru-aaf7349956611066f-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6514babcc914bd2b"
+  },
+  "lcjru-ab1330b1d2192ec74-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "97a7d4925726c980"
+  },
+  "lcjru-ab16cb600700dae30-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a412e0433277abe7"
+  },
+  "lcjru-ade833a122b91acac-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "10457dcbd743c708"
+  },
+  "lcjru-ba3a6af645d1243bd-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a202870b59bf2a2c"
+  },
+  "lcjru-bf45e3555d9fb0a71-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "2350dbbf17f07d3a"
+  },
+  "lcjru-c2c91129770bd28fa-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3cca795f9a377664"
+  },
+  "lcjru-c2e99a92b92a3e0c0-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "82fbefddc07f9716"
+  },
+  "lcjru-c70b0a2c1971a1f71-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "98475370da549695"
+  },
+  "lcjru-c80fb50fbdc6a4bc0-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b8783e634b607651"
+  },
+  "lcjru-c9c8cc1d4c80f95c6-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "faacc38a8185a5fd"
+  },
+  "lcjru-cbed4fafd7e5d3667-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a6b2c082b2b10a2d"
+  },
+  "lcjru-ccd65d0d971208a11-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "bf48e0ab419220fd"
+  },
+  "lcjru-cce590dc605352178-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "864bbf09ab417499"
+  },
+  "lcjru-ccef95a05c3f75a09-u12@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8e04e8685df51d3e"
+  },
+  "lcjru-cfba57dc479541236-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ebd268113acd0886"
+  },
+  "lcjru-d12219d7a3c27cec9-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a03582ea37976b18"
+  },
+  "lcjru-d2424bf66d395d6c9-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "eb67fb69555b0f9b"
+  },
+  "lcjru-d3b62c5dfbaaf4bdc-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0f77e8c4a68760d8"
+  },
+  "lcjru-d3cd4a7ebf8ae20d8-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5931428e35a932fe"
+  },
+  "lcjru-d4e021466ef150b24-u11@lcjru.github.io": {
+    "seq": 0,
+    "hash": "dbbea28f3f4ef160"
+  },
+  "lcjru-d79f1f9650cf0d378-u15@lcjru.github.io": {
+    "seq": 0,
+    "hash": "fec408edce8cc4b7"
+  },
+  "lcjru-d9e511479ba8d793d-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3b5b2249c1f1f4f1"
+  },
+  "lcjru-dbeab38b90ffd0030-u13-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b9700bc45f34671e"
+  },
+  "lcjru-de084e86a486f6ad3-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "57698c718929ad19"
+  },
+  "lcjru-e12b40381944afc87-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "2008470cb1401d1e"
+  },
+  "lcjru-e1760beac5fd8f6e0-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "56dd0ee847bc268e"
+  },
+  "lcjru-e43cd72e0dd9e092b-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "30522f00ae29a11f"
+  },
+  "lcjru-e47c24c7c3cbe1734-u14-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "739dd08ae4d0ff4a"
+  },
+  "lcjru-e91e250ef3628a5be-u13-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "872e2fb865021db6"
+  },
+  "lcjru-ea81596c5b43851c9-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "43405d2ff8f9f03e"
+  },
+  "lcjru-ec9b4827a367e0ae3-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c9faac0d178be645"
+  },
+  "lcjru-ecbfde3310869dde2-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f60cfdbfde5de4f9"
+  },
+  "lcjru-ef7ae3a4d3c7e2f1a-u10@lcjru.github.io": {
+    "seq": 0,
+    "hash": "c7063918f76bce80"
+  },
+  "lcjru-event-bathurst-tour-2026@lcjru.github.io": {
+    "seq": 0,
+    "hash": "de0afcbc9826d872"
+  },
+  "lcjru-event-challenge-cup-2026-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "85398cb85a756bdf"
+  },
+  "lcjru-event-challenge-cup-2026-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "41e7838fb1626892"
+  },
+  "lcjru-event-challenge-cup-2026-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e202906460d2890c"
+  },
+  "lcjru-event-challenge-cup-2026-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f1e9972df879c6ab"
+  },
+  "lcjru-event-gala-rnd-7-2026-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b17fedce1ab65578"
+  },
+  "lcjru-event-gala-rnd-7-2026-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "234cac88c893336d"
+  },
+  "lcjru-event-gala-rnd-7-2026-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e12a4b3fda1592aa"
+  },
+  "lcjru-event-gala-rnd-7-2026-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "bfd01b5d29adbe35"
+  },
+  "lcjru-event-gala-rnd-7-2026-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "cacc12005340288a"
+  },
+  "lcjru-event-gala-rnd-7-2026-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "54399405ba81eb38"
+  },
+  "lcjru-event-gala-rnd-7-2026-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f30ab095f871eb88"
+  },
+  "lcjru-event-gala-rnd-7-2026-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6a2de4a416a14d01"
+  },
+  "lcjru-event-koth-k1-u67-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7db01007a766dea9"
+  },
+  "lcjru-event-koth-k1-u67-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "17e111a73b7f1951"
+  },
+  "lcjru-event-koth-k1-u67-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "cf49d174ca85f8ed"
+  },
+  "lcjru-event-koth-k1-u67-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "26b363974a3ad32b"
+  },
+  "lcjru-event-koth-k1-u89-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "082b8a7c049427d2"
+  },
+  "lcjru-event-koth-k1-u89-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "7f3ffa28df2e374d"
+  },
+  "lcjru-event-koth-k1-u89-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "974bcdbed4019a78"
+  },
+  "lcjru-event-koth-k1-u89-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "2e24de13ef781979"
+  },
+  "lcjru-event-koth-k2-u67-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "a64f70426b1542a5"
+  },
+  "lcjru-event-koth-k2-u67-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b37b2a87d6e91f76"
+  },
+  "lcjru-event-koth-k2-u67-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "ae8ca1ecfe870fb0"
+  },
+  "lcjru-event-koth-k2-u67-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "9315b1e844751ee5"
+  },
+  "lcjru-event-mothers-day-2026@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0d19dea1cc4d5429"
+  },
+  "lcjru-event-presentation-day-2026@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b57a005568b1cd03"
+  },
+  "lcjru-event-tiger-cup-2026-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "3e104c9fa6c1a45b"
+  },
+  "lcjru-event-tiger-cup-2026-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b6b2f1074c6986a3"
+  },
+  "lcjru-event-tiger-cup-2026-u7-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "b00c186ec7c35ffb"
+  },
+  "lcjru-event-tiger-cup-2026-u7-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0356501b83b9121c"
+  },
+  "lcjru-event-waratahs-2026@lcjru.github.io": {
+    "seq": 0,
+    "hash": "6e0c07bdf91b3742"
+  },
+  "lcjru-f1a3913e4df2d9dd4-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "aa4bbd71f9167b98"
+  },
+  "lcjru-f2f3697f819eb2890-u9-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "607ac56fb4bec067"
+  },
+  "lcjru-f5affa17b1f786f86-u8-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "1baca065968a85c9"
+  },
+  "lcjru-f5affa17b1f786f86-u8-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "8a6a6bb283edf883"
+  },
+  "lcjru-f6121916d22435d96-u14@lcjru.github.io": {
+    "seq": 0,
+    "hash": "5745a9299fe45261"
+  },
+  "lcjru-f62f774d236cd097b-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0e165b2f47ce69d8"
+  },
+  "lcjru-f7505e09e2bad10ec-u9-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "f86fe4ed1585c132"
+  },
+  "lcjru-fdd9a984d0968bd7a-u6-blue@lcjru.github.io": {
+    "seq": 0,
+    "hash": "e643bda7d9dafdf2"
+  },
+  "lcjru-fdd9a984d0968bd7a-u6-gold@lcjru.github.io": {
+    "seq": 0,
+    "hash": "0d0f4e33bab6b458"
+  }
+}
