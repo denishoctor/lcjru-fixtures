@@ -675,6 +675,12 @@ export function generateEventICS(event, updatedISO, seqState = {}) {
                     : event.status === 'confirmed' ? 'CONFIRMED'
                     : null;
 
+  const uid = `lcjru-event-${event.id}@lcjru.github.io`;
+  const seq = icsSequence(seqState, uid, icsContentHash([
+    String(event.date), String(event.time ?? ''), String(event.endTime ?? ''),
+    summary, location, description, status ?? '',
+  ]));
+
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -701,8 +707,8 @@ export function generateEventICS(event, updatedISO, seqState = {}) {
     'END:DAYLIGHT',
     'END:VTIMEZONE',
     'BEGIN:VEVENT',
-    icsLine('UID', `lcjru-event-${event.id}@lcjru.github.io`),
-    'SEQUENCE:0',
+    icsLine('UID', uid),
+    `SEQUENCE:${seq}`,
     `DTSTAMP:${dtstamp}`,
     `LAST-MODIFIED:${lastMod}`,
   ];
@@ -873,9 +879,14 @@ async function main() {
     console.log('✓ No changes to upcoming fixtures');
   }
 
+  // Load the persisted SEQUENCE state so calendar revisions survive across runs.
+  // Without this, every run starts from {} and SEQUENCE never advances past 0,
+  // so clients (Google) may keep a stale cached event after a venue/time change.
+  const seqState = existsSync(SEQ_PATH) ? JSON.parse(readFileSync(SEQ_PATH, 'utf8')) : {};
+
   // Generate per-team ICS calendar feeds
   for (const [slug, teamId] of Object.entries(TEAM_SLUGS)) {
-    const ics = generateICS(slug, teamId, combined, output.updated);
+    const ics = generateICS(slug, teamId, combined, output.updated, seqState);
     writeFileSync(join(ROOT, 'docs', `${slug}.ics`), ics);
   }
   console.log(`✓ Written ${Object.keys(TEAM_SLUGS).length} ICS feeds → docs/*.ics`);
@@ -887,9 +898,14 @@ async function main() {
   mkdirSync(eventsDir, { recursive: true });
   const specials = specialEventsForExport();
   for (const event of specials) {
-    writeFileSync(join(eventsDir, `${event.id}.ics`), generateEventICS(event, output.updated));
+    writeFileSync(join(eventsDir, `${event.id}.ics`), generateEventICS(event, output.updated, seqState));
   }
   console.log(`✓ Written ${specials.length} per-event ICS files → docs/events/*.ics`);
+
+  // Persist SEQUENCE state with sorted keys so the file only changes when a
+  // revision actually bumps (no churn from key ordering across runs).
+  const sortedSeq = Object.fromEntries(Object.keys(seqState).sort().map(k => [k, seqState[k]]));
+  writeFileSync(SEQ_PATH, JSON.stringify(sortedSeq, null, 2) + '\n');
 
   // Emit docs/config.js so HTML files share the same source of truth
   writeFileSync(CFG_PATH, buildConfigJs());

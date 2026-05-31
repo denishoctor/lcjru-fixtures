@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { icsSequence, generateICS } from '../scripts/fetch-fixtures.mjs';
+import { icsSequence, generateICS, generateEventICS } from '../scripts/fetch-fixtures.mjs';
 
 // ── icsSequence unit behaviour ────────────────────────────────────────────────
 
@@ -87,4 +87,41 @@ test('a time change bumps SEQUENCE', () => {
 test('omitting seqState defaults to a fresh map (SEQUENCE 0, no throw)', () => {
   const ics = generateICS('u6-gold', TEAM, [fixture()], '2026-05-30T00:00:00Z');
   assert.equal(seqOf(ics), '0');
+});
+
+// ── integration through generateEventICS (per-event downloads) ─────────────────
+
+function specialEvent(over = {}) {
+  return { id: 'mothers-day-2026', title: "Mother's Day", date: '2026-05-10',
+    venue: 'Tantallon Oval', status: 'confirmed', ...over };
+}
+
+test('generateEventICS no longer hardcodes SEQUENCE:0 — first run is a computed 0', () => {
+  const state = {};
+  const ics = generateEventICS(specialEvent(), '2026-05-01T00:00:00Z', state);
+  assert.equal(seqOf(ics), '0');
+  // the UID must be tracked in state (proving the value is computed, not literal)
+  assert.ok(state['lcjru-event-mothers-day-2026@lcjru.github.io']);
+});
+
+test('generateEventICS does NOT bump SEQUENCE on a timestamp-only re-run', () => {
+  const state = {};
+  generateEventICS(specialEvent(), '2026-05-01T00:00:00Z', state);
+  const ics = generateEventICS(specialEvent(), '2026-05-02T00:00:00Z', state);
+  assert.equal(seqOf(ics), '0');
+});
+
+test('generateEventICS bumps SEQUENCE when the event venue changes', () => {
+  const state = {};
+  generateEventICS(specialEvent(), '2026-05-01T00:00:00Z', state);
+  const ics = generateEventICS(specialEvent({ venue: 'Hassall Park' }), '2026-05-02T00:00:00Z', state);
+  assert.equal(seqOf(ics), '1');
+});
+
+test('seqState round-trips through JSON (persistence survives a serialise/reload)', () => {
+  let state = {};
+  generateICS('u6-gold', TEAM, [fixture()], '2026-05-30T00:00:00Z', state);
+  state = JSON.parse(JSON.stringify(state)); // simulate writing & reading .ics-sequence.json
+  const ics = generateICS('u6-gold', TEAM, [fixture({ venue: 'Hassall Park TT3 (U6/U7)' })], '2026-05-30T06:00:00Z', state);
+  assert.equal(seqOf(ics), '1');
 });
